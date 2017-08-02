@@ -1,10 +1,14 @@
-package net.impacthub.members.application;
+package net.impacthub.members.application.salesforce;
 
 import com.salesforce.androidsdk.accounts.UserAccount;
 import com.salesforce.androidsdk.app.SalesforceSDKManager;
 import com.salesforce.androidsdk.rest.ClientManager;
 
 public class SalesforceModuleDependency {
+
+    public static SalesforceActivityDelegate salesforceActivityDelegateProvider() {
+        return new SalesforceActivityDelegateImpl();
+    }
 
     public static ClientManager clientManagerProvider() {
         SalesforceSDKManager manager = SalesforceSDKManager.getInstance();

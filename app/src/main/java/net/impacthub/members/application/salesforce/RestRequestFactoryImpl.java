@@ -1,4 +1,4 @@
-package net.impacthub.members.application;
+package net.impacthub.members.application.salesforce;
 
 import com.salesforce.androidsdk.app.SalesforceSDKManager;
 import com.salesforce.androidsdk.rest.ApiVersionStrings;

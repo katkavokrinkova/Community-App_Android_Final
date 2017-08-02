@@ -8,7 +8,7 @@ import com.salesforce.androidsdk.rest.RestRequest;
 
 import java.io.IOException;
 
-import static net.impacthub.members.application.SalesforceModuleDependency.clientManagerProvider;
+import static net.impacthub.members.application.salesforce.SalesforceModuleDependency.clientManagerProvider;
 
 public class ApiCall<T> {
 

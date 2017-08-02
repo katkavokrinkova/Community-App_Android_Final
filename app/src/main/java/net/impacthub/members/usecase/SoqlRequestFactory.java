@@ -2,11 +2,11 @@ package net.impacthub.members.usecase;
 
 import com.salesforce.androidsdk.rest.RestRequest;
 
-import net.impacthub.members.application.RestRequestFactory;
+import net.impacthub.members.application.salesforce.RestRequestFactory;
 
 import java.io.UnsupportedEncodingException;
 
-import static net.impacthub.members.application.SalesforceModuleDependency.restRequestFactoryProvider;
+import static net.impacthub.members.application.salesforce.SalesforceModuleDependency.restRequestFactoryProvider;
 
 public class SoqlRequestFactory {
 

@@ -17,7 +17,7 @@ import net.impacthub.members.ui.common.RecyclerViewHolder;
 import net.impacthub.members.ui.widgets.CircleTransform;
 import net.impacthub.members.ui.widgets.ImageLoaderProvider;
 
-import static net.impacthub.members.application.SalesforceModuleDependency.userAccountProvider;
+import static net.impacthub.members.application.salesforce.SalesforceModuleDependency.userAccountProvider;
 
 /**
  * @author Filippo Ash
