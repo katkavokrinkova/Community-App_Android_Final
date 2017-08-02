@@ -1,11 +1,58 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:windowAnimationStyle">@null</item>
+    </style>
+
+    <style name="front_page_button">
+        <item name="android:layout_width">@dimen/button_size</item>
+        <item name="android:layout_height">@dimen/button_size</item>
+        <item name="android:layout_marginBottom">@dimen/button_margin_bottom</item>
+        <item name="android:layout_marginTop">@dimen/button_margin_bottom</item>
+        <item name="android:layout_marginLeft">@dimen/button_margin_side</item>
+        <item name="android:layout_marginRight">@dimen/button_margin_side</item>
+        <item name="android:background">@drawable/button_shadow</item>
+    </style>
+
+    <style name="nav_icon">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="ToolbarColour" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+        <item name="colorControlNormal">@android:color/white</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:background">?attr/colorPrimary</item>
+    </style>
+
+    <style name="ToolbarConstraint" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:minHeight">?attr/actionBarSize</item>
+        <!--<item name="android:background">@drawable/bottom_shadow</item>-->
+        <!--<item name="android:theme">@style/ToolbarColour</item>-->
+        <item name="layout_constraintLeft_toLeftOf">parent</item>
+        <item name="layout_constraintRight_toRightOf">parent</item>
+        <item name="layout_constraintTop_toTopOf">parent</item>
+    </style>
+
+    <style name="ToolbarConstraint.WithBack" parent="ToolbarConstraint">
+        <item name="navigationIcon">?attr/homeAsUpIndicator</item>
+    </style>
+
+    <style name="progress_bar" parent="Theme.AppCompat.Light">
+        <item name="android:layout_width">@dimen/message_thumbnail</item>
+        <item name="android:layout_height">@dimen/message_thumbnail</item>
+        <item name="android:visibility">gone</item>
+        <item name="colorAccent">@color/impacthub</item>
+
     </style>
 
 </resources>

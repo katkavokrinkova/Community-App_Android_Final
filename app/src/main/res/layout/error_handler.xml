@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/error_handler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:visibility="gone">
+
+    <android.support.constraint.ConstraintLayout
+            android:id="@+id/inner_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/error_margins"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent">
+
+        <TextView
+                android:id="@+id/error_top"
+                android:text="@string/error_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+
+        <TextView
+                android:id="@+id/error_message"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/error_margins"
+                app:layout_constraintTop_toBottomOf="@id/error_top"
+                app:layout_constraintStart_toStartOf="@id/inner_layout"
+                app:layout_constraintEnd_toEndOf="@id/inner_layout"
+                tools:text="some error message some error message some error message some error message some error message some error message some error message some error message some error message some error message some error message"/>
+
+        <TextView
+                android:id="@+id/error_bottom"
+                android:text="@string/error_bottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/error_margins"
+                app:layout_constraintTop_toBottomOf="@id/error_message"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+
+        <Button android:id="@+id/error_now"
+                android:text="@string/error_now"
+                android:layout_width="@dimen/button_size"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_shadow"
+                app:layout_constraintTop_toBottomOf="@id/error_bottom"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+                android:id="@+id/error_or"
+                android:text="@string/error_or"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/error_now"
+                app:layout_constraintBottom_toBottomOf="@id/error_now"
+                app:layout_constraintStart_toEndOf="@id/error_now"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+
+        <Button android:id="@+id/error_later"
+                android:text="@string/error_later"
+                android:layout_width="@dimen/button_size"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_shadow"
+                app:layout_constraintTop_toBottomOf="@id/error_bottom"
+                app:layout_constraintStart_toEndOf="@id/error_or"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.constraint.ConstraintLayout>

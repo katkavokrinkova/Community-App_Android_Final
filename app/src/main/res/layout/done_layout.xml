@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<net.impacthub.members.ui.widgets.TypefaceTextView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/done"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="20dp"
+    android:layout_marginEnd="25dp"
+    android:layout_marginStart="25dp"
+    android:background="@drawable/done_bubble"
+    android:gravity="center"
+    android:padding="25dp"
+    android:text="@string/done"
+    android:textColor="@android:color/white"
+    android:textSize="16sp"
+    app:typeface="fonts/gt-walsheim-web.ttf"
+    tools:showIn="@layout/fragment_filters" />

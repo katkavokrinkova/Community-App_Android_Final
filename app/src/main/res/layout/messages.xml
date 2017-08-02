@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/message_background">
+
+    <net.impacthub.members.ui.widgets.TypefaceToolbar
+            android:id="@+id/toolbar"
+            style="@style/ToolbarConstraint.WithBack">
+
+        <ImageView
+                android:id="@+id/my_image"
+                tools:src="@drawable/ic_fp_40px"
+                android:layout_width="@dimen/message_thumbnail"
+                android:layout_height="@dimen/message_thumbnail"
+                android:contentDescription="@string/sender_name"/>
+
+        <TextView
+                android:id="@+id/my_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/message_side_margin"
+                android:paddingEnd="@dimen/message_side_margin"
+                tools:text="Test"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
+
+    </net.impacthub.members.ui.widgets.TypefaceToolbar>
+
+    <net.impacthub.members.ui.widgets.SendEditText
+            android:id="@+id/message_entry"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/message_side_margin"
+            android:paddingEnd="@dimen/message_side_margin"
+            android:background="@drawable/top_shadow"
+            android:lines="2"
+            android:hint="@string/type_something"
+            android:inputType="textMultiLine"
+            android:imeOptions="actionSend"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <ProgressBar
+            android:id="@+id/progress_bar"
+            style="@style/progress_bar"
+            app:layout_constraintBottom_toTopOf="@id/message_entry"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    <android.support.v7.widget.RecyclerView
+            android:id="@+id/message_items"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            app:reverseLayout="true"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintBottom_toTopOf="@id/message_entry"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <include layout="@layout/error_handler"
+             android:id="@+id/error_sub_handler"/>
+
+</android.support.constraint.ConstraintLayout>

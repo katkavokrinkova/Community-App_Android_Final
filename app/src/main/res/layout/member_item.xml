@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/item_shadow"
+        tools:ignore="RtlHardcoded">
+
+    <ImageView
+            android:id="@+id/member_image"
+            android:src="@drawable/ic_fp_40px"
+            android:layout_width="@dimen/large_image_thumbnail"
+            android:layout_height="@dimen/large_image_thumbnail"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:contentDescription="@string/member"/>
+
+    <android.support.constraint.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            app:layout_constraintLeft_toRightOf="@id/member_image"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+        <net.impacthub.members.ui.widgets.TypefaceTextView
+                android:id="@+id/name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textColor="@color/greyish_brown"
+                app:typeface="fonts/gt-walsheim-light-web.ttf"
+                tools:text="Jon J Jameson"/>
+
+        <net.impacthub.members.ui.widgets.TypefaceTextView
+                android:id="@+id/profession"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/item_text_top_margin"
+                android:textSize="12sp"
+                android:textColor="@color/warm_grey_2"
+                app:layout_constraintTop_toBottomOf="@id/name"
+                app:typeface="fonts/gt-walsheim-light-web.ttf"
+                tools:text="Hod carrier"/>
+
+        <ImageView
+                android:id="@+id/map_pin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/item_text_top_margin"
+                android:src="@mipmap/location_pin"
+                app:layout_constraintTop_toBottomOf="@+id/profession"
+                android:contentDescription="@string/locations"/>
+
+        <net.impacthub.members.ui.widgets.TypefaceTextView
+                android:id="@+id/locations"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="@dimen/item_text_top_margin"
+                android:paddingTop="2dp"
+                android:textSize="12sp"
+                android:textColor="@color/warm_grey_2"
+                app:layout_constraintLeft_toRightOf="@+id/map_pin"
+                app:layout_constraintTop_toBottomOf="@+id/profession"
+                app:typeface="fonts/gt-walsheim-light-web.ttf"
+                tools:text="New York, London, Paris, Munich"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.constraint.ConstraintLayout>

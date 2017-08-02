@@ -1,0 +1,41 @@
+package net.impacthub.members.presenter.features.members;
+
+import net.impacthub.members.model.members.Member;
+import net.impacthub.members.presenter.base.UiPresenter;
+import net.impacthub.members.usecase.UseCaseGenerator;
+import net.impacthub.members.usecase.members.MembersUseCase;
+
+import java.util.List;
+
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.observers.DisposableSingleObserver;
+
+/**
+ * @author Filippo Ash
+ * @version 1.0
+ * @date 7/26/2017.
+ */
+
+public class MembersPresenter extends UiPresenter<MembersUiContract> {
+
+    private final UseCaseGenerator<Single<List<Member>>> mObservableGenerator = new MembersUseCase();
+
+    public MembersPresenter(MembersUiContract uiContract) {
+        super(uiContract);
+    }
+
+    public void loadMembers() {
+        subscribeWith(mObservableGenerator.getUseCase(), new DisposableSingleObserver<List<Member>>() {
+            @Override
+            public void onSuccess(@NonNull List<Member> members) {
+                getUi().onLoadMembers(members);
+            }
+
+            @Override
+            public void onError(@NonNull Throwable e) {
+                getUi().onError(e);
+            }
+        });
+    }
+}
