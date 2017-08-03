@@ -6,10 +6,7 @@
     android:background="@color/white_two"
     android:orientation="vertical">
 
-    <net.impacthub.members.ui.widgets.TypefaceToolbar
-        android:id="@+id/toolbar"
-        style="@style/ToolbarConstraint"
-        app:title="@string/members" />
+    <include layout="@layout/toolbar_with_back_layout" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -17,17 +14,17 @@
 
         <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:clipToPadding="false"
+            android:layout_height="match_parent"
             android:clipChildren="false"
-            android:layout_height="match_parent">
+            android:clipToPadding="false">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/member_items"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="@dimen/button_margin_bottom"
-                android:fitsSystemWindows="true"
                 android:layout_marginStart="@dimen/button_margin_bottom"
+                android:fitsSystemWindows="true"
                 app:layoutManager="android.support.v7.widget.LinearLayoutManager"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
@@ -38,9 +35,9 @@
         <include layout="@layout/top_shadow_layout" />
 
         <ProgressBar
-            android:layout_gravity="center"
             android:id="@+id/progress_bar"
-            style="@style/progress_bar" />
+            style="@style/progress_bar"
+            android:layout_gravity="center" />
     </FrameLayout>
 
 </LinearLayout>

@@ -50,6 +50,7 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        setUpToolbar();
         RecyclerView membersList = (RecyclerView) view.findViewById(R.id.member_items);
         ImageButton filterButton = (ImageButton) view.findViewById(R.id.filter_button);
         membersList.setHasFixedSize(true);

@@ -4,14 +4,20 @@ import android.os.Bundle;
 import android.support.annotation.ColorRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import net.impacthub.members.R;
 import net.impacthub.members.presenter.base.UiContract;
 import net.impacthub.members.presenter.base.UiPresenter;
+import net.impacthub.members.utilities.ViewUtils;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -22,6 +28,9 @@ import butterknife.Unbinder;
  */
 
 public abstract class BaseFragment<P extends UiPresenter<? extends UiContract>> extends Fragment {
+
+    @Nullable @BindView(R.id.toolbar) protected Toolbar mToolbar;
+    @BindView(R.id.progress_bar) protected ProgressBar mProgressBar;
 
     private P mPresenter;
     private Unbinder mBinder;
@@ -38,9 +47,12 @@ public abstract class BaseFragment<P extends UiPresenter<? extends UiContract>> 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(getContentView(), container, false);
-        mBinder = ButterKnife.bind(this, view);
-        return view;
+        View parent = inflater.inflate(R.layout.fragment_container, container, false);
+        FrameLayout contentContainer = (FrameLayout) parent.findViewById(R.id.content_container);
+        contentContainer.removeAllViews();
+        inflater.inflate(getContentView(), contentContainer, true);
+        mBinder = ButterKnife.bind(this, parent);
+        return parent;
     }
 
     @Override
@@ -69,6 +81,11 @@ public abstract class BaseFragment<P extends UiPresenter<? extends UiContract>> 
 
     public P getPresenter() {
         return mPresenter;
+    }
+
+    public void onChangeStatus(boolean showProgressBar) {
+        if(showProgressBar) ViewUtils.visible(mProgressBar);
+        else ViewUtils.gone(mProgressBar);
     }
 
     public void onError(Throwable throwable) {

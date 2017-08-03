@@ -5,41 +5,36 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.View;
-import android.view.ViewTreeObserver;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import net.impacthub.members.R;
 
-import static net.impacthub.members.ui.widgets.ViewModule.itemInflaterProvider;
-
-public class TypefaceToolbar extends Toolbar implements ViewTreeObserver.OnGlobalLayoutListener {
+public class TypefaceToolbar extends Toolbar {
 
     public TypefaceToolbar(Context context) {
         super(context);
-        initialise();
+        initialise(context);
     }
 
     public TypefaceToolbar(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        initialise();
+        initialise(context);
     }
 
     public TypefaceToolbar(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initialise();
+        initialise(context);
     }
 
-    private void initialise() {
-        getViewTreeObserver().addOnGlobalLayoutListener(this);
-    }
-
-    @Override
-    public void onGlobalLayout() {
-        getViewTreeObserver().removeOnGlobalLayoutListener(this);
-        TextView newTitle = (TextView) itemInflaterProvider().inflate(R.layout.title_textview, this);
+    private void initialise(Context context) {
+        TextView newTitle = (TextView) inflate(context, R.layout.title_textview, null);
         newTitle.setText(getTitle());
-        addView(newTitle);
+        LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.gravity = Gravity.CENTER;
+        addView(newTitle, params);
         getTitleTextView().setVisibility(GONE);
     }
 

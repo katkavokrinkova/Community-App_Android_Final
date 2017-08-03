@@ -26,15 +26,18 @@ public class MembersPresenter extends UiPresenter<MembersUiContract> {
     }
 
     public void loadMembers() {
+        getUi().onChangeStatus(true);
         subscribeWith(mObservableGenerator.getUseCase(), new DisposableSingleObserver<List<Member>>() {
             @Override
             public void onSuccess(@NonNull List<Member> members) {
                 getUi().onLoadMembers(members);
+                getUi().onChangeStatus(false);
             }
 
             @Override
             public void onError(@NonNull Throwable e) {
                 getUi().onError(e);
+                getUi().onChangeStatus(false);
             }
         });
     }

@@ -3,7 +3,6 @@ package net.impacthub.members.ui.base;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import net.impacthub.members.R;
@@ -18,10 +17,9 @@ import net.impacthub.members.presenter.base.UiPresenter;
 
 public abstract class BaseChildFragment<P extends UiPresenter<? extends UiContract>> extends BaseFragment<P> {
 
-    protected void setUpToolbar(View view) {
-        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        if(toolbar != null) {
-            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+    protected void setUpToolbar() {
+        if(mToolbar != null) {
+            mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     popChildFragment();
