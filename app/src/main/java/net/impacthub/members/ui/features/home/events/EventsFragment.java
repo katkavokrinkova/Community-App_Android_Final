@@ -12,8 +12,14 @@
 package net.impacthub.members.ui.features.home.events;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
+import android.view.View;
 
+import net.impacthub.members.R;
 import net.impacthub.members.ui.base.BaseChildFragment;
+
+import butterknife.BindView;
 
 /**
  * @author Filippo Ash
@@ -22,6 +28,8 @@ import net.impacthub.members.ui.base.BaseChildFragment;
  */
 
 public class EventsFragment extends BaseChildFragment {
+
+    @BindView(R.id.tabs) protected TabLayout mProjectsTab;
 
     public static EventsFragment newInstance() {
 
@@ -34,6 +42,16 @@ public class EventsFragment extends BaseChildFragment {
 
     @Override
     protected int getContentView() {
-        return 0;
+        return R.layout.fragment_searchable_list_with_tabs;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setUpToolbar(R.string.label_events);
+
+        mProjectsTab.addTab(mProjectsTab.newTab().setCustomView(createTabTitle("ALL")));
+        mProjectsTab.addTab(mProjectsTab.newTab().setCustomView(createTabTitle("EVENTS YOU MANAGE")));
+        mProjectsTab.addTab(mProjectsTab.newTab().setCustomView(createTabTitle("YOUR EVENTS")));
     }
 }

@@ -14,9 +14,11 @@ import net.impacthub.members.model.home.HomeMenuItem;
 import net.impacthub.members.ui.base.BaseChildFragment;
 import net.impacthub.members.ui.common.LinearItemsMarginDecorator;
 import net.impacthub.members.ui.features.home.companies.CompaniesFragment;
+import net.impacthub.members.ui.features.home.events.EventsFragment;
 import net.impacthub.members.ui.features.home.groups.GroupsFragment;
 import net.impacthub.members.ui.features.home.jobs.JobsFragment;
 import net.impacthub.members.ui.features.home.members.MembersFragment;
+import net.impacthub.members.ui.features.home.projects.ProjectsFragment;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -82,6 +84,12 @@ public class HomeFragment extends BaseChildFragment implements OnListItemClickLi
 
             case 4:
                 addChildFragment(JobsFragment.newInstance(), "FRAG_JOBS");
+                break;
+            case 5:
+                addChildFragment(EventsFragment.newInstance(), "FRAG_EVENTS");
+                break;
+            case 6:
+                addChildFragment(ProjectsFragment.newInstance(), "FRAG_PROJECTS");
                 break;
         }
     }

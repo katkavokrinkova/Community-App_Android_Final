@@ -8,7 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import net.impacthub.members.R;
@@ -73,6 +75,12 @@ public abstract class BaseFragment<P extends UiPresenter<? extends UiContract>> 
 
     protected void showToast(String message) {
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    protected TextView createTabTitle(String label) {
+        TextView tabTitleView = (TextView) getLayoutInflater(getArguments()).inflate(R.layout.tab_title_textview, new LinearLayout(getContext()), false);
+        tabTitleView.setText(label);
+        return tabTitleView;
     }
 
     protected P onCreatePresenter() {

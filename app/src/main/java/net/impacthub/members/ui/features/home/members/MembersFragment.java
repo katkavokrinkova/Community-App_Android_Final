@@ -17,6 +17,7 @@ import net.impacthub.members.ui.base.BaseChildFragment;
 import net.impacthub.members.ui.features.filters.FilterActivity;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * @author Filippo Ash
@@ -76,6 +77,7 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
     @Override
     public void onItemClick(Member model) {
         Toast.makeText(getActivity(), model.getId(), Toast.LENGTH_SHORT).show();
+        addChildFragment(MembersFragment.newInstance(), "FRAG_MEMBERS_"+new Random().nextInt(500));
     }
 
     @Override

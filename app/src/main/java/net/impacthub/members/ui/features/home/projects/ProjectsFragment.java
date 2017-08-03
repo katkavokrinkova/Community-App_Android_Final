@@ -12,8 +12,14 @@
 package net.impacthub.members.ui.features.home.projects;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
+import android.view.View;
 
+import net.impacthub.members.R;
 import net.impacthub.members.ui.base.BaseChildFragment;
+
+import butterknife.BindView;
 
 /**
  * @author Filippo Ash
@@ -23,6 +29,8 @@ import net.impacthub.members.ui.base.BaseChildFragment;
 
 public class ProjectsFragment extends BaseChildFragment {
 
+    @BindView(R.id.tabs) protected TabLayout mProjectsTab;
+
     public static ProjectsFragment newInstance() {
         
         Bundle args = new Bundle();
@@ -31,9 +39,19 @@ public class ProjectsFragment extends BaseChildFragment {
         fragment.setArguments(args);
         return fragment;
     }
-    
+
     @Override
     protected int getContentView() {
-        return 0;
+        return R.layout.fragment_searchable_list_with_tabs;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setUpToolbar(R.string.label_projects);
+
+        mProjectsTab.addTab(mProjectsTab.newTab().setCustomView(createTabTitle("ALL")));
+        mProjectsTab.addTab(mProjectsTab.newTab().setCustomView(createTabTitle("PROJECTS YOU MANAGE")));
+        mProjectsTab.addTab(mProjectsTab.newTab().setCustomView(createTabTitle("YOUR PROJECTS")));
     }
 }

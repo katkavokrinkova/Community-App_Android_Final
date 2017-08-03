@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.salesforce.androidsdk.accounts.UserAccount;
@@ -37,7 +36,7 @@ class MembersListAdapter extends BaseListAdapter<MembersListAdapter.ViewHolder, 
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View container = mLayoutInflater.inflate(R.layout.member_item, parent, false);
+        View container = mLayoutInflater.inflate(R.layout.item_member_layout, parent, false);
         return new ViewHolder(container);
     }
 

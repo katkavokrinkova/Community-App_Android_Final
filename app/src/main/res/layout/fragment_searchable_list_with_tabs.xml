@@ -1,7 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2017 Lightful. All Rights Reserved.
   ~
   ~ Save to the extent permitted by law, you may not use, copy, modify,
@@ -13,13 +10,11 @@
   -->
 
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:clipChildren="false"
     android:clipToPadding="false">
-
-    <include layout="@layout/common_list_layout" />
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar_layout"
@@ -29,9 +24,22 @@
         android:fitsSystemWindows="true"
         app:elevation="0dp">
 
+        <include layout="@layout/toolbar_with_back_layout" />
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="@color/colorPrimary"
+            app:tabIndicatorHeight="1dp"
+            app:tabMode="scrollable" />
+
         <include layout="@layout/search_bar_layout" />
 
     </android.support.design.widget.AppBarLayout>
 
+    <include layout="@layout/common_list_layout" />
 
 </android.support.design.widget.CoordinatorLayout>

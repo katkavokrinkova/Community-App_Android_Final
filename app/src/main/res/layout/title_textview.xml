@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<net.impacthub.members.ui.widgets.TypefaceTextView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:textSize="20sp"
-        android:textColor="@color/greyish_brown"
-        app:typeface="fonts/gt-walsheim-web.ttf"/>
+<net.impacthub.members.ui.widgets.TypefaceTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:textColor="@color/greyish_brown"
+    android:textSize="20sp"
+    app:typeface="fonts/gt-walsheim-web.ttf" />

@@ -91,7 +91,7 @@
 
             </ScrollView>
 
-            <include layout="@layout/done_layout" />
+            <include layout="@layout/button_done_layout" />
 
         </LinearLayout>
 
