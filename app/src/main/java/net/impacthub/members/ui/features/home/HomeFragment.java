@@ -14,7 +14,6 @@ import net.impacthub.members.model.home.HomeMenuItem;
 import net.impacthub.members.ui.base.BaseChildFragment;
 import net.impacthub.members.ui.common.LinearItemsMarginDecorator;
 import net.impacthub.members.ui.features.home.members.MembersFragment;
-import net.impacthub.members.ui.widgets.ImageLoaderProvider;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -53,7 +52,7 @@ public class HomeFragment extends BaseChildFragment implements OnListItemClickLi
         homeMenuList.setHasFixedSize(true);
         homeMenuList.addItemDecoration(new LinearItemsMarginDecorator(context.getResources().getDimensionPixelSize(R.dimen.default_home_item_gap_margin)));
         homeMenuList.setLayoutManager(new LinearLayoutManager(context));
-        HomeListAdapter adapter = new HomeListAdapter(getActivity().getLayoutInflater(), new ImageLoaderProvider());
+        HomeListAdapter adapter = new HomeListAdapter(getActivity().getLayoutInflater());
         adapter.setItemClickListener(this);
         homeMenuList.setAdapter(adapter);
         List<HomeMenuItem> homeMenuItems = new LinkedList<>();

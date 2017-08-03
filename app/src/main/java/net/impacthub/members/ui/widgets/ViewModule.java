@@ -10,7 +10,7 @@ public class ViewModule {
         return new KeyboardManager();
     }
 
-    public static ImageLoaderProvider imageLoaderProvider() {
-        return new ImageLoaderProvider();
+    public static ImageLoaderHelper imageLoaderProvider() {
+        return new ImageLoaderHelper();
     }
 }

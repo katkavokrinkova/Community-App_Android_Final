@@ -12,7 +12,7 @@ import net.impacthub.members.model.callback.OnListItemClickListener;
 import net.impacthub.members.model.home.HomeMenuItem;
 import net.impacthub.members.ui.base.BaseListAdapter;
 import net.impacthub.members.ui.common.RecyclerViewHolder;
-import net.impacthub.members.ui.widgets.ImageLoaderProvider;
+import net.impacthub.members.ui.widgets.ImageLoaderHelper;
 
 /**
  * @author Filippo Ash
@@ -22,13 +22,11 @@ import net.impacthub.members.ui.widgets.ImageLoaderProvider;
 
 class HomeListAdapter extends BaseListAdapter<HomeListAdapter.ViewHolder, HomeMenuItem> {
 
-    private final ImageLoaderProvider mImageLoaderProvider;
     private final LayoutInflater mLayoutInflater;
     private OnListItemClickListener<Integer> mItemClickListener;
 
-    HomeListAdapter(LayoutInflater inflater, ImageLoaderProvider imageLoaderProvider) {
+    HomeListAdapter(LayoutInflater inflater) {
         mLayoutInflater = inflater;
-        mImageLoaderProvider = imageLoaderProvider;
     }
 
     @Override
@@ -62,10 +60,7 @@ class HomeListAdapter extends BaseListAdapter<HomeListAdapter.ViewHolder, HomeMe
         @Override
         protected void bindViewsWith(HomeMenuItem itemData) {
             mMenuName.setText(itemData.getHomeMenuTitle());
-            mImageLoaderProvider
-                    .with(itemView.getContext().getApplicationContext())
-                    .load(itemData.getHomeMenuIconRes())
-                    .into(mMenuImage);
+            ImageLoaderHelper.loadImage(itemView.getContext().getApplicationContext(), itemData.getHomeMenuIconRes(), mMenuImage);
         }
 
         @Override

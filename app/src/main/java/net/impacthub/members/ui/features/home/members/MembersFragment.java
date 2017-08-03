@@ -15,7 +15,6 @@ import net.impacthub.members.presenter.features.members.MembersPresenter;
 import net.impacthub.members.presenter.features.members.MembersUiContract;
 import net.impacthub.members.ui.base.BaseChildFragment;
 import net.impacthub.members.ui.features.filters.FilterActivity;
-import net.impacthub.members.ui.widgets.ImageLoaderProvider;
 
 import java.util.List;
 
@@ -54,7 +53,7 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
         RecyclerView membersList = (RecyclerView) view.findViewById(R.id.member_items);
         ImageButton filterButton = (ImageButton) view.findViewById(R.id.filter_button);
         membersList.setHasFixedSize(true);
-        mAdapter = new MembersListAdapter(getActivity().getLayoutInflater(), new ImageLoaderProvider());
+        mAdapter = new MembersListAdapter(getActivity().getLayoutInflater());
         mAdapter.setItemClickListener(this);
         membersList.setAdapter(mAdapter);
 

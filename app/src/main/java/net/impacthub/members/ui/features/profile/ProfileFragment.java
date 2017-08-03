@@ -13,7 +13,7 @@ import net.impacthub.members.presenter.features.profile.ProfilePresenter;
 import net.impacthub.members.presenter.features.profile.ProfileUiContract;
 import net.impacthub.members.ui.base.BaseChildFragment;
 import net.impacthub.members.ui.widgets.CircleImageView;
-import net.impacthub.members.ui.widgets.ImageLoaderProvider;
+import net.impacthub.members.ui.widgets.ImageLoaderHelper;
 import net.impacthub.members.ui.widgets.TypefaceTextView;
 import net.impacthub.members.utilities.ViewUtils;
 
@@ -80,8 +80,6 @@ public class ProfileFragment extends BaseChildFragment<ProfilePresenter> impleme
             mTextStatusUpdate.setText(statusUpdate);
         } else ViewUtils.gone(mTextStatusUpdate);
         mTextLocation.setText(profileDTO.mCity);
-        new ImageLoaderProvider().with(getActivity())
-                .load(profileDTO.mAvatar + "?oauth_token=" + mUserAccount.getAuthToken())
-                .into(mImageAvatar);
+        ImageLoaderHelper.loadImage(getActivity() , profileDTO.mAvatar + "?oauth_token=" + mUserAccount.getAuthToken(), mImageAvatar);
     }
 }

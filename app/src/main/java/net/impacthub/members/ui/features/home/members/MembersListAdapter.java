@@ -14,8 +14,8 @@ import net.impacthub.members.model.callback.OnListItemClickListener;
 import net.impacthub.members.model.members.Member;
 import net.impacthub.members.ui.base.BaseListAdapter;
 import net.impacthub.members.ui.common.RecyclerViewHolder;
-import net.impacthub.members.ui.widgets.CircleTransform;
-import net.impacthub.members.ui.widgets.ImageLoaderProvider;
+import net.impacthub.members.ui.widgets.CircleImageView;
+import net.impacthub.members.ui.widgets.ImageLoaderHelper;
 
 import static net.impacthub.members.application.salesforce.SalesforceModuleDependency.userAccountProvider;
 
@@ -28,13 +28,11 @@ import static net.impacthub.members.application.salesforce.SalesforceModuleDepen
 class MembersListAdapter extends BaseListAdapter<MembersListAdapter.ViewHolder, Member> {
 
     private final UserAccount mUserAccount = userAccountProvider();
-    private final ImageLoaderProvider mImageLoaderProvider;
     private final LayoutInflater mLayoutInflater;
     private OnListItemClickListener<Member> mItemClickListener;
 
-    MembersListAdapter(LayoutInflater inflater, ImageLoaderProvider imageLoaderProvider) {
+    MembersListAdapter(LayoutInflater inflater) {
         mLayoutInflater = inflater;
-        mImageLoaderProvider = imageLoaderProvider;
     }
 
     @Override
@@ -55,7 +53,7 @@ class MembersListAdapter extends BaseListAdapter<MembersListAdapter.ViewHolder, 
     class ViewHolder extends RecyclerViewHolder<Member> implements View.OnClickListener {
 
         final View container;
-        final ImageView memberImage;
+        final CircleImageView memberImage;
         final TextView name;
         final TextView  profession;
         final TextView  locations;
@@ -63,7 +61,7 @@ class MembersListAdapter extends BaseListAdapter<MembersListAdapter.ViewHolder, 
         ViewHolder(View itemView) {
             super(itemView);
             container = itemView;
-            memberImage = (ImageView) container.findViewById(R.id.member_image);
+            memberImage = (CircleImageView) container.findViewById(R.id.member_image);
             name = (TextView) container.findViewById(R.id.name);
             profession = (TextView) container.findViewById(R.id.profession);
             locations = (TextView) container.findViewById(R.id.locations);
@@ -75,12 +73,7 @@ class MembersListAdapter extends BaseListAdapter<MembersListAdapter.ViewHolder, 
             name.setText(item.getFirstName() + ' ' + item.getLastName());
             profession.setText(item.getProfession());
             locations.setText(item.getImpactHubCities());
-            mImageLoaderProvider
-                    .with(memberImage.getContext())
-                    .load(item.getProfilePic() + "?oauth_token=" + mUserAccount.getAuthToken())
-                    .fit()
-                    .transform(new CircleTransform())
-                    .into(memberImage);
+            ImageLoaderHelper.loadImage(memberImage.getContext(), item.getProfilePic() + "?oauth_token=" + mUserAccount.getAuthToken(), memberImage);
         }
 
         @Override
