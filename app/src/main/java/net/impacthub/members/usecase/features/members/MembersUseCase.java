@@ -1,10 +1,8 @@
-package net.impacthub.members.usecase.members;
+package net.impacthub.members.usecase.features.members;
 
 import net.impacthub.members.model.members.Member;
 import net.impacthub.members.model.members.Members;
-import net.impacthub.members.usecase.ApiCall;
-import net.impacthub.members.usecase.SoqlRequestFactory;
-import net.impacthub.members.usecase.UseCaseGenerator;
+import net.impacthub.members.usecase.base.BaseUseCaseGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,19 +12,13 @@ import io.reactivex.Single;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Function;
 
-import static net.impacthub.members.usecase.UseCaseModule.apiCallProvider;
-import static net.impacthub.members.usecase.UseCaseModule.soqlRequestFactoryProvider;
-
 /**
  * @author Filippo Ash
  * @version 1.0
  * @date 7/26/2017.
  */
 
-public class MembersUseCase implements UseCaseGenerator<Single<List<Member>>> {
-
-    private final ApiCall<Members> mMembersApiCall = apiCallProvider();
-    private final SoqlRequestFactory mSoqlRequestFactory = soqlRequestFactoryProvider();
+public class MembersUseCase extends BaseUseCaseGenerator<Single<List<Member>>, Members> {
 
     @Override
     public Single<List<Member>> getUseCase() {
@@ -36,7 +28,7 @@ public class MembersUseCase implements UseCaseGenerator<Single<List<Member>>> {
     private class MembersCallable implements Callable<Members> {
         @Override
         public Members call() throws Exception {
-            return mMembersApiCall.getResponse(mSoqlRequestFactory.createMemberListRequest(), Members.class);
+            return getFiltersApiCall().getResponse(getSoqlRequestFactory().createMemberListRequest(), Members.class);
         }
     }
     private class MemberListExtractor implements Function<Members, List<Member>> {

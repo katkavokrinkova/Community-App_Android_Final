@@ -19,6 +19,7 @@
     <dimen name="search_bubble_radius">30dp</dimen>
     <dimen name="connect_button_gap">13dp</dimen>
     <dimen name="nav_bar_height">56dp</dimen>
-    <dimen name="default_rounded_bg_radius">5dp</dimen>
+    <dimen name="default_rounded_bg_radius">8dp</dimen>
+    <dimen name="default_rounded_bg_medium_radius">16dp</dimen>
     <dimen name="default_home_item_gap_margin">12dp</dimen>
 </resources>

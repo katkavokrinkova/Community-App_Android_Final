@@ -4,10 +4,16 @@ import android.os.Bundle;
 import android.support.annotation.ColorRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import net.impacthub.members.presenter.base.UiContract;
 import net.impacthub.members.presenter.base.UiPresenter;
+
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * @author Filippo Ash
@@ -15,9 +21,10 @@ import net.impacthub.members.presenter.base.UiPresenter;
  * @date 8/1/2017.
  */
 
-public class BaseFragment<P extends UiPresenter<? extends UiContract>> extends Fragment {
+public abstract class BaseFragment<P extends UiPresenter<? extends UiContract>> extends Fragment {
 
     private P mPresenter;
+    private Unbinder mBinder;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -26,6 +33,23 @@ public class BaseFragment<P extends UiPresenter<? extends UiContract>> extends F
         if (mPresenter != null) {
             mPresenter.registerUi();
         }
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(getContentView(), container, false);
+        mBinder = ButterKnife.bind(this, view);
+        return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        if (mBinder != null) {
+            mBinder.unbind();
+            mBinder = null;
+        }
+        super.onDestroyView();
     }
 
     protected void setStatusBarColor(@ColorRes int color) {
@@ -59,4 +83,6 @@ public class BaseFragment<P extends UiPresenter<? extends UiContract>> extends F
         mPresenter = null;
         super.onDestroy();
     }
+
+    protected abstract int getContentView();
 }

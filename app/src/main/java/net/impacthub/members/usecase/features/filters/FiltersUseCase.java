@@ -1,13 +1,11 @@
-package net.impacthub.members.usecase.filters;
+package net.impacthub.members.usecase.features.filters;
 
 import android.support.annotation.NonNull;
 
 import net.impacthub.members.model.filters.Filter;
 import net.impacthub.members.model.filters.Filters;
 import net.impacthub.members.model.filters.SeparatedFilters;
-import net.impacthub.members.usecase.ApiCall;
-import net.impacthub.members.usecase.SoqlRequestFactory;
-import net.impacthub.members.usecase.UseCaseGenerator;
+import net.impacthub.members.usecase.base.BaseUseCaseGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,19 +14,13 @@ import java.util.concurrent.Callable;
 import io.reactivex.Single;
 import io.reactivex.functions.Function;
 
-import static net.impacthub.members.usecase.UseCaseModule.apiCallProvider;
-import static net.impacthub.members.usecase.UseCaseModule.soqlRequestFactoryProvider;
-
 /**
  * @author Filippo Ash
  * @version 1.0
  * @date 7/28/2017.
  */
 
-public class FiltersUseCase implements UseCaseGenerator<Single<SeparatedFilters>> {
-
-    private final ApiCall<Filters> mFiltersApiCall = apiCallProvider();
-    private final SoqlRequestFactory mSoqlRequestFactory = soqlRequestFactoryProvider();
+public class FiltersUseCase extends BaseUseCaseGenerator<Single<SeparatedFilters>, Filters> {
 
     @Override
     public Single<SeparatedFilters> getUseCase() {
@@ -38,7 +30,7 @@ public class FiltersUseCase implements UseCaseGenerator<Single<SeparatedFilters>
     private class FiltersCallable implements Callable<Filters> {
         @Override
         public Filters call() throws Exception {
-            return mFiltersApiCall.getResponse(mSoqlRequestFactory.createFilterCriteriaRequest(), Filters.class);
+            return getFiltersApiCall().getResponse(getSoqlRequestFactory().createFilterCriteriaRequest(), Filters.class);
         }
     }
 

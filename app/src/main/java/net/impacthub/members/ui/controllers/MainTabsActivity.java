@@ -1,4 +1,4 @@
-package net.impacthub.members.ui;
+package net.impacthub.members.ui.controllers;
 
 import android.content.res.ColorStateList;
 import android.os.Bundle;

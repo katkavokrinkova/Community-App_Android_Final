@@ -1,14 +1,10 @@
 package net.impacthub.members.ui.base;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import net.impacthub.members.R;
 import net.impacthub.members.presenter.base.UiContract;
@@ -21,12 +17,6 @@ import net.impacthub.members.presenter.base.UiPresenter;
  */
 
 public abstract class BaseChildFragment<P extends UiPresenter<? extends UiContract>> extends BaseFragment<P> {
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(getContentView(), container, false);
-    }
 
     protected void setUpToolbar(View view) {
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
@@ -56,6 +46,4 @@ public abstract class BaseChildFragment<P extends UiPresenter<? extends UiContra
         }
         return false;
     }
-
-    protected abstract int getContentView();
 }

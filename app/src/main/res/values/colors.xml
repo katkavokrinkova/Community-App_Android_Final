@@ -9,6 +9,7 @@
     <color name="impacthub">#ff5353</color>
     <color name="message_background">#f7f7f7</color>
     <color name="main_background">@android:color/white</color>
+    <color name="colorLightGray">#f0f0f0</color>
     <color name="white_two">#f9f9f9</color>
     <color name="greyish_brown">#3d3d3d</color>
     <color name="greyish_brown_2">#444444</color>
