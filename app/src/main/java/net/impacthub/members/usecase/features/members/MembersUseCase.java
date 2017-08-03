@@ -41,15 +41,4 @@ public class MembersUseCase extends BaseUseCaseGenerator<Single<List<Member>>, M
             return members.getMembers();
         }
     }
-
-
-//    private class MemberListExtractor implements Func1<Members, List<Member>> {
-//        @Override
-//        public List<Member> call(Members fragment_members) {
-//            if (fragment_members == null) {
-//                return new ArrayList<>();
-//            }
-//            return fragment_members.getMembers();
-//        }
-//    }
 }

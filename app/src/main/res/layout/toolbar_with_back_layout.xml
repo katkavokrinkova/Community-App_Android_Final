@@ -16,4 +16,4 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/toolbar"
     style="@style/ToolbarConstraint.WithBack"
-    app:title="@string/members" />
+    app:title="" />

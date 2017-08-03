@@ -1,5 +1,7 @@
 package net.impacthub.members.ui.base;
 
+import android.support.annotation.ColorInt;
+import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -17,14 +19,24 @@ import net.impacthub.members.presenter.base.UiPresenter;
 
 public abstract class BaseChildFragment<P extends UiPresenter<? extends UiContract>> extends BaseFragment<P> {
 
-    protected void setUpToolbar() {
+    protected final View.OnClickListener mBackListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            popChildFragment();
+        }
+    };
+
+    protected void setUpToolbar(@StringRes int title) {
         if(mToolbar != null) {
-            mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    popChildFragment();
-                }
-            });
+            mToolbar.setCustomTitle(getString(title));
+            mToolbar.setNavigationOnClickListener(mBackListener);
+        }
+    }
+
+    protected void setUpToolbar(@StringRes int title, @ColorInt int textColor) {
+        if(mToolbar != null) {
+            mToolbar.setCustomTitle(getString(title), textColor);
+            mToolbar.setNavigationOnClickListener(mBackListener);
         }
     }
 

@@ -45,11 +45,11 @@
     <string name="connect_with">Connect with %s</string>
 
     <!-- Menu Titles-->
-    <string name="label_home_menu_members">Members</string>
-    <string name="label_home_menu_companies">Companies</string>
-    <string name="label_home_menu_groups">Groups</string>
-    <string name="label_home_menu_goals">Goals</string>
-    <string name="label_home_menu_jobs">Jobs</string>
-    <string name="label_home_menu_events">Events</string>
-    <string name="label_home_menu_projects">Projects</string>
+    <string name="label_members">Members</string>
+    <string name="label_companies">Companies</string>
+    <string name="label_groups">Groups</string>
+    <string name="label_goals">Goals</string>
+    <string name="label_jobs">Jobs</string>
+    <string name="label_events">Events</string>
+    <string name="label_projects">Projects</string>
 </resources>

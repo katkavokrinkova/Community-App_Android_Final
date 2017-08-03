@@ -1,6 +1,7 @@
 package net.impacthub.members.ui.widgets;
 
 import android.content.Context;
+import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
@@ -11,8 +12,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import net.impacthub.members.R;
+import net.impacthub.members.utilities.ViewUtils;
 
 public class TypefaceToolbar extends Toolbar {
+
+    private TextView mNewTitle;
 
     public TypefaceToolbar(Context context) {
         super(context);
@@ -30,15 +34,16 @@ public class TypefaceToolbar extends Toolbar {
     }
 
     private void initialise(Context context) {
-        TextView newTitle = (TextView) inflate(context, R.layout.title_textview, null);
-        newTitle.setText(getTitle());
+        mNewTitle = (TextView) inflate(context, R.layout.title_textview, null);
+        mNewTitle.setText(getTitle());
         LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.gravity = Gravity.CENTER;
-        addView(newTitle, params);
+        addView(mNewTitle, params);
         getTitleTextView().setVisibility(GONE);
     }
 
-    @NonNull private TextView getTitleTextView() {
+    @NonNull
+    private TextView getTitleTextView() {
         for (int index = 0; index < getChildCount(); index++) {
             TextView title = getTextViewAt(getChildAt(index));
             if (title != null) return title;
@@ -61,5 +66,16 @@ public class TypefaceToolbar extends Toolbar {
             return titleCandidate;
         }
         return null;
+    }
+
+    public void setCustomTitle(String title) {
+        ViewUtils.visible(mNewTitle);
+        mNewTitle.setText(title);
+    }
+
+    public void setCustomTitle(String title, @ColorInt int titleColor) {
+        ViewUtils.visible(mNewTitle);
+        mNewTitle.setTextColor(titleColor);
+        mNewTitle.setText(title);
     }
 }

@@ -8,7 +8,7 @@
     android:background="@android:color/transparent"
     android:fitsSystemWindows="true"
     app:elevation="0dp"
-    tools:showIn="@layout/fragment_members">
+    tools:showIn="@layout/fragment_searchable_list">
 
     <LinearLayout
         android:layout_width="match_parent"

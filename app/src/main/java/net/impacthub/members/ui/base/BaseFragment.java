@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.ColorRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +14,7 @@ import android.widget.Toast;
 import net.impacthub.members.R;
 import net.impacthub.members.presenter.base.UiContract;
 import net.impacthub.members.presenter.base.UiPresenter;
+import net.impacthub.members.ui.widgets.TypefaceToolbar;
 import net.impacthub.members.utilities.ViewUtils;
 
 import butterknife.BindView;
@@ -29,7 +29,7 @@ import butterknife.Unbinder;
 
 public abstract class BaseFragment<P extends UiPresenter<? extends UiContract>> extends Fragment {
 
-    @Nullable @BindView(R.id.toolbar) protected Toolbar mToolbar;
+    @Nullable @BindView(R.id.toolbar) protected TypefaceToolbar mToolbar;
     @BindView(R.id.progress_bar) protected ProgressBar mProgressBar;
 
     private P mPresenter;

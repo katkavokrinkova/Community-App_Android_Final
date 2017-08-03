@@ -35,6 +35,7 @@
     <style name="ToolbarConstraint" parent="@style/ThemeOverlay.AppCompat.ActionBar">
         <item name="android:layout_height">?attr/actionBarSize</item>
         <item name="android:layout_width">match_parent</item>
+        <item name="android:gravity">center</item>
         <item name="android:minHeight">?attr/actionBarSize</item>
         <!--<item name="android:background">@drawable/bottom_shadow</item>-->
         <!--<item name="android:theme">@style/ToolbarColour</item>-->

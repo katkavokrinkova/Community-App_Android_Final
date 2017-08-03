@@ -39,7 +39,7 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
 
     @Override
     protected int getContentView() {
-        return R.layout.fragment_members;
+        return R.layout.fragment_searchable_list;
     }
 
     @Override
@@ -50,8 +50,8 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setUpToolbar();
-        RecyclerView membersList = (RecyclerView) view.findViewById(R.id.member_items);
+        setUpToolbar(R.string.members);
+        RecyclerView membersList = (RecyclerView) view.findViewById(R.id.list_items);
         ImageButton filterButton = (ImageButton) view.findViewById(R.id.filter_button);
         membersList.setHasFixedSize(true);
         mAdapter = new MembersListAdapter(getActivity().getLayoutInflater());
