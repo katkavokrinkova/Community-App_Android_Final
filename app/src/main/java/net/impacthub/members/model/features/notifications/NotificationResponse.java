@@ -9,28 +9,34 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.model.features.profile;
+package net.impacthub.members.model.features.notifications;
 
 /**
  * @author Filippo Ash
  * @version 1.0
- * @date 03/08/2017.
+ * @date 8/4/2017.
  */
 
-public class Attributes {
-    public String getType() {
-        return type;
+public class NotificationResponse {
+
+    private String done;
+    private Records[] records;
+    private String totalSize;
+
+    public String getDone() {
+        return done;
     }
 
-    public String getUrl() {
-        return url;
+    public Records[] getRecords() {
+        return records;
     }
 
-    private String type;
-    private String url;
+    public String getTotalSize() {
+        return totalSize;
+    }
 
     @Override
     public String toString() {
-        return "Attributes [type = " + type + ", url = " + url + "]";
+        return "NotificationResponse [done = " + done + ", records = " + records + ", totalSize = " + totalSize + "]";
     }
 }

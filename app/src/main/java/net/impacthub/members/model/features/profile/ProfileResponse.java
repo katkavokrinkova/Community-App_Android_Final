@@ -9,7 +9,7 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.model.profile;
+package net.impacthub.members.model.features.profile;
 
 /**
  * @author Filippo Ash

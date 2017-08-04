@@ -1,6 +1,6 @@
 package net.impacthub.members.presenter.features.filters;
 
-import net.impacthub.members.model.filters.SeparatedFilters;
+import net.impacthub.members.model.features.filters.SeparatedFilters;
 import net.impacthub.members.presenter.base.UiPresenter;
 import net.impacthub.members.usecase.base.UseCaseGenerator;
 import net.impacthub.members.usecase.features.filters.FiltersUseCase;

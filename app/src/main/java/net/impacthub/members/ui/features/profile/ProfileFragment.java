@@ -8,12 +8,12 @@ import com.salesforce.androidsdk.accounts.UserAccount;
 import com.salesforce.androidsdk.app.SalesforceSDKManager;
 
 import net.impacthub.members.R;
-import net.impacthub.members.model.dto.ProfileDTO;
+import net.impacthub.members.model.dto.profile.ProfileDTO;
 import net.impacthub.members.presenter.features.profile.ProfilePresenter;
 import net.impacthub.members.presenter.features.profile.ProfileUiContract;
 import net.impacthub.members.ui.base.BaseChildFragment;
 import net.impacthub.members.ui.widgets.CircleImageView;
-import net.impacthub.members.ui.widgets.ImageLoaderHelper;
+import net.impacthub.members.ui.common.ImageLoaderHelper;
 import net.impacthub.members.ui.widgets.TypefaceTextView;
 import net.impacthub.members.utilities.ViewUtils;
 

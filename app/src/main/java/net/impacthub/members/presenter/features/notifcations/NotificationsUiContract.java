@@ -9,18 +9,20 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.presenter.features.profile;
+package net.impacthub.members.presenter.features.notifcations;
 
-import net.impacthub.members.model.dto.profile.ProfileDTO;
+import net.impacthub.members.model.dto.notifications.NotificationDTO;
 import net.impacthub.members.presenter.features.error.ErrorHandlerUiContract;
+
+import java.util.List;
 
 /**
  * @author Filippo Ash
  * @version 1.0
- * @date 03/08/2017.
+ * @date 8/4/2017.
  */
 
-public interface ProfileUiContract extends ErrorHandlerUiContract {
+public interface NotificationsUiContract extends ErrorHandlerUiContract {
 
-    void onLoadProfile(ProfileDTO profileDTO);
+    void onLoadNotifications(List<NotificationDTO> notificationDTOList);
 }

@@ -11,7 +11,7 @@
 
 package net.impacthub.members.usecase.features.profile;
 
-import net.impacthub.members.model.profile.ProfileResponse;
+import net.impacthub.members.model.features.profile.ProfileResponse;
 import net.impacthub.members.usecase.base.BaseUseCaseGenerator;
 
 import java.util.concurrent.Callable;

@@ -1,4 +1,4 @@
-package net.impacthub.members.model.members;
+package net.impacthub.members.model.features.members;
 
 public class CombinedMemberSkill {
 

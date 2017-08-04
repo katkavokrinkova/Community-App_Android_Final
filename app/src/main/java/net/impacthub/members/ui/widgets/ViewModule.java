@@ -1,5 +1,7 @@
 package net.impacthub.members.ui.widgets;
 
+import net.impacthub.members.ui.common.ImageLoaderHelper;
+
 public class ViewModule {
 
     public static ItemInflater itemInflaterProvider() {

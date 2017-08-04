@@ -18,8 +18,6 @@
     android:id="@+id/list_items"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginEnd="@dimen/button_margin_bottom"
-    android:layout_marginStart="@dimen/button_margin_bottom"
     android:fitsSystemWindows="true"
     app:layoutManager="android.support.v7.widget.LinearLayoutManager"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"

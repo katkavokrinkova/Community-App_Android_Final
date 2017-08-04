@@ -9,19 +9,29 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.model.dto;
+package net.impacthub.members.model.features.notifications;
 
 /**
  * @author Filippo Ash
  * @version 1.0
- * @date 03/08/2017.
+ * @date 8/4/2017.
  */
 
-public class ProfileDTO {
+public class Attributes {
 
-    public String mFirstName;
-    public String mLastName;
-    public String mAvatar;
-    public String mStatusUpdate;
-    public String mCity;
+    private String type;
+    private String url;
+
+    public String getType() {
+        return type;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    @Override
+    public String toString() {
+        return "Attributes [type = " + type + ", url = " + url + "]";
+    }
 }

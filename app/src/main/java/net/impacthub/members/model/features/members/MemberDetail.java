@@ -1,4 +1,4 @@
-package net.impacthub.members.model.members;
+package net.impacthub.members.model.features.members;
 
 import java.util.List;
 

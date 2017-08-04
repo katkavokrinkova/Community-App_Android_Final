@@ -9,10 +9,7 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.presenter.features.profile;
-
-import net.impacthub.members.model.dto.profile.ProfileDTO;
-import net.impacthub.members.presenter.features.error.ErrorHandlerUiContract;
+package net.impacthub.members.model.dto.profile;
 
 /**
  * @author Filippo Ash
@@ -20,7 +17,11 @@ import net.impacthub.members.presenter.features.error.ErrorHandlerUiContract;
  * @date 03/08/2017.
  */
 
-public interface ProfileUiContract extends ErrorHandlerUiContract {
+public class ProfileDTO {
 
-    void onLoadProfile(ProfileDTO profileDTO);
+    public String mFirstName;
+    public String mLastName;
+    public String mAvatar;
+    public String mStatusUpdate;
+    public String mCity;
 }

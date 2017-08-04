@@ -10,11 +10,11 @@ import com.salesforce.androidsdk.accounts.UserAccount;
 
 import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnListItemClickListener;
-import net.impacthub.members.model.members.Member;
+import net.impacthub.members.model.features.members.Member;
 import net.impacthub.members.ui.base.BaseListAdapter;
 import net.impacthub.members.ui.common.RecyclerViewHolder;
 import net.impacthub.members.ui.widgets.CircleImageView;
-import net.impacthub.members.ui.widgets.ImageLoaderHelper;
+import net.impacthub.members.ui.common.ImageLoaderHelper;
 
 import static net.impacthub.members.application.salesforce.SalesforceModuleDependency.userAccountProvider;
 

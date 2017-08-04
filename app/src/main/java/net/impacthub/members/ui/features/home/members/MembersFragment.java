@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnListItemClickListener;
-import net.impacthub.members.model.members.Member;
+import net.impacthub.members.model.features.members.Member;
 import net.impacthub.members.presenter.features.members.MembersPresenter;
 import net.impacthub.members.presenter.features.members.MembersUiContract;
 import net.impacthub.members.ui.base.BaseChildFragment;

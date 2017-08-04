@@ -1,4 +1,4 @@
-package net.impacthub.members.model.filters;
+package net.impacthub.members.model.features.filters;
 
 import java.util.List;
 

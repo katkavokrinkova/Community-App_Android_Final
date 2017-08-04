@@ -1,6 +1,6 @@
 package net.impacthub.members.presenter.features.members;
 
-import net.impacthub.members.model.members.Member;
+import net.impacthub.members.model.features.members.Member;
 import net.impacthub.members.presenter.base.UiPresenter;
 import net.impacthub.members.usecase.base.UseCaseGenerator;
 import net.impacthub.members.usecase.features.members.MembersUseCase;

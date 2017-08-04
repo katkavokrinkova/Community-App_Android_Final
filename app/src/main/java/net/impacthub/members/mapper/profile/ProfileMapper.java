@@ -9,11 +9,11 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.mapper;
+package net.impacthub.members.mapper.profile;
 
-import net.impacthub.members.model.dto.ProfileDTO;
-import net.impacthub.members.model.profile.ProfileResponse;
-import net.impacthub.members.model.profile.Records;
+import net.impacthub.members.model.dto.profile.ProfileDTO;
+import net.impacthub.members.model.features.profile.ProfileResponse;
+import net.impacthub.members.model.features.profile.Records;
 
 /**
  * @author Filippo Ash

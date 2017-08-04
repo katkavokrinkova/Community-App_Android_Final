@@ -1,7 +1,7 @@
 package net.impacthub.members.usecase.features.members;
 
-import net.impacthub.members.model.members.Member;
-import net.impacthub.members.model.members.Members;
+import net.impacthub.members.model.features.members.Member;
+import net.impacthub.members.model.features.members.Members;
 import net.impacthub.members.usecase.base.BaseUseCaseGenerator;
 
 import java.util.ArrayList;

@@ -12,7 +12,7 @@ import net.impacthub.members.model.callback.OnListItemClickListener;
 import net.impacthub.members.model.home.HomeMenuItem;
 import net.impacthub.members.ui.base.BaseListAdapter;
 import net.impacthub.members.ui.common.RecyclerViewHolder;
-import net.impacthub.members.ui.widgets.ImageLoaderHelper;
+import net.impacthub.members.ui.common.ImageLoaderHelper;
 
 /**
  * @author Filippo Ash

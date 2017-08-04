@@ -2,9 +2,9 @@ package net.impacthub.members.usecase.features.filters;
 
 import android.support.annotation.NonNull;
 
-import net.impacthub.members.model.filters.Filter;
-import net.impacthub.members.model.filters.Filters;
-import net.impacthub.members.model.filters.SeparatedFilters;
+import net.impacthub.members.model.features.filters.Filter;
+import net.impacthub.members.model.features.filters.Filters;
+import net.impacthub.members.model.features.filters.SeparatedFilters;
 import net.impacthub.members.usecase.base.BaseUseCaseGenerator;
 
 import java.util.ArrayList;
