@@ -12,6 +12,7 @@
 package net.impacthub.members.mapper.notifications;
 
 import net.impacthub.members.model.dto.notifications.NotificationDTO;
+import net.impacthub.members.model.dto.notifications.NotificationType;
 import net.impacthub.members.model.features.notifications.NotificationResponse;
 import net.impacthub.members.model.features.notifications.Records;
 
@@ -38,7 +39,7 @@ public class NotificationMapper {
                         notificationDTO.mMessage = record.getMessage__c();
                         notificationDTO.mProfilePicUrl = record.getProfilePicURL__c();
                         notificationDTO.mCreatedDate = record.getCreatedDate();
-                        notificationDTO.mType = record.getType__c();
+                        notificationDTO.mNotificationIcon = NotificationType.fromString(record.getType__c()).getIcon();
                         notificationDTOList.add(notificationDTO);
                     }
                 }

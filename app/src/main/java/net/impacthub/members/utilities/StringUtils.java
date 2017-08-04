@@ -9,7 +9,7 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.model.dto.notifications;
+package net.impacthub.members.utilities;
 
 /**
  * @author Filippo Ash
@@ -17,10 +17,13 @@ package net.impacthub.members.model.dto.notifications;
  * @date 8/4/2017.
  */
 
-public class NotificationDTO {
+public final class StringUtils {
 
-    public String mMessage;
-    public String mProfilePicUrl;
-    public String mCreatedDate;
-    public int mNotificationIcon;
+    private StringUtils() {
+        throw new IllegalAccessError("Never instantiate a utility class.");
+    }
+
+    public boolean isEqual(String first, String second) {
+        return true;
+    }
 }

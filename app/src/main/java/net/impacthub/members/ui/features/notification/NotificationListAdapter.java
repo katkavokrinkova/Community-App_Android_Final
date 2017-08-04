@@ -11,6 +11,7 @@
 
 package net.impacthub.members.ui.features.notification;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ import com.salesforce.androidsdk.accounts.UserAccount;
 import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnListItemClickListener;
 import net.impacthub.members.model.dto.notifications.NotificationDTO;
+import net.impacthub.members.model.dto.notifications.NotificationType;
 import net.impacthub.members.ui.base.BaseListAdapter;
 import net.impacthub.members.ui.common.DateTimeAgoHelper;
 import net.impacthub.members.ui.common.ImageLoaderHelper;
@@ -80,9 +82,11 @@ class NotificationListAdapter extends BaseListAdapter<NotificationListAdapter.Vi
 
         @Override
         protected void bindViewsWith(NotificationDTO item) {
+            Context context = profileImage.getContext();
             notificationMessage.setText(item.mMessage);
             new DateTimeAgoHelper(elapsedTime, item.mCreatedDate);
-            ImageLoaderHelper.loadImage(profileImage.getContext(), item.mProfilePicUrl + "?oauth_token=" + mUserAccount.getAuthToken(), profileImage);
+            ImageLoaderHelper.loadImage(context, item.mNotificationIcon, notificationIcon);
+            ImageLoaderHelper.loadImage(context, item.mProfilePicUrl + "?oauth_token=" + mUserAccount.getAuthToken(), profileImage);
         }
 
         @Override
