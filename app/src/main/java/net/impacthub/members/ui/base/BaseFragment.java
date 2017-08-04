@@ -92,8 +92,8 @@ public abstract class BaseFragment<P extends UiPresenter<? extends UiContract>> 
     }
 
     public void onChangeStatus(boolean showProgressBar) {
-        if(showProgressBar) ViewUtils.visible(mProgressBar);
-        else ViewUtils.gone(mProgressBar);
+        if(showProgressBar && mProgressBar != null) ViewUtils.visible(mProgressBar);
+        else if(mProgressBar != null) ViewUtils.gone(mProgressBar);
     }
 
     public void onError(Throwable throwable) {

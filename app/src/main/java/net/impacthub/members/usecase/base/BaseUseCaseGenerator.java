@@ -11,9 +11,12 @@
 
 package net.impacthub.members.usecase.base;
 
+import com.salesforce.androidsdk.accounts.UserAccount;
+
 import net.impacthub.members.usecase.provider.ApiCall;
 import net.impacthub.members.usecase.provider.SoqlRequestFactory;
 
+import static net.impacthub.members.application.salesforce.SalesforceModuleDependency.userAccountProvider;
 import static net.impacthub.members.usecase.provider.UseCaseModule.apiCallProvider;
 import static net.impacthub.members.usecase.provider.UseCaseModule.soqlRequestFactoryProvider;
 
@@ -27,6 +30,15 @@ public abstract class BaseUseCaseGenerator<UC, R> implements UseCaseGenerator<UC
 
     private final ApiCall<R> mFiltersApiCall = apiCallProvider();
     private final SoqlRequestFactory mSoqlRequestFactory = soqlRequestFactoryProvider();
+    private final UserAccount mUserAccount;
+
+    public BaseUseCaseGenerator() {
+        this(userAccountProvider());
+    }
+
+    BaseUseCaseGenerator(UserAccount userAccount) {
+        mUserAccount = userAccount;
+    }
 
     protected ApiCall<R> getFiltersApiCall() {
         return mFiltersApiCall;
@@ -34,5 +46,9 @@ public abstract class BaseUseCaseGenerator<UC, R> implements UseCaseGenerator<UC
 
     protected SoqlRequestFactory getSoqlRequestFactory() {
         return mSoqlRequestFactory;
+    }
+
+    protected UserAccount getUserAccount() {
+        return mUserAccount;
     }
 }

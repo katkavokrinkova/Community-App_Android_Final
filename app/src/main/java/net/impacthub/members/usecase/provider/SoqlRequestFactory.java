@@ -11,9 +11,16 @@
 
 package net.impacthub.members.usecase.provider;
 
+import android.support.annotation.NonNull;
+
+import com.salesforce.androidsdk.rest.ApiVersionStrings;
 import com.salesforce.androidsdk.rest.RestRequest;
 
 import net.impacthub.members.application.salesforce.RestRequestFactory;
+import net.impacthub.members.model.features.messages.OutgoingMessage;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 
@@ -63,5 +70,51 @@ public class SoqlRequestFactory {
 
     public RestRequest createMemberSkillsRequest(String memberId) throws UnsupportedEncodingException {
         return mRestRequestFactory.getForQuery(String.format(memberSkillsQuery, memberId));
+    }
+
+    public RestRequest createConversationsRequest(String communityId) {
+        return new RestRequest(RestRequest.RestMethod.GET,
+                getPath(communityId, "users/me/", "conversations?filterGroup=Small"));
+    }
+
+    public RestRequest createConversationMessagesRequest(String communityId, String conversationId) {
+        return new RestRequest(RestRequest.RestMethod.GET,
+                getPath(communityId, "users/me/", "conversations/" + conversationId + "?filterGroup=Small"));
+    }
+
+    public RestRequest createMarkConversationReadRequest(String communityId, String conversationId) {
+        return new RestRequest(RestRequest.RestMethod.PATCH,
+                getPath(communityId, "users/me/", "conversations/" + conversationId + "?include=/read"),
+                createBodyWith("{\"read\":true}"));
+    }
+
+    public RestRequest createSendMessageRequest(String communityId, String messageBody, String messageId) {
+        return new RestRequest(RestRequest.RestMethod.POST,
+                getPath(communityId, "users/me/", "messages?include=/id"),
+                new OutgoingMessage.Builder()
+                        .body(messageBody)
+                        .inReplyTo(messageId)
+                        .build().toJson());
+    }
+
+    public RestRequest createChatterFeedRequest(String communityId, String feedId) {
+        return new RestRequest(RestRequest.RestMethod.GET,
+                getPath(communityId, "feeds/record/", feedId + "/feed-elements?filterGroup=Medium"));
+    }
+
+    @NonNull
+    private JSONObject createBodyWith(String jsonText) {
+        try {
+            return new JSONObject(jsonText);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @NonNull
+    private String getPath(final String communityId, final String path, final String subject) {
+        return ApiVersionStrings.getBaseConnectPath() +
+                "communities/" + communityId +
+                "/chatter/" + path + subject;
     }
 }
