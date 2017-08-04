@@ -4,6 +4,7 @@
     <dimen name="button_size">140dp</dimen>
     <dimen name="button_margin_bottom">5dp</dimen>
     <dimen name="button_margin_side">10dp</dimen>
+    <dimen name="medium_image_thumbnail">40dp</dimen>
     <dimen name="large_image_thumbnail">60dp</dimen>
     <dimen name="message_thumbnail">25dp</dimen>
     <dimen name="message_bubble_corner_radius">20dp</dimen>
@@ -18,6 +19,9 @@
     <dimen name="item_shadow_radius">10dp</dimen>
     <dimen name="search_bubble_radius">30dp</dimen>
     <dimen name="connect_button_gap">13dp</dimen>
+    <dimen name="default_content_small_gap">5dp</dimen>
+    <dimen name="default_content_medium_gap">8dp</dimen>
+    <dimen name="default_content_large_gap">16dp</dimen>
     <dimen name="nav_bar_height">56dp</dimen>
     <dimen name="default_rounded_bg_radius">8dp</dimen>
     <dimen name="default_rounded_bg_medium_radius">16dp</dimen>

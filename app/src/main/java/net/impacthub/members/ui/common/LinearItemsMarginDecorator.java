@@ -12,10 +12,20 @@ import android.view.View;
 
 public class LinearItemsMarginDecorator extends RecyclerView.ItemDecoration {
 
-    private final int mSpaceSize;
+    private final int mLeftSpaceSize;
+    private final int mRightSpaceSize;
+    private final int mTopSpaceSize;
+    private final int mBottomSpaceSize;
 
     public LinearItemsMarginDecorator(int spaceSize) {
-        mSpaceSize = spaceSize;
+        this(spaceSize, spaceSize, spaceSize, spaceSize);
+    }
+
+    public LinearItemsMarginDecorator(int leftSpaceSize, int rightSpaceSize, int topSpaceSize, int bottomSpaceSize) {
+        mLeftSpaceSize = leftSpaceSize;
+        mRightSpaceSize = rightSpaceSize;
+        mTopSpaceSize = topSpaceSize;
+        mBottomSpaceSize = bottomSpaceSize;
     }
 
     @Override
@@ -24,12 +34,12 @@ public class LinearItemsMarginDecorator extends RecyclerView.ItemDecoration {
         int position = parent.getChildAdapterPosition(view);
 
         if (position < 1) {
-            outRect.top = mSpaceSize;
+            outRect.top = mTopSpaceSize;
         } else {
             outRect.top = 0;
         }
-        outRect.left = mSpaceSize;
-        outRect.right = mSpaceSize;
-        outRect.bottom = mSpaceSize;
+        outRect.left = mLeftSpaceSize;
+        outRect.right = mRightSpaceSize;
+        outRect.bottom = mBottomSpaceSize;
     }
 }

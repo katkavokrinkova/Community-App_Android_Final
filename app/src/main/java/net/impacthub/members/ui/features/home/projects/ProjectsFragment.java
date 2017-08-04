@@ -14,10 +14,14 @@ package net.impacthub.members.ui.features.home.projects;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import net.impacthub.members.R;
 import net.impacthub.members.ui.base.BaseChildFragment;
+import net.impacthub.members.ui.common.AppFragmentPagerAdapter;
+import net.impacthub.members.ui.features.home.members.MembersFragment;
 
 import butterknife.BindView;
 
@@ -29,7 +33,10 @@ import butterknife.BindView;
 
 public class ProjectsFragment extends BaseChildFragment {
 
+    private static final String TAB_TITLES[] = {"ALL", "PROJECT YOU MANAGE", "YOUR PROJECT"};
+
     @BindView(R.id.tabs) protected TabLayout mProjectsTab;
+    @BindView(R.id.pager) protected ViewPager mProjectPages;
 
     public static ProjectsFragment newInstance() {
         
@@ -50,8 +57,26 @@ public class ProjectsFragment extends BaseChildFragment {
         super.onViewCreated(view, savedInstanceState);
         setUpToolbar(R.string.label_projects);
 
-        mProjectsTab.addTab(mProjectsTab.newTab().setCustomView(createTabTitle("ALL")));
-        mProjectsTab.addTab(mProjectsTab.newTab().setCustomView(createTabTitle("PROJECTS YOU MANAGE")));
-        mProjectsTab.addTab(mProjectsTab.newTab().setCustomView(createTabTitle("YOUR PROJECTS")));
+        AppFragmentPagerAdapter adapter = new AppFragmentPagerAdapter(getChildFragmentManager(), new AppFragmentPagerAdapter.PagerAdapterInterface() {
+            @Override
+            public Fragment getItem(int position) {
+                return MembersFragment.newInstance();
+            }
+
+            @Override
+            public int getCount() {
+                return 3;
+            }
+        });
+        mProjectPages.setAdapter(adapter);
+        mProjectPages.setOffscreenPageLimit(adapter.getCount());
+        mProjectsTab.setupWithViewPager(mProjectPages);
+
+        for (int i = 0; i < mProjectsTab.getTabCount(); i++) {
+            TabLayout.Tab tabAt = mProjectsTab.getTabAt(i);
+            if (tabAt != null) {
+                tabAt.setCustomView(createTabTitle(TAB_TITLES[i]));
+            }
+        }
     }
 }

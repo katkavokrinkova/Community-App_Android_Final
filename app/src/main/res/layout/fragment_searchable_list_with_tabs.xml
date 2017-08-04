@@ -30,16 +30,22 @@
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:tabGravity="fill"
             app:tabIndicatorColor="@color/colorPrimary"
             app:tabIndicatorHeight="1dp"
             app:tabMode="scrollable" />
 
-        <include layout="@layout/search_bar_layout" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include layout="@layout/search_bar_layout" />
+
+            <include layout="@layout/top_shadow_layout" />
+        </FrameLayout>
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/common_list_layout" />
+    <include layout="@layout/common_pager_layout" />
 
 </android.support.design.widget.CoordinatorLayout>

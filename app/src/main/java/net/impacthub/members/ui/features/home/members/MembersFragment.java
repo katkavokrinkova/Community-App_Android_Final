@@ -14,6 +14,7 @@ import net.impacthub.members.model.features.members.Member;
 import net.impacthub.members.presenter.features.members.MembersPresenter;
 import net.impacthub.members.presenter.features.members.MembersUiContract;
 import net.impacthub.members.ui.base.BaseChildFragment;
+import net.impacthub.members.ui.common.LinearItemsMarginDecorator;
 import net.impacthub.members.ui.features.filters.FilterActivity;
 
 import java.util.List;
@@ -55,6 +56,9 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
         RecyclerView membersList = (RecyclerView) view.findViewById(R.id.list_items);
         ImageButton filterButton = (ImageButton) view.findViewById(R.id.filter_button);
         membersList.setHasFixedSize(true);
+        int offset = getResources().getDimensionPixelOffset(R.dimen.default_content_small_gap);
+        membersList.addItemDecoration(new LinearItemsMarginDecorator(offset, offset, 0, 0));
+
         mAdapter = new MembersListAdapter(getActivity().getLayoutInflater());
         mAdapter.setItemClickListener(this);
         membersList.setAdapter(mAdapter);

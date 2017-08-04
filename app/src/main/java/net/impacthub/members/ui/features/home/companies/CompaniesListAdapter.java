@@ -9,7 +9,7 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.ui.features.notification;
+package net.impacthub.members.ui.features.home.companies;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -23,12 +23,10 @@ import com.salesforce.androidsdk.accounts.UserAccount;
 
 import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnListItemClickListener;
-import net.impacthub.members.model.dto.notifications.NotificationDTO;
+import net.impacthub.members.model.dto.companies.CompanyDTO;
 import net.impacthub.members.ui.base.BaseListAdapter;
-import net.impacthub.members.ui.common.DateTimeAgoHelper;
 import net.impacthub.members.ui.common.ImageLoaderHelper;
 import net.impacthub.members.ui.common.RecyclerViewHolder;
-import net.impacthub.members.ui.widgets.CircleImageView;
 
 import static net.impacthub.members.application.salesforce.SalesforceModuleDependency.userAccountProvider;
 
@@ -38,19 +36,19 @@ import static net.impacthub.members.application.salesforce.SalesforceModuleDepen
  * @date 8/4/2017.
  */
 
-class NotificationListAdapter extends BaseListAdapter<NotificationListAdapter.ViewHolder, NotificationDTO> {
+class CompaniesListAdapter extends BaseListAdapter<CompaniesListAdapter.ViewHolder, CompanyDTO> {
 
     private final UserAccount mUserAccount = userAccountProvider();
     private final LayoutInflater mLayoutInflater;
-    private OnListItemClickListener<NotificationDTO> mItemClickListener;
+    private OnListItemClickListener<CompanyDTO> mItemClickListener;
 
-    NotificationListAdapter(LayoutInflater inflater) {
+    CompaniesListAdapter(LayoutInflater inflater) {
         mLayoutInflater = inflater;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View container = mLayoutInflater.inflate(R.layout.item_notification_layout, parent, false);
+        View container = mLayoutInflater.inflate(R.layout.item_companies_layout, parent, false);
         return new ViewHolder(container);
     }
 
@@ -59,33 +57,40 @@ class NotificationListAdapter extends BaseListAdapter<NotificationListAdapter.Vi
         holder.bindViewsWith(getItem(position));
     }
 
-    void setItemClickListener(@NonNull OnListItemClickListener<NotificationDTO> itemClickListener) {
+    void setItemClickListener(@NonNull OnListItemClickListener<CompanyDTO> itemClickListener) {
         mItemClickListener = itemClickListener;
     }
 
-    class ViewHolder extends RecyclerViewHolder<NotificationDTO> implements View.OnClickListener {
+    class ViewHolder extends RecyclerViewHolder<CompanyDTO> implements View.OnClickListener {
 
-        final CircleImageView profileImage;
-        final TextView notificationMessage;
-        final TextView elapsedTime;
-        final ImageView notificationIcon;
+        final ImageView companyBannerLogo;
+        final ImageView companyBannerImage;
+        final TextView companyName;
+        final TextView companySector;
+        final TextView  memberCount;
+        final TextView  locations;
 
         ViewHolder(View itemView) {
             super(itemView);
-            profileImage = (CircleImageView) itemView.findViewById(R.id.image_profile_picture);
-            notificationMessage = (TextView) itemView.findViewById(R.id.text_notification_message);
-            elapsedTime = (TextView) itemView.findViewById(R.id.text_elapsed_time);
-            notificationIcon = (ImageView) itemView.findViewById(R.id.image_notification_type);
+            companyBannerLogo = (ImageView) itemView.findViewById(R.id.image_company_logo);
+            companyBannerImage = (ImageView) itemView.findViewById(R.id.image_company_banner);
+            companyName = (TextView) itemView.findViewById(R.id.text_company_name);
+            companySector = (TextView) itemView.findViewById(R.id.text_company_sector);
+            memberCount = (TextView) itemView.findViewById(R.id.member_count);
+            locations = (TextView) itemView.findViewById(R.id.locations);
             itemView.setOnClickListener(this);
         }
 
         @Override
-        protected void bindViewsWith(NotificationDTO item) {
-            Context context = profileImage.getContext();
-            notificationMessage.setText(item.mMessage);
-            new DateTimeAgoHelper(elapsedTime, item.mCreatedDate);
-            ImageLoaderHelper.loadImage(context, item.mNotificationIcon, notificationIcon);
-            ImageLoaderHelper.loadImage(context, item.mProfilePicUrl + "?oauth_token=" + mUserAccount.getAuthToken(), profileImage);
+        protected void bindViewsWith(CompanyDTO item) {
+            Context context = companyBannerImage.getContext();
+            companyName.setText(item.mCompanyName);
+            companySector.setText(item.mCompanySector);
+            memberCount.setText(item.mCompanyMemberCount);
+            locations.setText(item.mCompanyLocation);
+            String token = "?oauth_token=" + mUserAccount.getAuthToken();
+            ImageLoaderHelper.loadImage(context, item.mCompanyLogo + token, companyBannerLogo);
+            ImageLoaderHelper.loadImage(context, item.mCompanyBanner + token, companyBannerImage);
         }
 
         @Override
