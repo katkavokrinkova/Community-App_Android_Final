@@ -30,14 +30,13 @@ import io.reactivex.observers.DisposableSingleObserver;
 
 public class ProfilePresenter extends UiPresenter<ProfileUiContract> {
 
-    private UseCaseGenerator<Single<ProfileResponse>> mProfileUseCase;
+    private final UseCaseGenerator<Single<ProfileResponse>> mProfileUseCase = new ProfileUseCase();
 
     public ProfilePresenter(ProfileUiContract uiContract) {
         super(uiContract);
     }
 
-    public void getProfile(String userId) {
-        mProfileUseCase = new ProfileUseCase(userId);
+    public void getProfile() {
         subscribeWith(mProfileUseCase.getUseCase(),
                 new DisposableSingleObserver<ProfileResponse>() {
                     @Override

@@ -58,6 +58,10 @@ public class SoqlRequestFactory {
             " Logo_Image_Url__c, Banner_Image_Url__c,Affiliated_SDG__c, Twitter__c, Instagram__c, Facebook__c, LinkedIn__c," +
             " Website, About_Us__c FROM account where id IN (SELECT accountid FROM contact WHERE user__c != null)";
 
+    private static final String GROUPS = "SELECT id, name, CountOfMembers__c, ImageURL__c, Group_Desc__c,Related_Impact_Goal__c," +
+            " Impact_Hub_Cities__c, ChatterGroupId__c, Directory_Style__c,Sector__c FROM Directory__c " +
+            "WHERE Directory_Style__c = 'Group' AND id IN (SELECT DirectoryID__c FROM Directory_Member__c WHERE ContactID__c ='%s')";
+
     private final RestRequestFactory mRestRequestFactory = restRequestFactoryProvider();
 
     public RestRequest createGetProfileRequest(String memberId) throws UnsupportedEncodingException {
@@ -78,6 +82,10 @@ public class SoqlRequestFactory {
 
     public RestRequest createCompaniesRequest() throws UnsupportedEncodingException {
         return mRestRequestFactory.getForQuery(COMPANIES);
+    }
+
+    public RestRequest createGroupRequest(String contactId) throws UnsupportedEncodingException {
+        return mRestRequestFactory.getForQuery(String.format(GROUPS, contactId));
     }
 
     public RestRequest createMemberDetailRequest(String memberId) throws UnsupportedEncodingException {

@@ -9,12 +9,18 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.presenter.features.groups;
+package net.impacthub.members.model.dto.groups;
 
-import net.impacthub.members.model.features.chatterfeed.FeedElements;
-import net.impacthub.members.presenter.features.error.ErrorHandlerUiContract;
+/**
+ * @author Filippo Ash
+ * @version 1.0
+ * @date 8/4/2017.
+ */
 
-public interface ChatterfeedUiContract extends ErrorHandlerUiContract {
+public class GroupDTO {
 
-    void onLoadChatterfeed(FeedElements feedElements);
+    public String mName;
+    public String mImageURL;
+    public String mCities;
+    public String mMemberCount;
 }

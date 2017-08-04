@@ -69,7 +69,7 @@ public class CompaniesFragment extends BaseChildFragment<CompaniesUiPresenter> i
         mCompanyList.addItemDecoration(new LinearItemsMarginDecorator(offset, offset, 0, 0));
         mCompanyList.setAdapter(mAdapter);
 
-        getPresenter().getConpanies();
+        getPresenter().getCompanies();
     }
 
     @Override

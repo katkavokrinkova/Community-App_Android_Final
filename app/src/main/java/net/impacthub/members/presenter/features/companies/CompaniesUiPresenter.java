@@ -38,17 +38,20 @@ public class CompaniesUiPresenter extends UiPresenter<CompaniesUiContract> {
         super(uiContract);
     }
 
-    public void getConpanies() {
+    public void getCompanies() {
+        getUi().onChangeStatus(true);
         subscribeWith(mCompaniesUseCase.getUseCase(), new DisposableSingleObserver<CompaniesResponse>() {
             @Override
             public void onSuccess(@NonNull CompaniesResponse response) {
                 List<CompanyDTO> companies = new CompaniesMapper().map(response);
                 getUi().onLoadCompanies(companies);
+                getUi().onChangeStatus(false);
             }
 
             @Override
             public void onError(@NonNull Throwable e) {
-
+                getUi().onError(e);
+                getUi().onChangeStatus(false);
             }
         });
     }

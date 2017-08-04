@@ -11,35 +11,60 @@
 
 package net.impacthub.members.presenter.features.groups;
 
-
-import net.impacthub.members.model.features.chatterfeed.FeedElements;
+import net.impacthub.members.mapper.groups.GroupsMapper;
+import net.impacthub.members.model.dto.groups.GroupDTO;
+import net.impacthub.members.model.features.groups.GroupsResponse;
+import net.impacthub.members.model.features.profile.ProfileResponse;
+import net.impacthub.members.model.features.profile.Records;
 import net.impacthub.members.presenter.base.UiPresenter;
 import net.impacthub.members.usecase.base.UseCaseGenerator;
-import net.impacthub.members.usecase.features.groups.ChatterFeedUseCase;
+import net.impacthub.members.usecase.features.groups.GroupsUseCase;
+import net.impacthub.members.usecase.features.profile.ProfileUseCase;
+
+import java.util.List;
 
 import io.reactivex.Single;
+import io.reactivex.SingleSource;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableSingleObserver;
 
-public class GroupPresenter extends UiPresenter<ChatterfeedUiContract> {
+/**
+ * @author Filippo Ash
+ * @version 1.0
+ * @date 8/4/2017.
+ */
 
-    private final UseCaseGenerator<Single<FeedElements>> mObservableGenerator;
+public class GroupPresenter extends UiPresenter<GroupUiContract> {
 
-    public GroupPresenter(ChatterfeedUiContract uiContract, String feedId) {
+    private final UseCaseGenerator<Single<ProfileResponse>> mProfileUseCase = new ProfileUseCase();
+
+    public GroupPresenter(GroupUiContract uiContract) {
         super(uiContract);
-        mObservableGenerator = new ChatterFeedUseCase(feedId);
     }
 
-    public void loadChatterfeed() {
-        subscribeWith(mObservableGenerator.getUseCase(), new DisposableSingleObserver<FeedElements>() {
+    public void getGroups() {
+        getUi().onChangeStatus(true);
+        Single<GroupsResponse> single = mProfileUseCase.getUseCase()
+                .flatMap(new Function<ProfileResponse, SingleSource<GroupsResponse>>() {
+                    @Override
+                    public SingleSource<GroupsResponse> apply(@NonNull ProfileResponse profileResponse) throws Exception {
+                        Records record = profileResponse.getRecords()[0];
+                        return new GroupsUseCase(record.getId()).getUseCase();
+                    }
+                });
+        subscribeWith(single, new DisposableSingleObserver<GroupsResponse>() {
             @Override
-            public void onSuccess(@NonNull FeedElements feedElements) {
-                getUi().onLoadChatterfeed(feedElements);
+            public void onSuccess(@NonNull GroupsResponse response) {
+                List<GroupDTO> groupList = new GroupsMapper().map(response);
+                getUi().onLoadGroups(groupList);
+                getUi().onChangeStatus(false);
             }
 
             @Override
             public void onError(@NonNull Throwable e) {
                 getUi().onError(e);
+                getUi().onChangeStatus(false);
             }
         });
     }

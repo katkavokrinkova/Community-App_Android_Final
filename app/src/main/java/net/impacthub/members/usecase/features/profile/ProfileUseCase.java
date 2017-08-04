@@ -26,18 +26,12 @@ import io.reactivex.Single;
 
 public class ProfileUseCase extends BaseUseCaseGenerator<Single<ProfileResponse>, ProfileResponse> {
 
-    private String mProfileId;
-
-    public ProfileUseCase(String profileId) {
-        mProfileId = profileId;
-    }
-
     @Override
     public Single<ProfileResponse> getUseCase() {
         return Single.fromCallable(new Callable<ProfileResponse>() {
             @Override
             public ProfileResponse call() throws Exception {
-                return getFiltersApiCall().getResponse(getSoqlRequestFactory().createGetProfileRequest(mProfileId) , ProfileResponse.class);
+                return getFiltersApiCall().getResponse(getSoqlRequestFactory().createGetProfileRequest(getUserAccount().getUserId()) , ProfileResponse.class);
             }
         });
     }

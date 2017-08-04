@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2017 Lightful. All Rights Reserved.
+  ~
+  ~ Save to the extent permitted by law, you may not use, copy, modify,
+  ~ distribute or create derivative works of this material or any part
+  ~ of it without the prior written consent of Lightful.
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/item_shadow"
+    android:orientation="vertical"
+    android:padding="12dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <net.impacthub.members.ui.widgets.RoundedImageView
+            android:id="@+id/image_group"
+            app:riv_corner_radius="8dp"
+            android:layout_width="110dp"
+            android:layout_height="110dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:orientation="vertical">
+
+            <net.impacthub.members.ui.widgets.TypefaceTextView
+                android:id="@+id/text_group_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:maxLines="3"
+                android:textColor="@color/greyish_brown"
+                android:textSize="18sp"
+                app:typeface="fonts/gt-walsheim-light-web.ttf"
+                tools:text="A guide to reaching your sustainable development goals" />
+
+            <include layout="@layout/layout_location_info" />
+
+            <include layout="@layout/layout_member_count_info" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
