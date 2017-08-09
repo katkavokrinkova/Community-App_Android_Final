@@ -29,7 +29,7 @@ import java.util.List;
  * @date 8/1/2017.
  */
 
-public class HomeFragment extends BaseChildFragment implements OnListItemClickListener<Integer> {
+public class HomeFragment extends BaseChildFragment implements OnListItemClickListener<HomeMenuItem> {
 
     public static HomeFragment newInstance() {
 
@@ -59,19 +59,19 @@ public class HomeFragment extends BaseChildFragment implements OnListItemClickLi
         adapter.setItemClickListener(this);
         homeMenuList.setAdapter(adapter);
         List<HomeMenuItem> homeMenuItems = new LinkedList<>();
-        homeMenuItems.add(new HomeMenuItem(R.mipmap.ic_members, getString(R.string.label_members)));
-        homeMenuItems.add(new HomeMenuItem(R.mipmap.ic_companies, getString(R.string.label_companies)));
-        homeMenuItems.add(new HomeMenuItem(R.mipmap.ic_groups, getString(R.string.label_groups)));
-        homeMenuItems.add(new HomeMenuItem(R.mipmap.ic_goals, getString(R.string.label_goals)));
-        homeMenuItems.add(new HomeMenuItem(R.mipmap.ic_jobs, getString(R.string.label_jobs)));
-        homeMenuItems.add(new HomeMenuItem(R.mipmap.ic_events, getString(R.string.label_events)));
-        homeMenuItems.add(new HomeMenuItem(R.mipmap.ic_projects, getString(R.string.label_projects)));
+        homeMenuItems.add(new HomeMenuItem(R.mipmap.ic_members, getString(R.string.label_members), 0));
+        homeMenuItems.add(new HomeMenuItem(R.mipmap.ic_companies, getString(R.string.label_companies), 1));
+        homeMenuItems.add(new HomeMenuItem(R.mipmap.ic_groups, getString(R.string.label_groups), 2));
+        homeMenuItems.add(new HomeMenuItem(R.mipmap.ic_goals, getString(R.string.label_goals), 3));
+        homeMenuItems.add(new HomeMenuItem(R.mipmap.ic_jobs, getString(R.string.label_jobs), 4));
+        homeMenuItems.add(new HomeMenuItem(R.mipmap.ic_events, getString(R.string.label_events), 5));
+        homeMenuItems.add(new HomeMenuItem(R.mipmap.ic_projects, getString(R.string.label_projects), 6));
         adapter.setItems(homeMenuItems);
     }
 
     @Override
-    public void onItemClick(Integer model) {
-        switch (model) {
+    public void onItemClick(HomeMenuItem model) {
+        switch (model.getPosition()) {
             case 0:
                 addChildFragment(MembersFragment.newInstance(), "FRAG_MEMBERS");
                 break;

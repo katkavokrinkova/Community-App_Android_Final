@@ -12,10 +12,12 @@ public class HomeMenuItem {
 
     @DrawableRes private final int mHomeMenuIconRes;
     private final String mHomeMenuTitle;
+    private final int mPosition;
 
-    public HomeMenuItem(@DrawableRes int homeMenuIconRes, String homeMenuTitle) {
+    public HomeMenuItem(@DrawableRes int homeMenuIconRes, String homeMenuTitle, int position) {
         mHomeMenuIconRes = homeMenuIconRes;
         mHomeMenuTitle = homeMenuTitle;
+        mPosition = position;
     }
 
     public int getHomeMenuIconRes() {
@@ -24,5 +26,9 @@ public class HomeMenuItem {
 
     public String getHomeMenuTitle() {
         return mHomeMenuTitle;
+    }
+
+    public int getPosition() {
+        return mPosition;
     }
 }

@@ -1,9 +1,17 @@
 package net.impacthub.members.ui.base;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+
+import com.salesforce.androidsdk.accounts.UserAccount;
+
+import net.impacthub.members.model.callback.OnListItemClickListener;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import static net.impacthub.members.application.salesforce.SalesforceModuleDependency.userAccountProvider;
 
 /**
  * @author Filippo Ash
@@ -11,11 +19,30 @@ import java.util.List;
  * @date 8/1/2017.
  */
 
-public abstract class BaseListAdapter<VH extends RecyclerView.ViewHolder, I> extends RecyclerView.Adapter<VH> {
+public abstract class BaseListAdapter<VH extends RecyclerView.ViewHolder, DTO> extends RecyclerView.Adapter<VH> {
 
-    private final List<I> mItems = new LinkedList<>();
+    private final UserAccount mUserAccount = userAccountProvider();
+    private final List<DTO> mItems = new LinkedList<>();
+    private final LayoutInflater mLayoutInflater;
+    protected OnListItemClickListener<DTO> mItemClickListener;
 
-    public void setItems(List<I> items) {
+    protected BaseListAdapter(LayoutInflater inflater) {
+        mLayoutInflater = inflater;
+    }
+
+    protected LayoutInflater getLayoutInflater() {
+        return mLayoutInflater;
+    }
+
+    public void setItemClickListener(@NonNull OnListItemClickListener<DTO> itemClickListener) {
+        mItemClickListener = itemClickListener;
+    }
+
+    protected String buildUrl(String url) {
+        return url + "?oauth_token=" + mUserAccount.getAuthToken();
+    }
+
+    public void setItems(List<DTO> items) {
         mItems.clear();
         mItems.addAll(items);
         notifyDataSetChanged();
@@ -26,7 +53,7 @@ public abstract class BaseListAdapter<VH extends RecyclerView.ViewHolder, I> ext
         return mItems.size();
     }
 
-    protected I getItem(int index) {
+    protected DTO getItem(int index) {
         return mItems.get(index);
     }
 }

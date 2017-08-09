@@ -12,25 +12,19 @@
 package net.impacthub.members.ui.features.notification;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.salesforce.androidsdk.accounts.UserAccount;
-
 import net.impacthub.members.R;
-import net.impacthub.members.model.callback.OnListItemClickListener;
 import net.impacthub.members.model.dto.notifications.NotificationDTO;
 import net.impacthub.members.ui.base.BaseListAdapter;
 import net.impacthub.members.ui.common.DateTimeAgoHelper;
 import net.impacthub.members.ui.common.ImageLoaderHelper;
 import net.impacthub.members.ui.common.RecyclerViewHolder;
 import net.impacthub.members.ui.widgets.CircleImageView;
-
-import static net.impacthub.members.application.salesforce.SalesforceModuleDependency.userAccountProvider;
 
 /**
  * @author Filippo Ash
@@ -40,27 +34,19 @@ import static net.impacthub.members.application.salesforce.SalesforceModuleDepen
 
 class NotificationListAdapter extends BaseListAdapter<NotificationListAdapter.ViewHolder, NotificationDTO> {
 
-    private final UserAccount mUserAccount = userAccountProvider();
-    private final LayoutInflater mLayoutInflater;
-    private OnListItemClickListener<NotificationDTO> mItemClickListener;
-
     NotificationListAdapter(LayoutInflater inflater) {
-        mLayoutInflater = inflater;
+        super(inflater);
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View container = mLayoutInflater.inflate(R.layout.item_notification_layout, parent, false);
+        View container = getLayoutInflater().inflate(R.layout.item_notification_layout, parent, false);
         return new ViewHolder(container);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.bindViewsWith(getItem(position));
-    }
-
-    void setItemClickListener(@NonNull OnListItemClickListener<NotificationDTO> itemClickListener) {
-        mItemClickListener = itemClickListener;
     }
 
     class ViewHolder extends RecyclerViewHolder<NotificationDTO> implements View.OnClickListener {
@@ -85,7 +71,7 @@ class NotificationListAdapter extends BaseListAdapter<NotificationListAdapter.Vi
             notificationMessage.setText(item.mMessage);
             new DateTimeAgoHelper(elapsedTime, item.mCreatedDate);
             ImageLoaderHelper.loadImage(context, item.mNotificationIcon, notificationIcon);
-            ImageLoaderHelper.loadImage(context, item.mProfilePicUrl + "?oauth_token=" + mUserAccount.getAuthToken(), profileImage);
+            ImageLoaderHelper.loadImage(context, buildUrl(item.mProfilePicUrl), profileImage);
         }
 
         @Override

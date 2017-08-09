@@ -1,22 +1,16 @@
 package net.impacthub.members.ui.features.home.members;
 
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.salesforce.androidsdk.accounts.UserAccount;
-
 import net.impacthub.members.R;
-import net.impacthub.members.model.callback.OnListItemClickListener;
 import net.impacthub.members.model.features.members.Member;
 import net.impacthub.members.ui.base.BaseListAdapter;
+import net.impacthub.members.ui.common.ImageLoaderHelper;
 import net.impacthub.members.ui.common.RecyclerViewHolder;
 import net.impacthub.members.ui.widgets.CircleImageView;
-import net.impacthub.members.ui.common.ImageLoaderHelper;
-
-import static net.impacthub.members.application.salesforce.SalesforceModuleDependency.userAccountProvider;
 
 /**
  * @author Filippo Ash
@@ -26,27 +20,19 @@ import static net.impacthub.members.application.salesforce.SalesforceModuleDepen
 
 class MembersListAdapter extends BaseListAdapter<MembersListAdapter.ViewHolder, Member> {
 
-    private final UserAccount mUserAccount = userAccountProvider();
-    private final LayoutInflater mLayoutInflater;
-    private OnListItemClickListener<Member> mItemClickListener;
-
     MembersListAdapter(LayoutInflater inflater) {
-        mLayoutInflater = inflater;
+        super(inflater);
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View container = mLayoutInflater.inflate(R.layout.item_member_layout, parent, false);
+        View container = getLayoutInflater().inflate(R.layout.item_member_layout, parent, false);
         return new ViewHolder(container);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.bindViewsWith(getItem(position));
-    }
-
-    void setItemClickListener(@NonNull OnListItemClickListener<Member> itemClickListener) {
-        mItemClickListener = itemClickListener;
     }
 
     class ViewHolder extends RecyclerViewHolder<Member> implements View.OnClickListener {
@@ -72,7 +58,7 @@ class MembersListAdapter extends BaseListAdapter<MembersListAdapter.ViewHolder, 
             name.setText(item.getFirstName() + ' ' + item.getLastName());
             profession.setText(item.getProfession());
             locations.setText(item.getImpactHubCities());
-            ImageLoaderHelper.loadImage(memberImage.getContext(), item.getProfilePic() + "?oauth_token=" + mUserAccount.getAuthToken(), memberImage);
+            ImageLoaderHelper.loadImage(memberImage.getContext(), buildUrl(item.getProfilePic()), memberImage);
         }
 
         @Override

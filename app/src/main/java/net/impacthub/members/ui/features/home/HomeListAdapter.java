@@ -1,6 +1,5 @@
 package net.impacthub.members.ui.features.home;
 
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,11 +7,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.impacthub.members.R;
-import net.impacthub.members.model.callback.OnListItemClickListener;
 import net.impacthub.members.model.home.HomeMenuItem;
 import net.impacthub.members.ui.base.BaseListAdapter;
-import net.impacthub.members.ui.common.RecyclerViewHolder;
 import net.impacthub.members.ui.common.ImageLoaderHelper;
+import net.impacthub.members.ui.common.RecyclerViewHolder;
 
 /**
  * @author Filippo Ash
@@ -22,16 +20,13 @@ import net.impacthub.members.ui.common.ImageLoaderHelper;
 
 class HomeListAdapter extends BaseListAdapter<HomeListAdapter.ViewHolder, HomeMenuItem> {
 
-    private final LayoutInflater mLayoutInflater;
-    private OnListItemClickListener<Integer> mItemClickListener;
-
     HomeListAdapter(LayoutInflater inflater) {
-        mLayoutInflater = inflater;
+        super(inflater);
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = mLayoutInflater.inflate(R.layout.item_home_menu_layout, parent, false);
+        View itemView = getLayoutInflater().inflate(R.layout.item_home_menu_layout, parent, false);
         return new ViewHolder(itemView);
     }
 
@@ -39,10 +34,6 @@ class HomeListAdapter extends BaseListAdapter<HomeListAdapter.ViewHolder, HomeMe
     public void onBindViewHolder(ViewHolder holder, int position) {
         HomeMenuItem item = getItem(position);
         holder.bindViewsWith(item);
-    }
-
-    void setItemClickListener(@NonNull OnListItemClickListener<Integer> itemClickListener) {
-        mItemClickListener = itemClickListener;
     }
 
     class ViewHolder extends RecyclerViewHolder<HomeMenuItem> implements View.OnClickListener {
@@ -66,10 +57,8 @@ class HomeListAdapter extends BaseListAdapter<HomeListAdapter.ViewHolder, HomeMe
         @Override
         public void onClick(View v) {
             if (mItemClickListener != null) {
-                mItemClickListener.onItemClick(getAdapterPosition());
+                mItemClickListener.onItemClick(getItem(getAdapterPosition()));
             }
         }
     }
-
-
 }

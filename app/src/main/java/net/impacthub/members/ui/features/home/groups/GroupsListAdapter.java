@@ -12,7 +12,6 @@
 package net.impacthub.members.ui.features.home.groups;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +20,9 @@ import android.widget.TextView;
 
 import net.impacthub.members.R;
 import net.impacthub.members.model.dto.groups.GroupDTO;
-import net.impacthub.members.ui.base.BaseListMapAdapter;
+import net.impacthub.members.ui.base.BaseListAdapter;
 import net.impacthub.members.ui.common.ImageLoaderHelper;
+import net.impacthub.members.ui.common.RecyclerViewHolder;
 
 /**
  * @author Filippo Ash
@@ -30,7 +30,7 @@ import net.impacthub.members.ui.common.ImageLoaderHelper;
  * @date 8/4/2017.
  */
 
-class GroupsListAdapter extends BaseListMapAdapter<RecyclerView.ViewHolder, GroupDTO> {
+class GroupsListAdapter extends BaseListAdapter<GroupsListAdapter.GroupViewHolder, GroupDTO> {
 
     GroupsListAdapter(LayoutInflater inflater) {
         super(inflater);
@@ -43,11 +43,11 @@ class GroupsListAdapter extends BaseListMapAdapter<RecyclerView.ViewHolder, Grou
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ((GroupViewHolder) holder).bindViewsWith(getItem(position));
+    public void onBindViewHolder(GroupViewHolder holder, int position) {
+        holder.bindViewsWith(getItem(position));
     }
 
-    class GroupViewHolder extends ViewHolder {
+    class GroupViewHolder extends RecyclerViewHolder<GroupDTO> implements View.OnClickListener {
 
         final ImageView groupImage;
         final TextView groupName;
@@ -56,6 +56,7 @@ class GroupsListAdapter extends BaseListMapAdapter<RecyclerView.ViewHolder, Grou
 
         GroupViewHolder(View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
             groupImage = (ImageView) itemView.findViewById(R.id.image_group);
             groupName = (TextView) itemView.findViewById(R.id.text_group_name);
             location = (TextView) itemView.findViewById(R.id.locations);
@@ -69,6 +70,13 @@ class GroupsListAdapter extends BaseListMapAdapter<RecyclerView.ViewHolder, Grou
             location.setText(itemData.mCities);
             memberCount.setText(itemData.mMemberCount);
             ImageLoaderHelper.loadImage(context, buildUrl(itemData.mImageURL), groupImage);
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (mItemClickListener != null) {
+                mItemClickListener.onItemClick(getItem(getAdapterPosition()));
+            }
         }
     }
 }
