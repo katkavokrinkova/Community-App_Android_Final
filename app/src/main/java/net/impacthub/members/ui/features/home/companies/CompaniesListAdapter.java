@@ -38,7 +38,7 @@ class CompaniesListAdapter extends BaseListAdapter<CompaniesListAdapter.ViewHold
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View container = getLayoutInflater().inflate(R.layout.item_companies_layout, parent, false);
+        View container = getLayoutInflater().inflate(R.layout.item_company_layout, parent, false);
         return new ViewHolder(container);
     }
 

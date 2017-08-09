@@ -15,6 +15,7 @@ import net.impacthub.members.ui.base.BaseChildFragment;
 import net.impacthub.members.ui.common.LinearItemsMarginDecorator;
 import net.impacthub.members.ui.features.home.companies.CompaniesFragment;
 import net.impacthub.members.ui.features.home.events.EventsFragment;
+import net.impacthub.members.ui.features.home.goals.GoalsFragment;
 import net.impacthub.members.ui.features.home.groups.GroupsFragment;
 import net.impacthub.members.ui.features.home.jobs.JobsFragment;
 import net.impacthub.members.ui.features.home.members.MembersFragment;
@@ -81,7 +82,9 @@ public class HomeFragment extends BaseChildFragment implements OnListItemClickLi
             case 2:
                 addChildFragment(GroupsFragment.newInstance(), "FRAG_GROUPS");
                 break;
-
+            case 3:
+                addChildFragment(GoalsFragment.newInstance(), "FRAG_GOALS");
+                break;
             case 4:
                 addChildFragment(JobsFragment.newInstance(), "FRAG_JOBS");
                 break;

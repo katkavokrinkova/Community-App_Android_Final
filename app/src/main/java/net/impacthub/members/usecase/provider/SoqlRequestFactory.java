@@ -62,6 +62,8 @@ public class SoqlRequestFactory {
             " Impact_Hub_Cities__c, ChatterGroupId__c, Directory_Style__c,Sector__c FROM Directory__c " +
             "WHERE Directory_Style__c = 'Group' AND id IN (SELECT DirectoryID__c FROM Directory_Member__c WHERE ContactID__c ='%s')";
 
+    private static final String GOALS = "select id, name,  Active__c, ImageURL__c, Summary__c, Description__c from Taxonomy__c where Grouping__c ='SDG'";
+
     private final RestRequestFactory mRestRequestFactory = restRequestFactoryProvider();
 
     public RestRequest createGetProfileRequest(String memberId) throws UnsupportedEncodingException {
@@ -86,6 +88,10 @@ public class SoqlRequestFactory {
 
     public RestRequest createGroupRequest(String contactId) throws UnsupportedEncodingException {
         return mRestRequestFactory.getForQuery(String.format(GROUPS, contactId));
+    }
+
+    public RestRequest createGoalsRequest() throws UnsupportedEncodingException {
+        return mRestRequestFactory.getForQuery(GOALS);
     }
 
     public RestRequest createMemberDetailRequest(String memberId) throws UnsupportedEncodingException {
