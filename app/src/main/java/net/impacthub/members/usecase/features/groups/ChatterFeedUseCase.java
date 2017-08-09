@@ -34,7 +34,7 @@ public class ChatterFeedUseCase extends BaseUseCaseGenerator<Single<FeedElements
     private class FeedElementsCallable implements Callable<FeedElements> {
         @Override
         public FeedElements call() throws Exception {
-            return getFiltersApiCall().getResponse(getSoqlRequestFactory().createChatterFeedRequest(getUserAccount().getCommunityId(), mFeedId), FeedElements.class);
+            return getApiCall().getResponse(getSoqlRequestFactory().createChatterFeedRequest(getUserAccount().getCommunityId(), mFeedId), FeedElements.class);
         }
     }
 }

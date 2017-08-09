@@ -31,7 +31,7 @@ public class ProfileUseCase extends BaseUseCaseGenerator<Single<ProfileResponse>
         return Single.fromCallable(new Callable<ProfileResponse>() {
             @Override
             public ProfileResponse call() throws Exception {
-                return getFiltersApiCall().getResponse(getSoqlRequestFactory().createGetProfileRequest(getUserAccount().getUserId()) , ProfileResponse.class);
+                return getApiCall().getResponse(getSoqlRequestFactory().createGetProfileRequest(getUserAccount().getUserId()) , ProfileResponse.class);
             }
         });
     }

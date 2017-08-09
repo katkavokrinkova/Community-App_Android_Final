@@ -37,7 +37,7 @@ public class GroupsUseCase extends BaseUseCaseGenerator<Single<GroupsResponse>, 
         return Single.fromCallable(new Callable<GroupsResponse>() {
             @Override
             public GroupsResponse call() throws Exception {
-                return getFiltersApiCall().getResponse(getSoqlRequestFactory().createGroupRequest(mContactId), GroupsResponse.class);
+                return getApiCall().getResponse(getSoqlRequestFactory().createGroupRequest(mContactId), GroupsResponse.class);
             }
         });
     }

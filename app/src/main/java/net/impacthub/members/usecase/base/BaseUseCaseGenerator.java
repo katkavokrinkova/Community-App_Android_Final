@@ -28,7 +28,7 @@ import static net.impacthub.members.usecase.provider.UseCaseModule.soqlRequestFa
 
 public abstract class BaseUseCaseGenerator<UC, R> implements UseCaseGenerator<UC> {
 
-    private final ApiCall<R> mFiltersApiCall = apiCallProvider();
+    private final ApiCall<R> mApiCall = apiCallProvider();
     private final SoqlRequestFactory mSoqlRequestFactory = soqlRequestFactoryProvider();
     private final UserAccount mUserAccount;
 
@@ -36,12 +36,12 @@ public abstract class BaseUseCaseGenerator<UC, R> implements UseCaseGenerator<UC
         this(userAccountProvider());
     }
 
-    BaseUseCaseGenerator(UserAccount userAccount) {
+    private BaseUseCaseGenerator(UserAccount userAccount) {
         mUserAccount = userAccount;
     }
 
-    protected ApiCall<R> getFiltersApiCall() {
-        return mFiltersApiCall;
+    protected ApiCall<R> getApiCall() {
+        return mApiCall;
     }
 
     protected SoqlRequestFactory getSoqlRequestFactory() {

@@ -31,7 +31,7 @@ public class NotificationsUseCase extends BaseUseCaseGenerator<Single<Notificati
         return Single.fromCallable(new Callable<NotificationResponse>() {
             @Override
             public NotificationResponse call() throws Exception {
-                return getFiltersApiCall().getResponse(getSoqlRequestFactory().createNotificationsRequest(getUserAccount().getUserId()), NotificationResponse.class);
+                return getApiCall().getResponse(getSoqlRequestFactory().createNotificationsRequest(getUserAccount().getUserId()), NotificationResponse.class);
             }
         });
     }

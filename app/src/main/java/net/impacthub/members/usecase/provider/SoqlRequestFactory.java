@@ -64,6 +64,10 @@ public class SoqlRequestFactory {
 
     private static final String GOALS = "select id, name,  Active__c, ImageURL__c, Summary__c, Description__c from Taxonomy__c where Grouping__c ='SDG'";
 
+    private static final String JOB_COLUMNS = "id, name, Description__c, Salary__c, Job_Type__c, Sector__c,Contact__c, Location__c, Applications_Close_Date__c,Related_Impact_Goal__c,Company__c,Company__r.name,Company__r.Number_of_Employees__c, Company__r.Impact_Hub_Cities__c,Company__r.Company_Summary__c, Company__r.Sector_Industry__c, Company__r.Logo_Image_Url__c, Company__r.Banner_Image_Url__c, Company__r.Twitter__c, Company__r.Instagram__c, Company__r.Facebook__c, Company__r.LinkedIn__c, Company__r.Website, Company__r.About_Us__c,Job_Application_URL__c";
+
+    private static final String JOBS = "SELECT " +JOB_COLUMNS+" FROM Job__c WHERE Applications_Close_Date__c >= %s";
+
     private final RestRequestFactory mRestRequestFactory = restRequestFactoryProvider();
 
     public RestRequest createGetProfileRequest(String memberId) throws UnsupportedEncodingException {
@@ -92,6 +96,10 @@ public class SoqlRequestFactory {
 
     public RestRequest createGoalsRequest() throws UnsupportedEncodingException {
         return mRestRequestFactory.getForQuery(GOALS);
+    }
+
+    public RestRequest createJobsRequest(int skip, int top, String date) throws UnsupportedEncodingException {
+        return mRestRequestFactory.getForQuery(String.format(JOBS, date));
     }
 
     public RestRequest createMemberDetailRequest(String memberId) throws UnsupportedEncodingException {

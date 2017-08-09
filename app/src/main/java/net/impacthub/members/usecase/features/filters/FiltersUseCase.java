@@ -30,7 +30,7 @@ public class FiltersUseCase extends BaseUseCaseGenerator<Single<SeparatedFilters
     private class FiltersCallable implements Callable<Filters> {
         @Override
         public Filters call() throws Exception {
-            return getFiltersApiCall().getResponse(getSoqlRequestFactory().createFilterCriteriaRequest(), Filters.class);
+            return getApiCall().getResponse(getSoqlRequestFactory().createFilterCriteriaRequest(), Filters.class);
         }
     }
 

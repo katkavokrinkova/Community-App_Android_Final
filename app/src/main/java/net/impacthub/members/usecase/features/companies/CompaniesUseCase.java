@@ -31,7 +31,7 @@ public class CompaniesUseCase extends BaseUseCaseGenerator<Single<CompaniesRespo
         return Single.fromCallable(new Callable<CompaniesResponse>() {
             @Override
             public CompaniesResponse call() throws Exception {
-                return getFiltersApiCall().getResponse(getSoqlRequestFactory().createCompaniesRequest(), CompaniesResponse.class);
+                return getApiCall().getResponse(getSoqlRequestFactory().createCompaniesRequest(), CompaniesResponse.class);
             }
         });
     }

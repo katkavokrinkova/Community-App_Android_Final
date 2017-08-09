@@ -28,7 +28,7 @@ public class MembersUseCase extends BaseUseCaseGenerator<Single<List<Member>>, M
     private class MembersCallable implements Callable<Members> {
         @Override
         public Members call() throws Exception {
-            return getFiltersApiCall().getResponse(getSoqlRequestFactory().createMemberListRequest(), Members.class);
+            return getApiCall().getResponse(getSoqlRequestFactory().createMemberListRequest(), Members.class);
         }
     }
     private class MemberListExtractor implements Function<Members, List<Member>> {

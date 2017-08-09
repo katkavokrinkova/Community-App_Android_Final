@@ -9,10 +9,11 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.usecase.features.goals;
+package net.impacthub.members.usecase.features.jobs;
 
-import net.impacthub.members.model.features.goals.GoalsResponse;
+import net.impacthub.members.model.features.jobs.JobsResponse;
 import net.impacthub.members.usecase.base.BaseUseCaseGenerator;
+import net.impacthub.members.utilities.DateUtils;
 
 import java.util.concurrent.Callable;
 
@@ -24,14 +25,14 @@ import io.reactivex.Single;
  * @date 8/9/2017.
  */
 
-public class GoalsUseCase extends BaseUseCaseGenerator<Single<GoalsResponse>, GoalsResponse> {
+public class JobsUseCase extends BaseUseCaseGenerator<Single<JobsResponse>, JobsResponse> {
 
     @Override
-    public Single<GoalsResponse> getUseCase() {
-        return Single.fromCallable(new Callable<GoalsResponse>() {
+    public Single<JobsResponse> getUseCase() {
+        return Single.fromCallable(new Callable<JobsResponse>() {
             @Override
-            public GoalsResponse call() throws Exception {
-                return getApiCall().getResponse(getSoqlRequestFactory().createGoalsRequest(), GoalsResponse.class);
+            public JobsResponse call() throws Exception {
+                return getApiCall().getResponse(getSoqlRequestFactory().createJobsRequest(0, 100, DateUtils.getShortDate()), JobsResponse.class);
             }
         });
     }
