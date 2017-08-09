@@ -22,11 +22,14 @@ import java.util.Date;
 
 public final class DateUtils {
 
+    public static final String ISO_8601_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+    public static final String SIMPLE_FORMAT = "yyyy-MM-dd";
+
     private DateUtils() {
         throw new IllegalAccessError("Never instantiate a utility class.");
     }
 
     public static String getShortDate() {
-        return new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        return new SimpleDateFormat(SIMPLE_FORMAT).format(new Date());
     }
 }

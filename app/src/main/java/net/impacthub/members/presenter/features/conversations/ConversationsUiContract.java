@@ -1,6 +1,9 @@
 package net.impacthub.members.presenter.features.conversations;
 
+import net.impacthub.members.model.dto.conversations.ConversationDTO;
 import net.impacthub.members.presenter.features.error.ErrorHandlerUiContract;
+
+import java.util.List;
 
 /**
  * @author Filippo Ash
@@ -10,5 +13,5 @@ import net.impacthub.members.presenter.features.error.ErrorHandlerUiContract;
 
 public interface ConversationsUiContract extends ErrorHandlerUiContract {
 
-    void onLoadConversations(String message);
+    void onLoadConversations(List<ConversationDTO> conversations);
 }

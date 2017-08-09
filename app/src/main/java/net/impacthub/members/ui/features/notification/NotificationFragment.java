@@ -25,6 +25,7 @@ import butterknife.BindView;
 public class NotificationFragment extends BaseChildFragment<NotificationsPresenter> implements NotificationsUiContract {
 
     @BindView(R.id.list_items) protected RecyclerView mNotificationsList;
+
     private NotificationListAdapter mAdapter;
 
     public static NotificationFragment newInstance() {
@@ -43,12 +44,13 @@ public class NotificationFragment extends BaseChildFragment<NotificationsPresent
 
     @Override
     protected int getContentView() {
-        return R.layout.fragment_notifications;
+        return R.layout.fragment_list;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        setUpToolbar(R.string.notifications);
         mNotificationsList.setHasFixedSize(true);
         mAdapter = new NotificationListAdapter(getLayoutInflater(getArguments()));
         mAdapter.setItemClickListener(new OnListItemClickListener<NotificationDTO>() {

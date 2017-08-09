@@ -1,4 +1,3 @@
-
 /*
  * Copyright (c) 2017 Lightful. All Rights Reserved.
  *
@@ -10,18 +9,21 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.model.features.messages;
+package net.impacthub.members.model.features.conversations;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+/**
+ * @author Filippo Ash
+ * @version 1.0
+ * @date 8/9/2017.
+ */
 
-public class ReadSet {
+public class MySubscription {
 
-    @SerializedName("read")
-    @Expose
-    private Boolean read;
+    private String id;
+    private String url;
 
-    public Boolean getRead() {
-        return read;
+    @Override
+    public String toString() {
+        return "MySubscription [id = " + id + ", url = " + url + "]";
     }
 }

@@ -15,6 +15,7 @@ import android.os.Handler;
 import android.widget.TextView;
 
 import net.impacthub.members.ui.widgets.Iso8601DateFormat;
+import net.impacthub.members.utilities.DateUtils;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -41,7 +42,7 @@ public class DateTimeAgoHelper implements Runnable {
     @Override
     public void run() {
         try {
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+            DateFormat dateFormat = new SimpleDateFormat(DateUtils.ISO_8601_FORMAT);
             Date now = new Date();
             Date date = dateFormat.parse(mGivenDate);
 

@@ -56,7 +56,7 @@ public class GoalsFragment extends BaseChildFragment<GoalsPresenter> implements 
 
     @Override
     protected int getContentView() {
-        return R.layout.fragment_list;
+        return R.layout.fragment_list_with_back;
     }
 
     @Override

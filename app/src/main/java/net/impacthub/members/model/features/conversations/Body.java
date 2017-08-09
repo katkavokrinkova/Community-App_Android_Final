@@ -10,14 +10,16 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.model.features.messages;
+package net.impacthub.members.model.features.conversations;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+public class Body {
 
-public class Id {
+    private String text;
+    private String[] messageSegments;
+    private boolean isRichText;
 
-    @SerializedName("id")
-    @Expose
-    private String id;
+    @Override
+    public String toString() {
+        return "Body [text = " + text + ", messageSegments = " + messageSegments + ", isRichText = " + isRichText + "]";
+    }
 }

@@ -10,28 +10,15 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.model.features.messages;
-
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+package net.impacthub.members.model.features.conversations;
 
 public class Motif {
 
-    @SerializedName("color")
-    @Expose
-    private String color;
-    @SerializedName("largeIconUrl")
-    @Expose
-    private String largeIconUrl;
-    @SerializedName("mediumIconUrl")
-    @Expose
     private String mediumIconUrl;
-    @SerializedName("smallIconUrl")
-    @Expose
+    private String color;
+    private String svgIconUrl;
     private String smallIconUrl;
-    @SerializedName("svgIconUrl")
-    @Expose
-    private Object svgIconUrl;
+    private String largeIconUrl;
 
     public String getColor() {
         return color;
@@ -67,10 +54,6 @@ public class Motif {
 
     public Object getSvgIconUrl() {
         return svgIconUrl;
-    }
-
-    public void setSvgIconUrl(Object svgIconUrl) {
-        this.svgIconUrl = svgIconUrl;
     }
 
 }

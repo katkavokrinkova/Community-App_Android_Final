@@ -17,7 +17,7 @@ import com.salesforce.androidsdk.accounts.UserAccount;
 import com.salesforce.androidsdk.rest.ApiVersionStrings;
 import com.salesforce.androidsdk.rest.RestRequest;
 
-import net.impacthub.members.model.features.messages.OutgoingMessage;
+import net.impacthub.members.model.features.conversations.OutgoingMessage;
 
 import org.json.JSONException;
 import org.json.JSONObject;

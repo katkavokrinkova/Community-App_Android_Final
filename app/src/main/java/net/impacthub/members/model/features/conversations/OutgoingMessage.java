@@ -10,7 +10,7 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.model.features.messages;
+package net.impacthub.members.model.features.conversations;
 
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;

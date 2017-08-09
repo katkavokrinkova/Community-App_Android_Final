@@ -9,7 +9,7 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.model.features.messages;
+package net.impacthub.members.model.features.conversations;
 
 import java.util.List;
 

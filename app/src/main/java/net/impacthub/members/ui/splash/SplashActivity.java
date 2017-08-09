@@ -40,6 +40,7 @@ public class SplashActivity extends SalesforceActivity {
     @Override
     public void onResume(RestClient client) {
         startActivity(new Intent(this, MainTabsActivity.class));
+        finish();
         //Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
     }
 

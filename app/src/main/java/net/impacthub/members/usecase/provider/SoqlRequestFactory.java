@@ -17,7 +17,7 @@ import com.salesforce.androidsdk.rest.ApiVersionStrings;
 import com.salesforce.androidsdk.rest.RestRequest;
 
 import net.impacthub.members.application.salesforce.RestRequestFactory;
-import net.impacthub.members.model.features.messages.OutgoingMessage;
+import net.impacthub.members.model.features.conversations.OutgoingMessage;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -111,6 +111,11 @@ public class SoqlRequestFactory {
     }
 
     public RestRequest createConversationsRequest(String communityId) {
+        return new RestRequest(RestRequest.RestMethod.GET,
+                getPath(communityId, "users/me/", "conversations"));
+    }
+
+    public RestRequest createConversationsRequest_Old(String communityId) {
         return new RestRequest(RestRequest.RestMethod.GET,
                 getPath(communityId, "users/me/", "conversations?filterGroup=Small"));
     }
