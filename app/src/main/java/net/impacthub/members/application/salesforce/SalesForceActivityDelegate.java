@@ -2,7 +2,7 @@ package net.impacthub.members.application.salesforce;
 
 import android.app.Activity;
 
-public interface SalesforceActivityDelegate {
+public interface SalesForceActivityDelegate {
 
     void onCreate(Activity activity);
 

@@ -15,7 +15,7 @@ import static com.salesforce.androidsdk.accounts.UserAccountManager.USER_SWITCH_
 import static com.salesforce.androidsdk.util.EventsObservable.EventType.MainActivityCreateComplete;
 import static com.salesforce.androidsdk.util.EventsObservable.EventType.RenditionComplete;
 
-class SalesforceActivityDelegateImpl extends BroadcastReceiver implements SalesforceActivityDelegate, RestClientCallback {
+class SalesforceActivityDelegateImpl extends BroadcastReceiver implements SalesForceActivityDelegate, RestClientCallback {
 
     private final SalesforceSDKManager mSDKManager;
     private final PasscodeManager mPasscodeManager;

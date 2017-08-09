@@ -12,10 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
 
-import net.impacthub.members.application.salesforce.SalesforceActivityDelegate;
-
-import static net.impacthub.members.application.salesforce.SalesforceModuleDependency.salesforceActivityDelegateProvider;
-
 /**
  * @author Filippo Ash
  * @version 1.0
@@ -24,30 +20,15 @@ import static net.impacthub.members.application.salesforce.SalesforceModuleDepen
 
 public abstract class BaseActivity extends AppCompatActivity {
 
-    private SalesforceActivityDelegate mSalesforceActivityDelegate = salesforceActivityDelegateProvider();
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mSalesforceActivityDelegate.onCreate(this);
         setContentView(getContentView());
         onActivityCreated(savedInstanceState);
     }
 
     @CallSuper
     protected void onActivityCreated(Bundle savedInstanceState) {
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mSalesforceActivityDelegate.onResume();
-    }
-
-    @Override
-    public void onUserInteraction() {
-        super.onUserInteraction();
-        mSalesforceActivityDelegate.onUserInteraction();
     }
 
     protected void setStatusBarColor(@ColorRes int color) {
@@ -64,18 +45,6 @@ public abstract class BaseActivity extends AppCompatActivity {
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(containerId, fragment)
                 .commit();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mSalesforceActivityDelegate.onPause();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mSalesforceActivityDelegate.onDestroy();
     }
 
     protected abstract int getContentView();

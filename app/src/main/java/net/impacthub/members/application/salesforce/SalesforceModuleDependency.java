@@ -6,7 +6,7 @@ import com.salesforce.androidsdk.rest.ClientManager;
 
 public class SalesforceModuleDependency {
 
-    public static SalesforceActivityDelegate salesforceActivityDelegateProvider() {
+    public static SalesForceActivityDelegate salesforceActivityDelegateProvider() {
         return new SalesforceActivityDelegateImpl();
     }
 
