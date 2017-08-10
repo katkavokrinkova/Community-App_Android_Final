@@ -2,11 +2,10 @@ package net.impacthub.members.ui.features.home.members;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageButton;
-import android.widget.Toast;
 
 import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnListItemClickListener;
@@ -18,7 +17,9 @@ import net.impacthub.members.ui.common.LinearItemsMarginDecorator;
 import net.impacthub.members.ui.features.filters.FilterActivity;
 
 import java.util.List;
-import java.util.Random;
+
+import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * @author Filippo Ash
@@ -28,7 +29,11 @@ import java.util.Random;
 
 public class MembersFragment extends BaseChildFragment<MembersPresenter> implements MembersUiContract, OnListItemClickListener<Member> {
 
+    public static final String KEY_LIST_STATE = "list_state";
+    @BindView(R.id.list_items) protected RecyclerView mMembersList;
+
     private MembersListAdapter mAdapter;
+    private Parcelable mState;
 
     public static MembersFragment newInstance() {
 
@@ -49,27 +54,48 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
         return new MembersPresenter(this);
     }
 
+    @OnClick(R.id.filter_button)
+    protected void onFilterClick() {
+        startActivityForResult(new Intent(getActivity(), FilterActivity.class), 1234);
+    }
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setUpToolbar(R.string.members);
-        RecyclerView membersList = (RecyclerView) view.findViewById(R.id.list_items);
-        ImageButton filterButton = (ImageButton) view.findViewById(R.id.filter_button);
-        membersList.setHasFixedSize(true);
+
+        mMembersList.setHasFixedSize(true);
         int offset = getResources().getDimensionPixelOffset(R.dimen.default_content_small_gap);
-        membersList.addItemDecoration(new LinearItemsMarginDecorator(offset, offset, 0, 0));
+        mMembersList.addItemDecoration(new LinearItemsMarginDecorator(offset, offset, 0, 0));
 
-        mAdapter = new MembersListAdapter(getActivity().getLayoutInflater());
-        mAdapter.setItemClickListener(this);
-        membersList.setAdapter(mAdapter);
+        if (mAdapter == null) {
+            mAdapter = new MembersListAdapter(getActivity().getLayoutInflater());
+            mAdapter.setItemClickListener(this);
+            getPresenter().loadMembers();
+        }
 
-        filterButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivityForResult(new Intent(getActivity(), FilterActivity.class), 1234);
-            }
-        });
-        getPresenter().loadMembers();
+        mMembersList.setAdapter(mAdapter);
+
+//        if (mState != null) {
+//            mMembersList.getLayoutManager().onRestoreInstanceState(mState);
+//        } else {
+//            getPresenter().loadMembers();
+//        }
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            mState = savedInstanceState.getParcelable(KEY_LIST_STATE);
+        }
+        super.onViewStateRestored(savedInstanceState);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        mState = mMembersList.getLayoutManager().onSaveInstanceState();
+        outState.putParcelable(KEY_LIST_STATE, mState);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -79,8 +105,8 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
     }
 
     @Override
-    public void onItemClick(Member model) {
-        MemberDetailFragment detailFragment = MemberDetailFragment.newInstance();
+    public void onItemClick(Member member) {
+        MemberDetailFragment detailFragment = MemberDetailFragment.newInstance(member);
         //Toast.makeText(getActivity(), model.getId(), Toast.LENGTH_SHORT).show();
 //        addChildFragment(MembersFragment.newInstance(), "FRAG_MEMBERS_"+new Random().nextInt(500));
         addChildFragment(detailFragment, "FRAG_MEMBER_DETAIL");

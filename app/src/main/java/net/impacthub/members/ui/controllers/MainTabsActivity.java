@@ -14,15 +14,14 @@ import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnBackListener;
 import net.impacthub.members.model.callback.OnTabVisibilityChangeListener;
 import net.impacthub.members.ui.base.BaseActivity;
-import net.impacthub.members.ui.controllers.home.HomeControllerFragment;
 import net.impacthub.members.ui.controllers.conversations.ConversationControllerFragment;
+import net.impacthub.members.ui.controllers.home.HomeControllerFragment;
 import net.impacthub.members.ui.controllers.notification.NotificationControllerFragment;
 import net.impacthub.members.ui.controllers.profile.ProfileControllerFragment;
 import net.impacthub.members.ui.controllers.search.SearchControllerFragment;
 import net.impacthub.members.ui.widgets.ExtendedViewPager;
 import net.impacthub.members.utilities.ColorUtils;
 import net.impacthub.members.utilities.DrawableUtils;
-import net.impacthub.members.utilities.ViewUtils;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -77,7 +76,8 @@ public class MainTabsActivity extends BaseActivity implements OnTabVisibilityCha
         mTabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mPager) {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                mPager.setCurrentItem(tab.getPosition(), false);
+                int position = tab.getPosition();
+                mPager.setCurrentItem(position, false);
             }
 
             @Override
@@ -111,21 +111,13 @@ public class MainTabsActivity extends BaseActivity implements OnTabVisibilityCha
     }
 
     @Override
-    public void onVisibilityChanged(boolean shown, float offset, float totalOffset) {
-
+    public void onVisibilityChanged(float offset, float totalOffset) {
         int height = mTabLayout.getHeight();
         float tabTranslationOffset = Math.abs((offset * (height * 1.0f / totalOffset)) - height);
-
-        float bottom = mMainContainer.getPaddingBottom();
-        Log.d(TAG, "Offset -> " + tabTranslationOffset);
-
-        //mTabLayout.setTop((int) tabTranslationOffset);
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mTabLayout.getLayoutParams();
         params.topMargin = (int) - tabTranslationOffset;
         mTabLayout.setLayoutParams(params);
         mTabLayout.setTranslationY(tabTranslationOffset);
-
-        //mTabLayout.layout(mTabLayout.getLeft(), (int) tabTranslationOffset, mTabLayout.getRight(), mTabLayout.getBottom());
     }
 
     @Override

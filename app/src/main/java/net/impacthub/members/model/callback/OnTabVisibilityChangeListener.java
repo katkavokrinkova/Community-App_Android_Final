@@ -19,7 +19,7 @@ package net.impacthub.members.model.callback;
 
 public interface OnTabVisibilityChangeListener {
 
-    void onVisibilityChanged(boolean shown, float offset, float totalOffset);
+    void onVisibilityChanged(float offset, float totalOffset);
 
     void onReset();
 }

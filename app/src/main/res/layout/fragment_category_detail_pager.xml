@@ -11,6 +11,7 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -41,23 +42,138 @@
                     android:layout_height="match_parent"
                     android:clipChildren="false"
                     android:clipToPadding="false"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
                     app:layout_collapseMode="pin">
 
-                    <net.impacthub.members.ui.widgets.HalfHeightImageView
-                        android:id="@+id/image_detail"
+                    <FrameLayout
                         android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <net.impacthub.members.ui.widgets.HalfHeightImageView
+                            android:id="@+id/image_detail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:contentDescription="@string/member_image"
+                            android:scaleType="centerCrop"
+                            tools:src="@drawable/ic_fp_40px" />
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="150dp"
+                            android:layout_gravity="bottom"
+                            android:contentDescription="@string/member_image"
+                            android:src="@drawable/fade_to_white_gradient" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical">
+
+                            <net.impacthub.members.ui.widgets.TypefaceTextView
+                                android:id="@+id/name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Tamar Bridge"
+                                android:textColor="@color/greyish_brown_2"
+                                android:textSize="21sp"
+                                app:typeface="fonts/gt-walsheim-light-web.ttf" />
+
+                            <net.impacthub.members.ui.widgets.TypefaceTextView
+                                android:id="@+id/location"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawablePadding="8dp"
+                                android:drawableStart="@mipmap/location_pin"
+                                android:paddingTop="8dp"
+                                android:text="London, UK"
+                                android:textColor="@color/greyish_brown_2"
+                                android:textSize="14sp"
+                                app:typeface="fonts/gt-walsheim-light-web.ttf" />
+                        </LinearLayout>
+                    </FrameLayout>
+
+                    <net.impacthub.members.ui.widgets.TypefaceTextView
+                        android:id="@+id/profession"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:scaleType="centerCrop" />
+                        android:paddingTop="16dp"
+                        android:text="Ship shoveller"
+                        android:textColor="@color/greyish_brown_2"
+                        android:textSize="14sp"
+                        app:typeface="fonts/gt-walsheim-light-web.ttf" />
+
+                    <LinearLayout
+                        android:id="@+id/connect_buttons"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="16dp">
+
+                        <ImageButton
+                            android:id="@+id/twitter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/connect_button_gap"
+                            android:background="@null"
+                            android:contentDescription="@string/twitter"
+                            android:src="@mipmap/twitter" />
+
+                        <ImageButton
+                            android:id="@+id/facebook"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/connect_button_gap"
+                            android:background="@null"
+                            android:contentDescription="@string/facebook"
+                            android:src="@mipmap/facebook" />
+
+                        <ImageButton
+                            android:id="@+id/linkedin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/connect_button_gap"
+                            android:background="@null"
+                            android:contentDescription="@string/linkedin"
+                            android:src="@mipmap/linkedin" />
+
+                        <ImageButton
+                            android:id="@+id/instagram"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:contentDescription="@string/instagram"
+                            android:src="@mipmap/instagram" />
+
+                    </LinearLayout>
+
+                    <net.impacthub.members.ui.widgets.TypefaceTextView
+                        android:id="@+id/about"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:paddingEnd="50dp"
+                        android:paddingStart="50dp"
+                        android:paddingTop="16dp"
+                        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor. adipiscing elit, sed do eiusmod tempor."
+                        android:textColor="@color/steel_grey"
+                        android:textSize="15sp"
+                        app:typeface="fonts/gt-walsheim-light-web.ttf" />
+
+                    <ImageButton
+                        android:id="@+id/image_arrow_collapse_content"
+                        style="?attr/buttonStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@android:color/transparent"
+                        android:contentDescription="@string/arrow_down"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:src="@mipmap/arrow_down" />
 
                 </net.impacthub.members.ui.widgets.FullHeightLinearLayout>
-
-
-                <!--<android.support.v7.widget.Toolbar-->
-                <!--android:id="@+id/app_bar"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="?attr/actionBarSize"-->
-                <!--android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"-->
-                <!--app:layout_collapseMode="pin" />-->
 
             </android.support.design.widget.CollapsingToolbarLayout>
 
@@ -90,7 +206,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="12dp"
             android:layout_marginEnd="25dp"
             android:layout_marginStart="25dp"
             android:background="@drawable/done_bubble" />
