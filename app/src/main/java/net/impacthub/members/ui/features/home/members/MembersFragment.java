@@ -83,20 +83,20 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
 //        }
     }
 
-    @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        if (savedInstanceState != null) {
-            mState = savedInstanceState.getParcelable(KEY_LIST_STATE);
-        }
-        super.onViewStateRestored(savedInstanceState);
-    }
+//    @Override
+//    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+//        if (savedInstanceState != null) {
+//            mState = savedInstanceState.getParcelable(KEY_LIST_STATE);
+//        }
+//        super.onViewStateRestored(savedInstanceState);
+//    }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        mState = mMembersList.getLayoutManager().onSaveInstanceState();
-        outState.putParcelable(KEY_LIST_STATE, mState);
-        super.onSaveInstanceState(outState);
-    }
+//    @Override
+//    public void onSaveInstanceState(Bundle outState) {
+//        mState = mMembersList.getLayoutManager().onSaveInstanceState();
+//        outState.putParcelable(KEY_LIST_STATE, mState);
+//        super.onSaveInstanceState(outState);
+//    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
