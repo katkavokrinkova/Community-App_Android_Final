@@ -11,6 +11,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 /**
  * @author Filippo Ash
@@ -29,6 +30,10 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @CallSuper
     protected void onActivityCreated(Bundle savedInstanceState) {
+    }
+
+    protected void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     protected void setStatusBarColor(@ColorRes int color) {

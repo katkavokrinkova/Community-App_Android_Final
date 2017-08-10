@@ -1,25 +1,25 @@
 package net.impacthub.members.ui.widgets;
 
 import android.content.Context;
-import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
+import android.widget.LinearLayout;
 
 
-public class FullHeightConstraintLayout extends ConstraintLayout {
+public class FullHeightLinearLayout extends LinearLayout {
 
     private int mHeight;
 
-    public FullHeightConstraintLayout(Context context) {
+    public FullHeightLinearLayout(Context context) {
         super(context);
         initialize(context);
     }
 
-    public FullHeightConstraintLayout(Context context, AttributeSet attrs) {
+    public FullHeightLinearLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         initialize(context);
     }
 
-    public FullHeightConstraintLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+    public FullHeightLinearLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initialize(context);
     }

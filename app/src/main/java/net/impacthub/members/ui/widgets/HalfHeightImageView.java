@@ -27,7 +27,7 @@ public class HalfHeightImageView extends AppCompatImageView {
 
     private void initialize(Context context) {
         mHeight = context.getResources().getDisplayMetrics().heightPixels / 2;
-        setScaleType(ScaleType.FIT_CENTER);
+        //setScaleType(ScaleType.FIT_CENTER);
     }
 
     @Override

@@ -6,9 +6,13 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.util.Log;
+import android.view.animation.DecelerateInterpolator;
+import android.widget.LinearLayout;
 
 import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnBackListener;
+import net.impacthub.members.model.callback.OnTabVisibilityChangeListener;
 import net.impacthub.members.ui.base.BaseActivity;
 import net.impacthub.members.ui.controllers.home.HomeControllerFragment;
 import net.impacthub.members.ui.controllers.conversations.ConversationControllerFragment;
@@ -18,6 +22,7 @@ import net.impacthub.members.ui.controllers.search.SearchControllerFragment;
 import net.impacthub.members.ui.widgets.ExtendedViewPager;
 import net.impacthub.members.utilities.ColorUtils;
 import net.impacthub.members.utilities.DrawableUtils;
+import net.impacthub.members.utilities.ViewUtils;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -28,7 +33,9 @@ import java.util.List;
  * @date 8/1/2017.
  */
 
-public class MainTabsActivity extends BaseActivity {
+public class MainTabsActivity extends BaseActivity implements OnTabVisibilityChangeListener {
+
+    private static final String TAG = MainTabsActivity.class.getSimpleName();
 
     private final static int sIcons[] = {
         R.mipmap.tab_bar_home,
@@ -38,6 +45,7 @@ public class MainTabsActivity extends BaseActivity {
         R.mipmap.tab_bar_profile,
     };
 
+    private LinearLayout mMainContainer;
     private ExtendedViewPager mPager;
     private TabLayout mTabLayout;
 
@@ -49,6 +57,7 @@ public class MainTabsActivity extends BaseActivity {
     @Override
     protected void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        mMainContainer = (LinearLayout) findViewById(R.id.main_container_layout);
         mPager = (ExtendedViewPager) findViewById(R.id.pager);
         mTabLayout = (TabLayout) findViewById(R.id.navbar);
 
@@ -99,6 +108,32 @@ public class MainTabsActivity extends BaseActivity {
                 tabAt.setIcon(DrawableUtils.tintDrawableWithState(this, sIcons[i], stateList));
             }
         }
+    }
+
+    @Override
+    public void onVisibilityChanged(boolean shown, float offset, float totalOffset) {
+
+        int height = mTabLayout.getHeight();
+        float tabTranslationOffset = Math.abs((offset * (height * 1.0f / totalOffset)) - height);
+
+        float bottom = mMainContainer.getPaddingBottom();
+        Log.d(TAG, "Offset -> " + tabTranslationOffset);
+
+        //mTabLayout.setTop((int) tabTranslationOffset);
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mTabLayout.getLayoutParams();
+        params.topMargin = (int) - tabTranslationOffset;
+        mTabLayout.setLayoutParams(params);
+        mTabLayout.setTranslationY(tabTranslationOffset);
+
+        //mTabLayout.layout(mTabLayout.getLeft(), (int) tabTranslationOffset, mTabLayout.getRight(), mTabLayout.getBottom());
+    }
+
+    @Override
+    public void onReset() {
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mTabLayout.getLayoutParams();
+        params.topMargin = 0;
+        mTabLayout.setLayoutParams(params);
+        mTabLayout.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
     }
 
     private class MainTabsPagerAdapter extends FragmentPagerAdapter {

@@ -35,7 +35,6 @@
             app:tabIndicatorHeight="1dp"
             app:tabMode="scrollable" />
 
-
     </android.support.design.widget.AppBarLayout>
 
     <FrameLayout

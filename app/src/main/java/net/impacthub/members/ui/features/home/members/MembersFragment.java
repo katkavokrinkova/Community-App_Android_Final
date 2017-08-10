@@ -80,8 +80,10 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
 
     @Override
     public void onItemClick(Member model) {
-        Toast.makeText(getActivity(), model.getId(), Toast.LENGTH_SHORT).show();
-        addChildFragment(MembersFragment.newInstance(), "FRAG_MEMBERS_"+new Random().nextInt(500));
+        MemberDetailFragment detailFragment = MemberDetailFragment.newInstance();
+        //Toast.makeText(getActivity(), model.getId(), Toast.LENGTH_SHORT).show();
+//        addChildFragment(MembersFragment.newInstance(), "FRAG_MEMBERS_"+new Random().nextInt(500));
+        addChildFragment(detailFragment, "FRAG_MEMBER_DETAIL");
     }
 
     @Override
