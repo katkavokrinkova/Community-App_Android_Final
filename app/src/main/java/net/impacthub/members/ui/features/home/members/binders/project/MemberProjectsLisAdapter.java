@@ -19,7 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.impacthub.members.R;
-import net.impacthub.members.model.dto.members.MemberProjectDTO;
+import net.impacthub.members.model.dto.projects.ProjectDTO;
 import net.impacthub.members.ui.base.BaseListAdapter;
 import net.impacthub.members.ui.common.ImageLoaderHelper;
 import net.impacthub.members.ui.common.RecyclerViewHolder;
@@ -30,9 +30,9 @@ import net.impacthub.members.ui.common.RecyclerViewHolder;
  * @date 8/10/2017.
  */
 
-class MemberProjectsAdapter extends BaseListAdapter<MemberProjectsAdapter.MemberProjectViewHolder, MemberProjectDTO> {
+class MemberProjectsLisAdapter extends BaseListAdapter<MemberProjectsLisAdapter.MemberProjectViewHolder, ProjectDTO> {
 
-    MemberProjectsAdapter(LayoutInflater inflater) {
+    MemberProjectsLisAdapter(LayoutInflater inflater) {
         super(inflater);
     }
 
@@ -46,7 +46,7 @@ class MemberProjectsAdapter extends BaseListAdapter<MemberProjectsAdapter.Member
         holder.bindViewsWith(getItem(position));
     }
 
-    class MemberProjectViewHolder extends RecyclerViewHolder<MemberProjectDTO> implements View.OnClickListener {
+    class MemberProjectViewHolder extends RecyclerViewHolder<ProjectDTO> implements View.OnClickListener {
 
         final ImageView projectImage;
         final TextView projectTitle;
@@ -65,7 +65,7 @@ class MemberProjectsAdapter extends BaseListAdapter<MemberProjectsAdapter.Member
         }
 
         @Override
-        protected void bindViewsWith(MemberProjectDTO itemData) {
+        protected void bindViewsWith(ProjectDTO itemData) {
             Context context = projectImage.getContext();
             projectTitle.setText(itemData.mName);
             projectOrganizationName.setText(itemData.mOrganizationName);

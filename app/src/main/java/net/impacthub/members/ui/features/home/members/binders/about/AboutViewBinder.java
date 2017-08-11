@@ -15,11 +15,13 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import net.impacthub.members.R;
+import net.impacthub.members.model.pojo.ListItem;
 import net.impacthub.members.ui.binder.ViewBinder;
+
+import java.util.List;
 
 /**
  * @author Filippo Ash
@@ -27,43 +29,21 @@ import net.impacthub.members.ui.binder.ViewBinder;
  * @date 8/10/2017.
  */
 
-public class AboutViewBinder implements ViewBinder {
+public class AboutViewBinder implements ViewBinder<List<ListItem<?>>> {
 
-    private final String mName;
-
-    public AboutViewBinder(String name) {
-        mName = name;
-    }
+    private MemberInfoListAdapter mAdapter;
 
     @Override
     public View getView(Context context, LayoutInflater inflater, int position) {
-        RecyclerView recyclerView = (RecyclerView) inflater.inflate(R.layout.common_list_layout, new LinearLayout(context), false);
+        RecyclerView recyclerView = (RecyclerView) inflater.inflate(R.layout.common_list_layout_with_padding, new LinearLayout(context), false);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(new RecyclerView.Adapter() {
-            @Override
-            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                return new RecyclerView.ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_groups_layout, parent, false)) {
-                };
-            }
-
-            @Override
-            public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
-            }
-
-            @Override
-            public int getItemCount() {
-                return 100;
-            }
-        });
-
-//        Button button = new Button(context);
-//        button.setText(mName);
+        mAdapter = new MemberInfoListAdapter(inflater);
+        recyclerView.setAdapter(mAdapter);
         return recyclerView;
     }
 
     @Override
-    public void bindView(Object model) {
-
+    public void bindView(List<ListItem<?>> model) {
+        mAdapter.setItems(model);
     }
 }

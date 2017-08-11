@@ -18,7 +18,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import net.impacthub.members.R;
-import net.impacthub.members.model.dto.members.MemberProjectDTO;
+import net.impacthub.members.model.dto.projects.ProjectDTO;
 import net.impacthub.members.ui.binder.ViewBinder;
 import net.impacthub.members.ui.common.LinearItemsMarginDecorator;
 
@@ -30,15 +30,15 @@ import java.util.List;
  * @date 8/10/2017.
  */
 
-public class ProjectsViewBinder implements ViewBinder<List<MemberProjectDTO>> {
+public class ProjectsViewBinder implements ViewBinder<List<ProjectDTO>> {
 
-    private MemberProjectsAdapter mAdapter;
+    private MemberProjectsLisAdapter mAdapter;
 
     @Override
     public View getView(Context context, LayoutInflater inflater, int position) {
         RecyclerView recyclerView = (RecyclerView) inflater.inflate(R.layout.common_list_layout, new LinearLayout(context), false);
         recyclerView.setHasFixedSize(true);
-        mAdapter = new MemberProjectsAdapter(inflater);
+        mAdapter = new MemberProjectsLisAdapter(inflater);
         int offset = context.getResources().getDimensionPixelOffset(R.dimen.default_content_medium_gap);
         recyclerView.addItemDecoration(new LinearItemsMarginDecorator(offset, offset, 0, 0));
         recyclerView.setAdapter(mAdapter);
@@ -46,7 +46,7 @@ public class ProjectsViewBinder implements ViewBinder<List<MemberProjectDTO>> {
     }
 
     @Override
-    public void bindView(List<MemberProjectDTO> model) {
+    public void bindView(List<ProjectDTO> model) {
         mAdapter.setItems(model);
     }
 }

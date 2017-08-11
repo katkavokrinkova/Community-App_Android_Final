@@ -26,6 +26,13 @@ public abstract class BaseChildFragment<P extends UiPresenter<? extends UiContra
         }
     };
 
+    protected void setUpToolbar(String title) {
+        if(mToolbar != null) {
+            mToolbar.setCustomTitle(title);
+            mToolbar.setNavigationOnClickListener(mBackListener);
+        }
+    }
+
     protected void setUpToolbar(@StringRes int title) {
         if(mToolbar != null) {
             mToolbar.setCustomTitle(getString(title));

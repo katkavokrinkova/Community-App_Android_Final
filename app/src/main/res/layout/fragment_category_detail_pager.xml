@@ -73,10 +73,10 @@
                             android:orientation="vertical">
 
                             <net.impacthub.members.ui.widgets.TypefaceTextView
-                                android:id="@+id/name"
+                                android:id="@+id/text_full_name"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Tamar Bridge"
+                                tools:text="Tamar Bridge"
                                 android:textColor="@color/greyish_brown_2"
                                 android:textSize="21sp"
                                 app:typeface="fonts/gt-walsheim-light-web.ttf" />
@@ -88,7 +88,7 @@
                                 android:drawablePadding="8dp"
                                 android:drawableStart="@mipmap/location_pin"
                                 android:paddingTop="8dp"
-                                android:text="London, UK"
+                                tools:text="London, UK"
                                 android:textColor="@color/greyish_brown_2"
                                 android:textSize="14sp"
                                 app:typeface="fonts/gt-walsheim-light-web.ttf" />
@@ -96,11 +96,11 @@
                     </FrameLayout>
 
                     <net.impacthub.members.ui.widgets.TypefaceTextView
-                        android:id="@+id/profession"
+                        android:id="@+id/text_profession"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingTop="16dp"
-                        android:text="Ship shoveller"
+                        tools:text="Ship shoveller"
                         android:textColor="@color/greyish_brown_2"
                         android:textSize="14sp"
                         app:typeface="fonts/gt-walsheim-light-web.ttf" />
@@ -112,7 +112,7 @@
                         android:paddingTop="16dp">
 
                         <ImageButton
-                            android:id="@+id/twitter"
+                            android:id="@+id/button_twitter"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/connect_button_gap"
@@ -121,7 +121,7 @@
                             android:src="@mipmap/twitter" />
 
                         <ImageButton
-                            android:id="@+id/facebook"
+                            android:id="@+id/button_facebook"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/connect_button_gap"
@@ -130,7 +130,7 @@
                             android:src="@mipmap/facebook" />
 
                         <ImageButton
-                            android:id="@+id/linkedin"
+                            android:id="@+id/button_linkedin"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/connect_button_gap"
@@ -139,7 +139,7 @@
                             android:src="@mipmap/linkedin" />
 
                         <ImageButton
-                            android:id="@+id/instagram"
+                            android:id="@+id/button_instagram"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@null"
@@ -153,7 +153,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
-                        android:maxLines="2"
+                        android:maxLines="3"
                         android:paddingEnd="50dp"
                         android:paddingStart="50dp"
                         android:paddingTop="16dp"
