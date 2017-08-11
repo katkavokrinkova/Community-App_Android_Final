@@ -295,7 +295,7 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
-            View view = mBindersList.get(position).getView(getContext(), getLayoutInflater(getArguments()), position);
+            View view = mBindersList.get(position).getView(getContext(), position);
             container.addView(view);
             return view;
         }

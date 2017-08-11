@@ -9,16 +9,13 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.ui.features.home.members.binders.about;
+package net.impacthub.members.ui.features.home.projects.binders;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.LinearLayout;
 
-import net.impacthub.members.R;
-import net.impacthub.members.model.pojo.ListItem;
+import net.impacthub.members.model.dto.projects.ProjectDTO;
 import net.impacthub.members.ui.binder.ViewBinder;
 
 import java.util.List;
@@ -26,25 +23,19 @@ import java.util.List;
 /**
  * @author Filippo Ash
  * @version 1.0
- * @date 8/10/2017.
+ * @date 8/11/2017.
  */
 
-public class AboutViewBinder implements ViewBinder<List<ListItem<?>>> {
-
-    private MemberInfoListAdapter mAdapter;
+public class AllProjectViewBinder implements ViewBinder<List<ProjectDTO>> {
 
     @Override
     public View getView(Context context, int position) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        RecyclerView recyclerView = (RecyclerView) inflater.inflate(R.layout.common_list_layout_with_padding, new LinearLayout(context), false);
-        recyclerView.setHasFixedSize(true);
-        mAdapter = new MemberInfoListAdapter(inflater);
-        recyclerView.setAdapter(mAdapter);
-        return recyclerView;
+        return null;
     }
 
     @Override
-    public void bindView(List<ListItem<?>> model) {
-        mAdapter.setItems(model);
+    public void bindView(List<ProjectDTO> model) {
+
     }
 }

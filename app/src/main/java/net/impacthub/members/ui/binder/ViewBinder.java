@@ -12,7 +12,6 @@
 package net.impacthub.members.ui.binder;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 
 /**
@@ -23,7 +22,7 @@ import android.view.View;
 
 public interface ViewBinder<T> {
 
-    View getView(Context context, LayoutInflater inflater, int position);
+    View getView(Context context, int position);
 
     void bindView(T model);
 }

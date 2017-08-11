@@ -35,7 +35,8 @@ public class ProjectsViewBinder implements ViewBinder<List<ProjectDTO>> {
     private MemberProjectsLisAdapter mAdapter;
 
     @Override
-    public View getView(Context context, LayoutInflater inflater, int position) {
+    public View getView(Context context, int position) {
+        LayoutInflater inflater = LayoutInflater.from(context);
         RecyclerView recyclerView = (RecyclerView) inflater.inflate(R.layout.common_list_layout, new LinearLayout(context), false);
         recyclerView.setHasFixedSize(true);
         mAdapter = new MemberProjectsLisAdapter(inflater);
