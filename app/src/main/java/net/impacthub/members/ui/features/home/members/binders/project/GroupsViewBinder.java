@@ -18,27 +18,28 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import net.impacthub.members.R;
-import net.impacthub.members.model.dto.members.MemberProjectDTO;
+import net.impacthub.members.model.dto.groups.GroupDTO;
 import net.impacthub.members.ui.binder.ViewBinder;
 import net.impacthub.members.ui.common.LinearItemsMarginDecorator;
+import net.impacthub.members.ui.features.home.groups.GroupsListAdapter;
 
 import java.util.List;
 
 /**
  * @author Filippo Ash
  * @version 1.0
- * @date 8/10/2017.
+ * @date 8/11/2017.
  */
 
-public class ProjectsViewBinder implements ViewBinder<List<MemberProjectDTO>> {
+public class GroupsViewBinder implements ViewBinder<List<GroupDTO>> {
 
-    private MemberProjectsAdapter mAdapter;
+    private GroupsListAdapter mAdapter;
 
     @Override
     public View getView(Context context, LayoutInflater inflater, int position) {
         RecyclerView recyclerView = (RecyclerView) inflater.inflate(R.layout.common_list_layout, new LinearLayout(context), false);
         recyclerView.setHasFixedSize(true);
-        mAdapter = new MemberProjectsAdapter(inflater);
+        mAdapter = new GroupsListAdapter(inflater);
         int offset = context.getResources().getDimensionPixelOffset(R.dimen.default_content_medium_gap);
         recyclerView.addItemDecoration(new LinearItemsMarginDecorator(offset, offset, 0, 0));
         recyclerView.setAdapter(mAdapter);
@@ -46,7 +47,7 @@ public class ProjectsViewBinder implements ViewBinder<List<MemberProjectDTO>> {
     }
 
     @Override
-    public void bindView(List<MemberProjectDTO> model) {
+    public void bindView(List<GroupDTO> model) {
         mAdapter.setItems(model);
     }
 }

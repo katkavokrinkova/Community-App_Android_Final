@@ -11,9 +11,11 @@
 
 package net.impacthub.members.mapper.members;
 
+import net.impacthub.members.model.dto.groups.GroupDTO;
 import net.impacthub.members.model.dto.members.MemberProjectDTO;
 import net.impacthub.members.model.features.members.Affiliation;
 import net.impacthub.members.model.features.members.Affiliations;
+import net.impacthub.members.model.features.members.Organisation;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -26,7 +28,7 @@ import java.util.List;
 
 public class MembersMapper {
 
-    public List<MemberProjectDTO> map(Affiliations response) {
+    public List<MemberProjectDTO> mapProjects(Affiliations response) {
         List<MemberProjectDTO> memberProjectDTOs = new LinkedList<>();
         if (response != null) {
             List<Affiliation> affiliations = response.getAffiliations();
@@ -34,10 +36,13 @@ public class MembersMapper {
                 for (int i = 0; i < affiliations.size(); i++) {
                     Affiliation affiliation = affiliations.get(i);
                     if (affiliation != null) {
-                        if("Project".equals(affiliation.getDirectoryStyle())) {
+                        if ("Project".equals(affiliation.getDirectoryStyle())) {
                             MemberProjectDTO memberProjectDTO = new MemberProjectDTO();
                             memberProjectDTO.mName = affiliation.getName();
-                            memberProjectDTO.mOrganizationName = affiliation.getOrganisation().getName();
+                            Organisation organisation = affiliation.getOrganisation();
+                            if (organisation != null) {
+                                memberProjectDTO.mOrganizationName = organisation.getName();
+                            }
                             memberProjectDTO.mMemberCount = affiliation.getCountOfMembers();
                             memberProjectDTO.mLocation = affiliation.getImpactHubCities();
                             memberProjectDTO.mImageURL = affiliation.getImageUrl();
@@ -48,5 +53,28 @@ public class MembersMapper {
             }
         }
         return memberProjectDTOs;
+    }
+
+    public List<GroupDTO> mapGroups(Affiliations response) {
+        List<GroupDTO> groupDTOList = new LinkedList<>();
+        if (response != null) {
+            List<Affiliation> affiliations = response.getAffiliations();
+            if (affiliations != null) {
+                for (int i = 0; i < affiliations.size(); i++) {
+                    Affiliation affiliation = affiliations.get(i);
+                    if (affiliation != null) {
+                        if ("Group".equals(affiliation.getDirectoryStyle())) {
+                            GroupDTO group = new GroupDTO();
+                            group.mImageURL = affiliation.getImageUrl();
+                            group.mName = affiliation.getName();
+                            group.mCities = affiliation.getImpactHubCities();
+                            group.mMemberCount = affiliation.getCountOfMembers();
+                            groupDTOList.add(group);
+                        }
+                    }
+                }
+            }
+        }
+        return groupDTOList;
     }
 }

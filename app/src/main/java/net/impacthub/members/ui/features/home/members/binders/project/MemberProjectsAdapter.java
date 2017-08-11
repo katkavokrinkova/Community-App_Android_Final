@@ -11,14 +11,17 @@
 
 package net.impacthub.members.ui.features.home.members.binders.project;
 
-import android.support.v7.widget.RecyclerView;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import net.impacthub.members.R;
 import net.impacthub.members.model.dto.members.MemberProjectDTO;
 import net.impacthub.members.ui.base.BaseListAdapter;
+import net.impacthub.members.ui.common.ImageLoaderHelper;
 import net.impacthub.members.ui.common.RecyclerViewHolder;
 
 /**
@@ -27,9 +30,9 @@ import net.impacthub.members.ui.common.RecyclerViewHolder;
  * @date 8/10/2017.
  */
 
-class MemberProjectsAapter extends BaseListAdapter<MemberProjectsAapter.MemberProjectViewHolder, MemberProjectDTO> {
+class MemberProjectsAdapter extends BaseListAdapter<MemberProjectsAdapter.MemberProjectViewHolder, MemberProjectDTO> {
 
-    MemberProjectsAapter(LayoutInflater inflater) {
+    MemberProjectsAdapter(LayoutInflater inflater) {
         super(inflater);
     }
 
@@ -45,14 +48,30 @@ class MemberProjectsAapter extends BaseListAdapter<MemberProjectsAapter.MemberPr
 
     class MemberProjectViewHolder extends RecyclerViewHolder<MemberProjectDTO> implements View.OnClickListener {
 
+        final ImageView projectImage;
+        final TextView projectTitle;
+        final TextView projectOrganizationName;
+        final TextView location;
+        final TextView memberCount;
+
         MemberProjectViewHolder(View itemView) {
             super(itemView);
+            projectImage = (ImageView) itemView.findViewById(R.id.image_banner);
+            projectTitle = (TextView) itemView.findViewById(R.id.text_project_title);
+            projectOrganizationName = (TextView) itemView.findViewById(R.id.text_project_organization_name);
+            location = (TextView) itemView.findViewById(R.id.locations);
+            memberCount = (TextView) itemView.findViewById(R.id.member_count);
             itemView.setOnClickListener(this);
         }
 
         @Override
         protected void bindViewsWith(MemberProjectDTO itemData) {
-
+            Context context = projectImage.getContext();
+            projectTitle.setText(itemData.mName);
+            projectOrganizationName.setText(itemData.mOrganizationName);
+            location.setText(itemData.mLocation);
+            memberCount.setText(itemData.mMemberCount);
+            ImageLoaderHelper.loadImage(context, buildUrl(itemData.mImageURL), projectImage);
         }
 
         @Override

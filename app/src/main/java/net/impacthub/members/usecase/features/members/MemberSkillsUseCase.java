@@ -37,7 +37,7 @@ public class MemberSkillsUseCase extends BaseUseCaseGenerator<Single<Skills>, Sk
         return Single.fromCallable(new Callable<Skills>() {
             @Override
             public Skills call() throws Exception {
-                return getApiCall().getResponse(getSoqlRequestFactory().createMemberDetailRequest(mMemberId), Skills.class);
+                return getApiCall().getResponse(getSoqlRequestFactory().createMemberSkillsRequest(mMemberId), Skills.class);
             }
         });
     }

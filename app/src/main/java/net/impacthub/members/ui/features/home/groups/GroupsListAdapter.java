@@ -30,9 +30,9 @@ import net.impacthub.members.ui.common.RecyclerViewHolder;
  * @date 8/4/2017.
  */
 
-class GroupsListAdapter extends BaseListAdapter<GroupsListAdapter.GroupViewHolder, GroupDTO> {
+public class GroupsListAdapter extends BaseListAdapter<GroupsListAdapter.GroupViewHolder, GroupDTO> {
 
-    GroupsListAdapter(LayoutInflater inflater) {
+    public GroupsListAdapter(LayoutInflater inflater) {
         super(inflater);
     }
 

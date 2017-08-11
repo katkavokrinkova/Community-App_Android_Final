@@ -21,7 +21,7 @@ public class MemberProjectDTO {
 
     public String mName;
     public String mOrganizationName;
-    public Float mMemberCount;
+    public String mMemberCount;
     public String mLocation;
     public String mImageURL;
 }

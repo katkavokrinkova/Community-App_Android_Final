@@ -11,6 +11,7 @@
 
 package net.impacthub.members.presenter.features.members;
 
+import net.impacthub.members.model.dto.groups.GroupDTO;
 import net.impacthub.members.model.dto.members.MemberProjectDTO;
 import net.impacthub.members.presenter.features.error.ErrorHandlerUiContract;
 
@@ -24,5 +25,7 @@ import java.util.List;
 
 public interface MemberDetailUiContract extends ErrorHandlerUiContract {
 
-    void onLoadProject(List<MemberProjectDTO> projectDTOs);
+    void onLoadProjects(List<MemberProjectDTO> projectDTOs);
+
+    void onLoadGroups(List<GroupDTO> groupDTOs);
 }

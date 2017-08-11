@@ -15,6 +15,7 @@ import com.salesforce.androidsdk.accounts.UserAccount;
 
 import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnTabVisibilityChangeListener;
+import net.impacthub.members.model.dto.groups.GroupDTO;
 import net.impacthub.members.model.dto.members.MemberProjectDTO;
 import net.impacthub.members.model.features.members.Member;
 import net.impacthub.members.presenter.features.members.MemberDetailPresenter;
@@ -23,8 +24,10 @@ import net.impacthub.members.ui.base.BaseChildFragment;
 import net.impacthub.members.ui.binder.ViewBinder;
 import net.impacthub.members.ui.common.ImageLoaderHelper;
 import net.impacthub.members.ui.features.home.members.binders.about.AboutViewBinder;
+import net.impacthub.members.ui.features.home.members.binders.project.GroupsViewBinder;
 import net.impacthub.members.ui.features.home.members.binders.project.ProjectsViewBinder;
 import net.impacthub.members.ui.widgets.TypefaceTextView;
+import net.impacthub.members.utilities.ViewUtils;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -111,11 +114,18 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
         mPagerAdapter = new MembersDetailPagerAdapter();
         mPagerAdapter.addVieBinder(new AboutViewBinder("About"));
         mPagerAdapter.addVieBinder(new ProjectsViewBinder());
-        mPagerAdapter.addVieBinder(new AboutViewBinder("Groups"));
+        mPagerAdapter.addVieBinder(new GroupsViewBinder());
         mPager.setAdapter(mPagerAdapter);
         mPager.setOffscreenPageLimit(mPagerAdapter.getCount());
 
         mDetailsTab.setupWithViewPager(mPager);
+        mPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                if(position > 0) ViewUtils.gone(mDone); else ViewUtils.visible(mDone);
+            }
+        });
 
         for (int i = 0; i < mDetailsTab.getTabCount(); i++) {
             TabLayout.Tab tabAt = mDetailsTab.getTabAt(i);
@@ -141,10 +151,22 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
     }
 
     @Override
-    public void onLoadProject(List<MemberProjectDTO> projectDTOs) {
+    public void onLoadProjects(List<MemberProjectDTO> projectDTOs) {
         if (mPagerAdapter != null) {
             ViewBinder viewBinder = mPagerAdapter.getItemAt(1);
-            viewBinder.bindView(projectDTOs);
+            if (viewBinder != null) {
+                viewBinder.bindView(projectDTOs);
+            }
+        }
+    }
+
+    @Override
+    public void onLoadGroups(List<GroupDTO> groupDTOs) {
+        if (mPagerAdapter != null) {
+            ViewBinder viewBinder = mPagerAdapter.getItemAt(2);
+            if (viewBinder != null) {
+                viewBinder.bindView(groupDTOs);
+            }
         }
     }
 

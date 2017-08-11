@@ -21,7 +21,7 @@
     <net.impacthub.members.ui.widgets.RoundedImageView
         android:id="@+id/image_banner"
         android:layout_width="match_parent"
-        android:layout_height="196dp"
+        android:layout_height="165dp"
         android:scaleType="centerCrop"
         app:riv_corner_radius_top_left="12dp"
         app:riv_corner_radius_top_right="12dp" />
@@ -30,10 +30,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:padding="20dp">
 
         <net.impacthub.members.ui.widgets.TypefaceTextView
-            android:id="@+id/text_goal_title"
+            android:id="@+id/text_project_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -45,7 +45,7 @@
             tools:text="Zero to one: new startups and Innovative Ideas" />
 
         <net.impacthub.members.ui.widgets.TypefaceTextView
-            android:id="@+id/text_goal_summary"
+            android:id="@+id/text_project_organization_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/item_text_top_margin"
