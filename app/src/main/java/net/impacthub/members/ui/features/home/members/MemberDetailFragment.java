@@ -314,14 +314,13 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
                 int absoluteVerticalOffset = Math.abs(verticalOffset);
                 int totalScrollRange = mAppBar.getTotalScrollRange();
                 int height = mToolbar.getHeight();
-
-                OnTabVisibilityChangeListener listener = (OnTabVisibilityChangeListener) getActivity();
-                listener.onVisibilityChanged(absoluteVerticalOffset, totalScrollRange);
-
                 float toolbarTranslationOffset = Math.abs((absoluteVerticalOffset * (height * 1.0f / totalScrollRange)) - height);
                 LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mToolbar.getLayoutParams();
                 params.topMargin = (int) -toolbarTranslationOffset;
                 mToolbar.setLayoutParams(params);
+
+                OnTabVisibilityChangeListener listener = (OnTabVisibilityChangeListener) getActivity();
+                listener.onVisibilityChanged(absoluteVerticalOffset, totalScrollRange);
             }
         }
     };

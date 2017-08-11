@@ -30,18 +30,21 @@
             android:background="@color/colorWhite"
             android:fitsSystemWindows="true">
 
+            <!--app:layout_scrollFlags="scroll|enterAlwaysCollapsed|enterAlways"-->
+
             <android.support.design.widget.CollapsingToolbarLayout
                 android:id="@+id/collapsing_toolbar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:contentScrim="@color/colorWhite"
-                app:layout_scrollFlags="scroll|enterAlwaysCollapsed|enterAlways">
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
                 <net.impacthub.members.ui.widgets.FullHeightLinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:clipChildren="false"
                     android:clipToPadding="false"
+                    android:fitsSystemWindows="true"
                     android:gravity="center_horizontal"
                     android:orientation="vertical"
                     app:layout_collapseMode="parallax">

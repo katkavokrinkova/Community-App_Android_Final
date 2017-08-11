@@ -17,7 +17,7 @@
     android:layout_height="match_parent"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:padding="8dp"
+    android:paddingTop="8dp"
     app:layout_scrollFlags="scroll|enterAlways"
     tools:showIn="@layout/common_searchable_list_layout">
 
