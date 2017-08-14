@@ -38,7 +38,7 @@ class JobsListAdapter extends BaseListAdapter<JobsListAdapter.JobViewHolder, Job
 
     @Override
     public JobViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new JobViewHolder(getLayoutInflater().inflate(R.layout.item_jobs_layout, parent, false));
+        return new JobViewHolder(getLayoutInflater().inflate(R.layout.item_layout_jobs, parent, false));
     }
 
     @Override

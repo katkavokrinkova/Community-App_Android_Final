@@ -49,7 +49,7 @@
                         tools:text="Tamar Berger"
                         android:textColor="@color/greyish_brown"
                         android:textSize="22sp"
-                        app:typeface="fonts/gt-walsheim-light-web.ttf" />
+                        app:typeface="fonts/gt-walsheim-medium-web.ttf" />
 
                     <net.impacthub.members.ui.widgets.TypefaceTextView
                         android:id="@+id/text_status_update"
@@ -97,7 +97,7 @@
 
         </LinearLayout>
 
-        <include layout="@layout/top_shadow_layout" />
+        <include layout="@layout/layout_top_shadow" />
 
     </FrameLayout>
 

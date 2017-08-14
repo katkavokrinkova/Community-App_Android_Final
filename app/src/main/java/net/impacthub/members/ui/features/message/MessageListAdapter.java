@@ -34,7 +34,7 @@ class MessageListAdapter extends BaseListAdapter<MessageListAdapter.MessageViewH
 
     @Override
     public MessageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MessageViewHolder(getLayoutInflater().inflate(R.layout.item_message_layout, parent, false));
+        return new MessageViewHolder(getLayoutInflater().inflate(R.layout.item_layout_message, parent, false));
     }
 
     @Override

@@ -26,7 +26,7 @@ class MembersListAdapter extends BaseListAdapter<MembersListAdapter.ViewHolder, 
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View container = getLayoutInflater().inflate(R.layout.item_member_layout, parent, false);
+        View container = getLayoutInflater().inflate(R.layout.item_layout_member, parent, false);
         return new ViewHolder(container);
     }
 

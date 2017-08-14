@@ -9,7 +9,7 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.ui.features.home.members.binders.project;
+package net.impacthub.members.ui.features.home.projects;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -30,15 +30,15 @@ import net.impacthub.members.ui.common.RecyclerViewHolder;
  * @date 8/10/2017.
  */
 
-class MemberProjectsLisAdapter extends BaseListAdapter<MemberProjectsLisAdapter.MemberProjectViewHolder, ProjectDTO> {
+public class ProjectsLisAdapter extends BaseListAdapter<ProjectsLisAdapter.MemberProjectViewHolder, ProjectDTO> {
 
-    MemberProjectsLisAdapter(LayoutInflater inflater) {
+    public ProjectsLisAdapter(LayoutInflater inflater) {
         super(inflater);
     }
 
     @Override
     public MemberProjectViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MemberProjectViewHolder(getLayoutInflater().inflate(R.layout.item_project_layout, parent, false));
+        return new MemberProjectViewHolder(getLayoutInflater().inflate(R.layout.item_layout_project, parent, false));
     }
 
     @Override

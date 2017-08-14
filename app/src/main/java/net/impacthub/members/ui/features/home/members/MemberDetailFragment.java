@@ -10,10 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.salesforce.androidsdk.accounts.UserAccount;
 
@@ -30,10 +27,8 @@ import net.impacthub.members.ui.base.BaseChildFragment;
 import net.impacthub.members.ui.binder.ViewBinder;
 import net.impacthub.members.ui.common.ImageLoaderHelper;
 import net.impacthub.members.ui.features.home.members.binders.about.AboutViewBinder;
-import net.impacthub.members.ui.features.home.members.binders.project.GroupsViewBinder;
+import net.impacthub.members.ui.features.home.members.binders.group.GroupsViewBinder;
 import net.impacthub.members.ui.features.home.members.binders.project.ProjectsViewBinder;
-import net.impacthub.members.ui.widgets.TypefaceTextView;
-import net.impacthub.members.utilities.ViewUtils;
 
 import java.util.LinkedList;
 import java.util.List;

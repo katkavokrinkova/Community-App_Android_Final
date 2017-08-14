@@ -38,7 +38,7 @@ public class GroupsListAdapter extends BaseListAdapter<GroupsListAdapter.GroupVi
 
     @Override
     public GroupViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View container = getLayoutInflater().inflate(R.layout.item_groups_layout, parent, false);
+        View container = getLayoutInflater().inflate(R.layout.item_layout_groups, parent, false);
         return new GroupViewHolder(container);
     }
 

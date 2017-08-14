@@ -21,6 +21,7 @@
     <dimen name="connect_button_gap">13dp</dimen>
     <dimen name="default_content_small_gap">5dp</dimen>
     <dimen name="default_content_medium_gap">8dp</dimen>
+    <dimen name="default_content_normal_gap">12dp</dimen>
     <dimen name="default_content_large_gap">16dp</dimen>
     <dimen name="nav_bar_height">56dp</dimen>
     <dimen name="default_rounded_bg_radius">8dp</dimen>

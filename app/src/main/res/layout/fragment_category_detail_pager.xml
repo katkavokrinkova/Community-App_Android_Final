@@ -160,7 +160,7 @@ android:layout_height="?attr/actionBarSize"/>
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <include layout="@layout/top_shadow_layout" />
+        <include layout="@layout/layout_top_shadow" />
     </FrameLayout>
 
 </android.support.design.widget.CoordinatorLayout>
@@ -360,7 +360,7 @@ android:layout_height="?attr/actionBarSize"/>
                 <!--android:layout_width="match_parent"-->
                 <!--android:layout_height="match_parent" />-->
 
-            <!--<include layout="@layout/top_shadow_layout" />-->
+            <!--<include layout="@layout/layout_top_shadow" />-->
         <!--</FrameLayout>-->
 
         <!--<include-->

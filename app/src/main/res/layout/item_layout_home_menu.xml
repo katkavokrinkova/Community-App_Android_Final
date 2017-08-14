@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:foreground="?android:attr/selectableItemBackground"
+    app:cardBackgroundColor="@color/colorWhite"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="1dp"
+    app:cardPreventCornerOverlap="false"
+    app:cardUseCompatPadding="false">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="12dp">
+
+        <ImageView
+            android:id="@+id/image_menu_icon"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:background="@drawable/bg_circle_primary"
+            android:padding="12dp"
+            android:tint="@color/colorWhite"
+            tools:src="@mipmap/ic_launcher" />
+
+        <net.impacthub.members.ui.widgets.TypefaceTextView
+            android:id="@+id/text_menu_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:layout_marginLeft="16dp"
+            android:textColor="@color/brownish_grey"
+            android:textSize="16sp"
+            app:typeface="fonts/gt-walsheim-medium-web.ttf"
+            tools:text="Menu" />
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>

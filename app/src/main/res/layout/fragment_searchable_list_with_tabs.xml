@@ -41,7 +41,7 @@
 
             <include layout="@layout/search_bar_layout" />
 
-            <include layout="@layout/top_shadow_layout" />
+            <include layout="@layout/layout_top_shadow" />
         </FrameLayout>
 
     </android.support.design.widget.AppBarLayout>

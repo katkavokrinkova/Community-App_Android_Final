@@ -38,7 +38,7 @@ class GoalsListAdapter extends BaseListAdapter<GoalsListAdapter.GoalsHolder, Goa
 
     @Override
     public GoalsHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new GoalsHolder(getLayoutInflater().inflate(R.layout.item_goal_layout, parent, false));
+        return new GoalsHolder(getLayoutInflater().inflate(R.layout.item_layout_goal, parent, false));
     }
 
     @Override

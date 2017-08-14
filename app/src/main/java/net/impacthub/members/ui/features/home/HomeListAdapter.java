@@ -26,7 +26,7 @@ class HomeListAdapter extends BaseListAdapter<HomeListAdapter.ViewHolder, HomeMe
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = getLayoutInflater().inflate(R.layout.item_home_menu_layout, parent, false);
+        View itemView = getLayoutInflater().inflate(R.layout.item_layout_home_menu, parent, false);
         return new ViewHolder(itemView);
     }
 

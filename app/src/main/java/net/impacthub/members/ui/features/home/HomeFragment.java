@@ -52,7 +52,7 @@ public class HomeFragment extends BaseChildFragment implements OnListItemClickLi
         setUpToolbar(R.string.home, Color.WHITE);
 
         FragmentActivity activity = getActivity();
-        RecyclerView homeMenuList = (RecyclerView) view.findViewById(R.id.list_home_menu);
+        RecyclerView homeMenuList = (RecyclerView) view.findViewById(R.id.list_items);
         homeMenuList.setHasFixedSize(true);
         homeMenuList.addItemDecoration(new LinearItemsMarginDecorator(activity.getResources().getDimensionPixelSize(R.dimen.default_home_item_gap_margin)));
         homeMenuList.setLayoutManager(new LinearLayoutManager(activity));

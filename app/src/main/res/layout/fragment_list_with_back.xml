@@ -24,7 +24,7 @@
 
         <include layout="@layout/common_list_layout" />
 
-        <include layout="@layout/top_shadow_layout" />
+        <include layout="@layout/layout_top_shadow" />
     </FrameLayout>
 
 </LinearLayout>

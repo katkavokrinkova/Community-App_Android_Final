@@ -21,6 +21,7 @@ import net.impacthub.members.R;
 import net.impacthub.members.model.dto.projects.ProjectDTO;
 import net.impacthub.members.ui.binder.ViewBinder;
 import net.impacthub.members.ui.common.LinearItemsMarginDecorator;
+import net.impacthub.members.ui.features.home.projects.ProjectsLisAdapter;
 
 import java.util.List;
 
@@ -32,16 +33,16 @@ import java.util.List;
 
 public class ProjectsViewBinder implements ViewBinder<List<ProjectDTO>> {
 
-    private MemberProjectsLisAdapter mAdapter;
+    private ProjectsLisAdapter mAdapter;
 
     @Override
     public View getView(Context context, int position) {
         LayoutInflater inflater = LayoutInflater.from(context);
         RecyclerView recyclerView = (RecyclerView) inflater.inflate(R.layout.common_list_layout, new LinearLayout(context), false);
         recyclerView.setHasFixedSize(true);
-        mAdapter = new MemberProjectsLisAdapter(inflater);
-        int offset = context.getResources().getDimensionPixelOffset(R.dimen.default_content_medium_gap);
-        recyclerView.addItemDecoration(new LinearItemsMarginDecorator(offset, offset, 0, 0));
+        mAdapter = new ProjectsLisAdapter(inflater);
+        int offset = context.getResources().getDimensionPixelOffset(R.dimen.default_content_normal_gap);
+        recyclerView.addItemDecoration(new LinearItemsMarginDecorator(offset));
         recyclerView.setAdapter(mAdapter);
         return recyclerView;
     }

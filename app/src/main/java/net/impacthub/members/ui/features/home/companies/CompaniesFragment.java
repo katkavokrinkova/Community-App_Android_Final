@@ -65,8 +65,8 @@ public class CompaniesFragment extends BaseChildFragment<CompaniesUiPresenter> i
         mCompanyList.setHasFixedSize(true);
         mAdapter = new CompaniesListAdapter(getLayoutInflater(getArguments()));
         mAdapter.setItemClickListener(this);
-        int offset = getResources().getDimensionPixelOffset(R.dimen.default_content_medium_gap);
-        mCompanyList.addItemDecoration(new LinearItemsMarginDecorator(offset, offset, 0, 0));
+        int offset = getResources().getDimensionPixelOffset(R.dimen.default_content_normal_gap);
+        mCompanyList.addItemDecoration(new LinearItemsMarginDecorator(offset, offset, 0 ,offset));
         mCompanyList.setAdapter(mAdapter);
 
         getPresenter().getCompanies();

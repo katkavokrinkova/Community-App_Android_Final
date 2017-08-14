@@ -40,7 +40,7 @@ class NotificationListAdapter extends BaseListAdapter<NotificationListAdapter.Vi
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View container = getLayoutInflater().inflate(R.layout.item_notification_layout, parent, false);
+        View container = getLayoutInflater().inflate(R.layout.item_layout_notification, parent, false);
         return new ViewHolder(container);
     }
 

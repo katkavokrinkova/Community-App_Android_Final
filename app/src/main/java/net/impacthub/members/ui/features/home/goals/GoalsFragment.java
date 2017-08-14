@@ -66,8 +66,8 @@ public class GoalsFragment extends BaseChildFragment<GoalsPresenter> implements 
         mGoalsList.setHasFixedSize(true);
         mAdapter = new GoalsListAdapter(getLayoutInflater(getArguments()));
         mAdapter.setItemClickListener(this);
-        int offset = getResources().getDimensionPixelOffset(R.dimen.default_content_medium_gap);
-        mGoalsList.addItemDecoration(new LinearItemsMarginDecorator(offset, offset, 0, 0));
+        int offset = getResources().getDimensionPixelOffset(R.dimen.default_content_normal_gap);
+        mGoalsList.addItemDecoration(new LinearItemsMarginDecorator(offset));
         mGoalsList.setAdapter(mAdapter);
 
         getPresenter().getGoals();

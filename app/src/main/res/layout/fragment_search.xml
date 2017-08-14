@@ -22,7 +22,7 @@
             android:layout_gravity="center"
             android:text="Search Item" />
 
-        <include layout="@layout/top_shadow_layout" />
+        <include layout="@layout/layout_top_shadow" />
 
     </FrameLayout>
 

@@ -64,10 +64,10 @@ public class JobsFragment extends BaseChildFragment<JobsPresenter> implements On
         super.onViewCreated(view, savedInstanceState);
         setUpToolbar(R.string.jobs);
         mJobsList.setHasFixedSize(true);
-        mAdapter = new JobsListAdapter(getLayoutInflater(getArguments()));
+        mAdapter = new JobsListAdapter(getLayoutInflater());
         mAdapter.setItemClickListener(this);
-        int offset = getResources().getDimensionPixelOffset(R.dimen.default_content_medium_gap);
-        mJobsList.addItemDecoration(new LinearItemsMarginDecorator(offset, offset, 0, 0));
+        int offset = getResources().getDimensionPixelOffset(R.dimen.default_content_normal_gap);
+        mJobsList.addItemDecoration(new LinearItemsMarginDecorator(offset, offset, 0 ,offset));
         mJobsList.setAdapter(mAdapter);
 
         getPresenter().getJobs();

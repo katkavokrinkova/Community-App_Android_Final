@@ -66,8 +66,8 @@ public class GroupsFragment extends BaseChildFragment<GroupPresenter> implements
         mGroupsList.setHasFixedSize(true);
         mAdapter = new GroupsListAdapter(getLayoutInflater(getArguments()));
         mAdapter.setItemClickListener(this);
-        int offset = getResources().getDimensionPixelOffset(R.dimen.default_content_medium_gap);
-        mGroupsList.addItemDecoration(new LinearItemsMarginDecorator(offset, offset, 0, 0));
+        int offset = getResources().getDimensionPixelOffset(R.dimen.default_content_normal_gap);
+        mGroupsList.addItemDecoration(new LinearItemsMarginDecorator(offset, offset, 0 ,offset));
         mGroupsList.setAdapter(mAdapter);
 
         getPresenter().getGroups();

@@ -118,7 +118,7 @@
 
         </LinearLayout>
 
-        <include layout="@layout/top_shadow_layout" />
+        <include layout="@layout/layout_top_shadow" />
 
         <ProgressBar
             android:id="@+id/progress_bar"

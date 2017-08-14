@@ -65,8 +65,8 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
         setUpToolbar(R.string.members);
 
         mMembersList.setHasFixedSize(true);
-        int offset = getResources().getDimensionPixelOffset(R.dimen.default_content_small_gap);
-        mMembersList.addItemDecoration(new LinearItemsMarginDecorator(offset, offset, 0, 0));
+        int offset = getResources().getDimensionPixelOffset(R.dimen.default_content_normal_gap);
+        mMembersList.addItemDecoration(new LinearItemsMarginDecorator(offset, offset, 0, offset));
 
         if (mAdapter == null) {
             mAdapter = new MembersListAdapter(getActivity().getLayoutInflater());

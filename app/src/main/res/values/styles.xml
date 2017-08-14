@@ -35,9 +35,8 @@
     </style>
 
     <style name="ToolbarColour" parent="@style/ThemeOverlay.AppCompat.ActionBar">
-        <item name="colorControlNormal">@android:color/white</item>
-        <item name="android:textColorPrimary">@android:color/white</item>
-        <item name="android:background">?attr/colorPrimary</item>
+        <!--<item name="colorControlNormal">@android:color/white</item>-->
+        <item name="android:background">@color/colorWhite</item>
     </style>
 
     <style name="ToolbarConstraint" parent="@style/ThemeOverlay.AppCompat.ActionBar">
@@ -46,10 +45,7 @@
         <item name="android:gravity">center</item>
         <item name="android:minHeight">?attr/actionBarSize</item>
         <!--<item name="android:background">@drawable/bottom_shadow</item>-->
-        <!--<item name="android:theme">@style/ToolbarColour</item>-->
-        <item name="layout_constraintLeft_toLeftOf">parent</item>
-        <item name="layout_constraintRight_toRightOf">parent</item>
-        <item name="layout_constraintTop_toTopOf">parent</item>
+        <item name="android:theme">@style/ToolbarColour</item>
     </style>
 
     <style name="ToolbarConstraint.WithBack" parent="ToolbarConstraint">
