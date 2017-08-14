@@ -6,6 +6,8 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -66,21 +68,21 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
     public static final String EXTRA_MEMBER_ABOUT_ME = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_ABOUT_ME";
     public static final String EXTRA_MEMBER_PROFESSION = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_PROFESSION";
 
-    @BindView(R.id.app_bar_layout) protected AppBarLayout mAppBar;
+//    @BindView(R.id.app_bar_layout) protected AppBarLayout mAppBar;
     @BindView(R.id.tabs) protected TabLayout mDetailsTab;
     @BindView(R.id.image_detail) protected ImageView mImageDetail;
-    @BindView(R.id.text_full_name) protected TextView mFullName;
-    @BindView(R.id.location) protected TextView mLocation;
-    @BindView(R.id.text_profession) protected TextView mProfession;
-    @BindView(R.id.about) protected TextView mAboutMe;
-
-    @BindView(R.id.button_twitter) protected ImageButton mButtonTwitter;
-    @BindView(R.id.button_facebook) protected ImageButton mButtonFacebook;
-    @BindView(R.id.button_linkedin) protected ImageButton mButtonLinkedin;
-    @BindView(R.id.button_instagram) protected ImageButton mButtonInsta;
+//    @BindView(R.id.text_full_name) protected TextView mFullName;
+//    @BindView(R.id.location) protected TextView mLocation;
+//    @BindView(R.id.text_profession) protected TextView mProfession;
+//    @BindView(R.id.about) protected TextView mAboutMe;
+//
+//    @BindView(R.id.button_twitter) protected ImageButton mButtonTwitter;
+//    @BindView(R.id.button_facebook) protected ImageButton mButtonFacebook;
+//    @BindView(R.id.button_linkedin) protected ImageButton mButtonLinkedin;
+//    @BindView(R.id.button_instagram) protected ImageButton mButtonInsta;
 
     @BindView(R.id.view_pager) protected ViewPager mPager;
-    @BindView(R.id.done) protected TypefaceTextView mDone;
+//    @BindView(R.id.done) protected TypefaceTextView mDone;
 
     private MembersDetailPagerAdapter mPagerAdapter;
 
@@ -138,16 +140,16 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
     protected void onInstaClicked() {
         Navigator.startOtherWebActivity(getContext(), mLinkInsta);
     }
+//
+//    @OnClick(R.id.image_arrow_collapse_content)
+//    protected void onCollapse() {
+//        mAppBar.setExpanded(false, true);
+//    }
 
-    @OnClick(R.id.image_arrow_collapse_content)
-    protected void onCollapse() {
-        mAppBar.setExpanded(false, true);
-    }
-
-    @OnClick(R.id.done)
-    protected void onDone(){
-        showToast("Just Done!");
-    }
+//    @OnClick(R.id.done)
+//    protected void onDone(){
+//        showToast("Just Done!");
+//    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -158,39 +160,52 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
         String profilePic = arguments.getString(EXTRA_MEMBER_PROFILE_PICTURE);
 
         String fullName = arguments.getString(EXTRA_MEMBER_FULL_NAME);
-        mFullName.setText(fullName);
-        mLocation.setText(arguments.getString(EXTRA_MEMBER_LOCATION));
-        mProfession.setText(arguments.getString(EXTRA_MEMBER_PROFESSION));
+//        mFullName.setText(fullName);
+//        mLocation.setText(arguments.getString(EXTRA_MEMBER_LOCATION));
+//        mProfession.setText(arguments.getString(EXTRA_MEMBER_PROFESSION));
         mAbout = arguments.getString(EXTRA_MEMBER_ABOUT_ME);
-        mAboutMe.setText(mAbout);
+//        mAboutMe.setText(mAbout);
 
         setUpToolbar(fullName);
+        mToolbar.inflateMenu(R.menu.menu_member_connect);
+        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.actionRequestContact:
+                        showToast("Request Contact!");
+                        return true;
+                }
+                return false;
+            }
+        });
+
 
         mLinkTwitter = arguments.getString(EXTRA_MEMBER_TWITTER);
         mLinkFacebook = arguments.getString(EXTRA_MEMBER_FACEBOOK);
         mLinkLinkedin = arguments.getString(EXTRA_MEMBER_LINKEDIN);
         mLinkInsta = arguments.getString(EXTRA_MEMBER_INSTAGRAM);
 
-        if ((mLinkTwitter != null && mLinkTwitter.isEmpty()) || mLinkTwitter == null ) {
-            ViewUtils.gone(mButtonTwitter);
-        }
-
-        if ((mLinkFacebook != null && mLinkFacebook.isEmpty()) || mLinkFacebook == null ) {
-            ViewUtils.gone(mButtonFacebook);
-        }
-
-        if ((mLinkLinkedin != null && mLinkLinkedin.isEmpty()) || mLinkLinkedin == null ) {
-            ViewUtils.gone(mButtonLinkedin);
-        }
-
-        if ((mLinkInsta != null && mLinkInsta.isEmpty()) || mLinkInsta == null ) {
-            ViewUtils.gone(mButtonInsta);
-        }
+//        if ((mLinkTwitter != null && mLinkTwitter.isEmpty()) || mLinkTwitter == null ) {
+//            ViewUtils.gone(mButtonTwitter);
+//        }
+//
+//        if ((mLinkFacebook != null && mLinkFacebook.isEmpty()) || mLinkFacebook == null ) {
+//            ViewUtils.gone(mButtonFacebook);
+//        }
+//
+//        if ((mLinkLinkedin != null && mLinkLinkedin.isEmpty()) || mLinkLinkedin == null ) {
+//            ViewUtils.gone(mButtonLinkedin);
+//        }
+//
+//        if ((mLinkInsta != null && mLinkInsta.isEmpty()) || mLinkInsta == null ) {
+//            ViewUtils.gone(mButtonInsta);
+//        }
 
         ImageLoaderHelper.loadImage(getContext(), profilePic + "?oauth_token=" + mUserAccount.getAuthToken(), mImageDetail);
 
-        mAppBar.addOnOffsetChangedListener(mOffsetChangedListener);
-        mAppBar.setExpanded(true);
+//        mAppBar.addOnOffsetChangedListener(mOffsetChangedListener);
+//        mAppBar.setExpanded(true);
 
         mPagerAdapter = new MembersDetailPagerAdapter();
         mPagerAdapter.addVieBinder(new AboutViewBinder());
@@ -204,7 +219,7 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-                if(position > 0) ViewUtils.gone(mDone); else ViewUtils.visible(mDone);
+//                if(position > 0) ViewUtils.gone(mDone); else ViewUtils.visible(mDone);
             }
         });
 
@@ -227,7 +242,7 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
 
     @Override
     public void onDestroyView() {
-        mAppBar.removeOnOffsetChangedListener(mOffsetChangedListener);
+//        mAppBar.removeOnOffsetChangedListener(mOffsetChangedListener);
         super.onDestroyView();
     }
 
@@ -310,18 +325,18 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
         @Override
         public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
 
-            if (mAppBar != null && mToolbar != null) {
-                int absoluteVerticalOffset = Math.abs(verticalOffset);
-                int totalScrollRange = mAppBar.getTotalScrollRange();
-                int height = mToolbar.getHeight();
-                float toolbarTranslationOffset = Math.abs((absoluteVerticalOffset * (height * 1.0f / totalScrollRange)) - height);
-                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mToolbar.getLayoutParams();
-                params.topMargin = (int) -toolbarTranslationOffset;
-                mToolbar.setLayoutParams(params);
-
-                OnTabVisibilityChangeListener listener = (OnTabVisibilityChangeListener) getActivity();
-                listener.onVisibilityChanged(absoluteVerticalOffset, totalScrollRange);
-            }
+//            if (mAppBar != null && mToolbar != null) {
+//                int absoluteVerticalOffset = Math.abs(verticalOffset);
+//                int totalScrollRange = mAppBar.getTotalScrollRange();
+//                int height = mToolbar.getHeight();
+//                float toolbarTranslationOffset = Math.abs((absoluteVerticalOffset * (height * 1.0f / totalScrollRange)) - height);
+//                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mToolbar.getLayoutParams();
+//                params.topMargin = (int) -toolbarTranslationOffset;
+//                mToolbar.setLayoutParams(params);
+//
+//                OnTabVisibilityChangeListener listener = (OnTabVisibilityChangeListener) getActivity();
+//                listener.onVisibilityChanged(absoluteVerticalOffset, totalScrollRange);
+//            }
         }
     };
 }

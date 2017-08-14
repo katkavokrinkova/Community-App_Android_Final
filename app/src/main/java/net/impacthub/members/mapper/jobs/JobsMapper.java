@@ -32,8 +32,7 @@ public class JobsMapper {
         if (response != null) {
             Records[] records = response.getRecords();
             if (records != null) {
-                for (int i = 0; i < records.length; i++) {
-                    Records record = records[i];
+                for (Records record : records) {
                     if (record != null) {
                         JobDTO job = new JobDTO();
                         job.mName = record.getName();

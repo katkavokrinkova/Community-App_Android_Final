@@ -13,215 +13,374 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_height="match_parent">
 
-    <include layout="@layout/toolbar_with_back_layout" />
+<include layout="@layout/toolbar_with_back_layout"
+android:layout_width="match_parent"
+android:layout_height="?attr/actionBarSize"/>
 
-    <android.support.design.widget.CoordinatorLayout
-        android:id="@+id/root_coordinator"
+<android.support.design.widget.CoordinatorLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:fitsSystemWindows="true">
 
-        <android.support.design.widget.AppBarLayout
-            android:id="@+id/app_bar_layout"
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/htab_collapse_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorWhite"
-            android:fitsSystemWindows="true">
+            android:fitsSystemWindows="true"
+            app:contentScrim="@color/colorWhite"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
+            app:titleEnabled="false">
 
-            <!--app:layout_scrollFlags="scroll|enterAlwaysCollapsed|enterAlways"-->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <android.support.design.widget.CollapsingToolbarLayout
-                android:id="@+id/collapsing_toolbar_layout"
+            <net.impacthub.members.ui.widgets.HalfHeightImageView
+                android:id="@+id/image_detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:contentScrim="@color/colorWhite"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+                android:contentDescription="@string/member_image"
+                android:scaleType="centerCrop"
+                app:layout_collapseMode="parallax"
+                tools:src="@drawable/ic_fp_40px" />
 
-                <net.impacthub.members.ui.widgets.FullHeightLinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clipChildren="false"
-                    android:clipToPadding="false"
-                    android:fitsSystemWindows="true"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical"
-                    app:layout_collapseMode="parallax">
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <net.impacthub.members.ui.widgets.HalfHeightImageView
-                            android:id="@+id/image_detail"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:contentDescription="@string/member_image"
-                            android:scaleType="centerCrop"
-                            tools:src="@drawable/ic_fp_40px" />
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="150dp"
-                            android:layout_gravity="bottom"
-                            android:contentDescription="@string/member_image"
-                            android:src="@drawable/fade_to_white_gradient" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="bottom"
-                            android:gravity="center_horizontal"
-                            android:orientation="vertical">
-
-                            <net.impacthub.members.ui.widgets.TypefaceTextView
-                                android:id="@+id/text_full_name"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                tools:text="Tamar Bridge"
-                                android:textColor="@color/greyish_brown_2"
-                                android:textSize="21sp"
-                                app:typeface="fonts/gt-walsheim-light-web.ttf" />
-
-                            <net.impacthub.members.ui.widgets.TypefaceTextView
-                                android:id="@+id/location"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:drawablePadding="8dp"
-                                android:drawableStart="@mipmap/location_pin"
-                                android:paddingTop="8dp"
-                                tools:text="London, UK"
-                                android:textColor="@color/greyish_brown_2"
-                                android:textSize="14sp"
-                                app:typeface="fonts/gt-walsheim-light-web.ttf" />
-                        </LinearLayout>
-                    </FrameLayout>
-
-                    <net.impacthub.members.ui.widgets.TypefaceTextView
-                        android:id="@+id/text_profession"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="16dp"
-                        tools:text="Ship shoveller"
-                        android:textColor="@color/greyish_brown_2"
-                        android:textSize="14sp"
-                        app:typeface="fonts/gt-walsheim-light-web.ttf" />
-
-                    <LinearLayout
-                        android:id="@+id/connect_buttons"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="16dp">
-
-                        <ImageButton
-                            android:id="@+id/button_twitter"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/connect_button_gap"
-                            android:background="@null"
-                            android:contentDescription="@string/twitter"
-                            android:src="@mipmap/twitter" />
-
-                        <ImageButton
-                            android:id="@+id/button_facebook"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/connect_button_gap"
-                            android:background="@null"
-                            android:contentDescription="@string/facebook"
-                            android:src="@mipmap/facebook" />
-
-                        <ImageButton
-                            android:id="@+id/button_linkedin"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/connect_button_gap"
-                            android:background="@null"
-                            android:contentDescription="@string/linkedin"
-                            android:src="@mipmap/linkedin" />
-
-                        <ImageButton
-                            android:id="@+id/button_instagram"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@null"
-                            android:contentDescription="@string/instagram"
-                            android:src="@mipmap/instagram" />
-
-                    </LinearLayout>
-
-                    <net.impacthub.members.ui.widgets.TypefaceTextView
-                        android:id="@+id/about"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:maxLines="3"
-                        android:paddingEnd="50dp"
-                        android:paddingStart="50dp"
-                        android:paddingTop="16dp"
-                        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor. adipiscing elit, sed do eiusmod tempor."
-                        android:textColor="@color/steel_grey"
-                        android:textSize="15sp"
-                        app:typeface="fonts/gt-walsheim-light-web.ttf" />
-
-                    <ImageButton
-                        android:id="@+id/image_arrow_collapse_content"
-                        style="?attr/buttonStyleSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:background="@android:color/transparent"
-                        android:contentDescription="@string/arrow_down"
-                        android:foreground="?attr/selectableItemBackground"
-                        android:src="@mipmap/arrow_down" />
-
-                </net.impacthub.members.ui.widgets.FullHeightLinearLayout>
-
-            </android.support.design.widget.CollapsingToolbarLayout>
-
-            <android.support.design.widget.TabLayout
-                android:id="@+id/tabs"
+                <ImageView
                 android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_gravity="bottom"
+                android:contentDescription="@string/member_image"
+                android:src="@drawable/fade_to_white_gradient" />
+
+
+                <LinearLayout
+                android:id="@+id/connect_buttons"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:tabGravity="fill"
-                app:tabIndicatorColor="@color/colorPrimary"
-                app:tabIndicatorHeight="1dp"
-                app:tabMode="fixed" />
+                    android:layout_gravity="bottom|center_horizontal"
+                android:padding="16dp">
 
-        </android.support.design.widget.AppBarLayout>
+                <ImageButton
+                android:id="@+id/button_twitter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/connect_button_gap"
+                android:background="@null"
+                android:contentDescription="@string/twitter"
+                android:src="@mipmap/twitter" />
 
-        <FrameLayout
+                <ImageButton
+                android:id="@+id/button_facebook"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/connect_button_gap"
+                android:background="@null"
+                android:contentDescription="@string/facebook"
+                android:src="@mipmap/facebook" />
+
+                <ImageButton
+                android:id="@+id/button_linkedin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/connect_button_gap"
+                android:background="@null"
+                android:contentDescription="@string/linkedin"
+                android:src="@mipmap/linkedin" />
+
+                <ImageButton
+                android:id="@+id/button_instagram"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:contentDescription="@string/instagram"
+                android:src="@mipmap/instagram" />
+
+                </LinearLayout>
+
+
+            </FrameLayout>
+            <!--<View-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:alpha="0.3"-->
+                <!--android:background="@android:color/black"-->
+                <!--android:fitsSystemWindows="true"/>-->
+
+
+
+
+            <!--<android.support.v7.widget.Toolbar-->
+                <!--android:id="@+id/toolbar"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="?attr/actionBarSize"-->
+                <!--android:layout_gravity="top"-->
+                <!--android:layout_marginBottom="48dp"-->
+                <!--app:layout_collapseMode="pin"-->
+                <!--app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>-->
+
+
+
+            <!--<android.support.design.widget.TabLayout-->
+                <!--android:id="@+id/htab_tabs"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="bottom"-->
+                <!--app:tabIndicatorColor="@android:color/white"-->
+                <!--app:tabSelectedTextColor="@android:color/white"-->
+                <!--app:tabTextColor="@color/white_70"/>-->
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            app:tabGravity="fill"
+            app:tabIndicatorColor="@color/colorPrimary"
+            app:tabIndicatorHeight="1dp"
+            app:tabMode="fixed" />
 
-            <android.support.v4.view.ViewPager
-                android:id="@+id/view_pager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+    </android.support.design.widget.AppBarLayout>
 
-            <include layout="@layout/top_shadow_layout" />
-        </FrameLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <include
-            layout="@layout/button_done_layout"
+        <android.support.v4.view.ViewPager
+            android:id="@+id/view_pager"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center_horizontal"
-            android:layout_marginBottom="12dp"
-            android:layout_marginEnd="25dp"
-            android:layout_marginStart="25dp"
-            android:background="@drawable/done_bubble" />
+            android:layout_height="match_parent" />
 
-        <!--<android.support.design.widget.FloatingActionButton-->
-        <!--android:id="@+id/fab"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="bottom|center_horizontal"-->
-        <!--android:layout_margin="16dp"-->
-        <!--android:src="@mipmap/ic_launcher"-->
-        <!--app:borderWidth="0dp"-->
-        <!--app:fabSize="mini" />-->
-    </android.support.design.widget.CoordinatorLayout>
+        <include layout="@layout/top_shadow_layout" />
+    </FrameLayout>
+
+</android.support.design.widget.CoordinatorLayout>
+
 </LinearLayout>
+
+
+    <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--xmlns:tools="http://schemas.android.com/tools"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:orientation="vertical">-->
+
+    <!--<include layout="@layout/toolbar_with_back_layout" />-->
+
+    <!--<android.support.design.widget.CoordinatorLayout-->
+        <!--android:id="@+id/root_coordinator"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+
+        <!--<android.support.design.widget.AppBarLayout-->
+            <!--android:id="@+id/app_bar_layout"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="@color/colorWhite"-->
+            <!--android:fitsSystemWindows="true">-->
+
+            <!--&lt;!&ndash;app:layout_scrollFlags="scroll|enterAlwaysCollapsed|enterAlways"&ndash;&gt;-->
+
+            <!--<android.support.design.widget.CollapsingToolbarLayout-->
+                <!--android:id="@+id/collapsing_toolbar_layout"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--app:contentScrim="@color/colorWhite"-->
+                <!--app:layout_scrollFlags="scroll|exitUntilCollapsed">-->
+
+                <!--<net.impacthub.members.ui.widgets.FullHeightLinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:clipChildren="false"-->
+                    <!--android:clipToPadding="false"-->
+                    <!--android:fitsSystemWindows="true"-->
+                    <!--android:gravity="center_horizontal"-->
+                    <!--android:orientation="vertical"-->
+                    <!--app:layout_collapseMode="parallax">-->
+
+                    <!--<FrameLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content">-->
+
+                        <!--<net.impacthub.members.ui.widgets.HalfHeightImageView-->
+                            <!--android:id="@+id/image_detail"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:contentDescription="@string/member_image"-->
+                            <!--android:scaleType="centerCrop"-->
+                            <!--tools:src="@drawable/ic_fp_40px" />-->
+
+                        <!--<ImageView-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="150dp"-->
+                            <!--android:layout_gravity="bottom"-->
+                            <!--android:contentDescription="@string/member_image"-->
+                            <!--android:src="@drawable/fade_to_white_gradient" />-->
+
+                        <!--<LinearLayout-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_gravity="bottom"-->
+                            <!--android:gravity="center_horizontal"-->
+                            <!--android:orientation="vertical">-->
+
+                            <!--<net.impacthub.members.ui.widgets.TypefaceTextView-->
+                                <!--android:id="@+id/text_full_name"-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--tools:text="Tamar Bridge"-->
+                                <!--android:textColor="@color/greyish_brown_2"-->
+                                <!--android:textSize="21sp"-->
+                                <!--app:typeface="fonts/gt-walsheim-light-web.ttf" />-->
+
+                            <!--<net.impacthub.members.ui.widgets.TypefaceTextView-->
+                                <!--android:id="@+id/location"-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:drawablePadding="8dp"-->
+                                <!--android:drawableStart="@mipmap/location_pin"-->
+                                <!--android:paddingTop="8dp"-->
+                                <!--tools:text="London, UK"-->
+                                <!--android:textColor="@color/greyish_brown_2"-->
+                                <!--android:textSize="14sp"-->
+                                <!--app:typeface="fonts/gt-walsheim-light-web.ttf" />-->
+                        <!--</LinearLayout>-->
+                    <!--</FrameLayout>-->
+
+                    <!--<net.impacthub.members.ui.widgets.TypefaceTextView-->
+                        <!--android:id="@+id/text_profession"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:paddingTop="16dp"-->
+                        <!--tools:text="Ship shoveller"-->
+                        <!--android:textColor="@color/greyish_brown_2"-->
+                        <!--android:textSize="14sp"-->
+                        <!--app:typeface="fonts/gt-walsheim-light-web.ttf" />-->
+
+                    <!--<LinearLayout-->
+                        <!--android:id="@+id/connect_buttons"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:paddingTop="16dp">-->
+
+                        <!--<ImageButton-->
+                            <!--android:id="@+id/button_twitter"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_marginEnd="@dimen/connect_button_gap"-->
+                            <!--android:background="@null"-->
+                            <!--android:contentDescription="@string/twitter"-->
+                            <!--android:src="@mipmap/twitter" />-->
+
+                        <!--<ImageButton-->
+                            <!--android:id="@+id/button_facebook"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_marginEnd="@dimen/connect_button_gap"-->
+                            <!--android:background="@null"-->
+                            <!--android:contentDescription="@string/facebook"-->
+                            <!--android:src="@mipmap/facebook" />-->
+
+                        <!--<ImageButton-->
+                            <!--android:id="@+id/button_linkedin"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_marginEnd="@dimen/connect_button_gap"-->
+                            <!--android:background="@null"-->
+                            <!--android:contentDescription="@string/linkedin"-->
+                            <!--android:src="@mipmap/linkedin" />-->
+
+                        <!--<ImageButton-->
+                            <!--android:id="@+id/button_instagram"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:background="@null"-->
+                            <!--android:contentDescription="@string/instagram"-->
+                            <!--android:src="@mipmap/instagram" />-->
+
+                    <!--</LinearLayout>-->
+
+                    <!--<net.impacthub.members.ui.widgets.TypefaceTextView-->
+                        <!--android:id="@+id/about"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:ellipsize="end"-->
+                        <!--android:maxLines="3"-->
+                        <!--android:paddingEnd="50dp"-->
+                        <!--android:paddingStart="50dp"-->
+                        <!--android:paddingTop="16dp"-->
+                        <!--android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor. adipiscing elit, sed do eiusmod tempor."-->
+                        <!--android:textColor="@color/steel_grey"-->
+                        <!--android:textSize="15sp"-->
+                        <!--app:typeface="fonts/gt-walsheim-light-web.ttf" />-->
+
+                    <!--<ImageButton-->
+                        <!--android:id="@+id/image_arrow_collapse_content"-->
+                        <!--style="?attr/buttonStyleSmall"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginTop="8dp"-->
+                        <!--android:background="@android:color/transparent"-->
+                        <!--android:contentDescription="@string/arrow_down"-->
+                        <!--android:foreground="?attr/selectableItemBackground"-->
+                        <!--android:src="@mipmap/arrow_down" />-->
+
+                <!--</net.impacthub.members.ui.widgets.FullHeightLinearLayout>-->
+
+            <!--</android.support.design.widget.CollapsingToolbarLayout>-->
+
+            <!--<android.support.design.widget.TabLayout-->
+                <!--android:id="@+id/tabs"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--app:tabGravity="fill"-->
+                <!--app:tabIndicatorColor="@color/colorPrimary"-->
+                <!--app:tabIndicatorHeight="1dp"-->
+                <!--app:tabMode="fixed" />-->
+
+        <!--</android.support.design.widget.AppBarLayout>-->
+
+        <!--<FrameLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
+
+            <!--<android.support.v4.view.ViewPager-->
+                <!--android:id="@+id/view_pager"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent" />-->
+
+            <!--<include layout="@layout/top_shadow_layout" />-->
+        <!--</FrameLayout>-->
+
+        <!--<include-->
+            <!--layout="@layout/button_done_layout"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="bottom|center_horizontal"-->
+            <!--android:layout_marginBottom="12dp"-->
+            <!--android:layout_marginEnd="25dp"-->
+            <!--android:layout_marginStart="25dp"-->
+            <!--android:background="@drawable/done_bubble" />-->
+
+        <!--&lt;!&ndash;<android.support.design.widget.FloatingActionButton&ndash;&gt;-->
+        <!--&lt;!&ndash;android:id="@+id/fab"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_gravity="bottom|center_horizontal"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_margin="16dp"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:src="@mipmap/ic_launcher"&ndash;&gt;-->
+        <!--&lt;!&ndash;app:borderWidth="0dp"&ndash;&gt;-->
+        <!--&lt;!&ndash;app:fabSize="mini" />&ndash;&gt;-->
+    <!--</android.support.design.widget.CoordinatorLayout>-->
+<!--</LinearLayout>-->

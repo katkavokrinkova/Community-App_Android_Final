@@ -22,22 +22,25 @@ import net.impacthub.members.model.features.profile.Records;
  */
 
 public class ProfileMapper {
+
     public ProfileDTO map(ProfileResponse profileResponse) {
         ProfileDTO profileDTO = new ProfileDTO();
-        Records[] records = profileResponse.getRecords();
-        if (records != null) {
-            Records record = records[0];
-            if (record != null) {
-                String firstName = record.getFirstName();
-                String lastName = record.getLastName();
-                String profilePic__c = record.getProfilePic__c();
-                String status_update__c = record.getStatus_Update__c();
-                String cities__c = record.getImpact_Hub_Cities__c();
-                profileDTO.mFirstName = firstName;
-                profileDTO.mLastName = lastName;
-                profileDTO.mAvatar = profilePic__c;
-                profileDTO.mStatusUpdate = status_update__c;
-                profileDTO.mCity = cities__c;
+        if (profileResponse != null) {
+            Records[] records = profileResponse.getRecords();
+            if (records != null && records.length > 0) {
+                Records record = records[0];
+                if (record != null) {
+                    String firstName = record.getFirstName();
+                    String lastName = record.getLastName();
+                    String profilePic__c = record.getProfilePic__c();
+                    String status_update__c = record.getStatus_Update__c();
+                    String cities__c = record.getImpact_Hub_Cities__c();
+                    profileDTO.mFirstName = firstName;
+                    profileDTO.mLastName = lastName;
+                    profileDTO.mAvatar = profilePic__c;
+                    profileDTO.mStatusUpdate = status_update__c;
+                    profileDTO.mCity = cities__c;
+                }
             }
         }
         return profileDTO;

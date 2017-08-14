@@ -31,8 +31,7 @@ public class GroupsMapper {
         if (response != null) {
             Records[] records = response.getRecords();
             if (records != null) {
-                for (int i = 0; i < records.length; i++) {
-                    Records record = records[i];
+                for (Records record : records) {
                     if (record != null) {
                         GroupDTO group = new GroupDTO();
                         group.mImageURL = record.getImageURL__c();

@@ -31,8 +31,7 @@ public class ConversationMapper {
         if (response != null) {
             Conversations[] conversations = response.getConversations();
             if (conversations != null) {
-                for (int i = 0; i < conversations.length; i++) {
-                    Conversations conversation = conversations[i];
+                for (Conversations conversation : conversations) {
                     if (conversation != null) {
                         conversationDTOs.add(new ConversationDTO());
                     }

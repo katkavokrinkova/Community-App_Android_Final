@@ -31,8 +31,9 @@ public class NotificationMapper {
         List<NotificationDTO> notificationDTOList = new LinkedList<>();
         if (response != null) {
             Records[] records = response.getRecords();
-            if (records != null) {
-                for (int i = 0; i < records.length; i++) {
+            int length;
+            if (records != null && (length = records.length) > 0) {
+                for (int i = 0; i < length; i++) {
                     Records record = records[i];
                     if (record != null) {
                         NotificationDTO notificationDTO = new NotificationDTO();
