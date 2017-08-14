@@ -30,23 +30,23 @@ import net.impacthub.members.ui.common.RecyclerViewHolder;
  * @date 8/10/2017.
  */
 
-public class ProjectsLisAdapter extends BaseListAdapter<ProjectsLisAdapter.MemberProjectViewHolder, ProjectDTO> {
+public class ProjectsLisAdapter extends BaseListAdapter<ProjectsLisAdapter.ProjectViewHolder, ProjectDTO> {
 
     public ProjectsLisAdapter(LayoutInflater inflater) {
         super(inflater);
     }
 
     @Override
-    public MemberProjectViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MemberProjectViewHolder(getLayoutInflater().inflate(R.layout.item_layout_project, parent, false));
+    public ProjectViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new ProjectViewHolder(getLayoutInflater().inflate(R.layout.item_layout_project, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(MemberProjectViewHolder holder, int position) {
+    public void onBindViewHolder(ProjectViewHolder holder, int position) {
         holder.bindViewsWith(getItem(position));
     }
 
-    class MemberProjectViewHolder extends RecyclerViewHolder<ProjectDTO> implements View.OnClickListener {
+    class ProjectViewHolder extends RecyclerViewHolder<ProjectDTO> implements View.OnClickListener {
 
         final ImageView projectImage;
         final TextView projectTitle;
@@ -54,7 +54,7 @@ public class ProjectsLisAdapter extends BaseListAdapter<ProjectsLisAdapter.Membe
         final TextView location;
         final TextView memberCount;
 
-        MemberProjectViewHolder(View itemView) {
+        ProjectViewHolder(View itemView) {
             super(itemView);
             projectImage = (ImageView) itemView.findViewById(R.id.image_banner);
             projectTitle = (TextView) itemView.findViewById(R.id.text_project_title);

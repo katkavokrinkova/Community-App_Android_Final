@@ -4,12 +4,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.salesforce.androidsdk.accounts.UserAccount;
@@ -25,12 +23,12 @@ import net.impacthub.members.presenter.features.members.MemberDetailPresenter;
 import net.impacthub.members.presenter.features.members.MemberDetailUiContract;
 import net.impacthub.members.ui.base.BaseChildFragment;
 import net.impacthub.members.ui.binder.ViewBinder;
+import net.impacthub.members.ui.common.AppPagerAdapter;
 import net.impacthub.members.ui.common.ImageLoaderHelper;
 import net.impacthub.members.ui.features.home.members.binders.about.AboutViewBinder;
 import net.impacthub.members.ui.features.home.members.binders.group.GroupsViewBinder;
 import net.impacthub.members.ui.features.home.members.binders.project.ProjectsViewBinder;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -79,7 +77,7 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
     @BindView(R.id.view_pager) protected ViewPager mPager;
 //    @BindView(R.id.done) protected TypefaceTextView mDone;
 
-    private MembersDetailPagerAdapter mPagerAdapter;
+    private AppPagerAdapter mPagerAdapter;
 
     private String mLinkTwitter;
     private String mLinkFacebook;
@@ -202,7 +200,7 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
 //        mAppBar.addOnOffsetChangedListener(mOffsetChangedListener);
 //        mAppBar.setExpanded(true);
 
-        mPagerAdapter = new MembersDetailPagerAdapter();
+        mPagerAdapter = new AppPagerAdapter(getContext());
         mPagerAdapter.addVieBinder(new AboutViewBinder());
         mPagerAdapter.addVieBinder(new ProjectsViewBinder());
         mPagerAdapter.addVieBinder(new GroupsViewBinder());
@@ -277,42 +275,6 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
 
                 viewBinder.bindView(infoList);
             }
-        }
-    }
-
-    private class MembersDetailPagerAdapter extends PagerAdapter {
-
-        private final List<ViewBinder> mBindersList = new LinkedList<>();
-
-        public void addVieBinder(ViewBinder viewBinder) {
-            mBindersList.add(viewBinder);
-            notifyDataSetChanged();
-        }
-
-        ViewBinder getItemAt(int position) {
-            return mBindersList.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return mBindersList.size();
-        }
-
-        @Override
-        public boolean isViewFromObject(View view, Object object) {
-            return view == object;
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            View view = mBindersList.get(position).getView(getContext(), position);
-            container.addView(view);
-            return view;
-        }
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            container.removeView((View) object);
         }
     }
 

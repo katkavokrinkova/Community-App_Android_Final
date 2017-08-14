@@ -68,6 +68,10 @@ public class SoqlRequestFactory {
 
     private static final String JOBS = "SELECT " +JOB_COLUMNS+" FROM Job__c WHERE Applications_Close_Date__c >= %s";
 
+    private static final String EVENTS_COLUMNS = "CreatedDate,Event_RegisterLink__c,Event_Description__c,Directory__c,Event_City__c,Event_Country__c,Event_Street__c,Event_ZipCode__c,Event_Classification__c,Event_Discount_Code__c,Event_Organiser_Type__c,Event_Quantity__c,Event_Sector__c,Event_Start_DateTime__c,Event_End_DateTime__c,Event_SubType__c,Event_Type__c,Event_Visibility__c,Id,LastModifiedDate,Name,Organiser__c,Organiser__r.name,OwnerId FROM Event__c";
+
+    private static final String EVENTS = "SELECT " + EVENTS_COLUMNS;
+
     private final RestRequestFactory mRestRequestFactory = restRequestFactoryProvider();
 
     public RestRequest createGetProfileRequest(String memberId) throws UnsupportedEncodingException {
@@ -100,6 +104,10 @@ public class SoqlRequestFactory {
 
     public RestRequest createJobsRequest(int skip, int top, String date) throws UnsupportedEncodingException {
         return mRestRequestFactory.getForQuery(String.format(JOBS, date));
+    }
+
+    public RestRequest createEventsRequest() throws UnsupportedEncodingException {
+        return mRestRequestFactory.getForQuery(EVENTS);
     }
 
     public RestRequest createMemberDetailRequest(String memberId) throws UnsupportedEncodingException {

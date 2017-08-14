@@ -14,6 +14,7 @@ package net.impacthub.members.ui.features.home.projects.binders;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 
 import net.impacthub.members.model.dto.projects.ProjectDTO;
 import net.impacthub.members.ui.binder.ViewBinder;
@@ -31,7 +32,9 @@ public class AllProjectViewBinder implements ViewBinder<List<ProjectDTO>> {
     @Override
     public View getView(Context context, int position) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        return null;
+        TextView textView = new TextView(context);
+        textView.setText("Hello");
+        return textView;
     }
 
     @Override

@@ -30,7 +30,7 @@
         android:fitsSystemWindows="true"
         app:elevation="0dp">
 
-        <include layout="@layout/search_bar_layout" />
+        <include layout="@layout/layout_search_bar" />
 
     </android.support.design.widget.AppBarLayout>
 
