@@ -17,6 +17,6 @@
         app:contentInsetStartWithNavigation="0dp"
         app:title="" />
 
-    <include layout="@layout/common_list_layout" />
+    <include layout="@layout/common_simple_list_layout" />
 
 </LinearLayout>

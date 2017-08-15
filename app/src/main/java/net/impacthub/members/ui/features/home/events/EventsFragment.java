@@ -18,14 +18,14 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import net.impacthub.members.R;
+import net.impacthub.members.model.callback.OnListItemClickListener;
 import net.impacthub.members.model.dto.events.EventDTO;
 import net.impacthub.members.presenter.features.events.EventsUiContract;
 import net.impacthub.members.presenter.features.events.EventsUiPresenter;
 import net.impacthub.members.ui.base.BaseChildFragment;
 import net.impacthub.members.ui.binder.ViewBinder;
 import net.impacthub.members.ui.common.AppPagerAdapter;
-import net.impacthub.members.ui.features.home.events.binders.AllEventsViewBinder;
-import net.impacthub.members.ui.features.home.projects.binders.AllProjectViewBinder;
+import net.impacthub.members.ui.features.home.events.binders.EventsViewBinder;
 
 import java.util.List;
 
@@ -37,7 +37,7 @@ import butterknife.BindView;
  * @date 03/08/2017.
  */
 
-public class EventsFragment extends BaseChildFragment<EventsUiPresenter> implements EventsUiContract {
+public class EventsFragment extends BaseChildFragment<EventsUiPresenter> implements EventsUiContract,OnListItemClickListener<EventDTO> {
 
     public static final String TITLES[] = {"ALL", "EVENTS YOU MANAGE", "YOUR EVENTS"};
 
@@ -46,8 +46,8 @@ public class EventsFragment extends BaseChildFragment<EventsUiPresenter> impleme
 
     private AppPagerAdapter mPagerAdapter;
     private ViewBinder<List<EventDTO>> mViewBinder1;
-    private AllProjectViewBinder mViewBinder2;
-    private AllProjectViewBinder mViewBinder3;
+    private ViewBinder<List<EventDTO>> mViewBinder2;
+    private ViewBinder<List<EventDTO>> mViewBinder3;
 
     public static EventsFragment newInstance() {
 
@@ -74,12 +74,11 @@ public class EventsFragment extends BaseChildFragment<EventsUiPresenter> impleme
         setUpToolbar(R.string.label_events);
 
         mPagerAdapter = new AppPagerAdapter(getContext());
-        mViewBinder1 = new AllEventsViewBinder();
-        mViewBinder2 = new AllProjectViewBinder();
-        mViewBinder3 = new AllProjectViewBinder();
-        mPagerAdapter.addVieBinder(mViewBinder1);
-        mPagerAdapter.addVieBinder(mViewBinder2);
-        mPagerAdapter.addVieBinder(mViewBinder3);
+
+        mPagerAdapter.addVieBinder(mViewBinder1 = new EventsViewBinder(this));
+        mPagerAdapter.addVieBinder(mViewBinder2 = new EventsViewBinder(this));
+        mPagerAdapter.addVieBinder(mViewBinder3 = new EventsViewBinder(this));
+
         mEventsPager.setAdapter(mPagerAdapter);
         mEventsPager.setOffscreenPageLimit(mPagerAdapter.getCount());
         mEventsTab.setupWithViewPager(mEventsPager);
@@ -95,7 +94,17 @@ public class EventsFragment extends BaseChildFragment<EventsUiPresenter> impleme
     }
 
     @Override
-    public void onLoadEvents(List<EventDTO> eventDTOs) {
+    public void onLoadAllEvents(List<EventDTO> eventDTOs) {
         mViewBinder1.bindView(eventDTOs);
+    }
+
+    @Override
+    public void onLoadYourEvents(List<EventDTO> eventDTOs) {
+        mViewBinder2.bindView(eventDTOs);
+    }
+
+    @Override
+    public void onItemClick(EventDTO model) {
+        addChildFragment(EventDetailFragment.newInstance(model), "FRAG_EVENT_DETAIL");
     }
 }

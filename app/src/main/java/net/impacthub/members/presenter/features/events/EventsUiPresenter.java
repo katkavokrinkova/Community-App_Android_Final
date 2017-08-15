@@ -14,14 +14,20 @@ package net.impacthub.members.presenter.features.events;
 import net.impacthub.members.mapper.events.EventsMapper;
 import net.impacthub.members.model.dto.events.EventDTO;
 import net.impacthub.members.model.features.events.EventsResponse;
+import net.impacthub.members.model.features.profile.ProfileResponse;
+import net.impacthub.members.model.features.profile.Records;
 import net.impacthub.members.presenter.base.UiPresenter;
 import net.impacthub.members.usecase.base.UseCaseGenerator;
-import net.impacthub.members.usecase.features.events.EventsUseCase;
+import net.impacthub.members.usecase.features.events.AllEventsUseCase;
+import net.impacthub.members.usecase.features.events.YourEventsUseCase;
+import net.impacthub.members.usecase.features.profile.ProfileUseCase;
 
 import java.util.List;
 
 import io.reactivex.Single;
+import io.reactivex.SingleSource;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableSingleObserver;
 
 /**
@@ -32,18 +38,39 @@ import io.reactivex.observers.DisposableSingleObserver;
 
 public class EventsUiPresenter extends UiPresenter<EventsUiContract> {
 
-    private final UseCaseGenerator<Single<EventsResponse>> mEventsUseCase = new EventsUseCase();
+    private final UseCaseGenerator<Single<EventsResponse>> mAllEventsUseCase = new AllEventsUseCase();
+    private final UseCaseGenerator<Single<ProfileResponse>> mProfileUseCase = new ProfileUseCase();
 
     public EventsUiPresenter(EventsUiContract uiContract) {
         super(uiContract);
     }
 
     public void getEvents() {
-        subscribeWith(mEventsUseCase.getUseCase(), new DisposableSingleObserver<EventsResponse>() {
+        subscribeWith(mAllEventsUseCase.getUseCase(), new DisposableSingleObserver<EventsResponse>() {
             @Override
             public void onSuccess(@NonNull EventsResponse response) {
                 List<EventDTO> eventDTOs = new EventsMapper().map(response);
-                getUi().onLoadEvents(eventDTOs);
+                getUi().onLoadAllEvents(eventDTOs);
+            }
+
+            @Override
+            public void onError(@NonNull Throwable e) {
+                getUi().onError(e);
+            }
+        });
+        Single<EventsResponse> single = mProfileUseCase.getUseCase()
+                .flatMap(new Function<ProfileResponse, SingleSource<EventsResponse>>() {
+                    @Override
+                    public SingleSource<EventsResponse> apply(@NonNull ProfileResponse profileResponse) throws Exception {
+                        Records record = profileResponse.getRecords()[0];
+                        return new YourEventsUseCase(record.getId()).getUseCase();
+                    }
+                });
+        subscribeWith(single, new DisposableSingleObserver<EventsResponse>() {
+            @Override
+            public void onSuccess(@NonNull EventsResponse response) {
+                List<EventDTO> eventDTOs = new EventsMapper().map(response);
+                getUi().onLoadYourEvents(eventDTOs);
             }
 
             @Override

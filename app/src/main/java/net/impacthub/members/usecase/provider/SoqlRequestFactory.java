@@ -68,9 +68,10 @@ public class SoqlRequestFactory {
 
     private static final String JOBS = "SELECT " +JOB_COLUMNS+" FROM Job__c WHERE Applications_Close_Date__c >= %s";
 
-    private static final String EVENTS_COLUMNS = "CreatedDate,Event_RegisterLink__c,Event_Description__c,Directory__c,Event_City__c,Event_Country__c,Event_Street__c,Event_ZipCode__c,Event_Classification__c,Event_Discount_Code__c,Event_Organiser_Type__c,Event_Quantity__c,Event_Sector__c,Event_Start_DateTime__c,Event_End_DateTime__c,Event_SubType__c,Event_Type__c,Event_Visibility__c,Id,LastModifiedDate,Name,Organiser__c,Organiser__r.name,OwnerId FROM Event__c";
+    private static final String EVENTS_COLUMNS = "CreatedDate,Event_RegisterLink__c,Event_Description__c,Directory__c,Event_City__c,Event_Country__c,Event_Street__c,Event_ZipCode__c,Event_Classification__c,Event_Discount_Code__c,Event_Organiser_Type__c,Event_Quantity__c,Event_Sector__c,Event_Start_DateTime__c,Event_End_DateTime__c,Event_SubType__c,Event_Type__c,Event_Visibility__c,Id,LastModifiedDate,Name,Organiser__c,Organiser__r.name,OwnerId, Event_Image_URL__c FROM Event__c";
 
-    private static final String EVENTS = "SELECT " + EVENTS_COLUMNS;
+    private static final String ALL_EVENTS = "SELECT " + EVENTS_COLUMNS;
+    private static final String YOUR_EVENTS = "SELECT " + EVENTS_COLUMNS + " where id in (SELECT Event__c FROM Event_Attendance__c where Registered__c = true and Contact__c = '%s')";
 
     private final RestRequestFactory mRestRequestFactory = restRequestFactoryProvider();
 
@@ -106,8 +107,12 @@ public class SoqlRequestFactory {
         return mRestRequestFactory.getForQuery(String.format(JOBS, date));
     }
 
-    public RestRequest createEventsRequest() throws UnsupportedEncodingException {
-        return mRestRequestFactory.getForQuery(EVENTS);
+    public RestRequest createAllEventsRequest() throws UnsupportedEncodingException {
+        return mRestRequestFactory.getForQuery(ALL_EVENTS);
+    }
+
+    public RestRequest createYourEventsRequest(String contactId) throws UnsupportedEncodingException {
+        return mRestRequestFactory.getForQuery(String.format(YOUR_EVENTS, contactId));
     }
 
     public RestRequest createMemberDetailRequest(String memberId) throws UnsupportedEncodingException {

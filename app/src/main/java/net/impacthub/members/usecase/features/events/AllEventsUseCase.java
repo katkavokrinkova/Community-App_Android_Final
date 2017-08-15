@@ -24,14 +24,14 @@ import io.reactivex.Single;
  * @date 8/14/2017.
  */
 
-public class EventsUseCase extends BaseUseCaseGenerator<Single<EventsResponse>, EventsResponse> {
+public class AllEventsUseCase extends BaseUseCaseGenerator<Single<EventsResponse>, EventsResponse> {
 
     @Override
     public Single<EventsResponse> getUseCase() {
         return Single.fromCallable(new Callable<EventsResponse>() {
             @Override
             public EventsResponse call() throws Exception {
-                return getApiCall().getResponse(getSoqlRequestFactory().createEventsRequest(), EventsResponse.class);
+                return getApiCall().getResponse(getSoqlRequestFactory().createAllEventsRequest(), EventsResponse.class);
             }
         });
     }

@@ -44,6 +44,7 @@ public class Records {
     private String Id;
     private Attributes attributes;
     private String Event_Description__c;
+    private String Event_Image_URL__c;
 
     public String getEvent_Visibility__c() {
         return Event_Visibility__c;
@@ -143,6 +144,10 @@ public class Records {
 
     public String getEvent_Description__c() {
         return Event_Description__c;
+    }
+
+    public String getEvent_Image_URL__c() {
+        return Event_Image_URL__c;
     }
 
     @Override

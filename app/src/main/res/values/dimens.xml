@@ -27,4 +27,6 @@
     <dimen name="default_rounded_bg_radius">8dp</dimen>
     <dimen name="default_rounded_bg_medium_radius">16dp</dimen>
     <dimen name="default_home_item_gap_margin">12dp</dimen>
+    <dimen name="default_fab_icon_size">56dp</dimen>
+    <dimen name="default_fab_margin">16dp</dimen>
 </resources>

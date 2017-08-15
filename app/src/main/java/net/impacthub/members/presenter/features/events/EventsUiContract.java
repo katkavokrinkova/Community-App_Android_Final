@@ -24,5 +24,7 @@ import java.util.List;
 
 public interface EventsUiContract extends ErrorHandlerUiContract {
 
-    void onLoadEvents(List<EventDTO> eventDTOs);
+    void onLoadAllEvents(List<EventDTO> eventDTOs);
+
+    void onLoadYourEvents(List<EventDTO> eventDTOs);
 }
