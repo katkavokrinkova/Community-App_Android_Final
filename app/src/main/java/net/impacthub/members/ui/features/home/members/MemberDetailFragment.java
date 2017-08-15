@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import com.salesforce.androidsdk.accounts.UserAccount;
 
 import net.impacthub.members.R;
+import net.impacthub.members.model.callback.OnListItemClickListener;
 import net.impacthub.members.model.callback.OnTabVisibilityChangeListener;
 import net.impacthub.members.model.dto.groups.GroupDTO;
 import net.impacthub.members.model.dto.projects.ProjectDTO;
@@ -27,7 +28,7 @@ import net.impacthub.members.ui.common.AppPagerAdapter;
 import net.impacthub.members.ui.common.ImageLoaderHelper;
 import net.impacthub.members.ui.features.home.members.binders.about.AboutViewBinder;
 import net.impacthub.members.ui.features.home.members.binders.group.GroupsViewBinder;
-import net.impacthub.members.ui.features.home.members.binders.project.ProjectsViewBinder;
+import net.impacthub.members.ui.features.home.projects.binders.ProjectsViewBinder;
 
 import java.util.List;
 
@@ -42,7 +43,7 @@ import static net.impacthub.members.application.salesforce.SalesforceModuleDepen
  * @date 03/08/2017.
  */
 
-public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresenter> implements MemberDetailUiContract {
+public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresenter> implements MemberDetailUiContract, OnListItemClickListener<ProjectDTO> {
 
     private static final String TAG = MemberDetailFragment.class.getSimpleName();
 
@@ -202,7 +203,7 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
 
         mPagerAdapter = new AppPagerAdapter(getContext());
         mPagerAdapter.addVieBinder(new AboutViewBinder());
-        mPagerAdapter.addVieBinder(new ProjectsViewBinder());
+        mPagerAdapter.addVieBinder(new ProjectsViewBinder(this));
         mPagerAdapter.addVieBinder(new GroupsViewBinder());
         mPager.setAdapter(mPagerAdapter);
         mPager.setOffscreenPageLimit(mPagerAdapter.getCount());
@@ -296,4 +297,9 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
 //            }
         }
     };
+
+    @Override
+    public void onItemClick(ProjectDTO model) {
+        showToast("Hello!!!");
+    }
 }

@@ -66,13 +66,20 @@ public class SoqlRequestFactory {
 
     private static final String JOB_COLUMNS = "id, name, Description__c, Salary__c, Job_Type__c, Sector__c,Contact__c, Location__c, Applications_Close_Date__c,Related_Impact_Goal__c,Company__c,Company__r.name,Company__r.Number_of_Employees__c, Company__r.Impact_Hub_Cities__c,Company__r.Company_Summary__c, Company__r.Sector_Industry__c, Company__r.Logo_Image_Url__c, Company__r.Banner_Image_Url__c, Company__r.Twitter__c, Company__r.Instagram__c, Company__r.Facebook__c, Company__r.LinkedIn__c, Company__r.Website, Company__r.About_Us__c,Job_Application_URL__c";
 
-    private static final String JOBS = "SELECT " +JOB_COLUMNS+" FROM Job__c WHERE Applications_Close_Date__c >= %s";
+    private static final String JOBS = "SELECT " + JOB_COLUMNS + " FROM Job__c WHERE Applications_Close_Date__c >= %s";
 
     private static final String EVENTS_COLUMNS = "CreatedDate,Event_RegisterLink__c,Event_Description__c,Directory__c,Event_City__c,Event_Country__c,Event_Street__c,Event_ZipCode__c,Event_Classification__c,Event_Discount_Code__c,Event_Organiser_Type__c,Event_Quantity__c,Event_Sector__c,Event_Start_DateTime__c,Event_End_DateTime__c,Event_SubType__c,Event_Type__c,Event_Visibility__c,Id,LastModifiedDate,Name,Organiser__c,Organiser__r.name,OwnerId, Event_Image_URL__c FROM Event__c";
 
     private static final String ALL_EVENTS = "SELECT " + EVENTS_COLUMNS;
-    private static final String YOUR_EVENTS = "SELECT " + EVENTS_COLUMNS + " where id in (SELECT Event__c FROM Event_Attendance__c where Registered__c = true and Contact__c = '%s')";
     private static final String EVENTS_YOU_MANAGE = "SELECT " + EVENTS_COLUMNS + " where Organiser__c = '%s'";
+    private static final String YOUR_EVENTS = "SELECT " + EVENTS_COLUMNS + " where id in (SELECT Event__c FROM Event_Attendance__c where Registered__c = true and Contact__c = '%s')";
+
+    private static final String GROUP = "id, name, CountOfMembers__c, ImageURL__c, Group_Desc__c,Related_Impact_Goal__c, Impact_Hub_Cities__c, ChatterGroupId__c, Directory_Style__c,Sector__c";
+    private static final String PROJECT = "id,CreatedById, name,Related_Impact_Goal__c,ChatterGroupId__c ,Group_Desc__c, ImageURL__c, CountOfMembers__c, Impact_Hub_Cities__c, Directory_Style__c,Sector__c, Organisation__r.id, Organisation__r.Number_of_Employees__c, Organisation__r.Impact_Hub_Cities__c, Organisation__r.name";
+
+    private static final String ALL_PROJECTS = "SELECT " + PROJECT + " FROM Directory__c WHERE Directory_Style__c = 'Project'";
+    private static final String PROJECTS_YOU_MANAGE = "SELECT " + PROJECT + " FROM Directory__c WHERE Directory_Style__c = 'Project'";
+    private static final String YOUR_PROJECTS = "SELECT " + PROJECT + " FROM Directory__c WHERE Directory_Style__c = 'Project' AND id IN (select DirectoryID__c FROM Directory_Member__c WHERE ContactID__c ='%s')";
 
     private final RestRequestFactory mRestRequestFactory = restRequestFactoryProvider();
 
@@ -106,6 +113,14 @@ public class SoqlRequestFactory {
 
     public RestRequest createJobsRequest(int skip, int top, String date) throws UnsupportedEncodingException {
         return mRestRequestFactory.getForQuery(String.format(JOBS, date));
+    }
+
+    public RestRequest createAllProjectsRequest() throws UnsupportedEncodingException {
+        return mRestRequestFactory.getForQuery(ALL_PROJECTS);
+    }
+
+    public RestRequest createYourProjectsRequest(String contactId) throws UnsupportedEncodingException {
+        return mRestRequestFactory.getForQuery(String.format(YOUR_PROJECTS, contactId));
     }
 
     public RestRequest createAllEventsRequest() throws UnsupportedEncodingException {
