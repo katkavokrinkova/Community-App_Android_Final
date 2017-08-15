@@ -72,6 +72,7 @@ public class SoqlRequestFactory {
 
     private static final String ALL_EVENTS = "SELECT " + EVENTS_COLUMNS;
     private static final String YOUR_EVENTS = "SELECT " + EVENTS_COLUMNS + " where id in (SELECT Event__c FROM Event_Attendance__c where Registered__c = true and Contact__c = '%s')";
+    private static final String EVENTS_YOU_MANAGE = "SELECT " + EVENTS_COLUMNS + " where Organiser__c = '%s'";
 
     private final RestRequestFactory mRestRequestFactory = restRequestFactoryProvider();
 
@@ -113,6 +114,10 @@ public class SoqlRequestFactory {
 
     public RestRequest createYourEventsRequest(String contactId) throws UnsupportedEncodingException {
         return mRestRequestFactory.getForQuery(String.format(YOUR_EVENTS, contactId));
+    }
+
+    public RestRequest createEventsYouManageRequest(String contactId) throws UnsupportedEncodingException {
+        return mRestRequestFactory.getForQuery(String.format(EVENTS_YOU_MANAGE, contactId));
     }
 
     public RestRequest createMemberDetailRequest(String memberId) throws UnsupportedEncodingException {

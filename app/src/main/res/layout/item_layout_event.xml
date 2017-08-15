@@ -18,8 +18,8 @@
     app:cardBackgroundColor="@color/colorWhite"
     app:cardCornerRadius="10dp"
     app:cardElevation="1dp"
-    app:cardUseCompatPadding="false"
-    app:cardPreventCornerOverlap="false">
+    app:cardPreventCornerOverlap="false"
+    app:cardUseCompatPadding="false">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,8 +29,9 @@
         <net.impacthub.members.ui.widgets.RoundedImageView
             android:id="@+id/image_banner"
             android:layout_width="match_parent"
-            android:layout_height="196dp"
+            android:layout_height="220dp"
             android:scaleType="centerCrop"
+            android:background="@color/colorImagePlaceHolder"
             app:riv_corner_radius_top_left="12dp"
             app:riv_corner_radius_top_right="12dp" />
 
@@ -40,45 +41,53 @@
             android:orientation="horizontal"
             android:weightSum="3">
 
-            <!--<net.impacthub.members.ui.widgets.TypefaceTextView-->
-                <!--android:id="@+id/text_project_title"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginBottom="8dp"-->
-                <!--android:ellipsize="end"-->
-                <!--android:maxLines="2"-->
-                <!--android:textColor="@color/greyish_brown"-->
-                <!--android:textSize="16sp"-->
-                <!--app:typeface="fonts/gt-walsheim-light-web.ttf"-->
-                <!--tools:text="Zero to one: new startups and Innovative Ideas" />-->
-
-            <!--<net.impacthub.members.ui.widgets.TypefaceTextView-->
-                <!--android:id="@+id/text_project_organization_name"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginTop="@dimen/item_text_top_margin"-->
-                <!--android:ellipsize="end"-->
-                <!--android:maxLines="3"-->
-                <!--android:textColor="@color/warm_grey_2"-->
-                <!--android:textSize="14sp"-->
-                <!--app:typeface="fonts/gt-walsheim-light-web.ttf"-->
-                <!--tools:text="Equinox Consulting" />-->
-
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_marginTop="8dp"
-                android:orientation="vertical">
+                android:orientation="horizontal"
+                android:padding="12dp">
 
-                <include layout="@layout/layout_location_info" />
-
-                <include
-                    layout="@layout/layout_member_count_info"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginStart="16dp" />
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/date_pin"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:contentDescription="@string/locations"
+                        android:src="@mipmap/calendar" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:orientation="vertical">
+
+                        <net.impacthub.members.ui.widgets.TypefaceTextView
+                            android:id="@+id/date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="Date event"
+                            android:textColor="@color/warm_grey_2"
+                            android:textSize="12sp"
+                            app:typeface="fonts/gt-walsheim-light-web.ttf" />
+
+                        <net.impacthub.members.ui.widgets.TypefaceTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/item_text_top_margin"
+                            android:textColor="@color/greyish_brown"
+                            android:textSize="12sp"
+                            app:typeface="fonts/gt-walsheim-light-web.ttf"
+                            android:text="15 May" />
+                    </LinearLayout>
+                </LinearLayout>
+
 
             </LinearLayout>
 
@@ -86,42 +95,66 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_marginTop="8dp"
                 android:orientation="horizontal">
 
                 <View
-                    android:layout_width="1dp"
-                    android:background="@color/brownish_grey"
-                    android:layout_height="50dp" />
+                    android:layout_width="0.3dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorWhiteThree" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="12dp">
 
-                    <include layout="@layout/layout_location_info" />
-
-                    <net.impacthub.members.ui.widgets.TypefaceTextView
-                        android:id="@+id/text_event_city"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_marginBottom="24dp"
-                        android:layout_marginTop="@dimen/item_text_top_margin"
-                        android:textColor="@color/greyish_brown"
-                        android:textSize="12sp"
-                        app:typeface="fonts/gt-walsheim-light-web.ttf"
-                        tools:text="Amsterdam" />
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/map_pin"
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:contentDescription="@string/locations"
+                            android:src="@mipmap/location_pin" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:orientation="vertical">
+
+                            <net.impacthub.members.ui.widgets.TypefaceTextView
+                                android:id="@+id/location"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:text="City"
+                                android:textColor="@color/warm_grey_2"
+                                android:textSize="12sp"
+                                app:typeface="fonts/gt-walsheim-light-web.ttf" />
+
+                            <net.impacthub.members.ui.widgets.TypefaceTextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/item_text_top_margin"
+                                android:textColor="@color/greyish_brown"
+                                android:textSize="12sp"
+                                app:typeface="fonts/gt-walsheim-light-web.ttf"
+                                android:text="Amsterdam" />
+                        </LinearLayout>
+                    </LinearLayout>
 
                 </LinearLayout>
 
                 <View
-                    android:layout_width="1dp"
+                    android:layout_width="0.3dp"
+                    android:layout_height="match_parent"
                     android:layout_gravity="right"
-                    android:background="@color/brownish_grey"
-                    android:layout_height="50dp" />
+                    android:background="@color/colorWhiteThree" />
 
             </FrameLayout>
 
@@ -129,17 +162,49 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_marginTop="8dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="12dp">
 
-                <include layout="@layout/layout_location_info" />
-
-                <include
-                    layout="@layout/layout_member_count_info"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginStart="16dp" />
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/time_pin"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:contentDescription="@string/locations"
+                        android:src="@mipmap/clock" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:orientation="vertical">
+
+                        <net.impacthub.members.ui.widgets.TypefaceTextView
+                            android:id="@+id/clock"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="Time"
+                            android:textColor="@color/warm_grey_2"
+                            android:textSize="12sp"
+                            app:typeface="fonts/gt-walsheim-light-web.ttf" />
+
+                        <net.impacthub.members.ui.widgets.TypefaceTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/item_text_top_margin"
+                            android:textColor="@color/greyish_brown"
+                            android:textSize="12sp"
+                            app:typeface="fonts/gt-walsheim-light-web.ttf"
+                            android:text="5PM-7PM" />
+
+                    </LinearLayout>
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -148,16 +213,16 @@
     </LinearLayout>
 
     <net.impacthub.members.ui.widgets.TypefaceTextView
-        android:layout_margin="24dp"
         android:id="@+id/text_event_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="24dp"
         android:layout_marginBottom="8dp"
         android:ellipsize="end"
         android:maxLines="2"
-        android:textColor="@color/greyish_brown"
-        android:textSize="16sp"
-        app:typeface="fonts/gt-walsheim-light-web.ttf"
-        android:text="A guide to reaching your sustainable development goalss" />
+        android:text="A guide to reaching your sustainable development goalss"
+        android:textColor="@color/colorWhite"
+        android:textSize="18sp"
+        app:typeface="fonts/gt-walsheim-light-web.ttf" />
 
 </android.support.v7.widget.CardView>

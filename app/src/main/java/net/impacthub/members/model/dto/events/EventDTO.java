@@ -18,4 +18,6 @@ package net.impacthub.members.model.dto.events;
  */
 
 public class EventDTO {
+
+    public String mImageURL;
 }

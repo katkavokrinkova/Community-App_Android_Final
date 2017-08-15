@@ -35,6 +35,10 @@ public class EventsMapper {
                 for (Records record : records) {
                     if (record != null) {
                         EventDTO eventDTO = new EventDTO();
+                        eventDTO.mImageURL = record.getEvent_Image_URL__c();
+                        eventDTO.mImageURL = record.getEvent_Image_URL__c();
+                        eventDTO.mImageURL = record.getEvent_Image_URL__c();
+                        eventDTO.mImageURL = record.getEvent_Image_URL__c();
                         Organiser__r organiser__r = record.getOrganiser__r();
                         if (organiser__r != null) {
 

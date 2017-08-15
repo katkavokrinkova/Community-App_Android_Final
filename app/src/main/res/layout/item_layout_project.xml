@@ -70,7 +70,7 @@
                 android:layout_marginTop="8dp"
                 android:orientation="horizontal">
 
-                <include layout="@layout/layout_location_info" />
+                <include layout="@layout/layout_info_location" />
 
                 <include
                     layout="@layout/layout_member_count_info"

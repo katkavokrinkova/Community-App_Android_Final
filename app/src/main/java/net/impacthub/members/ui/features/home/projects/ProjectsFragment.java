@@ -21,7 +21,9 @@ import android.view.View;
 import net.impacthub.members.R;
 import net.impacthub.members.ui.base.BaseChildFragment;
 import net.impacthub.members.ui.common.AppFragmentPagerAdapter;
+import net.impacthub.members.ui.common.AppPagerAdapter;
 import net.impacthub.members.ui.features.home.members.MembersFragment;
+import net.impacthub.members.ui.features.home.projects.binders.ProjectsViewBinder;
 
 import butterknife.BindView;
 
@@ -57,26 +59,23 @@ public class ProjectsFragment extends BaseChildFragment {
         super.onViewCreated(view, savedInstanceState);
         setUpToolbar(R.string.label_projects);
 
-        AppFragmentPagerAdapter adapter = new AppFragmentPagerAdapter(getChildFragmentManager(), new AppFragmentPagerAdapter.PagerAdapterInterface() {
-            @Override
-            public Fragment getItem(int position) {
-                return MembersFragment.newInstance();
-            }
-
-            @Override
-            public int getCount() {
-                return 3;
-            }
-        });
-        mProjectPages.setAdapter(adapter);
-        mProjectPages.setOffscreenPageLimit(adapter.getCount());
-        mProjectsTab.setupWithViewPager(mProjectPages);
-
-        for (int i = 0; i < mProjectsTab.getTabCount(); i++) {
-            TabLayout.Tab tabAt = mProjectsTab.getTabAt(i);
-            if (tabAt != null) {
-                tabAt.setCustomView(createTabTitle(TAB_TITLES[i]));
-            }
-        }
+//        mPagerAdapter = new AppPagerAdapter(getContext());
+//
+//        mPagerAdapter.addVieBinder(mViewBinder1 = new ProjectsViewBinder(this));
+//        mPagerAdapter.addVieBinder(mViewBinder2 = new EventsViewBinder(this));
+//        mPagerAdapter.addVieBinder(mViewBinder3 = new EventsViewBinder(this));
+//
+//        mEventsPager.setAdapter(mPagerAdapter);
+//        mEventsPager.setOffscreenPageLimit(mPagerAdapter.getCount());
+//        mEventsTab.setupWithViewPager(mEventsPager);
+//
+//        for (int i = 0; i < mEventsTab.getTabCount(); i++) {
+//            TabLayout.Tab tabAt = mEventsTab.getTabAt(i);
+//            if (tabAt != null) {
+//                tabAt.setCustomView(createTabTitle(TITLES[i]));
+//            }
+//        }
+//
+//        getPresenter().getProjects();
     }
 }

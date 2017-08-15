@@ -99,8 +99,13 @@ public class EventsFragment extends BaseChildFragment<EventsUiPresenter> impleme
     }
 
     @Override
-    public void onLoadYourEvents(List<EventDTO> eventDTOs) {
+    public void onLoadEventsYouManage(List<EventDTO> eventDTOs) {
         mViewBinder2.bindView(eventDTOs);
+    }
+
+    @Override
+    public void onLoadYourEvents(List<EventDTO> eventDTOs) {
+        mViewBinder3.bindView(eventDTOs);
     }
 
     @Override

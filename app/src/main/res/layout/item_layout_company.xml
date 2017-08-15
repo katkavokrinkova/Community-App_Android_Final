@@ -64,7 +64,7 @@
 
         <include layout="@layout/layout_member_count_info" />
 
-        <include layout="@layout/layout_location_info" />
+        <include layout="@layout/layout_info_location" />
 
         <View
             android:layout_width="match_parent"

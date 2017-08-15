@@ -19,6 +19,7 @@ import net.impacthub.members.model.features.profile.Records;
 import net.impacthub.members.presenter.base.UiPresenter;
 import net.impacthub.members.usecase.base.UseCaseGenerator;
 import net.impacthub.members.usecase.features.events.AllEventsUseCase;
+import net.impacthub.members.usecase.features.events.EventsYouManageUseCase;
 import net.impacthub.members.usecase.features.events.YourEventsUseCase;
 import net.impacthub.members.usecase.features.profile.ProfileUseCase;
 
@@ -58,7 +59,31 @@ public class EventsUiPresenter extends UiPresenter<EventsUiContract> {
                 getUi().onError(e);
             }
         });
-        Single<EventsResponse> single = mProfileUseCase.getUseCase()
+
+        Single<EventsResponse> singleEventYouManage = mProfileUseCase.getUseCase()
+                .flatMap(new Function<ProfileResponse, SingleSource<EventsResponse>>() {
+                    @Override
+                    public SingleSource<EventsResponse> apply(@NonNull ProfileResponse profileResponse) throws Exception {
+                        Records record = profileResponse.getRecords()[0];
+                        return new EventsYouManageUseCase(record.getId()).getUseCase();
+                    }
+                });
+        subscribeWith(singleEventYouManage, new DisposableSingleObserver<EventsResponse>() {
+            @Override
+            public void onSuccess(@NonNull EventsResponse response) {
+                List<EventDTO> eventDTOs = new EventsMapper().map(response);
+                getUi().onLoadEventsYouManage(eventDTOs);
+            }
+
+            @Override
+            public void onError(@NonNull Throwable e) {
+                getUi().onError(e);
+            }
+        });
+
+
+
+        Single<EventsResponse> singleYourEvents = mProfileUseCase.getUseCase()
                 .flatMap(new Function<ProfileResponse, SingleSource<EventsResponse>>() {
                     @Override
                     public SingleSource<EventsResponse> apply(@NonNull ProfileResponse profileResponse) throws Exception {
@@ -66,7 +91,7 @@ public class EventsUiPresenter extends UiPresenter<EventsUiContract> {
                         return new YourEventsUseCase(record.getId()).getUseCase();
                     }
                 });
-        subscribeWith(single, new DisposableSingleObserver<EventsResponse>() {
+        subscribeWith(singleYourEvents, new DisposableSingleObserver<EventsResponse>() {
             @Override
             public void onSuccess(@NonNull EventsResponse response) {
                 List<EventDTO> eventDTOs = new EventsMapper().map(response);

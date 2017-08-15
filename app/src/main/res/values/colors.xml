@@ -24,4 +24,5 @@
     <color name="colorWhiteFour">#f9f9f9</color>
     <color name="colorSilver">#c9cecd</color>
     <color name="colorDarkSlateBlue">#133b50</color>
+    <color name="colorImagePlaceHolder">#B8D9EC</color>
 </resources>

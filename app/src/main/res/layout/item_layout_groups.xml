@@ -55,7 +55,7 @@
                     app:typeface="fonts/gt-walsheim-light-web.ttf"
                     tools:text="A guide to reaching your sustainable development goals" />
 
-                <include layout="@layout/layout_location_info" />
+                <include layout="@layout/layout_info_location" />
 
                 <include layout="@layout/layout_member_count_info" />
 

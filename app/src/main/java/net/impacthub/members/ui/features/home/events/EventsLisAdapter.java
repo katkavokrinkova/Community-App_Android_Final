@@ -72,8 +72,7 @@ public class EventsLisAdapter extends BaseListAdapter<EventsLisAdapter.EventView
 //            projectOrganizationName.setText(itemData.mOrganizationName);
 //            location.setText(itemData.mLocation);
 //            memberCount.setText(itemData.mMemberCount);
-            ImageLoaderHelper.loadImage(context, "http://cdn.wallpapersafari.com/13/28/EcwOC1.jpg", eventImage);
-//            ImageLoaderHelper.loadImage(context, buildUrl(itemData.mImageURL), projectImage);
+            ImageLoaderHelper.loadImage(context, buildUrl(itemData.mImageURL), eventImage);
         }
 
         @Override
