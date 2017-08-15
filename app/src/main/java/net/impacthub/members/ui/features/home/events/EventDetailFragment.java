@@ -16,10 +16,12 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import net.impacthub.members.R;
 import net.impacthub.members.model.dto.events.EventDTO;
 import net.impacthub.members.ui.base.BaseChildFragment;
+import net.impacthub.members.ui.common.ImageLoaderHelper;
 
 import butterknife.BindView;
 
@@ -31,12 +33,15 @@ import butterknife.BindView;
 
 public class EventDetailFragment extends BaseChildFragment {
 
+    private static final String EXTRA_IMAGE_URL = "net.impacthub.members.ui.features.home.events.EXTRA_IMAGE_URL";
+
     @BindView(R.id.list_items) protected RecyclerView mEventDetailList;
+    @BindView(R.id.image_header) protected ImageView mHeaderImage;
 
     public static EventDetailFragment newInstance(EventDTO model) {
 
         Bundle args = new Bundle();
-
+        args.putString(EXTRA_IMAGE_URL, model.mImageURL);
         EventDetailFragment fragment = new EventDetailFragment();
         fragment.setArguments(args);
         return fragment;
@@ -50,7 +55,10 @@ public class EventDetailFragment extends BaseChildFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //setUpToolbar(R.string.label_events);
+        setUpToolbar(R.string.label_events);
+
+        ImageLoaderHelper.loadImage(getContext(), getArguments().getString(EXTRA_IMAGE_URL), mHeaderImage);
+
         mEventDetailList.setHasFixedSize(true);
         mEventDetailList.setAdapter(new RecyclerView.Adapter() {
             @Override

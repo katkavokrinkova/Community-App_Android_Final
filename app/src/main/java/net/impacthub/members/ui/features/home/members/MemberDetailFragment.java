@@ -29,6 +29,7 @@ import net.impacthub.members.ui.common.ImageLoaderHelper;
 import net.impacthub.members.ui.features.home.members.binders.about.AboutViewBinder;
 import net.impacthub.members.ui.features.home.groups.binders.GroupsViewBinder;
 import net.impacthub.members.ui.features.home.projects.binders.ProjectsViewBinder;
+import net.impacthub.members.utilities.ViewUtils;
 
 import java.util.List;
 
@@ -62,9 +63,10 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
     public static final String EXTRA_MEMBER_ABOUT_ME = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_ABOUT_ME";
     public static final String EXTRA_MEMBER_PROFESSION = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_PROFESSION";
 
-//    @BindView(R.id.app_bar_layout) protected AppBarLayout mAppBar;
+    @BindView(R.id.app_bar_layout) protected AppBarLayout mAppBar;
     @BindView(R.id.tabs) protected TabLayout mDetailsTab;
     @BindView(R.id.image_detail) protected ImageView mImageDetail;
+    @BindView(R.id.container_connect) protected View mConnectContainer;
 //    @BindView(R.id.text_full_name) protected TextView mFullName;
 //    @BindView(R.id.location) protected TextView mLocation;
 //    @BindView(R.id.text_profession) protected TextView mProfession;
@@ -162,6 +164,7 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
 
         setUpToolbar(fullName);
         mToolbar.inflateMenu(R.menu.menu_member_connect);
+
         mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -198,34 +201,31 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
 
         ImageLoaderHelper.loadImage(getContext(), profilePic + "?oauth_token=" + mUserAccount.getAuthToken(), mImageDetail);
 
-//        mAppBar.addOnOffsetChangedListener(mOffsetChangedListener);
+        mAppBar.addOnOffsetChangedListener(mOffsetChangedListener);
+
 //        mAppBar.setExpanded(true);
 
-        mPagerAdapter = new AppPagerAdapter(getContext());
-        mPagerAdapter.addVieBinder(new AboutViewBinder());
-        mPagerAdapter.addVieBinder(new ProjectsViewBinder(new OnListItemClickListener<ProjectDTO>() {
-            @Override
-            public void onItemClick(ProjectDTO model) {
-                showToast("Hello project!!!");
-            }
-        }));
-        mPagerAdapter.addVieBinder(new GroupsViewBinder(new OnListItemClickListener<GroupDTO>() {
-            @Override
-            public void onItemClick(GroupDTO model) {
-                showToast("Hello group");
-            }
-        }));
+        if (mPagerAdapter == null) {
+            mPagerAdapter = new AppPagerAdapter(getContext());
+            mPagerAdapter.addVieBinder(new AboutViewBinder());
+            mPagerAdapter.addVieBinder(new ProjectsViewBinder(new OnListItemClickListener<ProjectDTO>() {
+                @Override
+                public void onItemClick(ProjectDTO model) {
+                    showToast("Hello project!!!");
+                }
+            }));
+            mPagerAdapter.addVieBinder(new GroupsViewBinder(new OnListItemClickListener<GroupDTO>() {
+                @Override
+                public void onItemClick(GroupDTO model) {
+                    showToast("Hello group");
+                }
+            }));
+        }
+
         mPager.setAdapter(mPagerAdapter);
         mPager.setOffscreenPageLimit(mPagerAdapter.getCount());
 
         mDetailsTab.setupWithViewPager(mPager);
-        mPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-//                if(position > 0) ViewUtils.gone(mDone); else ViewUtils.visible(mDone);
-            }
-        });
 
         for (int i = 0; i < mDetailsTab.getTabCount(); i++) {
             TabLayout.Tab tabAt = mDetailsTab.getTabAt(i);
@@ -246,7 +246,7 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
 
     @Override
     public void onDestroyView() {
-//        mAppBar.removeOnOffsetChangedListener(mOffsetChangedListener);
+        mAppBar.removeOnOffsetChangedListener(mOffsetChangedListener);
         super.onDestroyView();
     }
 
@@ -289,9 +289,28 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
         }
     }
 
+    private State state = State.IDLE;
+
     AppBarLayout.OnOffsetChangedListener mOffsetChangedListener = new AppBarLayout.OnOffsetChangedListener() {
         @Override
         public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+
+            if (verticalOffset == 0) {
+                if (state != State.EXPANDED) {
+                    state = State.EXPANDED;
+                    handleState();
+                }
+            } else if (Math.abs(verticalOffset) >= appBarLayout.getTotalScrollRange()) {
+                if (state != State.COLLAPSED) {
+                    state = State.COLLAPSED;
+                    handleState();
+                }
+            } else {
+                if (state != State.IDLE) {
+                    state = State.IDLE;
+                    handleState();
+                }
+            }
 
 //            if (mAppBar != null && mToolbar != null) {
 //                int absoluteVerticalOffset = Math.abs(verticalOffset);
@@ -307,4 +326,21 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
 //            }
         }
     };
+
+    private void handleState() {
+        switch (state) {
+            case COLLAPSED:
+                mToolbar.getMenu().findItem(R.id.actionRequestContact).setVisible(true);
+                break;
+            case EXPANDED:
+                mToolbar.getMenu().findItem(R.id.actionRequestContact).setVisible(false);
+                break;
+        }
+    }
+
+    private enum State {
+        COLLAPSED,
+        EXPANDED,
+        IDLE
+    }
 }

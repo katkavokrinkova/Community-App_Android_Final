@@ -27,12 +27,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorWhite"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         android:fitsSystemWindows="true">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/htab_collapse_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="295dp"
             android:fitsSystemWindows="true"
             app:contentScrim="@color/colorWhite"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
@@ -40,66 +41,107 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent"
+                app:layout_collapseMode="parallax">
 
-            <net.impacthub.members.ui.widgets.HalfHeightImageView
-                android:id="@+id/image_detail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/member_image"
-                android:scaleType="centerCrop"
-                app:layout_collapseMode="parallax"
-                tools:src="@drawable/ic_fp_40px" />
+                <net.impacthub.members.ui.widgets.HalfHeightImageView
+                    android:id="@+id/image_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/member_image"
+                    android:scaleType="centerCrop"
+                    tools:src="@drawable/ic_fp_40px" />
 
                 <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_gravity="bottom"
-                android:contentDescription="@string/member_image"
-                android:src="@drawable/fade_to_white_gradient" />
-
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_gravity="bottom"
+                    android:contentDescription="@string/member_image"
+                    android:src="@drawable/fade_to_white_gradient" />
 
                 <LinearLayout
-                android:id="@+id/connect_buttons"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="bottom|center_horizontal"
-                android:padding="16dp">
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-                <ImageButton
-                android:id="@+id/button_twitter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/connect_button_gap"
-                android:background="@null"
-                android:contentDescription="@string/twitter"
-                android:src="@mipmap/twitter" />
+                    <LinearLayout
+                        android:id="@+id/connect_buttons"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp">
 
-                <ImageButton
-                android:id="@+id/button_facebook"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/connect_button_gap"
-                android:background="@null"
-                android:contentDescription="@string/facebook"
-                android:src="@mipmap/facebook" />
+                        <ImageButton
+                            android:id="@+id/button_twitter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/connect_button_gap"
+                            android:background="@null"
+                            android:contentDescription="@string/twitter"
+                            android:src="@mipmap/twitter" />
 
-                <ImageButton
-                android:id="@+id/button_linkedin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/connect_button_gap"
-                android:background="@null"
-                android:contentDescription="@string/linkedin"
-                android:src="@mipmap/linkedin" />
+                        <ImageButton
+                            android:id="@+id/button_facebook"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/connect_button_gap"
+                            android:background="@null"
+                            android:contentDescription="@string/facebook"
+                            android:src="@mipmap/facebook" />
 
-                <ImageButton
-                android:id="@+id/button_instagram"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:contentDescription="@string/instagram"
-                android:src="@mipmap/instagram" />
+                        <ImageButton
+                            android:id="@+id/button_linkedin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/connect_button_gap"
+                            android:background="@null"
+                            android:contentDescription="@string/linkedin"
+                            android:src="@mipmap/linkedin" />
+
+                        <ImageButton
+                            android:id="@+id/button_instagram"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:contentDescription="@string/instagram"
+                            android:src="@mipmap/instagram" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/container_connect"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="24dp"
+                        android:background="@drawable/done_bubble"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingBottom="12dp"
+                        android:paddingLeft="65dp"
+                        android:paddingRight="65dp"
+                        android:paddingTop="12dp">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/ic_notification_contact_request"
+                            android:tint="@color/colorWhite" />
+
+                        <net.impacthub.members.ui.widgets.TypefaceTextView
+                            android:id="@+id/done"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="12dp"
+                            android:gravity="center"
+                            android:text="Connect"
+                            android:textColor="@android:color/white"
+                            android:textSize="16sp"
+                            app:typeface="fonts/gt-walsheim-web.ttf"
+                            tools:showIn="@layout/fragment_filters" />
+
+                    </LinearLayout>
+
 
                 </LinearLayout>
 
