@@ -13,7 +13,8 @@ package net.impacthub.members.ui.features.home.groups;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import net.impacthub.members.R;
@@ -22,7 +23,9 @@ import net.impacthub.members.model.dto.groups.GroupDTO;
 import net.impacthub.members.presenter.features.groups.GroupPresenter;
 import net.impacthub.members.presenter.features.groups.GroupUiContract;
 import net.impacthub.members.ui.base.BaseChildFragment;
-import net.impacthub.members.ui.common.LinearItemsMarginDecorator;
+import net.impacthub.members.ui.binder.ViewBinder;
+import net.impacthub.members.ui.common.AppPagerAdapter;
+import net.impacthub.members.ui.features.home.groups.binders.GroupsViewBinder;
 
 import java.util.List;
 
@@ -36,9 +39,14 @@ import butterknife.BindView;
 
 public class GroupsFragment extends BaseChildFragment<GroupPresenter> implements GroupUiContract, OnListItemClickListener<GroupDTO> {
 
-    @BindView(R.id.list_items) protected RecyclerView mGroupsList;
+    private static final String TAB_TITLES[] = {"ALL", "GROUPS YOU MANAGE", "YOUR GROUPS"};
 
-    private GroupsListAdapter mAdapter;
+    @BindView(R.id.tabs) protected TabLayout mGroupsTab;
+    @BindView(R.id.pager) protected ViewPager mGroupsPages;
+
+    private ViewBinder<List<GroupDTO>> mViewBinder1;
+    private ViewBinder<List<GroupDTO>> mViewBinder2;
+    private ViewBinder<List<GroupDTO>> mViewBinder3;
 
     public static GroupsFragment newInstance() {
 
@@ -56,19 +64,31 @@ public class GroupsFragment extends BaseChildFragment<GroupPresenter> implements
 
     @Override
     protected int getContentView() {
-        return R.layout.fragment_searchable_list;
+        return R.layout.fragment_searchable_list_with_tabs;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setUpToolbar(R.string.label_groups);
-        mGroupsList.setHasFixedSize(true);
-        mAdapter = new GroupsListAdapter(getLayoutInflater(getArguments()));
-        mAdapter.setItemClickListener(this);
-        int offset = getResources().getDimensionPixelOffset(R.dimen.default_content_normal_gap);
-        mGroupsList.addItemDecoration(new LinearItemsMarginDecorator(offset, offset, 0 ,offset));
-        mGroupsList.setAdapter(mAdapter);
+
+
+        AppPagerAdapter adapter = new AppPagerAdapter(getContext());
+//
+        adapter.addVieBinder(mViewBinder1 = new GroupsViewBinder(this));
+        adapter.addVieBinder(mViewBinder2 = new GroupsViewBinder(this));
+        adapter.addVieBinder(mViewBinder3 = new GroupsViewBinder(this));
+//
+        mGroupsPages.setAdapter(adapter);
+        mGroupsPages.setOffscreenPageLimit(adapter.getCount());
+        mGroupsTab.setupWithViewPager(mGroupsPages);
+
+        for (int i = 0; i < mGroupsTab.getTabCount(); i++) {
+            TabLayout.Tab tabAt = mGroupsTab.getTabAt(i);
+            if (tabAt != null) {
+                tabAt.setCustomView(createTabTitle(TAB_TITLES[i]));
+            }
+        }
 
         getPresenter().getGroups();
     }
@@ -79,7 +99,12 @@ public class GroupsFragment extends BaseChildFragment<GroupPresenter> implements
     }
 
     @Override
-    public void onLoadGroups(List<GroupDTO> groupList) {
-        mAdapter.setItems(groupList);
+    public void onLoadAllGroups(List<GroupDTO> groupList) {
+        mViewBinder1.bindView(groupList);
+    }
+
+    @Override
+    public void onLoadYourGroups(List<GroupDTO> groupList) {
+        mViewBinder3.bindView(groupList);
     }
 }

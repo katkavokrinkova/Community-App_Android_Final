@@ -24,20 +24,14 @@ import io.reactivex.Single;
  * @date 8/4/2017.
  */
 
-public class GroupsUseCase extends BaseUseCaseGenerator<Single<GroupsResponse>, GroupsResponse> {
-
-    private final String mContactId;
-
-    public GroupsUseCase(String contactId) {
-        mContactId = contactId;
-    }
+public class AllGroupsUseCase extends BaseUseCaseGenerator<Single<GroupsResponse>, GroupsResponse> {
 
     @Override
     public Single<GroupsResponse> getUseCase() {
         return Single.fromCallable(new Callable<GroupsResponse>() {
             @Override
             public GroupsResponse call() throws Exception {
-                return getApiCall().getResponse(getSoqlRequestFactory().createGroupRequest(mContactId), GroupsResponse.class);
+                return getApiCall().getResponse(getSoqlRequestFactory().createAllGroupRequest(), GroupsResponse.class);
             }
         });
     }

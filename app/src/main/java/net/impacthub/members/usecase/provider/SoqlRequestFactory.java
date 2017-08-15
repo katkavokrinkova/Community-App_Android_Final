@@ -58,8 +58,9 @@ public class SoqlRequestFactory {
             " Logo_Image_Url__c, Banner_Image_Url__c,Affiliated_SDG__c, Twitter__c, Instagram__c, Facebook__c, LinkedIn__c," +
             " Website, About_Us__c FROM account where id IN (SELECT accountid FROM contact WHERE user__c != null)";
 
-    private static final String GROUPS = "SELECT id, name, CountOfMembers__c, ImageURL__c, Group_Desc__c,Related_Impact_Goal__c," +
-            " Impact_Hub_Cities__c, ChatterGroupId__c, Directory_Style__c,Sector__c FROM Directory__c " +
+    private static final String GROUP = "id, name, CountOfMembers__c, ImageURL__c, Group_Desc__c,Related_Impact_Goal__c, Impact_Hub_Cities__c, ChatterGroupId__c, Directory_Style__c,Sector__c";
+    private static final String ALL_GROUPS = "SELECT "+ GROUP + " FROM Directory__c WHERE Directory_Style__c = 'Group'";
+    private static final String YOUR_GROUPS = "SELECT "+ GROUP + " FROM Directory__c " +
             "WHERE Directory_Style__c = 'Group' AND id IN (SELECT DirectoryID__c FROM Directory_Member__c WHERE ContactID__c ='%s')";
 
     private static final String GOALS = "select id, name,  Active__c, ImageURL__c, Summary__c, Description__c from Taxonomy__c where Grouping__c ='SDG'";
@@ -74,7 +75,6 @@ public class SoqlRequestFactory {
     private static final String EVENTS_YOU_MANAGE = "SELECT " + EVENTS_COLUMNS + " where Organiser__c = '%s'";
     private static final String YOUR_EVENTS = "SELECT " + EVENTS_COLUMNS + " where id in (SELECT Event__c FROM Event_Attendance__c where Registered__c = true and Contact__c = '%s')";
 
-    private static final String GROUP = "id, name, CountOfMembers__c, ImageURL__c, Group_Desc__c,Related_Impact_Goal__c, Impact_Hub_Cities__c, ChatterGroupId__c, Directory_Style__c,Sector__c";
     private static final String PROJECT = "id,CreatedById, name,Related_Impact_Goal__c,ChatterGroupId__c ,Group_Desc__c, ImageURL__c, CountOfMembers__c, Impact_Hub_Cities__c, Directory_Style__c,Sector__c, Organisation__r.id, Organisation__r.Number_of_Employees__c, Organisation__r.Impact_Hub_Cities__c, Organisation__r.name";
 
     private static final String ALL_PROJECTS = "SELECT " + PROJECT + " FROM Directory__c WHERE Directory_Style__c = 'Project'";
@@ -103,8 +103,12 @@ public class SoqlRequestFactory {
         return mRestRequestFactory.getForQuery(COMPANIES);
     }
 
-    public RestRequest createGroupRequest(String contactId) throws UnsupportedEncodingException {
-        return mRestRequestFactory.getForQuery(String.format(GROUPS, contactId));
+    public RestRequest createAllGroupRequest() throws UnsupportedEncodingException {
+        return mRestRequestFactory.getForQuery(ALL_GROUPS);
+    }
+
+    public RestRequest createYourGroupRequest(String contactId) throws UnsupportedEncodingException {
+        return mRestRequestFactory.getForQuery(String.format(YOUR_GROUPS, contactId));
     }
 
     public RestRequest createGoalsRequest() throws UnsupportedEncodingException {

@@ -42,7 +42,7 @@ import butterknife.BindView;
 
 public class ProjectsFragment extends BaseChildFragment<ProjectsUiPresenter> implements OnListItemClickListener<ProjectDTO>,ProjectsUiContract {
 
-    private static final String TAB_TITLES[] = {"ALL", "PROJECT YOU MANAGE", "YOUR PROJECT"};
+    private static final String TAB_TITLES[] = {"ALL", "PROJECTS YOU MANAGE", "YOUR PROJECTS"};
 
     @BindView(R.id.tabs) protected TabLayout mProjectsTab;
     @BindView(R.id.pager) protected ViewPager mProjectPages;

@@ -24,5 +24,7 @@ import java.util.List;
 
 public interface GroupUiContract extends ErrorHandlerUiContract {
 
-    void onLoadGroups(List<GroupDTO> groupList);
+    void onLoadAllGroups(List<GroupDTO> groupList);
+
+    void onLoadYourGroups(List<GroupDTO> groupList);
 }

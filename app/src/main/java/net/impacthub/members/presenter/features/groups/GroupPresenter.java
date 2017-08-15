@@ -18,7 +18,8 @@ import net.impacthub.members.model.features.profile.ProfileResponse;
 import net.impacthub.members.model.features.profile.Records;
 import net.impacthub.members.presenter.base.UiPresenter;
 import net.impacthub.members.usecase.base.UseCaseGenerator;
-import net.impacthub.members.usecase.features.groups.GroupsUseCase;
+import net.impacthub.members.usecase.features.groups.AllGroupsUseCase;
+import net.impacthub.members.usecase.features.groups.YourGroupsUseCase;
 import net.impacthub.members.usecase.features.profile.ProfileUseCase;
 
 import java.util.List;
@@ -38,33 +39,47 @@ import io.reactivex.observers.DisposableSingleObserver;
 public class GroupPresenter extends UiPresenter<GroupUiContract> {
 
     private final UseCaseGenerator<Single<ProfileResponse>> mProfileUseCase = new ProfileUseCase();
+    private final UseCaseGenerator<Single<GroupsResponse>> mAllGroupsUseCase = new AllGroupsUseCase();
 
     public GroupPresenter(GroupUiContract uiContract) {
         super(uiContract);
     }
 
     public void getGroups() {
-        getUi().onChangeStatus(true);
-        Single<GroupsResponse> single = mProfileUseCase.getUseCase()
-                .flatMap(new Function<ProfileResponse, SingleSource<GroupsResponse>>() {
-                    @Override
-                    public SingleSource<GroupsResponse> apply(@NonNull ProfileResponse profileResponse) throws Exception {
-                        Records record = profileResponse.getRecords()[0];
-                        return new GroupsUseCase(record.getId()).getUseCase();
-                    }
-                });
-        subscribeWith(single, new DisposableSingleObserver<GroupsResponse>() {
+//        getUi().onChangeStatus(true);
+
+
+        subscribeWith(mAllGroupsUseCase.getUseCase(), new DisposableSingleObserver<GroupsResponse>() {
             @Override
             public void onSuccess(@NonNull GroupsResponse response) {
                 List<GroupDTO> groupList = new GroupsMapper().map(response);
-                getUi().onLoadGroups(groupList);
-                getUi().onChangeStatus(false);
+                getUi().onLoadAllGroups(groupList);
             }
 
             @Override
             public void onError(@NonNull Throwable e) {
                 getUi().onError(e);
-                getUi().onChangeStatus(false);
+            }
+        });
+
+        Single<GroupsResponse> yourGroupsSingle = mProfileUseCase.getUseCase()
+                .flatMap(new Function<ProfileResponse, SingleSource<GroupsResponse>>() {
+                    @Override
+                    public SingleSource<GroupsResponse> apply(@NonNull ProfileResponse profileResponse) throws Exception {
+                        Records record = profileResponse.getRecords()[0];
+                        return new YourGroupsUseCase(record.getId()).getUseCase();
+                    }
+                });
+        subscribeWith(yourGroupsSingle, new DisposableSingleObserver<GroupsResponse>() {
+            @Override
+            public void onSuccess(@NonNull GroupsResponse response) {
+                List<GroupDTO> groupList = new GroupsMapper().map(response);
+                getUi().onLoadYourGroups(groupList);
+            }
+
+            @Override
+            public void onError(@NonNull Throwable e) {
+                getUi().onError(e);
             }
         });
     }

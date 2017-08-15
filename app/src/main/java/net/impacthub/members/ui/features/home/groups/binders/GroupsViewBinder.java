@@ -9,7 +9,7 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.ui.features.home.members.binders.group;
+package net.impacthub.members.ui.features.home.groups.binders;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import net.impacthub.members.R;
+import net.impacthub.members.model.callback.OnListItemClickListener;
 import net.impacthub.members.model.dto.groups.GroupDTO;
 import net.impacthub.members.ui.binder.ViewBinder;
 import net.impacthub.members.ui.common.LinearItemsMarginDecorator;
@@ -34,6 +35,11 @@ import java.util.List;
 public class GroupsViewBinder implements ViewBinder<List<GroupDTO>> {
 
     private GroupsListAdapter mAdapter;
+    private final OnListItemClickListener<GroupDTO> mItemClickListener;
+
+    public GroupsViewBinder(OnListItemClickListener<GroupDTO> itemClickListener) {
+        mItemClickListener = itemClickListener;
+    }
 
     @Override
     public View getView(Context context, int position) {
@@ -41,6 +47,7 @@ public class GroupsViewBinder implements ViewBinder<List<GroupDTO>> {
         RecyclerView recyclerView = (RecyclerView) inflater.inflate(R.layout.common_list_layout, new LinearLayout(context), false);
         recyclerView.setHasFixedSize(true);
         mAdapter = new GroupsListAdapter(inflater);
+        mAdapter.setItemClickListener(mItemClickListener);
         int offset = context.getResources().getDimensionPixelOffset(R.dimen.default_content_normal_gap);
         recyclerView.addItemDecoration(new LinearItemsMarginDecorator(offset));
         recyclerView.setAdapter(mAdapter);

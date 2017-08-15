@@ -27,7 +27,7 @@ import net.impacthub.members.ui.binder.ViewBinder;
 import net.impacthub.members.ui.common.AppPagerAdapter;
 import net.impacthub.members.ui.common.ImageLoaderHelper;
 import net.impacthub.members.ui.features.home.members.binders.about.AboutViewBinder;
-import net.impacthub.members.ui.features.home.members.binders.group.GroupsViewBinder;
+import net.impacthub.members.ui.features.home.groups.binders.GroupsViewBinder;
 import net.impacthub.members.ui.features.home.projects.binders.ProjectsViewBinder;
 
 import java.util.List;
@@ -43,7 +43,7 @@ import static net.impacthub.members.application.salesforce.SalesforceModuleDepen
  * @date 03/08/2017.
  */
 
-public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresenter> implements MemberDetailUiContract, OnListItemClickListener<ProjectDTO> {
+public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresenter> implements MemberDetailUiContract {
 
     private static final String TAG = MemberDetailFragment.class.getSimpleName();
 
@@ -203,8 +203,18 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
 
         mPagerAdapter = new AppPagerAdapter(getContext());
         mPagerAdapter.addVieBinder(new AboutViewBinder());
-        mPagerAdapter.addVieBinder(new ProjectsViewBinder(this));
-        mPagerAdapter.addVieBinder(new GroupsViewBinder());
+        mPagerAdapter.addVieBinder(new ProjectsViewBinder(new OnListItemClickListener<ProjectDTO>() {
+            @Override
+            public void onItemClick(ProjectDTO model) {
+                showToast("Hello project!!!");
+            }
+        }));
+        mPagerAdapter.addVieBinder(new GroupsViewBinder(new OnListItemClickListener<GroupDTO>() {
+            @Override
+            public void onItemClick(GroupDTO model) {
+                showToast("Hello group");
+            }
+        }));
         mPager.setAdapter(mPagerAdapter);
         mPager.setOffscreenPageLimit(mPagerAdapter.getCount());
 
@@ -297,9 +307,4 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
 //            }
         }
     };
-
-    @Override
-    public void onItemClick(ProjectDTO model) {
-        showToast("Hello!!!");
-    }
 }
