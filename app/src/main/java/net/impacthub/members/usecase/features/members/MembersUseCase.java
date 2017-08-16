@@ -1,16 +1,11 @@
 package net.impacthub.members.usecase.features.members;
 
-import net.impacthub.members.model.features.members.Member;
-import net.impacthub.members.model.features.members.Members;
+import net.impacthub.members.model.features.members.MemberResponse;
 import net.impacthub.members.usecase.base.BaseUseCaseGenerator;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Callable;
 
 import io.reactivex.Single;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Function;
 
 /**
  * @author Filippo Ash
@@ -18,27 +13,17 @@ import io.reactivex.functions.Function;
  * @date 7/26/2017.
  */
 
-public class MembersUseCase extends BaseUseCaseGenerator<Single<List<Member>>, Members> {
+public class MembersUseCase extends BaseUseCaseGenerator<Single<MemberResponse>, MemberResponse> {
 
     @Override
-    public Single<List<Member>> getUseCase() {
-        return Single.fromCallable(new MembersCallable()).map(new MemberListExtractor());
+    public Single<MemberResponse> getUseCase() {
+        return Single.fromCallable(new MembersCallable());
     }
 
-    private class MembersCallable implements Callable<Members> {
+    private class MembersCallable implements Callable<MemberResponse> {
         @Override
-        public Members call() throws Exception {
-            return getApiCall().getResponse(getSoqlRequestFactory().createMemberListRequest(), Members.class);
-        }
-    }
-    private class MemberListExtractor implements Function<Members, List<Member>> {
-
-        @Override
-        public List<Member> apply(@NonNull Members members) throws Exception {
-            if (members == null) {
-                return new ArrayList<>();
-            }
-            return members.getMembers();
+        public MemberResponse call() throws Exception {
+            return getApiCall().getResponse(getSoqlRequestFactory().createMemberListRequest(), MemberResponse.class);
         }
     }
 }

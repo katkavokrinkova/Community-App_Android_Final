@@ -34,6 +34,7 @@ public class CompaniesMapper {
                 for (Records record : records) {
                     if (record != null) {
                         CompanyDTO company = new CompanyDTO();
+                        company.mCompanyId = record.getId();
                         company.mCompanyName = record.getName();
                         company.mCompanySector = record.getSector_Industry__c();
                         company.mCompanyLogo = record.getLogo_Image_Url__c();

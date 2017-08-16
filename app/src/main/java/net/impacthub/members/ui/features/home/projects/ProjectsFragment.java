@@ -14,7 +14,6 @@ package net.impacthub.members.ui.features.home.projects;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
@@ -25,9 +24,8 @@ import net.impacthub.members.presenter.features.projects.ProjectsUiContract;
 import net.impacthub.members.presenter.features.projects.ProjectsUiPresenter;
 import net.impacthub.members.ui.base.BaseChildFragment;
 import net.impacthub.members.ui.binder.ViewBinder;
-import net.impacthub.members.ui.common.AppFragmentPagerAdapter;
 import net.impacthub.members.ui.common.AppPagerAdapter;
-import net.impacthub.members.ui.features.home.members.MembersFragment;
+import net.impacthub.members.ui.delegate.TabsDelegate;
 import net.impacthub.members.ui.features.home.projects.binders.ProjectsViewBinder;
 
 import java.util.List;
@@ -42,7 +40,7 @@ import butterknife.BindView;
 
 public class ProjectsFragment extends BaseChildFragment<ProjectsUiPresenter> implements OnListItemClickListener<ProjectDTO>,ProjectsUiContract {
 
-    private static final String TAB_TITLES[] = {"ALL", "PROJECTS YOU MANAGE", "YOUR PROJECTS"};
+    private static final String TITLES[] = {"ALL", "PROJECTS YOU MANAGE", "YOUR PROJECTS"};
 
     @BindView(R.id.tabs) protected TabLayout mProjectsTab;
     @BindView(R.id.pager) protected ViewPager mProjectPages;
@@ -87,12 +85,7 @@ public class ProjectsFragment extends BaseChildFragment<ProjectsUiPresenter> imp
         mProjectPages.setOffscreenPageLimit(mPagerAdapter.getCount());
         mProjectsTab.setupWithViewPager(mProjectPages);
 
-        for (int i = 0; i < mProjectsTab.getTabCount(); i++) {
-            TabLayout.Tab tabAt = mProjectsTab.getTabAt(i);
-            if (tabAt != null) {
-                tabAt.setCustomView(createTabTitle(TAB_TITLES[i]));
-            }
-        }
+        new TabsDelegate().setUp(mProjectsTab, TITLES);
 
         getPresenter().getProjects();
     }

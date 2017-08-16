@@ -80,12 +80,6 @@ public abstract class BaseFragment<P extends UiPresenter<? extends UiContract>> 
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
-    protected TextView createTabTitle(String label) {
-        TextView tabTitleView = (TextView) getLayoutInflater(getArguments()).inflate(R.layout.tab_title_textview, new LinearLayout(getContext()), false);
-        tabTitleView.setText(label);
-        return tabTitleView;
-    }
-
     protected P onCreatePresenter() {
         return null;
     }

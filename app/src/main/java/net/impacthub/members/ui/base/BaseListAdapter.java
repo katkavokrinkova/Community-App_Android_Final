@@ -39,7 +39,10 @@ public abstract class BaseListAdapter<VH extends RecyclerView.ViewHolder, DTO> e
     }
 
     protected String buildUrl(String url) {
-        return url + "?oauth_token=" + mUserAccount.getAuthToken();
+        if (mUserAccount != null) {
+            return url + "?oauth_token=" + mUserAccount.getAuthToken();
+        }
+        return url;
     }
 
     public void setItems(List<DTO> items) {

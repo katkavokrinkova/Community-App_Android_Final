@@ -9,21 +9,24 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.model.dto.companies;
+package net.impacthub.members.model.dto.members;
 
 /**
  * @author Filippo Ash
  * @version 1.0
- * @date 8/4/2017.
+ * @date 8/16/2017.
  */
 
-public class CompanyDTO {
+public class MemberDTO {
 
-    public String mCompanyId;
-    public String mCompanyName;
-    public String mCompanySector;
-    public String mCompanyLogo;
-    public String mCompanyBanner;
-    public String mCompanyMemberCount;
-    public String mCompanyLocation;
+    public String mMemberId;
+    public String mProfilePicURL;
+    public String mFullName;
+    public String mLinkInstagram;
+    public String mLinkFacebook;
+    public String mLinkTwitter;
+    public String mLinkLinkedin;
+    public String mLocation;
+    public String mAboutMe;
+    public String mProfession;
 }

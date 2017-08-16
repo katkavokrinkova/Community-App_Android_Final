@@ -25,6 +25,7 @@ import net.impacthub.members.presenter.features.groups.GroupUiContract;
 import net.impacthub.members.ui.base.BaseChildFragment;
 import net.impacthub.members.ui.binder.ViewBinder;
 import net.impacthub.members.ui.common.AppPagerAdapter;
+import net.impacthub.members.ui.delegate.TabsDelegate;
 import net.impacthub.members.ui.features.home.groups.binders.GroupsViewBinder;
 
 import java.util.List;
@@ -39,7 +40,7 @@ import butterknife.BindView;
 
 public class GroupsFragment extends BaseChildFragment<GroupPresenter> implements GroupUiContract, OnListItemClickListener<GroupDTO> {
 
-    private static final String TAB_TITLES[] = {"ALL", "GROUPS YOU MANAGE", "YOUR GROUPS"};
+    private static final String TITLES[] = {"ALL", "GROUPS YOU MANAGE", "YOUR GROUPS"};
 
     @BindView(R.id.tabs) protected TabLayout mGroupsTab;
     @BindView(R.id.pager) protected ViewPager mGroupsPages;
@@ -83,12 +84,7 @@ public class GroupsFragment extends BaseChildFragment<GroupPresenter> implements
         mGroupsPages.setOffscreenPageLimit(adapter.getCount());
         mGroupsTab.setupWithViewPager(mGroupsPages);
 
-        for (int i = 0; i < mGroupsTab.getTabCount(); i++) {
-            TabLayout.Tab tabAt = mGroupsTab.getTabAt(i);
-            if (tabAt != null) {
-                tabAt.setCustomView(createTabTitle(TAB_TITLES[i]));
-            }
-        }
+        new TabsDelegate().setUp(mGroupsTab, TITLES);
 
         getPresenter().getGroups();
     }

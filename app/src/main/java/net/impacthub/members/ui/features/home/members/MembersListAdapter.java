@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import net.impacthub.members.R;
-import net.impacthub.members.model.features.members.Member;
+import net.impacthub.members.model.dto.members.MemberDTO;
 import net.impacthub.members.ui.base.BaseListAdapter;
 import net.impacthub.members.ui.common.ImageLoaderHelper;
 import net.impacthub.members.ui.common.RecyclerViewHolder;
@@ -18,9 +18,9 @@ import net.impacthub.members.ui.widgets.CircleImageView;
  * @date 8/1/2017.
  */
 
-class MembersListAdapter extends BaseListAdapter<MembersListAdapter.ViewHolder, Member> {
+public class MembersListAdapter extends BaseListAdapter<MembersListAdapter.ViewHolder, MemberDTO> {
 
-    MembersListAdapter(LayoutInflater inflater) {
+    public MembersListAdapter(LayoutInflater inflater) {
         super(inflater);
     }
 
@@ -35,7 +35,7 @@ class MembersListAdapter extends BaseListAdapter<MembersListAdapter.ViewHolder, 
         holder.bindViewsWith(getItem(position));
     }
 
-    class ViewHolder extends RecyclerViewHolder<Member> implements View.OnClickListener {
+    class ViewHolder extends RecyclerViewHolder<MemberDTO> implements View.OnClickListener {
 
         final View container;
         final CircleImageView memberImage;
@@ -54,11 +54,11 @@ class MembersListAdapter extends BaseListAdapter<MembersListAdapter.ViewHolder, 
         }
 
         @Override
-        protected void bindViewsWith(Member item) {
-            name.setText(item.getFirstName() + ' ' + item.getLastName());
-            profession.setText(item.getProfession());
-            locations.setText(item.getImpactHubCities());
-            ImageLoaderHelper.loadImage(memberImage.getContext(), buildUrl(item.getProfilePic()), memberImage);
+        protected void bindViewsWith(MemberDTO item) {
+            name.setText(item.mFullName);
+            profession.setText(item.mProfession);
+            locations.setText(item.mLocation);
+            ImageLoaderHelper.loadImage(memberImage.getContext(), buildUrl(item.mProfilePicURL), memberImage);
         }
 
         @Override

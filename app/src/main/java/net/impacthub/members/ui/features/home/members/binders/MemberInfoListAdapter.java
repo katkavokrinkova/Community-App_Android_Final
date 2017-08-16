@@ -9,7 +9,7 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.ui.features.home.members.binders.about;
+package net.impacthub.members.ui.features.home.members.binders;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

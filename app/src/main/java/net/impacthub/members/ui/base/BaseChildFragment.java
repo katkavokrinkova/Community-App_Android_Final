@@ -7,9 +7,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
+import com.salesforce.androidsdk.accounts.UserAccount;
+
 import net.impacthub.members.R;
 import net.impacthub.members.presenter.base.UiContract;
 import net.impacthub.members.presenter.base.UiPresenter;
+
+import static net.impacthub.members.application.salesforce.SalesforceModuleDependency.userAccountProvider;
 
 /**
  * @author Filippo Ash
@@ -19,12 +23,24 @@ import net.impacthub.members.presenter.base.UiPresenter;
 
 public abstract class BaseChildFragment<P extends UiPresenter<? extends UiContract>> extends BaseFragment<P> {
 
+    private final UserAccount mUserAccount = userAccountProvider();
     protected final View.OnClickListener mBackListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             popChildFragment();
         }
     };
+
+    protected UserAccount getUserAccount() {
+        return mUserAccount;
+    }
+
+    protected String buildUrl(String url) {
+        if (mUserAccount != null) {
+            return url + "?oauth_token=" + mUserAccount.getAuthToken();
+        }
+        return url;
+    }
 
     protected void setUpToolbar(String title) {
         if(mToolbar != null) {

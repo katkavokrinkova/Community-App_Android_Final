@@ -12,10 +12,13 @@
 package net.impacthub.members.mapper.members;
 
 import net.impacthub.members.model.dto.groups.GroupDTO;
+import net.impacthub.members.model.dto.members.MemberDTO;
 import net.impacthub.members.model.dto.members.SkillsDTO;
 import net.impacthub.members.model.dto.projects.ProjectDTO;
 import net.impacthub.members.model.features.members.Affiliation;
 import net.impacthub.members.model.features.members.Affiliations;
+import net.impacthub.members.model.features.members.Member;
+import net.impacthub.members.model.features.members.MemberResponse;
 import net.impacthub.members.model.features.members.Organisation;
 import net.impacthub.members.model.features.members.Skill;
 import net.impacthub.members.model.features.members.Skills;
@@ -31,6 +34,32 @@ import java.util.List;
  */
 
 public class MembersMapper {
+
+    public List<MemberDTO> map(MemberResponse responses) {
+        List<MemberDTO> memberDTOs = new LinkedList<>();
+        if (responses != null) {
+            List<Member> members = responses.getMembers();
+            if (members != null) {
+                for (Member member : members) {
+                    if (member != null) {
+                        MemberDTO memberDTO = new MemberDTO();
+                        memberDTO.mMemberId = member.getId();
+                        memberDTO.mProfilePicURL = member.getProfilePic();
+                        memberDTO.mFullName = member.getFirstName() + " " + member.getLastName();
+                        memberDTO.mLinkInstagram = member.getInstagram();
+                        memberDTO.mLinkFacebook = member.getFacebook();
+                        memberDTO.mLinkTwitter = member.getTwitter();
+                        memberDTO.mLinkLinkedin = member.getLinkedIn();
+                        memberDTO.mLocation = member.getImpactHubCities();
+                        memberDTO.mAboutMe = member.getAboutMe();
+                        memberDTO.mProfession = member.getProfession();
+                        memberDTOs.add(memberDTO);
+                    }
+                }
+            }
+        }
+        return memberDTOs;
+    }
 
     public List<ProjectDTO> mapProjects(Affiliations response) {
         List<ProjectDTO> memberProjectDTOs = new LinkedList<>();

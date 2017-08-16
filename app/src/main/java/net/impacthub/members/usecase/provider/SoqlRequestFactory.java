@@ -28,9 +28,11 @@ import static net.impacthub.members.application.salesforce.SalesforceModuleDepen
 
 public class SoqlRequestFactory {
 
-    private static final String CONTACT = "select id, firstname,lastname, ProfilePic__c, Profession__c, Impact_Hub_Cities__c," +
+    private static final String CONTACT = "id, firstname,lastname, ProfilePic__c, Profession__c, Impact_Hub_Cities__c," +
             " User__c,Skills__c, About_Me__c,Status_Update__c,Directory_Summary__c, Interested_SDG__c," +
-            "How_Do_You_Most_Identify_with_Your_Curre__c,Twitter__c,Instagram__c,Facebook__c,Linked_In__c FROM Contact WHERE User__c = '%s'";
+            "How_Do_You_Most_Identify_with_Your_Curre__c,Twitter__c,Instagram__c,Facebook__c,Linked_In__c";
+
+    private static final String PROFILE = "SELECT " + CONTACT + " FROM Contact WHERE User__c = '%s'";
 
     private static final String memberListQuery =
             "select id, firstname, lastname, ProfilePic__c, Profession__c, Impact_Hub_Cities__c,"
@@ -81,10 +83,13 @@ public class SoqlRequestFactory {
     private static final String PROJECTS_YOU_MANAGE = "SELECT " + PROJECT + " FROM Directory__c WHERE Directory_Style__c = 'Project'";
     private static final String YOUR_PROJECTS = "SELECT " + PROJECT + " FROM Directory__c WHERE Directory_Style__c = 'Project' AND id IN (select DirectoryID__c FROM Directory_Member__c WHERE ContactID__c ='%s')";
 
+    private static final String COMPANY_PROJECT = "SELECT " + PROJECT + " FROM Directory__c WHERE Directory_Style__c ='Project' AND Organisation__c ='%s'";
+    private static final String COMPANY_MEMBER = "SELECT " + CONTACT + " FROM Contact WHERE User__c != NULL AND accountid='%s'";
+
     private final RestRequestFactory mRestRequestFactory = restRequestFactoryProvider();
 
     public RestRequest createGetProfileRequest(String memberId) throws UnsupportedEncodingException {
-        return mRestRequestFactory.getForQuery(String.format(CONTACT, memberId));
+        return mRestRequestFactory.getForQuery(String.format(PROFILE, memberId));
     }
 
     public RestRequest createMemberListRequest() throws UnsupportedEncodingException {
@@ -141,6 +146,14 @@ public class SoqlRequestFactory {
 
     public RestRequest createMemberDetailRequest(String memberId) throws UnsupportedEncodingException {
         return mRestRequestFactory.getForQuery(String.format(memberDetailQuery, memberId));
+    }
+
+    public RestRequest createCompanyProjectDetailRequest(String companyId) throws UnsupportedEncodingException {
+        return mRestRequestFactory.getForQuery(String.format(COMPANY_PROJECT, companyId));
+    }
+
+    public RestRequest createCompanyMemberDetailRequest(String companyId) throws UnsupportedEncodingException {
+        return mRestRequestFactory.getForQuery(String.format(COMPANY_MEMBER, companyId));
     }
 
     public RestRequest createMemberSkillsRequest(String memberId) throws UnsupportedEncodingException {

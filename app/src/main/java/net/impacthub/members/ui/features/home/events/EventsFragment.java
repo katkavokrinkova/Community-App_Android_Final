@@ -25,6 +25,7 @@ import net.impacthub.members.presenter.features.events.EventsUiPresenter;
 import net.impacthub.members.ui.base.BaseChildFragment;
 import net.impacthub.members.ui.binder.ViewBinder;
 import net.impacthub.members.ui.common.AppPagerAdapter;
+import net.impacthub.members.ui.delegate.TabsDelegate;
 import net.impacthub.members.ui.features.home.events.binders.EventsViewBinder;
 
 import java.util.List;
@@ -83,12 +84,7 @@ public class EventsFragment extends BaseChildFragment<EventsUiPresenter> impleme
         mEventsPager.setOffscreenPageLimit(mPagerAdapter.getCount());
         mEventsTab.setupWithViewPager(mEventsPager);
 
-        for (int i = 0; i < mEventsTab.getTabCount(); i++) {
-            TabLayout.Tab tabAt = mEventsTab.getTabAt(i);
-            if (tabAt != null) {
-                tabAt.setCustomView(createTabTitle(TITLES[i]));
-            }
-        }
+        new TabsDelegate().setUp(mEventsTab, TITLES);
 
         getPresenter().getEvents();
     }

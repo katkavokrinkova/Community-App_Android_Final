@@ -6,18 +6,18 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.util.Pair;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
-
-import com.salesforce.androidsdk.accounts.UserAccount;
 
 import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnListItemClickListener;
 import net.impacthub.members.model.callback.OnTabVisibilityChangeListener;
 import net.impacthub.members.model.dto.groups.GroupDTO;
+import net.impacthub.members.model.dto.members.MemberDTO;
 import net.impacthub.members.model.dto.projects.ProjectDTO;
-import net.impacthub.members.model.features.members.Member;
 import net.impacthub.members.model.pojo.ListItem;
 import net.impacthub.members.navigator.Navigator;
 import net.impacthub.members.presenter.features.members.MemberDetailPresenter;
@@ -26,17 +26,17 @@ import net.impacthub.members.ui.base.BaseChildFragment;
 import net.impacthub.members.ui.binder.ViewBinder;
 import net.impacthub.members.ui.common.AppPagerAdapter;
 import net.impacthub.members.ui.common.ImageLoaderHelper;
-import net.impacthub.members.ui.features.home.members.binders.about.AboutViewBinder;
+import net.impacthub.members.ui.common.SimpleOffsetChangeListenerAdapter;
+import net.impacthub.members.ui.delegate.DetailScreenDelegate;
+import net.impacthub.members.ui.delegate.TabsDelegate;
 import net.impacthub.members.ui.features.home.groups.binders.GroupsViewBinder;
+import net.impacthub.members.ui.features.home.members.binders.AboutViewBinder;
 import net.impacthub.members.ui.features.home.projects.binders.ProjectsViewBinder;
-import net.impacthub.members.utilities.ViewUtils;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-
-import static net.impacthub.members.application.salesforce.SalesforceModuleDependency.userAccountProvider;
 
 /**
  * @author Filippo Ash
@@ -47,8 +47,6 @@ import static net.impacthub.members.application.salesforce.SalesforceModuleDepen
 public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresenter> implements MemberDetailUiContract {
 
     private static final String TAG = MemberDetailFragment.class.getSimpleName();
-
-    private final UserAccount mUserAccount = userAccountProvider();
 
     public static final String TITLES[] = {"ABOUT", "PROJECTS", "GROUPS"};
 
@@ -72,15 +70,16 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
 //    @BindView(R.id.text_profession) protected TextView mProfession;
 //    @BindView(R.id.about) protected TextView mAboutMe;
 //
-//    @BindView(R.id.button_twitter) protected ImageButton mButtonTwitter;
-//    @BindView(R.id.button_facebook) protected ImageButton mButtonFacebook;
-//    @BindView(R.id.button_linkedin) protected ImageButton mButtonLinkedin;
-//    @BindView(R.id.button_instagram) protected ImageButton mButtonInsta;
+    @BindView(R.id.button_twitter) protected ImageButton mButtonTwitter;
+    @BindView(R.id.button_facebook) protected ImageButton mButtonFacebook;
+    @BindView(R.id.button_linkedin) protected ImageButton mButtonLinkedin;
+    @BindView(R.id.button_instagram) protected ImageButton mButtonInsta;
 
-    @BindView(R.id.view_pager) protected ViewPager mPager;
+    @BindView(R.id.pager) protected ViewPager mPager;
 //    @BindView(R.id.done) protected TypefaceTextView mDone;
 
     private AppPagerAdapter mPagerAdapter;
+    private final DetailScreenDelegate mScreenDelegate = new DetailScreenDelegate();
 
     private String mLinkTwitter;
     private String mLinkFacebook;
@@ -88,19 +87,19 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
     private String mLinkInsta;
     private String mAbout;
 
-    public static MemberDetailFragment newInstance(Member member) {
+    public static MemberDetailFragment newInstance(MemberDTO member) {
 
         Bundle args = new Bundle();
-        args.putString(EXTRA_MEMBER_PROFILE_PICTURE, member.getProfilePic());
-        args.putString(EXTRA_MEMBER_ID, member.getId());
-        args.putString(EXTRA_MEMBER_INSTAGRAM, member.getInstagram());
-        args.putString(EXTRA_MEMBER_FACEBOOK, member.getFacebook());
-        args.putString(EXTRA_MEMBER_TWITTER, member.getTwitter());
-        args.putString(EXTRA_MEMBER_LINKEDIN, member.getLinkedIn());
-        args.putString(EXTRA_MEMBER_FULL_NAME, member.getFirstName() + " " + member.getLastName());
-        args.putString(EXTRA_MEMBER_LOCATION, member.getImpactHubCities());
-        args.putString(EXTRA_MEMBER_ABOUT_ME, member.getAboutMe());
-        args.putString(EXTRA_MEMBER_PROFESSION, member.getProfession());
+        args.putString(EXTRA_MEMBER_ID, member.mMemberId);
+        args.putString(EXTRA_MEMBER_PROFILE_PICTURE, member.mProfilePicURL);
+        args.putString(EXTRA_MEMBER_INSTAGRAM, member.mLinkInstagram);
+        args.putString(EXTRA_MEMBER_FACEBOOK, member.mLinkFacebook);
+        args.putString(EXTRA_MEMBER_TWITTER, member.mLinkTwitter);
+        args.putString(EXTRA_MEMBER_LINKEDIN, member.mLinkLinkedin);
+        args.putString(EXTRA_MEMBER_FULL_NAME, member.mFullName);
+        args.putString(EXTRA_MEMBER_LOCATION, member.mLocation);
+        args.putString(EXTRA_MEMBER_ABOUT_ME, member.mAboutMe);
+        args.putString(EXTRA_MEMBER_PROFESSION, member.mProfession);
         MemberDetailFragment fragment = new MemberDetailFragment();
         fragment.setArguments(args);
         return fragment;
@@ -136,11 +135,6 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
     protected void onInstaClicked() {
         Navigator.startOtherWebActivity(getContext(), mLinkInsta);
     }
-//
-//    @OnClick(R.id.image_arrow_collapse_content)
-//    protected void onCollapse() {
-//        mAppBar.setExpanded(false, true);
-//    }
 
 //    @OnClick(R.id.done)
 //    protected void onDone(){
@@ -156,7 +150,7 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
         String profilePic = arguments.getString(EXTRA_MEMBER_PROFILE_PICTURE);
 
         String fullName = arguments.getString(EXTRA_MEMBER_FULL_NAME);
-//        mFullName.setText(fullName);
+
 //        mLocation.setText(arguments.getString(EXTRA_MEMBER_LOCATION));
 //        mProfession.setText(arguments.getString(EXTRA_MEMBER_PROFESSION));
         mAbout = arguments.getString(EXTRA_MEMBER_ABOUT_ME);
@@ -183,56 +177,38 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
         mLinkLinkedin = arguments.getString(EXTRA_MEMBER_LINKEDIN);
         mLinkInsta = arguments.getString(EXTRA_MEMBER_INSTAGRAM);
 
-//        if ((mLinkTwitter != null && mLinkTwitter.isEmpty()) || mLinkTwitter == null ) {
-//            ViewUtils.gone(mButtonTwitter);
-//        }
-//
-//        if ((mLinkFacebook != null && mLinkFacebook.isEmpty()) || mLinkFacebook == null ) {
-//            ViewUtils.gone(mButtonFacebook);
-//        }
-//
-//        if ((mLinkLinkedin != null && mLinkLinkedin.isEmpty()) || mLinkLinkedin == null ) {
-//            ViewUtils.gone(mButtonLinkedin);
-//        }
-//
-//        if ((mLinkInsta != null && mLinkInsta.isEmpty()) || mLinkInsta == null ) {
-//            ViewUtils.gone(mButtonInsta);
-//        }
+        Pair<String, ImageButton> twitterPair = new Pair<>(mLinkTwitter, mButtonTwitter);
+        Pair<String, ImageButton> facebookPair = new Pair<>(mLinkFacebook, mButtonFacebook);
+        Pair<String, ImageButton> linkedinPair = new Pair<>(mLinkLinkedin, mButtonLinkedin);
+        Pair<String, ImageButton> instagramPair = new Pair<>(mLinkInsta, mButtonInsta);
 
-        ImageLoaderHelper.loadImage(getContext(), profilePic + "?oauth_token=" + mUserAccount.getAuthToken(), mImageDetail);
+        mScreenDelegate.handleButtons(twitterPair, facebookPair, linkedinPair, instagramPair);
 
-        mAppBar.addOnOffsetChangedListener(mOffsetChangedListener);
+        ImageLoaderHelper.loadImage(getContext(), buildUrl(profilePic), mImageDetail);
 
-//        mAppBar.setExpanded(true);
+        mAppBar.addOnOffsetChangedListener(mOffsetChangeListenerAdapter);
 
-        if (mPagerAdapter == null) {
-            mPagerAdapter = new AppPagerAdapter(getContext());
-            mPagerAdapter.addVieBinder(new AboutViewBinder());
-            mPagerAdapter.addVieBinder(new ProjectsViewBinder(new OnListItemClickListener<ProjectDTO>() {
-                @Override
-                public void onItemClick(ProjectDTO model) {
-                    showToast("Hello project!!!");
-                }
-            }));
-            mPagerAdapter.addVieBinder(new GroupsViewBinder(new OnListItemClickListener<GroupDTO>() {
-                @Override
-                public void onItemClick(GroupDTO model) {
-                    showToast("Hello group");
-                }
-            }));
-        }
+        mPagerAdapter = new AppPagerAdapter(getContext());
+        mPagerAdapter.addVieBinder(new AboutViewBinder());
+        mPagerAdapter.addVieBinder(new ProjectsViewBinder(new OnListItemClickListener<ProjectDTO>() {
+            @Override
+            public void onItemClick(ProjectDTO model) {
+                showToast("Hello project!!!");
+            }
+        }));
+        mPagerAdapter.addVieBinder(new GroupsViewBinder(new OnListItemClickListener<GroupDTO>() {
+            @Override
+            public void onItemClick(GroupDTO model) {
+                showToast("Hello group");
+            }
+        }));
 
         mPager.setAdapter(mPagerAdapter);
         mPager.setOffscreenPageLimit(mPagerAdapter.getCount());
 
         mDetailsTab.setupWithViewPager(mPager);
 
-        for (int i = 0; i < mDetailsTab.getTabCount(); i++) {
-            TabLayout.Tab tabAt = mDetailsTab.getTabAt(i);
-            if (tabAt != null) {
-                tabAt.setCustomView(createTabTitle(TITLES[i]));
-            }
-        }
+        new TabsDelegate().setUp(mDetailsTab, TITLES);
 
         getPresenter().loadDetails(memberId);
     }
@@ -246,7 +222,7 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
 
     @Override
     public void onDestroyView() {
-        mAppBar.removeOnOffsetChangedListener(mOffsetChangedListener);
+        mAppBar.removeOnOffsetChangedListener(mOffsetChangeListenerAdapter);
         super.onDestroyView();
     }
 
@@ -289,58 +265,15 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
         }
     }
 
-    private State state = State.IDLE;
-
-    AppBarLayout.OnOffsetChangedListener mOffsetChangedListener = new AppBarLayout.OnOffsetChangedListener() {
+    private final SimpleOffsetChangeListenerAdapter mOffsetChangeListenerAdapter = new SimpleOffsetChangeListenerAdapter(){
         @Override
-        public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+        protected void onExpanded(int verticalOffset) {
+            mToolbar.getMenu().findItem(R.id.actionRequestContact).setVisible(false);
+        }
 
-            if (verticalOffset == 0) {
-                if (state != State.EXPANDED) {
-                    state = State.EXPANDED;
-                    handleState();
-                }
-            } else if (Math.abs(verticalOffset) >= appBarLayout.getTotalScrollRange()) {
-                if (state != State.COLLAPSED) {
-                    state = State.COLLAPSED;
-                    handleState();
-                }
-            } else {
-                if (state != State.IDLE) {
-                    state = State.IDLE;
-                    handleState();
-                }
-            }
-
-//            if (mAppBar != null && mToolbar != null) {
-//                int absoluteVerticalOffset = Math.abs(verticalOffset);
-//                int totalScrollRange = mAppBar.getTotalScrollRange();
-//                int height = mToolbar.getHeight();
-//                float toolbarTranslationOffset = Math.abs((absoluteVerticalOffset * (height * 1.0f / totalScrollRange)) - height);
-//                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mToolbar.getLayoutParams();
-//                params.topMargin = (int) -toolbarTranslationOffset;
-//                mToolbar.setLayoutParams(params);
-//
-//                OnTabVisibilityChangeListener listener = (OnTabVisibilityChangeListener) getActivity();
-//                listener.onVisibilityChanged(absoluteVerticalOffset, totalScrollRange);
-//            }
+        @Override
+        protected void onCollapsed(int verticalOffset) {
+            mToolbar.getMenu().findItem(R.id.actionRequestContact).setVisible(true);
         }
     };
-
-    private void handleState() {
-        switch (state) {
-            case COLLAPSED:
-                mToolbar.getMenu().findItem(R.id.actionRequestContact).setVisible(true);
-                break;
-            case EXPANDED:
-                mToolbar.getMenu().findItem(R.id.actionRequestContact).setVisible(false);
-                break;
-        }
-    }
-
-    private enum State {
-        COLLAPSED,
-        EXPANDED,
-        IDLE
-    }
 }

@@ -74,7 +74,7 @@ public class CompaniesFragment extends BaseChildFragment<CompaniesUiPresenter> i
 
     @Override
     public void onItemClick(CompanyDTO model) {
-        showToast("Opening company detail...");
+        addChildFragment(CompanyDetailFragment.newInstance(model), "FRAG_COMPANY_DETAIL");
     }
 
     @Override
