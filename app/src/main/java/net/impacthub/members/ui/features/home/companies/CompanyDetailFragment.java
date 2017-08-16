@@ -30,6 +30,7 @@ import net.impacthub.members.ui.binder.ViewBinder;
 import net.impacthub.members.ui.common.AppPagerAdapter;
 import net.impacthub.members.ui.common.ImageLoaderHelper;
 import net.impacthub.members.ui.delegate.TabsDelegate;
+import net.impacthub.members.ui.features.home.members.MemberDetailFragment;
 import net.impacthub.members.ui.features.home.members.binders.AboutViewBinder;
 import net.impacthub.members.ui.features.home.members.binders.MembersViewBinder;
 import net.impacthub.members.ui.features.home.projects.binders.ProjectsViewBinder;
@@ -106,7 +107,7 @@ public class CompanyDetailFragment extends BaseChildFragment<CompanyDetailUiPres
         mPagerAdapter.addVieBinder(mViewBinder3 = new MembersViewBinder(new OnListItemClickListener<MemberDTO>() {
             @Override
             public void onItemClick(MemberDTO model) {
-                showToast("Hello Member");
+                addChildFragment(MemberDetailFragment.newInstance(model), "FRAG_MEMBER_DETAIL");
             }
         }));
 
