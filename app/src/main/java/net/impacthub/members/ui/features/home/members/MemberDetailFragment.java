@@ -31,6 +31,7 @@ import net.impacthub.members.ui.delegate.DetailScreenDelegate;
 import net.impacthub.members.ui.delegate.TabsDelegate;
 import net.impacthub.members.ui.features.home.groups.binders.GroupsViewBinder;
 import net.impacthub.members.ui.features.home.members.binders.AboutViewBinder;
+import net.impacthub.members.ui.features.home.projects.ProjectDetailFragment;
 import net.impacthub.members.ui.features.home.projects.binders.ProjectsViewBinder;
 
 import java.util.List;
@@ -193,7 +194,7 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
         mPagerAdapter.addVieBinder(new ProjectsViewBinder(new OnListItemClickListener<ProjectDTO>() {
             @Override
             public void onItemClick(ProjectDTO model) {
-                showToast("Hello project!!!");
+                addChildFragment(ProjectDetailFragment.newInstance(model), "FRAG_PROJECT_DETAIL");
             }
         }));
         mPagerAdapter.addVieBinder(new GroupsViewBinder(new OnListItemClickListener<GroupDTO>() {

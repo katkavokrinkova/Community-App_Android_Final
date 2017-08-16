@@ -30,9 +30,9 @@ import net.impacthub.members.ui.common.RecyclerViewHolder;
  * @date 8/9/2017.
  */
 
-class JobsListAdapter extends BaseListAdapter<JobsListAdapter.JobViewHolder, JobDTO> {
+public class JobsListAdapter extends BaseListAdapter<JobsListAdapter.JobViewHolder, JobDTO> {
 
-    JobsListAdapter(LayoutInflater inflater) {
+    public JobsListAdapter(LayoutInflater inflater) {
         super(inflater);
     }
 

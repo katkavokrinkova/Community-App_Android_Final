@@ -9,20 +9,21 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.model.dto.projects;
+package net.impacthub.members.model.features.objectives;
 
 /**
  * @author Filippo Ash
  * @version 1.0
- * @date 8/10/2017.
+ * @date 8/16/2017.
  */
 
-public class ProjectDTO {
+public class Attributes {
 
-    public String mProjectId;
-    public String mName;
-    public String mOrganizationName;
-    public String mMemberCount;
-    public String mLocation;
-    public String mImageURL;
+    private String type;
+    private String url;
+
+    @Override
+    public String toString() {
+        return "Attributes [type = " + type + ", url = " + url + "]";
+    }
 }

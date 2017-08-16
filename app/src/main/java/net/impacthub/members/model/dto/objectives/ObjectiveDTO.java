@@ -9,20 +9,18 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.model.dto.projects;
+package net.impacthub.members.model.dto.objectives;
 
 /**
  * @author Filippo Ash
  * @version 1.0
- * @date 8/10/2017.
+ * @date 8/16/2017.
  */
 
-public class ProjectDTO {
+public class ObjectiveDTO {
 
-    public String mProjectId;
-    public String mName;
-    public String mOrganizationName;
-    public String mMemberCount;
-    public String mLocation;
-    public String mImageURL;
+    public String mTitle;
+    public String mSummary;
+    public int mCount;
+    public boolean mHideLastTimeLine;
 }

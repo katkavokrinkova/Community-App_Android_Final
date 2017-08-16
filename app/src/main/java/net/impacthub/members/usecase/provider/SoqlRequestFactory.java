@@ -84,9 +84,13 @@ public class SoqlRequestFactory {
     private static final String ALL_PROJECTS = "SELECT " + PROJECT + " FROM Directory__c WHERE Directory_Style__c = 'Project'";
     private static final String PROJECTS_YOU_MANAGE = "SELECT " + PROJECT + " FROM Directory__c WHERE Directory_Style__c = 'Project'";
     private static final String YOUR_PROJECTS = "SELECT " + PROJECT + " FROM Directory__c WHERE Directory_Style__c = 'Project' AND id IN (select DirectoryID__c FROM Directory_Member__c WHERE ContactID__c ='%s')";
+    private static final String PROJECT_MEMBER = "SELECT " + CONTACT + " FROM Contact WHERE id IN (SELECT contactID__c FROM Directory_Member__c WHERE DirectoryID__c='%s')";
+    private static final String PROJECT_JOBS = "SELECT " + JOB_COLUMNS + " FROM Job__c WHERE Project__r.id='%s'";
 
     private static final String COMPANY_PROJECT = "SELECT " + PROJECT + " FROM Directory__c WHERE Directory_Style__c ='Project' AND Organisation__c ='%s'";
     private static final String COMPANY_MEMBER = "SELECT " + CONTACT + " FROM Contact WHERE User__c != NULL AND accountid='%s'";
+
+    private static final String OBJECTIVES = "SELECT Directory__c,Goal_Summary__c,Goal__c,Id,Name FROM Directory_Goal__c WHERE Directory__c='%s'";
 
     private final RestRequestFactory mRestRequestFactory = restRequestFactoryProvider();
 
@@ -128,6 +132,18 @@ public class SoqlRequestFactory {
 
     public RestRequest createGoalMembersRequest(String goalName) throws UnsupportedEncodingException {
         return mRestRequestFactory.getForQuery(String.format(GOAL_MEMBERS, goalName));
+    }
+
+    public RestRequest createProjectObjectivesRequest(String projectId) throws UnsupportedEncodingException {
+        return mRestRequestFactory.getForQuery(String.format(OBJECTIVES, projectId));
+    }
+
+    public RestRequest createProjectMembersRequest(String projectId) throws UnsupportedEncodingException {
+        return mRestRequestFactory.getForQuery(String.format(PROJECT_MEMBER, projectId));
+    }
+
+    public RestRequest createProjectJobsRequest(String projectId) throws UnsupportedEncodingException {
+        return mRestRequestFactory.getForQuery(String.format(PROJECT_JOBS, projectId));
     }
 
     public RestRequest createJobsRequest(int skip, int top, String date) throws UnsupportedEncodingException {

@@ -35,6 +35,7 @@ public class ProjectMapper {
                 for (Records record : records) {
                     if (record != null) {
                         ProjectDTO projectDTO = new ProjectDTO();
+                        projectDTO.mProjectId = record.getId();
                         projectDTO.mName = record.getName();
                         Organisation__r organisation__r = record.getOrganisation__r();
                         if (organisation__r != null) {

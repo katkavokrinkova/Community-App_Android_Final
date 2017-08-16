@@ -71,6 +71,7 @@ public class MembersMapper {
                     if (affiliation != null) {
                         if ("Project".equals(affiliation.getDirectoryStyle())) {
                             ProjectDTO memberProjectDTO = new ProjectDTO();
+                            memberProjectDTO.mProjectId = affiliation.getId();
                             memberProjectDTO.mName = affiliation.getName();
                             Organisation organisation = affiliation.getOrganisation();
                             if (organisation != null) {

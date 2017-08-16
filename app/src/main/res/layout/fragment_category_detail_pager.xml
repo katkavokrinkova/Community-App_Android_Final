@@ -68,18 +68,18 @@
                         android:orientation="vertical">
 
                         <net.impacthub.members.ui.widgets.TypefaceTextView
-                            android:id="@+id/text_event_title"
+                            android:id="@+id/text_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:maxLines="5"
-                            android:text="Zero to one: new startups and Innovative Ideas"
+                            tools:text="Zero to one: new startups and Innovative Ideas"
                             android:textColor="@color/colorWhite"
                             android:textSize="22sp"
                             app:typeface="fonts/gt-walsheim-medium-web.ttf" />
 
                         <net.impacthub.members.ui.widgets.TypefaceTextView
-                            android:id="@+id/text_goal_title"
+                            android:id="@+id/text_sub_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
@@ -88,7 +88,7 @@
                             android:textColor="@color/greyish_brown"
                             android:textSize="16sp"
                             app:typeface="fonts/gt-walsheim-light-web.ttf"
-                            android:text="by Equinox Consulting" />
+                            tools:text="by Equinox Consulting" />
 
 
                     </LinearLayout>
