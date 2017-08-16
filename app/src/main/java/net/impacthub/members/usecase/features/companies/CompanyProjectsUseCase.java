@@ -24,11 +24,11 @@ import io.reactivex.Single;
  * @date 8/16/2017.
  */
 
-public class CompanyProjectUseCase extends BaseUseCaseGenerator<Single<ProjectResponse>, ProjectResponse> {
+public class CompanyProjectsUseCase extends BaseUseCaseGenerator<Single<ProjectResponse>, ProjectResponse> {
 
     private final String mCompanyId;
 
-    public CompanyProjectUseCase(String companyId) {
+    public CompanyProjectsUseCase(String companyId) {
         mCompanyId = companyId;
     }
 

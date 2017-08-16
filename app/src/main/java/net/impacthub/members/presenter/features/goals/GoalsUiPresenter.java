@@ -30,11 +30,11 @@ import io.reactivex.observers.DisposableSingleObserver;
  * @date 8/9/2017.
  */
 
-public class GoalsPresenter extends UiPresenter<GoalsUiContract> {
+public class GoalsUiPresenter extends UiPresenter<GoalsUiContract> {
 
     private final UseCaseGenerator<Single<GoalsResponse>> mGoalsUseCase = new GoalsUseCase();
 
-    public GoalsPresenter(GoalsUiContract uiContract) {
+    public GoalsUiPresenter(GoalsUiContract uiContract) {
         super(uiContract);
     }
 

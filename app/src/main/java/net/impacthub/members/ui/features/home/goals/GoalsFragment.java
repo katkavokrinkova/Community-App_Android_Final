@@ -19,7 +19,7 @@ import android.view.View;
 import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnListItemClickListener;
 import net.impacthub.members.model.dto.goals.GoalDTO;
-import net.impacthub.members.presenter.features.goals.GoalsPresenter;
+import net.impacthub.members.presenter.features.goals.GoalsUiPresenter;
 import net.impacthub.members.presenter.features.goals.GoalsUiContract;
 import net.impacthub.members.ui.base.BaseChildFragment;
 import net.impacthub.members.ui.common.LinearItemsMarginDecorator;
@@ -34,7 +34,7 @@ import butterknife.BindView;
  * @date 03/08/2017.
  */
 
-public class GoalsFragment extends BaseChildFragment<GoalsPresenter> implements OnListItemClickListener<GoalDTO>, GoalsUiContract {
+public class GoalsFragment extends BaseChildFragment<GoalsUiPresenter> implements OnListItemClickListener<GoalDTO>, GoalsUiContract {
 
     @BindView(R.id.list_items) protected RecyclerView mGoalsList;
 
@@ -50,8 +50,8 @@ public class GoalsFragment extends BaseChildFragment<GoalsPresenter> implements 
     }
 
     @Override
-    protected GoalsPresenter onCreatePresenter() {
-        return new GoalsPresenter(this);
+    protected GoalsUiPresenter onCreatePresenter() {
+        return new GoalsUiPresenter(this);
     }
 
     @Override
@@ -75,7 +75,7 @@ public class GoalsFragment extends BaseChildFragment<GoalsPresenter> implements 
 
     @Override
     public void onItemClick(GoalDTO model) {
-        showToast("Hello");
+        addChildFragment(GoalDetailFragment.newInstance(model), "FRAG_GOAL_DETAIL");
     }
 
     @Override

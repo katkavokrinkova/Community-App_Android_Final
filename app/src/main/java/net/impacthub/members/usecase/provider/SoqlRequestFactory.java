@@ -64,6 +64,8 @@ public class SoqlRequestFactory {
     private static final String ALL_GROUPS = "SELECT "+ GROUP + " FROM Directory__c WHERE Directory_Style__c = 'Group'";
     private static final String YOUR_GROUPS = "SELECT "+ GROUP + " FROM Directory__c " +
             "WHERE Directory_Style__c = 'Group' AND id IN (SELECT DirectoryID__c FROM Directory_Member__c WHERE ContactID__c ='%s')";
+    private static final String GOAL_GROUPS = ALL_GROUPS + " AND Related_Impact_Goal__c LIKE '%s'";
+    private static final String GOAL_MEMBERS = "SELECT " + CONTACT + " FROM Contact WHERE Interested_SDG__c INCLUDES ('%s')";
 
     private static final String GOALS = "select id, name,  Active__c, ImageURL__c, Summary__c, Description__c from Taxonomy__c where Grouping__c ='SDG'";
 
@@ -118,6 +120,14 @@ public class SoqlRequestFactory {
 
     public RestRequest createGoalsRequest() throws UnsupportedEncodingException {
         return mRestRequestFactory.getForQuery(GOALS);
+    }
+
+    public RestRequest createGoalGroupsRequest(String goalName) throws UnsupportedEncodingException {
+        return mRestRequestFactory.getForQuery(String.format(GOAL_GROUPS, goalName));
+    }
+
+    public RestRequest createGoalMembersRequest(String goalName) throws UnsupportedEncodingException {
+        return mRestRequestFactory.getForQuery(String.format(GOAL_MEMBERS, goalName));
     }
 
     public RestRequest createJobsRequest(int skip, int top, String date) throws UnsupportedEncodingException {
