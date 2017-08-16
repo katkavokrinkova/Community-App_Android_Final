@@ -37,7 +37,6 @@
                 android:fitsSystemWindows="true"
                 app:contentScrim="@color/colorWhite"
                 app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
-                android:background="@color/colorBackground"
                 app:titleEnabled="false">
 
                 <FrameLayout
@@ -63,35 +62,89 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:padding="24dp"
+                        android:layout_gravity="bottom|center_horizontal"
+                        android:gravity="center"
                         android:orientation="vertical">
 
-                        <net.impacthub.members.ui.widgets.TypefaceTextView
-                            android:id="@+id/text_event_title"
+                        <LinearLayout
+                            android:id="@+id/connect_buttons"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:ellipsize="end"
-                            android:maxLines="5"
-                            android:text="Zero to one: new startups and Innovative Ideas"
-                            android:textColor="@color/colorWhite"
-                            android:textSize="22sp"
-                            app:typeface="fonts/gt-walsheim-medium-web.ttf" />
+                            android:padding="16dp">
 
-                        <net.impacthub.members.ui.widgets.TypefaceTextView
-                            android:id="@+id/text_goal_title"
+                            <ImageButton
+                                android:id="@+id/button_twitter"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="@dimen/connect_button_gap"
+                                android:background="@null"
+                                android:contentDescription="@string/twitter"
+                                android:src="@mipmap/twitter" />
+
+                            <ImageButton
+                                android:id="@+id/button_facebook"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="@dimen/connect_button_gap"
+                                android:background="@null"
+                                android:contentDescription="@string/facebook"
+                                android:src="@mipmap/facebook" />
+
+                            <ImageButton
+                                android:id="@+id/button_linkedin"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="@dimen/connect_button_gap"
+                                android:background="@null"
+                                android:contentDescription="@string/linkedin"
+                                android:src="@mipmap/linkedin" />
+
+                            <ImageButton
+                                android:id="@+id/button_instagram"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@null"
+                                android:contentDescription="@string/instagram"
+                                android:src="@mipmap/instagram" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/container_connect"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            android:ellipsize="end"
-                            android:maxLines="2"
-                            android:textColor="@color/greyish_brown"
-                            android:textSize="16sp"
-                            app:typeface="fonts/gt-walsheim-light-web.ttf"
-                            android:text="by Equinox Consulting" />
+                            android:layout_marginBottom="24dp"
+                            android:background="@drawable/done_bubble"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:paddingBottom="12dp"
+                            android:paddingLeft="65dp"
+                            android:paddingRight="65dp"
+                            android:paddingTop="12dp">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@mipmap/ic_notification_contact_request"
+                                android:tint="@color/colorWhite" />
+
+                            <net.impacthub.members.ui.widgets.TypefaceTextView
+                                android:id="@+id/done"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="12dp"
+                                android:gravity="center"
+                                android:text="Connect"
+                                android:textColor="@android:color/white"
+                                android:textSize="16sp"
+                                app:typeface="fonts/gt-walsheim-web.ttf"
+                                tools:showIn="@layout/fragment_filters" />
+
+                        </LinearLayout>
 
 
                     </LinearLayout>
+
 
                 </FrameLayout>
 
@@ -104,7 +157,7 @@
                 app:tabGravity="fill"
                 app:tabIndicatorColor="@color/colorPrimary"
                 app:tabIndicatorHeight="1dp"
-                app:tabMode="scrollable" />
+                app:tabMode="fixed" />
 
         </android.support.design.widget.AppBarLayout>
 

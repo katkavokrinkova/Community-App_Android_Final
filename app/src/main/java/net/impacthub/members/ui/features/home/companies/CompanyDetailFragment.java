@@ -80,7 +80,7 @@ public class CompanyDetailFragment extends BaseChildFragment<CompanyDetailUiPres
 
     @Override
     protected int getContentView() {
-        return R.layout.fragment_category_detail_pager;
+        return R.layout.fragment_category_detail_pager_with_social_buttons;
     }
 
     @Override

@@ -112,7 +112,7 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
 
     @Override
     protected int getContentView() {
-        return R.layout.fragment_category_detail_pager;
+        return R.layout.fragment_category_detail_pager_with_social_buttons;
     }
 
     @OnClick(R.id.button_twitter)

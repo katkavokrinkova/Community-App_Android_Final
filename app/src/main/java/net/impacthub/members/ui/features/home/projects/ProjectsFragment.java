@@ -92,7 +92,7 @@ public class ProjectsFragment extends BaseChildFragment<ProjectsUiPresenter> imp
 
     @Override
     public void onItemClick(ProjectDTO model) {
-        showToast("Hello");
+        addChildFragment(ProjectDetailFragment.newInstance(model), "FRAG_PROJECT_DETAIL");
     }
 
     @Override
