@@ -40,7 +40,9 @@ public abstract class BaseFragment<P extends UiPresenter<? extends UiContract>> 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRetainInstance(true);
+        if (getParentFragment() == null) {
+            setRetainInstance(true);
+        }
         mPresenter = onCreatePresenter();
         if (mPresenter != null) {
             mPresenter.registerUi();
