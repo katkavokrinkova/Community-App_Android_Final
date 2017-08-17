@@ -65,9 +65,7 @@ class GoalsListAdapter extends BaseListAdapter<GoalsListAdapter.GoalsHolder, Goa
             Context context = goalImage.getContext();
             goalTitle.setText(itemData.mName);
             goalSummary.setText(itemData.mSummary);
-//            ImageLoaderHelper.loadImage(context, buildUrl(itemData.mImageURL), goalImage);
-//            ImageLoaderHelper.loadImage(context, "http://cdn.wallpapersafari.com/13/28/EcwOC1.jpg", goalImage);
-            ImageLoaderHelper.loadImage(context, "https://www.pixelstalk.net/wp-content/uploads/2016/06/Download-Desktop-Book-HD-Backgrounds.jpg", goalImage);
+            ImageLoaderHelper.loadImage(context, buildUrl(itemData.mImageURL), goalImage);
         }
 
         @Override

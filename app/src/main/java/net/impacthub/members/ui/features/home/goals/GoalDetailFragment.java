@@ -17,6 +17,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnListItemClickListener;
@@ -30,9 +31,9 @@ import net.impacthub.members.ui.binder.ViewBinder;
 import net.impacthub.members.ui.common.AppPagerAdapter;
 import net.impacthub.members.ui.common.ImageLoaderHelper;
 import net.impacthub.members.ui.delegate.TabsDelegate;
+import net.impacthub.members.ui.features.home.goals.binders.AboutViewBinder;
 import net.impacthub.members.ui.features.home.groups.binders.GroupsViewBinder;
 import net.impacthub.members.ui.features.home.members.MemberDetailFragment;
-import net.impacthub.members.ui.features.home.members.binders.AboutViewBinder;
 import net.impacthub.members.ui.features.home.members.binders.MembersViewBinder;
 
 import java.util.List;
@@ -49,14 +50,16 @@ public class GoalDetailFragment extends BaseChildFragment<GoalsDetailUiPresenter
 
     public static final String TITLES[] = {"ABOUT", "GROUPS", "MEMBERS"};
 
-    private static final String EXTRA_GOAL_NAME = "net.impacthub.members.ui.features.home.goals.EXTRA_GOAL_NAME";
     private static final String EXTRA_GOAL_IMAGE_URL = "net.impacthub.members.ui.features.home.goals.EXTRA_GOAL_IMAGE_URL";
+    private static final String EXTRA_GOAL_NAME = "net.impacthub.members.ui.features.home.goals.EXTRA_GOAL_NAME";
+    private static final String EXTRA_GOAL_SUMMARY = "net.impacthub.members.ui.features.home.goals.EXTRA_GOAL_SUMMARY";
+    private static final String EXTRA_GOAL_DESCRIPTION = "net.impacthub.members.ui.features.home.goals.EXTRA_GOAL_DESCRIPTION";
 
     @BindView(R.id.image_detail) protected ImageView mImageDetail;
+    @BindView(R.id.text_title) protected TextView mTitle;
+    @BindView(R.id.text_sub_title) protected TextView mSubTitle;
     @BindView(R.id.tabs) protected TabLayout mGoalTab;
     @BindView(R.id.pager) protected ViewPager mGoalPages;
-
-    private AppPagerAdapter mPagerAdapter;
 
     private ViewBinder<List<GroupDTO>> mViewBinder2;
     private ViewBinder<List<MemberDTO>> mViewBinder3;
@@ -64,8 +67,10 @@ public class GoalDetailFragment extends BaseChildFragment<GoalsDetailUiPresenter
     public static GoalDetailFragment newInstance(GoalDTO model) {
 
         Bundle args = new Bundle();
-        args.putString(EXTRA_GOAL_NAME, model.mName);
         args.putString(EXTRA_GOAL_IMAGE_URL, model.mImageURL);
+        args.putString(EXTRA_GOAL_NAME, model.mName);
+        args.putString(EXTRA_GOAL_SUMMARY, model.mSummary);
+        args.putString(EXTRA_GOAL_DESCRIPTION, model.mDescription);
         GoalDetailFragment fragment = new GoalDetailFragment();
         fragment.setArguments(args);
         return fragment;
@@ -78,7 +83,7 @@ public class GoalDetailFragment extends BaseChildFragment<GoalsDetailUiPresenter
 
     @Override
     protected int getContentView() {
-        return R.layout.fragment_category_detail_pager_with_social_buttons;
+        return R.layout.fragment_goal_detail;
     }
 
     @Override
@@ -88,29 +93,35 @@ public class GoalDetailFragment extends BaseChildFragment<GoalsDetailUiPresenter
         Bundle arguments = getArguments();
 
         String goalName = arguments.getString(EXTRA_GOAL_NAME);
+        String goalSummary = arguments.getString(EXTRA_GOAL_SUMMARY);
+        String goalDescription = arguments.getString(EXTRA_GOAL_DESCRIPTION);
         String imageURL = arguments.getString(EXTRA_GOAL_IMAGE_URL);
 
         setUpToolbar(goalName);
 
         ImageLoaderHelper.loadImage(getContext(), buildUrl(imageURL), mImageDetail);
 
-        mPagerAdapter = new AppPagerAdapter(getContext());
-        mPagerAdapter.addVieBinder(new AboutViewBinder());
-        mPagerAdapter.addVieBinder(mViewBinder2 = new GroupsViewBinder(new OnListItemClickListener<GroupDTO>() {
+        AppPagerAdapter adapter = new AppPagerAdapter(getContext());
+
+        adapter.addVieBinder(new AboutViewBinder(goalName, goalDescription));
+        adapter.addVieBinder(mViewBinder2 = new GroupsViewBinder(new OnListItemClickListener<GroupDTO>() {
             @Override
             public void onItemClick(GroupDTO model) {
 
             }
         }));
-        mPagerAdapter.addVieBinder(mViewBinder3 = new MembersViewBinder(new OnListItemClickListener<MemberDTO>() {
+        adapter.addVieBinder(mViewBinder3 = new MembersViewBinder(new OnListItemClickListener<MemberDTO>() {
             @Override
             public void onItemClick(MemberDTO model) {
                 addChildFragment(MemberDetailFragment.newInstance(model), "FRAG_MEMBER_DETAIL");
             }
         }));
 
-        mGoalPages.setAdapter(mPagerAdapter);
-        mGoalPages.setOffscreenPageLimit(mPagerAdapter.getCount());
+        mTitle.setText(goalName);
+        mSubTitle.setText(goalSummary);
+
+        mGoalPages.setAdapter(adapter);
+        mGoalPages.setOffscreenPageLimit(adapter.getCount());
 
         mGoalTab.setupWithViewPager(mGoalPages);
 
