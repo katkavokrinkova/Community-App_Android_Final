@@ -45,7 +45,7 @@ class ProjectObjectivesListAdapter extends BaseListAdapter<RecyclerView.ViewHold
         RecyclerView.ViewHolder viewHolder;
         switch (viewType) {
             case ListItem.TYPE_ONE:
-                viewHolder = new TitleViewHolder(getLayoutInflater().inflate(R.layout.item_layout_member_info_title, parent, false));
+                viewHolder = new TitleViewHolder(getLayoutInflater().inflate(R.layout.item_layout_info_title, parent, false));
                 break;
             default:
                 viewHolder = new ObjectiveViewHolder(getLayoutInflater().inflate(R.layout.item_layout_objective, parent, false));

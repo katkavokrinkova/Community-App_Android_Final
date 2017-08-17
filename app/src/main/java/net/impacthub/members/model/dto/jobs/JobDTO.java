@@ -24,4 +24,8 @@ public class JobDTO {
     public String mLocation;
     public String mCompanyName;
     public String mLogoURL;
+    public String mDescription;
+    public String mSalary;
+    public String mMemberCount;
+    public String mBannerImageURL;
 }

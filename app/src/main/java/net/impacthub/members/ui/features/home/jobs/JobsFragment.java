@@ -75,7 +75,7 @@ public class JobsFragment extends BaseChildFragment<JobsPresenter> implements On
 
     @Override
     public void onItemClick(JobDTO model) {
-        showToast("Hello");
+        addChildFragment(JobDetailFragment.newInstance(model), "FRAG_JOB_DETAIL");
     }
 
     @Override

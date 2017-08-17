@@ -45,7 +45,7 @@ class MemberInfoListAdapter extends BaseListAdapter<RecyclerView.ViewHolder, Lis
         RecyclerView.ViewHolder viewHolder;
         switch (viewType) {
             case ListItem.TYPE_ONE:
-                viewHolder = new TitleViewHolder(getLayoutInflater().inflate(R.layout.item_layout_member_info_title, parent, false));
+                viewHolder = new TitleViewHolder(getLayoutInflater().inflate(R.layout.item_layout_info_title, parent, false));
                 break;
             case ListItem.TYPE_TWO:
                 viewHolder = new AboutDescriptionViewHolder(getLayoutInflater().inflate(R.layout.layout_description_info, parent, false));

@@ -38,10 +38,14 @@ public class JobsMapper {
                         job.mName = record.getName();
                         job.mJobType = record.getJob_Type__c();
                         job.mLocation = record.getLocation__c();
+                        job.mDescription = record.getDescription__c();
+                        job.mSalary = record.getSalary__c();
                         Company company = record.getCompany__r();
                         if (company != null) {
                             job.mCompanyName = company.getName();
                             job.mLogoURL = company.getLogo_Image_Url__c();
+                            job.mMemberCount = company.getNumber_of_Employees__c();
+                            job.mBannerImageURL = company.getBanner_Image_Url__c();
                         }
                         jobs.add(job);
                     }
