@@ -50,28 +50,28 @@ public class EventsLisAdapter extends BaseListAdapter<EventsLisAdapter.EventView
     class EventViewHolder extends RecyclerViewHolder<EventDTO> implements View.OnClickListener {
 
         final ImageView eventImage;
-//        final TextView projectTitle;
-//        final TextView projectOrganizationName;
-//        final TextView location;
-//        final TextView memberCount;
+        final TextView eventTitle;
+        final TextView eventDate;
+        final TextView eventCity;
+        final TextView eventTime;
 
         EventViewHolder(View itemView) {
             super(itemView);
             eventImage = (ImageView) itemView.findViewById(R.id.image_banner);
-//            projectTitle = (TextView) itemView.findViewById(R.id.text_project_title);
-//            projectOrganizationName = (TextView) itemView.findViewById(R.id.text_project_organization_name);
-//            location = (TextView) itemView.findViewById(R.id.locations);
-//            memberCount = (TextView) itemView.findViewById(R.id.member_count);
+            eventTitle = (TextView) itemView.findViewById(R.id.text_event_title);
+            eventDate = (TextView) itemView.findViewById(R.id.text_event_date);
+            eventCity = (TextView) itemView.findViewById(R.id.text_event_city);
+            eventTime = (TextView) itemView.findViewById(R.id.text_event_time);
             itemView.setOnClickListener(this);
         }
 
         @Override
         protected void bindViewsWith(EventDTO itemData) {
             Context context = eventImage.getContext();
-//            projectTitle.setText(itemData.mName);
-//            projectOrganizationName.setText(itemData.mOrganizationName);
-//            location.setText(itemData.mLocation);
-//            memberCount.setText(itemData.mMemberCount);
+            eventTitle.setText(itemData.mName);
+            eventDate.setText(itemData.mDate);
+            eventCity.setText(itemData.mLocation);
+            eventTime.setText(itemData.mTime);
             ImageLoaderHelper.loadImage(context, buildUrl(itemData.mImageURL), eventImage);
         }
 

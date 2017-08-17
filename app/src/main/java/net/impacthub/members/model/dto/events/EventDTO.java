@@ -20,4 +20,10 @@ package net.impacthub.members.model.dto.events;
 public class EventDTO {
 
     public String mImageURL;
+    public String mName;
+    public String mDescription;
+    public String mLocation;
+    public String mDate;
+    public String mTime;
+    public String mOrganizerName;
 }

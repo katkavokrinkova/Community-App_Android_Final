@@ -15,7 +15,12 @@ import net.impacthub.members.model.dto.events.EventDTO;
 import net.impacthub.members.model.features.events.EventsResponse;
 import net.impacthub.members.model.features.events.Organiser__r;
 import net.impacthub.members.model.features.events.Records;
+import net.impacthub.members.utilities.DateUtils;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -35,13 +40,28 @@ public class EventsMapper {
                 for (Records record : records) {
                     if (record != null) {
                         EventDTO eventDTO = new EventDTO();
+                        eventDTO.mName = record.getName();
                         eventDTO.mImageURL = record.getEvent_Image_URL__c();
-                        eventDTO.mImageURL = record.getEvent_Image_URL__c();
-                        eventDTO.mImageURL = record.getEvent_Image_URL__c();
-                        eventDTO.mImageURL = record.getEvent_Image_URL__c();
+                        eventDTO.mDescription = record.getEvent_Description__c();
+                        eventDTO.mLocation = record.getEvent_City__c();
+
+                        try {
+                            DateFormat dateFormat = new SimpleDateFormat(DateUtils.ISO_8601_FORMAT);
+                            Date startDate = dateFormat.parse(record.getEvent_Start_DateTime__c());
+                            eventDTO.mDate = new SimpleDateFormat(DateUtils.DAY_MONTH_FORMAT).format(startDate);
+                            Date endDate = dateFormat.parse(record.getEvent_End_DateTime__c());
+
+                            String start = new SimpleDateFormat(DateUtils.TIME_FORMAT_12_HOUR).format(startDate);
+                            String end = new SimpleDateFormat(DateUtils.TIME_FORMAT_12_HOUR).format(endDate);
+
+                            eventDTO.mTime = start + "-" + end;
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
                         Organiser__r organiser__r = record.getOrganiser__r();
                         if (organiser__r != null) {
-
+                            eventDTO.mOrganizerName = organiser__r.getName();
                         }
                         eventDTOs.add(eventDTO);
                     }
