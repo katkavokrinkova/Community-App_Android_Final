@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnListItemClickListener;
@@ -67,9 +68,9 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
     @BindView(R.id.image_detail) protected ImageView mImageDetail;
     @BindView(R.id.container_connect) protected View mConnectContainer;
 //    @BindView(R.id.text_full_name) protected TextView mFullName;
-//    @BindView(R.id.location) protected TextView mLocation;
-//    @BindView(R.id.text_profession) protected TextView mProfession;
-//    @BindView(R.id.about) protected TextView mAboutMe;
+    @BindView(R.id.locations) protected TextView mLocation;
+    @BindView(R.id.text_profession) protected TextView mProfession;
+    @BindView(R.id.about) protected TextView mAboutMe;
 //
     @BindView(R.id.button_twitter) protected ImageButton mButtonTwitter;
     @BindView(R.id.button_facebook) protected ImageButton mButtonFacebook;
@@ -113,7 +114,7 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
 
     @Override
     protected int getContentView() {
-        return R.layout.fragment_category_detail_pager_with_social_buttons;
+        return R.layout.fragment_member_detail;
     }
 
     @OnClick(R.id.button_twitter)
@@ -152,10 +153,10 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
 
         String fullName = arguments.getString(EXTRA_MEMBER_FULL_NAME);
 
-//        mLocation.setText(arguments.getString(EXTRA_MEMBER_LOCATION));
-//        mProfession.setText(arguments.getString(EXTRA_MEMBER_PROFESSION));
+        mLocation.setText(arguments.getString(EXTRA_MEMBER_LOCATION));
+        mProfession.setText(arguments.getString(EXTRA_MEMBER_PROFESSION));
         mAbout = arguments.getString(EXTRA_MEMBER_ABOUT_ME);
-//        mAboutMe.setText(mAbout);
+        mAboutMe.setText(mAbout);
 
         setUpToolbar(fullName);
         mToolbar.inflateMenu(R.menu.menu_member_connect);

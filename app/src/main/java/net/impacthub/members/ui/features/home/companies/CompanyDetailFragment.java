@@ -11,6 +11,7 @@
 
 package net.impacthub.members.ui.features.home.companies;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -33,6 +34,7 @@ import net.impacthub.members.ui.delegate.TabsDelegate;
 import net.impacthub.members.ui.features.home.members.MemberDetailFragment;
 import net.impacthub.members.ui.features.home.members.binders.AboutViewBinder;
 import net.impacthub.members.ui.features.home.members.binders.MembersViewBinder;
+import net.impacthub.members.ui.features.home.projects.ProjectDetailFragment;
 import net.impacthub.members.ui.features.home.projects.binders.ProjectsViewBinder;
 
 import java.util.List;
@@ -51,13 +53,13 @@ public class CompanyDetailFragment extends BaseChildFragment<CompanyDetailUiPres
 
     private static final String EXTRA_COMPANY_ID = "net.impacthub.members.ui.features.home.companies.EXTRA_COMPANY_ID";
     private static final String EXTRA_COMPANY_NAME = "net.impacthub.members.ui.features.home.companies.EXTRA_COMPANY_NAME";
+    private static final String EXTRA_COMPANY_LOGO_IMAGE_URL = "net.impacthub.members.ui.features.home.companies.EXTRA_COMPANY_LOGO_IMAGE_URL";
     private static final String EXTRA_COMPANY_BANNER_IMAGE_URL = "net.impacthub.members.ui.features.home.companies.EXTRA_COMPANY_BANNER_IMAGE_URL";
 
-    @BindView(R.id.image_detail) protected ImageView mImageDetail;
+    @BindView(R.id.image_detail) protected ImageView mImageLogo;
+    @BindView(R.id.image_company_banner) protected ImageView mImageBanner;
     @BindView(R.id.tabs) protected TabLayout mCompanyTab;
     @BindView(R.id.pager) protected ViewPager mCompanyPages;
-
-    private AppPagerAdapter mPagerAdapter;
 
     private ViewBinder<List<ProjectDTO>> mViewBinder2;
     private ViewBinder<List<MemberDTO>> mViewBinder3;
@@ -67,6 +69,7 @@ public class CompanyDetailFragment extends BaseChildFragment<CompanyDetailUiPres
         Bundle args = new Bundle();
         args.putString(EXTRA_COMPANY_ID, model.mCompanyId);
         args.putString(EXTRA_COMPANY_NAME, model.mCompanyName);
+        args.putString(EXTRA_COMPANY_LOGO_IMAGE_URL, model.mCompanyLogo);
         args.putString(EXTRA_COMPANY_BANNER_IMAGE_URL, model.mCompanyBanner);
         CompanyDetailFragment fragment = new CompanyDetailFragment();
         fragment.setArguments(args);
@@ -80,7 +83,7 @@ public class CompanyDetailFragment extends BaseChildFragment<CompanyDetailUiPres
 
     @Override
     protected int getContentView() {
-        return R.layout.fragment_category_detail_pager_with_social_buttons;
+        return R.layout.fragment_company_detail;
     }
 
     @Override
@@ -91,28 +94,31 @@ public class CompanyDetailFragment extends BaseChildFragment<CompanyDetailUiPres
 
         String companyId = arguments.getString(EXTRA_COMPANY_ID);
         String companyName = arguments.getString(EXTRA_COMPANY_NAME);
-        String imageURL = arguments.getString(EXTRA_COMPANY_BANNER_IMAGE_URL);
+        String logoURL = arguments.getString(EXTRA_COMPANY_LOGO_IMAGE_URL);
+        String bannerURL = arguments.getString(EXTRA_COMPANY_BANNER_IMAGE_URL);
 
         setUpToolbar(companyName);
-        ImageLoaderHelper.loadImage(getContext(), buildUrl(imageURL), mImageDetail);
+        Context context = getContext();
+        ImageLoaderHelper.loadImage(context, buildUrl(logoURL), mImageLogo);
+        ImageLoaderHelper.loadImage(context, buildUrl(bannerURL), mImageBanner);
 
-        mPagerAdapter = new AppPagerAdapter(getContext());
-        mPagerAdapter.addVieBinder(new AboutViewBinder());
-        mPagerAdapter.addVieBinder(mViewBinder2 = new ProjectsViewBinder(new OnListItemClickListener<ProjectDTO>() {
+        AppPagerAdapter adapter = new AppPagerAdapter(context);
+        adapter.addVieBinder(new AboutViewBinder());
+        adapter.addVieBinder(mViewBinder2 = new ProjectsViewBinder(new OnListItemClickListener<ProjectDTO>() {
             @Override
             public void onItemClick(ProjectDTO model) {
-                showToast("Hello Project");
+                addChildFragment(ProjectDetailFragment.newInstance(model), "FRAG_PROJECT_DETAIL");
             }
         }));
-        mPagerAdapter.addVieBinder(mViewBinder3 = new MembersViewBinder(new OnListItemClickListener<MemberDTO>() {
+        adapter.addVieBinder(mViewBinder3 = new MembersViewBinder(new OnListItemClickListener<MemberDTO>() {
             @Override
             public void onItemClick(MemberDTO model) {
                 addChildFragment(MemberDetailFragment.newInstance(model), "FRAG_MEMBER_DETAIL");
             }
         }));
 
-        mCompanyPages.setAdapter(mPagerAdapter);
-        mCompanyPages.setOffscreenPageLimit(mPagerAdapter.getCount());
+        mCompanyPages.setAdapter(adapter);
+        mCompanyPages.setOffscreenPageLimit(adapter.getCount());
 
         mCompanyTab.setupWithViewPager(mCompanyPages);
 
