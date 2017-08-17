@@ -91,7 +91,7 @@ public class GroupsFragment extends BaseChildFragment<GroupPresenter> implements
 
     @Override
     public void onItemClick(GroupDTO model) {
-        showToast("Loading group detail...");
+        addChildFragment(GroupDetailFragment.newInstance(model), "FRAG_GROUP_DETAIL");
     }
 
     @Override

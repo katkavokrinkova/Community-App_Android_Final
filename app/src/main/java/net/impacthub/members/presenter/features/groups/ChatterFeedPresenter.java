@@ -12,29 +12,29 @@
 package net.impacthub.members.presenter.features.groups;
 
 
+import net.impacthub.members.mapper.chatter.ChatterMapper;
+import net.impacthub.members.model.dto.chatter.ChatterDTO;
 import net.impacthub.members.model.features.chatterfeed.FeedElements;
 import net.impacthub.members.presenter.base.UiPresenter;
-import net.impacthub.members.usecase.base.UseCaseGenerator;
 import net.impacthub.members.usecase.features.groups.ChatterFeedUseCase;
 
-import io.reactivex.Single;
+import java.util.List;
+
 import io.reactivex.annotations.NonNull;
 import io.reactivex.observers.DisposableSingleObserver;
 
 public class ChatterFeedPresenter extends UiPresenter<ChatterFeedUiContract> {
 
-    private final UseCaseGenerator<Single<FeedElements>> mObservableGenerator;
-
-    public ChatterFeedPresenter(ChatterFeedUiContract uiContract, String feedId) {
+    public ChatterFeedPresenter(ChatterFeedUiContract uiContract) {
         super(uiContract);
-        mObservableGenerator = new ChatterFeedUseCase(feedId);
     }
 
-    public void loadChatterfeed() {
-        subscribeWith(mObservableGenerator.getUseCase(), new DisposableSingleObserver<FeedElements>() {
+    public void loadChatterFeed(String feedId) {
+        subscribeWith(new ChatterFeedUseCase(feedId).getUseCase(), new DisposableSingleObserver<FeedElements>() {
             @Override
             public void onSuccess(@NonNull FeedElements feedElements) {
-                getUi().onLoadChatterfeed(feedElements);
+                List<ChatterDTO> chatterDTOs = new ChatterMapper().map(feedElements);
+                getUi().onLoadChatterFeed(chatterDTOs);
             }
 
             @Override

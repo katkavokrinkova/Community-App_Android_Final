@@ -52,4 +52,5 @@
     <string name="label_jobs">Jobs</string>
     <string name="label_events">Events</string>
     <string name="label_projects">Projects</string>
+    <string name="label_contact">Contacts</string>
 </resources>

@@ -38,7 +38,7 @@ public class TabsDelegate {
     }
 
     public TextView createTabTitle(LayoutInflater inflater, String label) {
-        TextView tabTitleView = (TextView) inflater.inflate(R.layout.tab_title_textview, new LinearLayout(inflater.getContext()), false);
+        TextView tabTitleView = (TextView) inflater.inflate(R.layout.tab_title_textview, null);
         tabTitleView.setText(label);
         return tabTitleView;
     }

@@ -23,7 +23,13 @@ public class Body {
     @Expose
     private List<MessageSegment> messageSegments = null;
 
+    private String text;
+
     public List<MessageSegment> getMessageSegments() {
         return messageSegments;
+    }
+
+    public String getText() {
+        return text;
     }
 }

@@ -49,8 +49,6 @@ public class ProjectsFragment extends BaseChildFragment<ProjectsUiPresenter> imp
     private ViewBinder<List<ProjectDTO>> mViewBinder2;
     private ViewBinder<List<ProjectDTO>> mViewBinder3;
 
-    private AppPagerAdapter mPagerAdapter;
-
     public static ProjectsFragment newInstance() {
         
         Bundle args = new Bundle();
@@ -75,14 +73,14 @@ public class ProjectsFragment extends BaseChildFragment<ProjectsUiPresenter> imp
         super.onViewCreated(view, savedInstanceState);
         setUpToolbar(R.string.label_projects);
 
-        mPagerAdapter = new AppPagerAdapter(getContext());
+        AppPagerAdapter adapter = new AppPagerAdapter(getContext());
 //
-        mPagerAdapter.addVieBinder(mViewBinder1 = new ProjectsViewBinder(this));
-        mPagerAdapter.addVieBinder(mViewBinder2 = new ProjectsViewBinder(this));
-        mPagerAdapter.addVieBinder(mViewBinder3 = new ProjectsViewBinder(this));
+        adapter.addVieBinder(mViewBinder1 = new ProjectsViewBinder(this));
+        adapter.addVieBinder(mViewBinder2 = new ProjectsViewBinder(this));
+        adapter.addVieBinder(mViewBinder3 = new ProjectsViewBinder(this));
 //
-        mProjectPages.setAdapter(mPagerAdapter);
-        mProjectPages.setOffscreenPageLimit(mPagerAdapter.getCount());
+        mProjectPages.setAdapter(adapter);
+        mProjectPages.setOffscreenPageLimit(adapter.getCount());
         mProjectsTab.setupWithViewPager(mProjectPages);
 
         new TabsDelegate().setUp(mProjectsTab, TITLES);

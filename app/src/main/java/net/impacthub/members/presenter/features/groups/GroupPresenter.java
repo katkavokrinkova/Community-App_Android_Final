@@ -46,8 +46,6 @@ public class GroupPresenter extends UiPresenter<GroupUiContract> {
     }
 
     public void getGroups() {
-//        getUi().onChangeStatus(true);
-
 
         subscribeWith(mAllGroupsUseCase.getUseCase(), new DisposableSingleObserver<GroupsResponse>() {
             @Override

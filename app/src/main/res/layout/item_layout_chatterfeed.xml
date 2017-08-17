@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="17dp">
 
-        <ImageView
+        <net.impacthub.members.ui.widgets.CircleImageView
             android:id="@+id/member_image"
             android:layout_width="@dimen/medium_image_thumbnail"
             android:layout_height="@dimen/medium_image_thumbnail"

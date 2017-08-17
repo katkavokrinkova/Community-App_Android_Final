@@ -9,14 +9,21 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.presenter.features.groups;
+package net.impacthub.members.model.dto.chatter;
 
-import net.impacthub.members.model.dto.chatter.ChatterDTO;
-import net.impacthub.members.presenter.features.error.ErrorHandlerUiContract;
+/**
+ * @author Filippo Ash
+ * @version 1.0
+ * @date 8/17/2017.
+ */
 
-import java.util.List;
+public class ChatterDTO {
 
-public interface ChatterFeedUiContract extends ErrorHandlerUiContract {
-
-    void onLoadChatterFeed(List<ChatterDTO> chatterDTOs);
+    public String mImageURL;
+    public String mDisplayName;
+    public String mDate;
+    public String mComment;
+    public int mCommentCount;
+    public int mLikeCount;
+    public boolean mIsLikedByMe;
 }

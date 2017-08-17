@@ -101,8 +101,10 @@ public class MembersMapper {
                             GroupDTO group = new GroupDTO();
                             group.mImageURL = affiliation.getImageUrl();
                             group.mName = affiliation.getName();
+                            group.mGroupDescription = affiliation.getGroupDesc();
                             group.mCities = affiliation.getImpactHubCities();
                             group.mMemberCount = affiliation.getCountOfMembers();
+                            group.mChatterGroupId = affiliation.getChatterGroupId();
                             groupDTOList.add(group);
                         }
                     }

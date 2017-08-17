@@ -36,8 +36,10 @@ public class GroupsMapper {
                         GroupDTO group = new GroupDTO();
                         group.mImageURL = record.getImageURL__c();
                         group.mName = record.getName();
+                        group.mGroupDescription = record.getGroup_Desc__c();
                         group.mCities = record.getImpact_Hub_Cities__c();
                         group.mMemberCount = record.getCountOfMembers__c();
+                        group.mChatterGroupId = record.getChatterGroupId__c();
                         groups.add(group);
                     }
                 }

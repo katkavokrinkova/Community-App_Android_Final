@@ -1,4 +1,4 @@
-package net.impacthub.members.ui.features.message;
+package net.impacthub.members.ui.features.conversation;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,6 +13,7 @@ import net.impacthub.members.model.dto.conversations.ConversationDTO;
 import net.impacthub.members.presenter.features.conversations.ConversationsPresenter;
 import net.impacthub.members.presenter.features.conversations.ConversationsUiContract;
 import net.impacthub.members.ui.base.BaseChildFragment;
+import net.impacthub.members.ui.features.conversation.contacts.ContactsFragment;
 
 import java.util.List;
 
@@ -59,7 +60,7 @@ public class ConversationsFragment extends BaseChildFragment<ConversationsPresen
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.actionCompose:
-                        showToast("Compose clicked");
+                        addChildFragment(ContactsFragment.newInstance(), "FRAG_CONTACTS");
                         return true;
                 }
                 return false;

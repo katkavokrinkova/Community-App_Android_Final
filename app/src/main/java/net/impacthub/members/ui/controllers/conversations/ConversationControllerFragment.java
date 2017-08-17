@@ -3,7 +3,7 @@ package net.impacthub.members.ui.controllers.conversations;
 import android.support.v4.app.Fragment;
 
 import net.impacthub.members.ui.base.BaseControllerFragment;
-import net.impacthub.members.ui.features.message.ConversationsFragment;
+import net.impacthub.members.ui.features.conversation.ConversationsFragment;
 
 /**
  * @author Filippo Ash

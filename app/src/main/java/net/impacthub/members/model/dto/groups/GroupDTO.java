@@ -20,7 +20,9 @@ package net.impacthub.members.model.dto.groups;
 public class GroupDTO {
 
     public String mName;
+    public String mGroupDescription;
     public String mImageURL;
     public String mCities;
     public String mMemberCount;
+    public String mChatterGroupId;
 }
