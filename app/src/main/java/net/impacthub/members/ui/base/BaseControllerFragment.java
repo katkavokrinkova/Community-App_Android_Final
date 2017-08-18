@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnBackListener;
 
+import java.util.List;
+
 /**
  * @author Filippo Ash
  * @version 1.0
@@ -44,6 +46,22 @@ public abstract class BaseControllerFragment extends Fragment implements OnBackL
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.fragment_container, mCurrentFragment)
                 .commit();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isResumed()) {
+            FragmentManager manager = getChildFragmentManager();
+            if (manager != null) {
+                List<Fragment> fragments = manager.getFragments();
+                if (fragments != null) {
+                    for (Fragment fragment : fragments) {
+                        fragment.setUserVisibleHint(isVisibleToUser);
+                    }
+                }
+            }
+        }
     }
 
     @Override

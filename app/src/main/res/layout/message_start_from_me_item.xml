@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <net.impacthub.members.ui.widgets.CircleImageView
+        android:id="@+id/sender_image"
+        android:layout_width="@dimen/message_thumbnail"
+        android:layout_height="@dimen/message_thumbnail"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/message_side_margin"
+        android:layout_marginTop="@dimen/message_top_margin"
+        android:contentDescription="@string/sender_name"
+        android:src="@drawable/ic_fp_40px" />
+
+    <TextView
+        android:id="@+id/message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/sender_image"
+        android:layout_marginEnd="@dimen/message_side_margin"
+        android:layout_marginStart="@dimen/message_side_margin"
+        android:layout_marginTop="@dimen/message_top_margin"
+        android:background="@drawable/message_start_bubble_from_me"
+        android:padding="@dimen/message_text_padding"
+        android:textSize="@dimen/message_text_size"
+        tools:text="Need enough text in here to wrap a line so will be typing aimlessly for several seconds until I achieve that purpose" />
+
+</RelativeLayout>

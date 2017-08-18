@@ -14,6 +14,7 @@ import net.impacthub.members.presenter.features.conversations.ConversationsPrese
 import net.impacthub.members.presenter.features.conversations.ConversationsUiContract;
 import net.impacthub.members.ui.base.BaseChildFragment;
 import net.impacthub.members.ui.features.conversation.contacts.ContactsFragment;
+import net.impacthub.members.ui.features.conversation.messages.MessageFragment;
 
 import java.util.List;
 
@@ -70,13 +71,20 @@ public class ConversationsFragment extends BaseChildFragment<ConversationsPresen
         mAdapter = new MessageListAdapter(getLayoutInflater(getArguments()));
         mAdapter.setItemClickListener(this);
         mConversationList.setAdapter(mAdapter);
+    }
 
-        getPresenter().getConversations(getUserAccount().getUserId());
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        ConversationsPresenter presenter = getPresenter();
+        if (presenter != null && isVisibleToUser) {
+            presenter.getConversations(getUserAccount().getUserId());
+        }
     }
 
     @Override
     public void onItemClick(ConversationDTO model) {
-        showToast("Ehllow");
+        addChildFragment(MessageFragment.newInstance(model), "FRAG_MESSAGE_THREAD");
     }
 
     @Override
