@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import net.impacthub.members.R;
 import net.impacthub.members.model.dto.chatter.ChatterDTO;
@@ -47,7 +48,7 @@ public class ChatterFeedListAdapter extends BaseListAdapter<ChatterFeedListAdapt
         holder.bindViewsWith(getItem(position));
     }
 
-    class ChatterFeedViewHolder extends RecyclerViewHolder<ChatterDTO> {
+    class ChatterFeedViewHolder extends RecyclerViewHolder<ChatterDTO> implements View.OnClickListener {
 
         final ImageView memberImage;
         final ImageView likeIndicatorImage;
@@ -68,6 +69,9 @@ public class ChatterFeedListAdapter extends BaseListAdapter<ChatterFeedListAdapt
             displayComment = (TextView) itemView.findViewById(R.id.comment);
             likeCount = (TextView) itemView.findViewById(R.id.like_count);
             commentCount = (TextView) itemView.findViewById(R.id.comment_count);
+            memberImage.setOnClickListener(this);
+            likeIndicatorImage.setOnClickListener(this);
+            commentIndicatorImage.setOnClickListener(this);
         }
 
         @Override
@@ -82,6 +86,22 @@ public class ChatterFeedListAdapter extends BaseListAdapter<ChatterFeedListAdapt
 
             new DateTimeAgoHelper(displayDate, itemData.mDate);
             ImageLoaderHelper.loadImage(context, buildUrl(itemData.mImageURL), memberImage);
+        }
+
+        @Override
+        public void onClick(View view) {
+            Context context = view.getContext();
+            switch (view.getId()) {
+                case R.id.member_image:
+                    Toast.makeText(context, "Opening Member", Toast.LENGTH_SHORT).show();
+                    break;
+                case R.id.comment_indicator:
+                    Toast.makeText(context, "Opening Comments", Toast.LENGTH_SHORT).show();
+                    break;
+                case R.id.like_indicator:
+                    Toast.makeText(context, "Liking post", Toast.LENGTH_SHORT).show();
+                    break;
+            }
         }
     }
 }
