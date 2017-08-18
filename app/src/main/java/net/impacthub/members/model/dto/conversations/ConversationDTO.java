@@ -18,4 +18,11 @@ package net.impacthub.members.model.dto.conversations;
  */
 
 public class ConversationDTO {
+
+    public String mConversationId;
+    public String mDisplayName;
+    public String mImageURL;
+    public String mText;
+    public String mDate;
+    public Boolean mIsRead;
 }

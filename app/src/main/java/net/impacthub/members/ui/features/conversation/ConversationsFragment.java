@@ -71,7 +71,7 @@ public class ConversationsFragment extends BaseChildFragment<ConversationsPresen
         mAdapter.setItemClickListener(this);
         mConversationList.setAdapter(mAdapter);
 
-        getPresenter().getConversations();
+        getPresenter().getConversations(getUserAccount().getUserId());
     }
 
     @Override

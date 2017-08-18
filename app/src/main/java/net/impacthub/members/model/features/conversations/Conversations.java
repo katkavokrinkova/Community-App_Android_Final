@@ -16,7 +16,7 @@ public class Conversations {
 
     private String id;
     private LatestMessage latestMessage;
-    private String read;
+    private Boolean read;
     private String url;
     private Members[] members;
 
@@ -28,7 +28,7 @@ public class Conversations {
         return latestMessage;
     }
 
-    public String getRead() {
+    public Boolean getRead() {
         return read;
     }
 

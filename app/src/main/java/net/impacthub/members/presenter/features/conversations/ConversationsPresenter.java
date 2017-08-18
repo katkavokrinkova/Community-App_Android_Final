@@ -4,6 +4,7 @@ import net.impacthub.members.mapper.conversations.ConversationMapper;
 import net.impacthub.members.model.dto.conversations.ConversationDTO;
 import net.impacthub.members.model.features.conversations.ConversationsResponse;
 import net.impacthub.members.presenter.base.UiPresenter;
+import net.impacthub.members.presenter.rx.AbstractFunction;
 import net.impacthub.members.usecase.base.UseCaseGenerator;
 import net.impacthub.members.usecase.features.conversations.ConversationsUseCase;
 
@@ -27,13 +28,19 @@ public class ConversationsPresenter extends UiPresenter<ConversationsUiContract>
         super(uiContract);
     }
 
-    public void getConversations() {
+    public void getConversations(String userId) {
         getUi().onChangeStatus(true);
-        subscribeWith(mConversationsUseCase.getUseCase(), new DisposableSingleObserver<ConversationsResponse>() {
+        Single<List<ConversationDTO>> single = mConversationsUseCase.getUseCase()
+                .map(new AbstractFunction<String, ConversationsResponse, List<ConversationDTO>>(userId) {
+                    @Override
+                    protected List<ConversationDTO> apply(ConversationsResponse response, String subject) {
+                        return new ConversationMapper().map(response, subject);
+                    }
+                });
+        subscribeWith(single, new DisposableSingleObserver<List<ConversationDTO>>() {
             @Override
-            public void onSuccess(@NonNull ConversationsResponse response) {
-                List<ConversationDTO> conversations = new ConversationMapper().map(response);
-                getUi().onLoadConversations(conversations);
+            public void onSuccess(@NonNull List<ConversationDTO> conversationDTOs) {
+                getUi().onLoadConversations(conversationDTOs);
                 getUi().onChangeStatus(false);
             }
 

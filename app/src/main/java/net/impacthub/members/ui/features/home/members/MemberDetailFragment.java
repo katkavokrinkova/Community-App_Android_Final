@@ -30,6 +30,7 @@ import net.impacthub.members.ui.common.ImageLoaderHelper;
 import net.impacthub.members.ui.common.SimpleOffsetChangeListenerAdapter;
 import net.impacthub.members.ui.delegate.DetailScreenDelegate;
 import net.impacthub.members.ui.delegate.TabsDelegate;
+import net.impacthub.members.ui.features.home.groups.GroupDetailFragment;
 import net.impacthub.members.ui.features.home.groups.binders.GroupsViewBinder;
 import net.impacthub.members.ui.features.home.members.binders.AboutViewBinder;
 import net.impacthub.members.ui.features.home.projects.ProjectDetailFragment;
@@ -201,7 +202,7 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
         mPagerAdapter.addVieBinder(new GroupsViewBinder(new OnListItemClickListener<GroupDTO>() {
             @Override
             public void onItemClick(GroupDTO model) {
-                showToast("Hello group");
+                addChildFragment(GroupDetailFragment.newInstance(model), "FRAG_GROUP_DETAIL");
             }
         }));
 

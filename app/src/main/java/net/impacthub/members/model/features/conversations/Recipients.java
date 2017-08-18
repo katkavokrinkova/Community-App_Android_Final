@@ -39,6 +39,82 @@ public class Recipients {
     private String firstName;
     private MySubscription mySubscription;
 
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getAdditionalLabel() {
+        return additionalLabel;
+    }
+
+    public String getIsInThisCommunity() {
+        return isInThisCommunity;
+    }
+
+    public String getCommunityNickname() {
+        return communityNickname;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public Photo getPhoto() {
+        return photo;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public Motif getMotif() {
+        return motif;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getIsActive() {
+        return isActive;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public Reputation getReputation() {
+        return reputation;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String[] getStamps() {
+        return stamps;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public MySubscription getMySubscription() {
+        return mySubscription;
+    }
+
     @Override
     public String toString() {
         return "Recipients [lastName = " + lastName + ", additionalLabel = " + additionalLabel + ", isInThisCommunity = " + isInThisCommunity + ", communityNickname = " + communityNickname + ", type = " + type + ", companyName = " + companyName + ", photo = " + photo + ", url = " + url + ", motif = " + motif + ", userType = " + userType + ", id = " + id + ", isActive = " + isActive + ", title = " + title + ", reputation = " + reputation + ", name = " + name + ", stamps = " + stamps + ", displayName = " + displayName + ", firstName = " + firstName + ", mySubscription = " + mySubscription + "]";

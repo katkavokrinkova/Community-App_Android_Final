@@ -51,21 +51,27 @@ public class DateTimeAgoHelper implements Runnable {
             long elapsedYears = dateTimeDifference / Format.YEAR.getDateTime();
             dateTimeDifference = dateTimeDifference % Format.YEAR.getDateTime();
             if (elapsedYears > 0) {
-                mPostDate.setText(elapsedYears + formatDuration(" year", elapsedYears) +" ago");
+//                mPostDate.setText(elapsedYears + formatDuration(" year", elapsedYears) +" ago");
+                String formattedDate = new SimpleDateFormat(DateUtils.DAY_MONTH_YEAR_FORMAT).format(date);
+                mPostDate.setText(formattedDate);
                 return ;
             }
 
             long elapsedMonths = dateTimeDifference / Format.MONTH.getDateTime();
             dateTimeDifference = dateTimeDifference % Format.MONTH.getDateTime();
             if (elapsedMonths > 0) {
-                mPostDate.setText(elapsedMonths + formatDuration(" month", elapsedMonths) +" ago");
+//                mPostDate.setText(elapsedMonths + formatDuration(" month", elapsedMonths) +" ago");
+                String formattedDate = new SimpleDateFormat(DateUtils.DAY_MONTH_YEAR_FORMAT).format(date);
+                mPostDate.setText(formattedDate);
                 return ;
             }
 
             long elapsedWeeks = dateTimeDifference / Format.WEEK.getDateTime();
             dateTimeDifference = dateTimeDifference % Format.WEEK.getDateTime();
             if (elapsedWeeks > 0) {
-                mPostDate.setText(elapsedWeeks + formatDuration(" week", elapsedWeeks) +" ago");
+                String formattedDate = new SimpleDateFormat(DateUtils.DAY_MONTH_YEAR_FORMAT).format(date);
+                mPostDate.setText(formattedDate);
+//                mPostDate.setText(elapsedWeeks + formatDuration(" week", elapsedWeeks) +" ago");
                 return ;
             }
 

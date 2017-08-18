@@ -27,6 +27,7 @@ public final class DateUtils {
     public static final String ISO_8601_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS";
     public static final String SIMPLE_FORMAT = "yyyy-MM-dd";
     public static final String DAY_MONTH_FORMAT = "dd MMM";
+    public static final String DAY_MONTH_YEAR_FORMAT = "dd MMM yyyy";
     public static final String TIME_FORMAT_12_HOUR = "ha";
 
     private DateUtils() {

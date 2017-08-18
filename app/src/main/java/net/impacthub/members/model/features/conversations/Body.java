@@ -18,6 +18,18 @@ public class Body {
     private String[] messageSegments;
     private boolean isRichText;
 
+    public String getText() {
+        return text;
+    }
+
+    public String[] getMessageSegments() {
+        return messageSegments;
+    }
+
+    public boolean isRichText() {
+        return isRichText;
+    }
+
     @Override
     public String toString() {
         return "Body [text = " + text + ", messageSegments = " + messageSegments + ", isRichText = " + isRichText + "]";
