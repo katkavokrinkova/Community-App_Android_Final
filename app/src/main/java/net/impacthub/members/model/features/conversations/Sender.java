@@ -32,7 +32,7 @@ public class Sender {
     private String[] stamps;
     private String displayName;
     private String firstName;
-    private String mySubscription;
+    private MySubscription mySubscription;
 
     public String getLastName() {
         return lastName;
@@ -106,7 +106,7 @@ public class Sender {
         return firstName;
     }
 
-    public String getMySubscription() {
+    public MySubscription getMySubscription() {
         return mySubscription;
     }
 

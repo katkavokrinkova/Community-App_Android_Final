@@ -28,7 +28,7 @@ public class Conversations {
         return latestMessage;
     }
 
-    public Boolean getRead() {
+    public Boolean  getRead() {
         return read;
     }
 

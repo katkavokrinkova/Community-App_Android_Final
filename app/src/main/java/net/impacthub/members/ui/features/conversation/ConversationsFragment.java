@@ -67,9 +67,11 @@ public class ConversationsFragment extends BaseChildFragment<ConversationsPresen
                 return false;
             }
         });
+        if (mAdapter == null) {
+            mAdapter = new MessageListAdapter(getLayoutInflater(getArguments()));
+            mAdapter.setItemClickListener(this);
+        }
         mConversationList.setHasFixedSize(true);
-        mAdapter = new MessageListAdapter(getLayoutInflater(getArguments()));
-        mAdapter.setItemClickListener(this);
         mConversationList.setAdapter(mAdapter);
     }
 

@@ -39,7 +39,7 @@ public class ConversationMapper {
                     if (conversation != null) {
                         ConversationDTO conversationDTO = new ConversationDTO();
                         conversationDTO.mConversationId = conversation.getId();
-                        Boolean read = conversation.getRead();
+                        Boolean read = Boolean.valueOf(conversation.getRead());
                         conversationDTO.mIsRead = read != null ? read : true;
                         LatestMessage latestMessage = conversation.getLatestMessage();
                         if (latestMessage != null) {

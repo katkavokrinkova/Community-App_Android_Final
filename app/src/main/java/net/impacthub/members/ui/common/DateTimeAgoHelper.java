@@ -21,6 +21,8 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * @author Filippo Ash
@@ -42,7 +44,8 @@ public class DateTimeAgoHelper implements Runnable {
     @Override
     public void run() {
         try {
-            DateFormat dateFormat = new SimpleDateFormat(DateUtils.ISO_8601_FORMAT);
+            DateFormat dateFormat = new SimpleDateFormat(DateUtils.ISO_8601_FORMAT, Locale.UK);
+            dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
             Date now = new Date();
             Date date = dateFormat.parse(mGivenDate);
 
@@ -52,7 +55,9 @@ public class DateTimeAgoHelper implements Runnable {
             dateTimeDifference = dateTimeDifference % Format.YEAR.getDateTime();
             if (elapsedYears > 0) {
 //                mPostDate.setText(elapsedYears + formatDuration(" year", elapsedYears) +" ago");
-                String formattedDate = new SimpleDateFormat(DateUtils.DAY_MONTH_YEAR_FORMAT).format(date);
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DateUtils.DAY_MONTH_YEAR_FORMAT, Locale.UK);
+                simpleDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+                String formattedDate = simpleDateFormat.format(date);
                 mPostDate.setText(formattedDate);
                 return ;
             }
@@ -61,7 +66,9 @@ public class DateTimeAgoHelper implements Runnable {
             dateTimeDifference = dateTimeDifference % Format.MONTH.getDateTime();
             if (elapsedMonths > 0) {
 //                mPostDate.setText(elapsedMonths + formatDuration(" month", elapsedMonths) +" ago");
-                String formattedDate = new SimpleDateFormat(DateUtils.DAY_MONTH_YEAR_FORMAT).format(date);
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DateUtils.DAY_MONTH_YEAR_FORMAT, Locale.UK);
+                simpleDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+                String formattedDate = simpleDateFormat.format(date);
                 mPostDate.setText(formattedDate);
                 return ;
             }
@@ -69,7 +76,9 @@ public class DateTimeAgoHelper implements Runnable {
             long elapsedWeeks = dateTimeDifference / Format.WEEK.getDateTime();
             dateTimeDifference = dateTimeDifference % Format.WEEK.getDateTime();
             if (elapsedWeeks > 0) {
-                String formattedDate = new SimpleDateFormat(DateUtils.DAY_MONTH_YEAR_FORMAT).format(date);
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DateUtils.DAY_MONTH_YEAR_FORMAT, Locale.UK);
+                simpleDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+                String formattedDate = simpleDateFormat.format(date);
                 mPostDate.setText(formattedDate);
 //                mPostDate.setText(elapsedWeeks + formatDuration(" week", elapsedWeeks) +" ago");
                 return ;

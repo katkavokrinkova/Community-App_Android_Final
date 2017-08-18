@@ -38,6 +38,7 @@
             android:layout_marginTop="@dimen/message_top_margin"
             android:layout_alignParentEnd="true"
             android:textSize="@dimen/message_date_size"
+        android:layout_marginBottom="@dimen/message_bottom_margin"
             android:textStyle="bold"
             tools:text="5:40pm"/>
 
