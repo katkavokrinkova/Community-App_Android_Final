@@ -60,7 +60,15 @@ public class NotificationFragment extends BaseChildFragment<NotificationsPresent
             }
         });
         mNotificationsList.setAdapter(mAdapter);
-        getPresenter().getNotifications();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        NotificationsPresenter presenter = getPresenter();
+        if (presenter != null && isVisibleToUser) {
+            presenter.getNotifications();
+        }
     }
 
     @Override
