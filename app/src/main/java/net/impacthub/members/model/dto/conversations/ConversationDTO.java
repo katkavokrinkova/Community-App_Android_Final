@@ -21,6 +21,7 @@ public class ConversationDTO {
 
     public String mConversationId;
     public String mDisplayName;
+    public String mRecipientUserId;
     public String mImageURL;
     public String mText;
     public String mDate;

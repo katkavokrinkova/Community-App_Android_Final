@@ -93,7 +93,7 @@ public class MessageListAdapter extends BaseListAdapter<RecyclerView.ViewHolder,
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         int viewType = getItemViewType(position);
-        int x = viewType;
+
         MessageItem item = getItem(position);
         ((MessageTextViewHolder) holder).bindViewsWith(item);
     }

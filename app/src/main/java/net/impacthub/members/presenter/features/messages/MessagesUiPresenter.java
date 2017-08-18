@@ -11,19 +11,27 @@
 
 package net.impacthub.members.presenter.features.messages;
 
+import com.google.gson.Gson;
+
 import net.impacthub.members.mapper.messages.MessageMapper;
 import net.impacthub.members.model.features.messages.ConversationMessages;
 import net.impacthub.members.model.features.messages.Id;
 import net.impacthub.members.model.features.messages.ProcessedMessages;
 import net.impacthub.members.model.features.messages.ReadSet;
+import net.impacthub.members.model.features.push.PushQuery;
 import net.impacthub.members.presenter.base.UiPresenter;
 import net.impacthub.members.presenter.rx.AbstractBigFunction;
 import net.impacthub.members.usecase.features.messages.GetMessagesUseCase;
 import net.impacthub.members.usecase.features.messages.MarkConversationReadUseCase;
 import net.impacthub.members.usecase.features.messages.SendMessageUseCase;
+import net.impacthub.members.usecase.features.push.SendPushUseCase;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import io.reactivex.Single;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableSingleObserver;
 
@@ -84,5 +92,24 @@ public class MessagesUiPresenter extends UiPresenter<MessageUiContract> {
                 getUi().onError(e);
             }
         });
+    }
+
+    public void sendPush(String fromUserId, String toUserIds, String pushType, String relatedId) {
+        try {
+            JSONObject jsonObject = new JSONObject(new Gson().toJson(new PushQuery(fromUserId, toUserIds, pushType, relatedId)));
+            subscribeWith(new SendPushUseCase(jsonObject).getUseCase(), new DisposableSingleObserver<Object>() {
+                @Override
+                public void onSuccess(@NonNull Object o) {
+
+                }
+
+                @Override
+                public void onError(@NonNull Throwable e) {
+                    getUi().onError(e);
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

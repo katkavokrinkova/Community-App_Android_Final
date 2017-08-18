@@ -13,6 +13,7 @@ package net.impacthub.members.usecase.provider;
 
 import android.support.annotation.NonNull;
 
+import com.google.gson.GsonBuilder;
 import com.salesforce.androidsdk.rest.ApiVersionStrings;
 import com.salesforce.androidsdk.rest.RestRequest;
 
@@ -214,6 +215,12 @@ public class SoqlRequestFactory {
                         .body(messageBody)
                         .inReplyTo(messageId)
                         .build().toJson());
+    }
+
+    public RestRequest createSendPushRequest(JSONObject jsonObject) {
+        return new RestRequest(RestRequest.RestMethod.POST,
+                "/services/apexrest/pushNotificationFromSF",
+                jsonObject);
     }
 
     public RestRequest createChatterFeedRequest(String communityId, String feedId) {

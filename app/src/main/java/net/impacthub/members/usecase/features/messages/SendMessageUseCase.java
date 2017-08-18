@@ -11,7 +11,6 @@
 
 package net.impacthub.members.usecase.features.messages;
 
-import net.impacthub.members.model.features.conversations.ProcessedMessages;
 import net.impacthub.members.model.features.messages.Id;
 import net.impacthub.members.usecase.base.BaseUseCaseGenerator;
 

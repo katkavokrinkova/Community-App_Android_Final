@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import net.impacthub.members.R;
 import net.impacthub.members.model.dto.conversations.ConversationDTO;
+import net.impacthub.members.model.dto.notifications.NotificationType;
 import net.impacthub.members.model.features.messages.ProcessedMessages;
 import net.impacthub.members.presenter.features.messages.MessageUiContract;
 import net.impacthub.members.presenter.features.messages.MessagesUiPresenter;
@@ -42,6 +43,7 @@ public class MessageFragment extends BaseChildFragment<MessagesUiPresenter> impl
     private static final String EXTRA_CONVERSATION_ID = "net.impacthub.members.ui.features.conversation.messages.EXTRA_CONVERSATION_ID";
     private static final String EXTRA_CONVERSATION_DISPLAY_NAME = "net.impacthub.members.ui.features.conversation.messages.EXTRA_CONVERSATION_DISPLAY_NAME";
     private static final String EXTRA_CONVERSATION_PROFILE_IMAGE = "net.impacthub.members.ui.features.conversation.messages.EXTRA_CONVERSATION_PROFILE_IMAGE";
+    private static final String EXTRA_CONVERSATION_RECIPIENT_ID = "net.impacthub.members.ui.features.conversation.messages.EXTRA_CONVERSATION_RECIPIENT_ID";
 
     @BindView(R.id.message_items) protected RecyclerView mMessageList;
     @BindView(R.id.message_entry) protected EditText mMessageField;
@@ -56,6 +58,7 @@ public class MessageFragment extends BaseChildFragment<MessagesUiPresenter> impl
         args.putString(EXTRA_CONVERSATION_ID, model.mConversationId);
         args.putString(EXTRA_CONVERSATION_DISPLAY_NAME, model.mDisplayName);
         args.putString(EXTRA_CONVERSATION_PROFILE_IMAGE, model.mImageURL);
+        args.putString(EXTRA_CONVERSATION_RECIPIENT_ID, model.mRecipientUserId);
         MessageFragment fragment = new MessageFragment();
         fragment.setArguments(args);
         return fragment;
@@ -113,6 +116,7 @@ public class MessageFragment extends BaseChildFragment<MessagesUiPresenter> impl
     public void onLoadMessages(ProcessedMessages processedMessages) {
         if (processedMessages.isFromSentMessage()) {
             mMessageField.setText(null);
+            getPresenter().sendPush(getUserAccount().getUserId(), getArguments().getString(EXTRA_CONVERSATION_RECIPIENT_ID), NotificationType.TYPE_PRIVATE_MESSAGE.getType(), mConversationID);
             getPresenter().getMessageConversations(mConversationID, getUserAccount().getUserId());
         } else {
             mAdapter.setItems(processedMessages.getMessages());

@@ -106,7 +106,8 @@ public class DateTimeAgoHelper implements Runnable {
             }
 
             long elapsedSeconds = dateTimeDifference / Format.SECOND.getDateTime();
-            mPostDate.setText(elapsedSeconds + formatDuration(" second", elapsedSeconds) +" ago");
+//            mPostDate.setText(elapsedSeconds + formatDuration(" second", elapsedSeconds) +" ago");
+            mPostDate.setText("just now");
 
         } catch (ParseException e) {
             e.printStackTrace();

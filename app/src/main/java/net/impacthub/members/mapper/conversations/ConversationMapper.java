@@ -56,6 +56,7 @@ public class ConversationMapper {
                                         String recipientId = recipient.getId();
                                         if (recipientId != null && !recipientId.equals(userId)) {
                                             conversationDTO.mDisplayName = recipient.getDisplayName();
+                                            conversationDTO.mRecipientUserId = recipientId;
                                             Photo photo = recipient.getPhoto();
                                             if (photo != null) {
                                                 conversationDTO.mImageURL = photo.getSmallPhotoUrl();
