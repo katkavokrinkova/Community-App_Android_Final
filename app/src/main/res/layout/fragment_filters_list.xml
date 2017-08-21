@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2017 Lightful. All Rights Reserved.
+  ~
+  ~ Save to the extent permitted by law, you may not use, copy, modify,
+  ~ distribute or create derivative works of this material or any part
+  ~ of it without the prior written consent of Lightful.
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    tools:ignore="RtlSymmetry">
+
+    <net.impacthub.members.ui.widgets.TypefaceToolbar
+        android:id="@+id/toolbar"
+        style="@style/ToolbarConstraint.WithBack">
+
+        <net.impacthub.members.ui.widgets.TypefaceTextView
+            android:id="@+id/button_clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:text="@string/clear"
+            android:textColor="@color/impacthub"
+            android:textSize="14sp"
+            android:layout_marginEnd="16dp"
+            app:typeface="fonts/gt-walsheim-light-web.ttf" />
+
+    </net.impacthub.members.ui.widgets.TypefaceToolbar>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/filter_items"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+
+        <include layout="@layout/layout_top_shadow" />
+
+    </FrameLayout>
+
+</LinearLayout>

@@ -9,6 +9,8 @@ import net.impacthub.members.R;
 import net.impacthub.members.ui.base.BaseChildFragment;
 import net.impacthub.members.ui.widgets.TypefaceTextView;
 
+import butterknife.OnClick;
+
 /**
  * @author Filippo Ash
  * @version 1.0
@@ -29,6 +31,16 @@ public class FilterFragment extends BaseChildFragment {
     @Override
     protected int getContentView() {
         return R.layout.fragment_filters;
+    }
+
+    @OnClick(R.id.city_bar)
+    protected void onCityFilterClick() {
+        addChildFragment(FilterListFragment.newInstance(), "FRAG_FILTER_LIST");
+    }
+
+    @OnClick(R.id.sector_bar)
+    protected void onSectorFilterClick() {
+        addChildFragment(FilterListFragment.newInstance(), "FRAG_FILTER_LIST");
     }
 
     @Override
