@@ -7,7 +7,7 @@ import android.view.View;
 
 import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnListItemClickListener;
-import net.impacthub.members.model.dto.notifications.NotificationDTO;
+import net.impacthub.members.model.vo.notifications.NotificationVO;
 import net.impacthub.members.presenter.features.notifcations.NotificationsPresenter;
 import net.impacthub.members.presenter.features.notifcations.NotificationsUiContract;
 import net.impacthub.members.ui.base.BaseChildFragment;
@@ -53,9 +53,9 @@ public class NotificationFragment extends BaseChildFragment<NotificationsPresent
         setUpToolbar(R.string.notifications);
         mNotificationsList.setHasFixedSize(true);
         mAdapter = new NotificationListAdapter(getLayoutInflater(getArguments()));
-        mAdapter.setItemClickListener(new OnListItemClickListener<NotificationDTO>() {
+        mAdapter.setItemClickListener(new OnListItemClickListener<NotificationVO>() {
             @Override
-            public void onItemClick(NotificationDTO model) {
+            public void onItemClick(NotificationVO model) {
                 showToast("Opening notification... needs implementation!");
             }
         });
@@ -72,7 +72,7 @@ public class NotificationFragment extends BaseChildFragment<NotificationsPresent
     }
 
     @Override
-    public void onLoadNotifications(List<NotificationDTO> notificationDTOList) {
+    public void onLoadNotifications(List<NotificationVO> notificationDTOList) {
         mAdapter.setItems(notificationDTOList);
     }
 }

@@ -12,11 +12,9 @@
 package net.impacthub.members.presenter.features.members;
 
 import net.impacthub.members.mapper.members.MembersMapper;
-import net.impacthub.members.model.dto.groups.GroupDTO;
-import net.impacthub.members.model.dto.members.SkillsDTO;
-import net.impacthub.members.model.dto.projects.ProjectDTO;
+import net.impacthub.members.model.vo.groups.GroupVO;
+import net.impacthub.members.model.vo.projects.ProjectVO;
 import net.impacthub.members.model.features.members.Affiliations;
-import net.impacthub.members.model.features.members.Skill;
 import net.impacthub.members.model.features.members.Skills;
 import net.impacthub.members.model.pojo.ListItem;
 import net.impacthub.members.presenter.base.UiPresenter;
@@ -67,9 +65,9 @@ public class MemberDetailPresenter extends UiPresenter<MemberDetailUiContract> {
         subscribeWith(mAboutUseCase.getUseCase(), new DisposableSingleObserver<Affiliations>() {
             @Override
             public void onSuccess(@NonNull Affiliations response) {
-                List<ProjectDTO> memberProjectDTOs = new MembersMapper().mapProjects(response);
+                List<ProjectVO> memberProjectDTOs = new MembersMapper().mapProjects(response);
                 getUi().onLoadProjects(memberProjectDTOs);
-                List<GroupDTO> memberGroupDTOs = new MembersMapper().mapGroups(response);
+                List<GroupVO> memberGroupDTOs = new MembersMapper().mapGroups(response);
                 getUi().onLoadGroups(memberGroupDTOs);
             }
 

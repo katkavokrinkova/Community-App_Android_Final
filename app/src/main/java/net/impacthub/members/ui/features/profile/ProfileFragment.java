@@ -7,7 +7,7 @@ import android.view.View;
 import com.salesforce.androidsdk.app.SalesforceSDKManager;
 
 import net.impacthub.members.R;
-import net.impacthub.members.model.dto.members.MemberDTO;
+import net.impacthub.members.model.vo.members.MemberVO;
 import net.impacthub.members.presenter.features.profile.ProfilePresenter;
 import net.impacthub.members.presenter.features.profile.ProfileUiContract;
 import net.impacthub.members.ui.base.BaseChildFragment;
@@ -64,7 +64,7 @@ public class ProfileFragment extends BaseChildFragment<ProfilePresenter> impleme
     }
 
     @Override
-    public void onLoadCurrentMemberProfile(MemberDTO memberDTO) {
+    public void onLoadCurrentMemberProfile(MemberVO memberDTO) {
         mTextFullName.setText(memberDTO.mFullName);
         mTextStatusUpdate.setText(memberDTO.mStatusUpdate);
 //        String statusUpdate = profileDTO.mStatusUpdate;

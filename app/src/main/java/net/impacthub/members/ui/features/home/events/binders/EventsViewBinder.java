@@ -19,7 +19,7 @@ import android.widget.LinearLayout;
 
 import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnListItemClickListener;
-import net.impacthub.members.model.dto.events.EventDTO;
+import net.impacthub.members.model.vo.events.EventVO;
 import net.impacthub.members.ui.binder.ViewBinder;
 import net.impacthub.members.ui.common.LinearItemsMarginDecorator;
 import net.impacthub.members.ui.features.home.events.EventsLisAdapter;
@@ -32,12 +32,12 @@ import java.util.List;
  * @date 8/14/2017.
  */
 
-public class EventsViewBinder implements ViewBinder<List<EventDTO>> {
+public class EventsViewBinder implements ViewBinder<List<EventVO>> {
 
-    private final OnListItemClickListener<EventDTO> mItemClickListener;
+    private final OnListItemClickListener<EventVO> mItemClickListener;
     private EventsLisAdapter mAdapter;
 
-    public EventsViewBinder(OnListItemClickListener<EventDTO> itemClickListener) {
+    public EventsViewBinder(OnListItemClickListener<EventVO> itemClickListener) {
         mItemClickListener = itemClickListener;
     }
 
@@ -55,7 +55,7 @@ public class EventsViewBinder implements ViewBinder<List<EventDTO>> {
     }
 
     @Override
-    public void bindView(List<EventDTO> model) {
+    public void bindView(List<EventVO> model) {
         mAdapter.setItems(model);
     }
 }

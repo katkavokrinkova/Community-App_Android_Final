@@ -9,7 +9,7 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.model.dto.chatter;
+package net.impacthub.members.model.vo.chatter;
 
 /**
  * @author Filippo Ash
@@ -17,7 +17,7 @@ package net.impacthub.members.model.dto.chatter;
  * @date 8/17/2017.
  */
 
-public class ChatterDTO {
+public class ChatterVO {
 
     public String mUserId;
     public String mImageURL;

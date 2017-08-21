@@ -24,10 +24,10 @@ import android.widget.TextView;
 import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnChatterFeedItemClickListener;
 import net.impacthub.members.model.callback.OnListItemClickListener;
-import net.impacthub.members.model.dto.chatter.ChatterDTO;
-import net.impacthub.members.model.dto.jobs.JobDTO;
-import net.impacthub.members.model.dto.members.MemberDTO;
-import net.impacthub.members.model.dto.projects.ProjectDTO;
+import net.impacthub.members.model.vo.chatter.ChatterVO;
+import net.impacthub.members.model.vo.jobs.JobVO;
+import net.impacthub.members.model.vo.members.MemberVO;
+import net.impacthub.members.model.vo.projects.ProjectVO;
 import net.impacthub.members.model.pojo.ListItem;
 import net.impacthub.members.presenter.features.projects.ProjectDetailUiContract;
 import net.impacthub.members.presenter.features.projects.ProjectDetailUiPresenter;
@@ -39,7 +39,6 @@ import net.impacthub.members.ui.delegate.TabsDelegate;
 import net.impacthub.members.ui.features.home.jobs.JobDetailFragment;
 import net.impacthub.members.ui.features.home.jobs.binders.JobsViewBinder;
 import net.impacthub.members.ui.features.home.members.MemberDetailFragment;
-import net.impacthub.members.ui.features.home.members.binders.AboutViewBinder;
 import net.impacthub.members.ui.features.home.members.binders.MembersViewBinder;
 import net.impacthub.members.ui.features.home.projects.binders.ChatterViewBinder;
 import net.impacthub.members.ui.features.home.projects.binders.ObjectivesViewBinder;
@@ -71,13 +70,13 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
     @BindView(R.id.pager) protected ViewPager mProjectPages;
 
     private ViewBinder<List<ListItem<?>>> mViewBinder2;
-    private ViewBinder<List<MemberDTO>> mViewBinder3;
-    private ViewBinder<List<JobDTO>> mViewBinder4;
-    private ViewBinder<List<ChatterDTO>> mViewBinder1;
+    private ViewBinder<List<MemberVO>> mViewBinder3;
+    private ViewBinder<List<JobVO>> mViewBinder4;
+    private ViewBinder<List<ChatterVO>> mViewBinder1;
 
     private AppPagerAdapter mPagerAdapter;
 
-    public static ProjectDetailFragment newInstance(ProjectDTO projectDTO) {
+    public static ProjectDetailFragment newInstance(ProjectVO projectDTO) {
 
         Bundle args = new Bundle();
         args.putString(EXTRA_PROJECT_ID, projectDTO.mProjectId);
@@ -137,16 +136,16 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
 
         mViewBinder1 = new ChatterViewBinder(this);
         mViewBinder2 = new ObjectivesViewBinder();
-        mViewBinder3 = new MembersViewBinder(new OnListItemClickListener<MemberDTO>() {
+        mViewBinder3 = new MembersViewBinder(new OnListItemClickListener<MemberVO>() {
             @Override
-            public void onItemClick(MemberDTO model) {
+            public void onItemClick(MemberVO model) {
                 addChildFragment(MemberDetailFragment.newInstance(model), "FRAG_MEMBER_DETAIL");
             }
         });
 
-        mViewBinder4 = new JobsViewBinder(new OnListItemClickListener<JobDTO>() {
+        mViewBinder4 = new JobsViewBinder(new OnListItemClickListener<JobVO>() {
             @Override
-            public void onItemClick(JobDTO model) {
+            public void onItemClick(JobVO model) {
                 addChildFragment(JobDetailFragment.newInstance(model), "FRAG_JOB_DETAIL");
             }
         });
@@ -167,17 +166,17 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
     }
 
     @Override
-    public void onLoadChatterFeed(List<ChatterDTO> chatterDTOs) {
+    public void onLoadChatterFeed(List<ChatterVO> chatterDTOs) {
         mViewBinder1.bindView(chatterDTOs);
     }
 
     @Override
-    public void onLoadMembers(List<MemberDTO> memberDTOs) {
+    public void onLoadMembers(List<MemberVO> memberDTOs) {
         mViewBinder3.bindView(memberDTOs);
     }
 
     @Override
-    public void onLoadJobs(List<JobDTO> jobDTOs) {
+    public void onLoadJobs(List<JobVO> jobDTOs) {
         mViewBinder4.bindView(jobDTOs);
     }
 
@@ -192,12 +191,12 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
     }
 
     @Override
-    public void onLoadMember(MemberDTO memberDTO) {
+    public void onLoadMember(MemberVO memberDTO) {
         addChildFragment(MemberDetailFragment.newInstance(memberDTO), "FRAG_MEMBER_DETAIL");
     }
 
     @Override
-    public void onProfileImageClicked(ChatterDTO chatterDTO) {
+    public void onProfileImageClicked(ChatterVO chatterDTO) {
         getPresenter().loadMember(chatterDTO.mUserId);
     }
 }

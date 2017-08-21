@@ -9,21 +9,18 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.model.dto.companies;
+package net.impacthub.members.model.vo.objectives;
 
 /**
  * @author Filippo Ash
  * @version 1.0
- * @date 8/4/2017.
+ * @date 8/16/2017.
  */
 
-public class CompanyDTO {
+public class ObjectiveVO {
 
-    public String mCompanyId;
-    public String mCompanyName;
-    public String mCompanySector;
-    public String mCompanyLogo;
-    public String mCompanyBanner;
-    public String mCompanyMemberCount;
-    public String mCompanyLocation;
+    public String mTitle;
+    public String mSummary;
+    public int mCount;
+    public boolean mHideLastTimeLine;
 }

@@ -18,7 +18,7 @@ import android.view.View;
 
 import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnListItemClickListener;
-import net.impacthub.members.model.dto.jobs.JobDTO;
+import net.impacthub.members.model.vo.jobs.JobVO;
 import net.impacthub.members.presenter.features.jobs.JobsPresenter;
 import net.impacthub.members.presenter.features.jobs.JobsUiContract;
 import net.impacthub.members.ui.base.BaseChildFragment;
@@ -34,7 +34,7 @@ import butterknife.BindView;
  * @date 03/08/2017.
  */
 
-public class JobsFragment extends BaseChildFragment<JobsPresenter> implements OnListItemClickListener<JobDTO>,JobsUiContract {
+public class JobsFragment extends BaseChildFragment<JobsPresenter> implements OnListItemClickListener<JobVO>,JobsUiContract {
 
     @BindView(R.id.list_items) protected RecyclerView mJobsList;
 
@@ -74,12 +74,12 @@ public class JobsFragment extends BaseChildFragment<JobsPresenter> implements On
     }
 
     @Override
-    public void onItemClick(JobDTO model) {
+    public void onItemClick(JobVO model) {
         addChildFragment(JobDetailFragment.newInstance(model), "FRAG_JOB_DETAIL");
     }
 
     @Override
-    public void onLoadJobs(List<JobDTO> jobs) {
+    public void onLoadJobs(List<JobVO> jobs) {
         mAdapter.setItems(jobs);
     }
 }

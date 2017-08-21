@@ -18,7 +18,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import net.impacthub.members.R;
-import net.impacthub.members.model.dto.members.SkillsDTO;
+import net.impacthub.members.model.vo.members.SkillsVO;
 import net.impacthub.members.model.pojo.ListItem;
 import net.impacthub.members.ui.base.BaseListAdapter;
 import net.impacthub.members.ui.common.RecyclerViewHolder;
@@ -68,7 +68,7 @@ class MemberInfoListAdapter extends BaseListAdapter<RecyclerView.ViewHolder, Lis
                 ((AboutDescriptionViewHolder) holder).bindViewsWith(descriptionItem.getModel());
                 break;
             case ListItem.TYPE_THREE:
-                ListItem<SkillsDTO> skillItems = (ListItem<SkillsDTO>) getItem(position);
+                ListItem<SkillsVO> skillItems = (ListItem<SkillsVO>) getItem(position);
                 ((SkillDetailViewHolder) holder).bindViewsWith(skillItems.getModel());
                 break;
         }
@@ -104,7 +104,7 @@ class MemberInfoListAdapter extends BaseListAdapter<RecyclerView.ViewHolder, Lis
         }
     }
 
-    private class SkillDetailViewHolder extends RecyclerViewHolder<SkillsDTO>{
+    private class SkillDetailViewHolder extends RecyclerViewHolder<SkillsVO>{
 
         final TextView title;
         final TextView description;
@@ -116,7 +116,7 @@ class MemberInfoListAdapter extends BaseListAdapter<RecyclerView.ViewHolder, Lis
         }
 
         @Override
-        protected void bindViewsWith(SkillsDTO itemData) {
+        protected void bindViewsWith(SkillsVO itemData) {
             title.setText(itemData.mTitle);
             description.setText(itemData.mDescription);
         }

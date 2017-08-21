@@ -11,8 +11,8 @@
 
 package net.impacthub.members.mapper.notifications;
 
-import net.impacthub.members.model.dto.notifications.NotificationDTO;
-import net.impacthub.members.model.dto.notifications.NotificationType;
+import net.impacthub.members.model.vo.notifications.NotificationVO;
+import net.impacthub.members.model.vo.notifications.NotificationType;
 import net.impacthub.members.model.features.notifications.NotificationResponse;
 import net.impacthub.members.model.features.notifications.Records;
 
@@ -27,8 +27,8 @@ import java.util.List;
 
 public class NotificationMapper {
 
-    public List<NotificationDTO> map(NotificationResponse response) {
-        List<NotificationDTO> notificationDTOList = new LinkedList<>();
+    public List<NotificationVO> map(NotificationResponse response) {
+        List<NotificationVO> notificationDTOList = new LinkedList<>();
         if (response != null) {
             Records[] records = response.getRecords();
             int length;
@@ -36,7 +36,7 @@ public class NotificationMapper {
                 for (int i = 0; i < length; i++) {
                     Records record = records[i];
                     if (record != null) {
-                        NotificationDTO notificationDTO = new NotificationDTO();
+                        NotificationVO notificationDTO = new NotificationVO();
                         notificationDTO.mMessage = record.getMessage__c();
                         notificationDTO.mProfilePicUrl = record.getProfilePicURL__c();
                         notificationDTO.mCreatedDate = record.getCreatedDate();

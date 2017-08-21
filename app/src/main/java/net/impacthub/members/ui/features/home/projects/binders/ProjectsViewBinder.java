@@ -19,7 +19,7 @@ import android.widget.LinearLayout;
 
 import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnListItemClickListener;
-import net.impacthub.members.model.dto.projects.ProjectDTO;
+import net.impacthub.members.model.vo.projects.ProjectVO;
 import net.impacthub.members.ui.binder.ViewBinder;
 import net.impacthub.members.ui.common.LinearItemsMarginDecorator;
 import net.impacthub.members.ui.features.home.projects.ProjectsLisAdapter;
@@ -32,12 +32,12 @@ import java.util.List;
  * @date 8/15/2017.
  */
 
-public class ProjectsViewBinder implements ViewBinder<List<ProjectDTO>> {
+public class ProjectsViewBinder implements ViewBinder<List<ProjectVO>> {
 
-    private final OnListItemClickListener<ProjectDTO> mItemClickListener;
+    private final OnListItemClickListener<ProjectVO> mItemClickListener;
     private ProjectsLisAdapter mAdapter;
 
-    public ProjectsViewBinder(OnListItemClickListener<ProjectDTO> itemClickListener) {
+    public ProjectsViewBinder(OnListItemClickListener<ProjectVO> itemClickListener) {
         mItemClickListener = itemClickListener;
     }
 
@@ -55,7 +55,7 @@ public class ProjectsViewBinder implements ViewBinder<List<ProjectDTO>> {
     }
 
     @Override
-    public void bindView(List<ProjectDTO> model) {
+    public void bindView(List<ProjectVO> model) {
         mAdapter.setItems(model);
     }
 }

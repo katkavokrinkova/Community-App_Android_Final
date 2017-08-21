@@ -12,7 +12,7 @@
 package net.impacthub.members.presenter.features.profile;
 
 import net.impacthub.members.mapper.members.MembersMapper;
-import net.impacthub.members.model.dto.members.MemberDTO;
+import net.impacthub.members.model.vo.members.MemberVO;
 import net.impacthub.members.model.features.members.MembersResponse;
 import net.impacthub.members.presenter.base.UiPresenter;
 import net.impacthub.members.usecase.base.UseCaseGenerator;
@@ -41,7 +41,7 @@ public class ProfilePresenter extends UiPresenter<ProfileUiContract> {
                 new DisposableSingleObserver<MembersResponse>() {
                     @Override
                     public void onSuccess(@NonNull MembersResponse profileResponse) {
-                        MemberDTO memberDTO = new MembersMapper().map(profileResponse);
+                        MemberVO memberDTO = new MembersMapper().map(profileResponse);
                         getUi().onLoadCurrentMemberProfile(memberDTO);
                     }
 

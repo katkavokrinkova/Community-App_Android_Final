@@ -11,7 +11,7 @@
 
 package net.impacthub.members.presenter.features.goals;
 
-import net.impacthub.members.model.dto.goals.GoalDTO;
+import net.impacthub.members.model.vo.goals.GoalVO;
 import net.impacthub.members.presenter.features.error.ErrorHandlerUiContract;
 
 import java.util.List;
@@ -24,5 +24,5 @@ import java.util.List;
 
 public interface GoalsUiContract extends ErrorHandlerUiContract {
 
-    void onLoadGoals(List<GoalDTO> goals);
+    void onLoadGoals(List<GoalVO> goals);
 }

@@ -11,7 +11,7 @@
 
 package net.impacthub.members.mapper.chatter;
 
-import net.impacthub.members.model.dto.chatter.ChatterDTO;
+import net.impacthub.members.model.vo.chatter.ChatterVO;
 import net.impacthub.members.model.features.chatterfeed.Actor;
 import net.impacthub.members.model.features.chatterfeed.Body;
 import net.impacthub.members.model.features.chatterfeed.Capabilities;
@@ -34,15 +34,15 @@ import java.util.List;
 
 public class ChatterMapper {
 
-    public List<ChatterDTO> map(FeedElements feedElements) {
-        List<ChatterDTO> chatterDTOs = new LinkedList<>();
+    public List<ChatterVO> map(FeedElements feedElements) {
+        List<ChatterVO> chatterDTOs = new LinkedList<>();
         if (feedElements != null) {
             List<Element> elements = feedElements.getElements();
             if (elements != null) {
                 for (int i = 0; i < elements.size(); i++) {
                     Element element = elements.get(i);
                     if (element != null) {
-                        ChatterDTO chatterDTO = new ChatterDTO();
+                        ChatterVO chatterDTO = new ChatterVO();
                         chatterDTO.mDate = element.getCreatedDate();
 
                         Actor actor = element.getActor();

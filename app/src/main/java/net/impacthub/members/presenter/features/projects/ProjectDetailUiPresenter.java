@@ -15,9 +15,9 @@ import net.impacthub.members.mapper.chatter.ChatterMapper;
 import net.impacthub.members.mapper.jobs.JobsMapper;
 import net.impacthub.members.mapper.members.MembersMapper;
 import net.impacthub.members.mapper.objectives.ObjectivesMapper;
-import net.impacthub.members.model.dto.chatter.ChatterDTO;
-import net.impacthub.members.model.dto.jobs.JobDTO;
-import net.impacthub.members.model.dto.members.MemberDTO;
+import net.impacthub.members.model.vo.chatter.ChatterVO;
+import net.impacthub.members.model.vo.jobs.JobVO;
+import net.impacthub.members.model.vo.members.MemberVO;
 import net.impacthub.members.model.features.chatterfeed.FeedElements;
 import net.impacthub.members.model.features.jobs.JobsResponse;
 import net.impacthub.members.model.features.objectives.ObjectivesResponse;
@@ -52,7 +52,7 @@ public class ProjectDetailUiPresenter extends UiPresenter<ProjectDetailUiContrac
         subscribeWith(new ChatterFeedUseCase(feedId).getUseCase(), new DisposableSingleObserver<FeedElements>() {
             @Override
             public void onSuccess(@NonNull FeedElements feedElements) {
-                List<ChatterDTO> chatterDTOs = new ChatterMapper().map(feedElements);
+                List<ChatterVO> chatterDTOs = new ChatterMapper().map(feedElements);
                 getUi().onLoadChatterFeed(chatterDTOs);
             }
 
@@ -65,7 +65,7 @@ public class ProjectDetailUiPresenter extends UiPresenter<ProjectDetailUiContrac
         subscribeWith(new ProjectObjectivesUseCase(projectId).getUseCase(), new DisposableSingleObserver<ObjectivesResponse>() {
             @Override
             public void onSuccess(@NonNull ObjectivesResponse response) {
-//                List<ObjectiveDTO> objectiveDTOs = new ObjectivesMapper().map(response);
+//                List<ObjectiveVO> objectiveDTOs = new ObjectivesMapper().map(response);
                 List<ListItem<?>> infoList = new ObjectivesMapper().mapAsListItem(response);
                 getUi().onLoadObjectives(infoList);
             }
@@ -79,7 +79,7 @@ public class ProjectDetailUiPresenter extends UiPresenter<ProjectDetailUiContrac
         subscribeWith(new ProjectMembersUseCase(projectId).getUseCase(), new DisposableSingleObserver<MembersResponse>() {
             @Override
             public void onSuccess(@NonNull MembersResponse memberResponse) {
-                List<MemberDTO> memberDTOs = new MembersMapper().mapMembers(memberResponse);
+                List<MemberVO> memberDTOs = new MembersMapper().mapMembers(memberResponse);
                 getUi().onLoadMembers(memberDTOs);
             }
 
@@ -91,7 +91,7 @@ public class ProjectDetailUiPresenter extends UiPresenter<ProjectDetailUiContrac
         subscribeWith(new ProjectJobsUseCase(projectId).getUseCase(), new DisposableSingleObserver<JobsResponse>() {
             @Override
             public void onSuccess(@NonNull JobsResponse jobsResponse) {
-                List<JobDTO> jobDTOs = new JobsMapper().map(jobsResponse);
+                List<JobVO> jobDTOs = new JobsMapper().map(jobsResponse);
                 getUi().onLoadJobs(jobDTOs);
             }
 
@@ -106,7 +106,7 @@ public class ProjectDetailUiPresenter extends UiPresenter<ProjectDetailUiContrac
         subscribeWith(new GetMemberByUserIdUseCase(userId).getUseCase(), new DisposableSingleObserver<MembersResponse>() {
             @Override
             public void onSuccess(@NonNull MembersResponse membersResponse) {
-                MemberDTO memberDTO = new MembersMapper().map(membersResponse);
+                MemberVO memberDTO = new MembersMapper().map(membersResponse);
                 getUi().onLoadMember(memberDTO);
             }
 

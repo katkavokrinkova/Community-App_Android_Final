@@ -9,7 +9,7 @@ import android.view.View;
 
 import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnListItemClickListener;
-import net.impacthub.members.model.dto.members.MemberDTO;
+import net.impacthub.members.model.vo.members.MemberVO;
 import net.impacthub.members.presenter.features.members.MembersPresenter;
 import net.impacthub.members.presenter.features.members.MembersUiContract;
 import net.impacthub.members.ui.base.BaseChildFragment;
@@ -27,7 +27,7 @@ import butterknife.OnClick;
  * @date 8/1/2017.
  */
 
-public class MembersFragment extends BaseChildFragment<MembersPresenter> implements MembersUiContract, OnListItemClickListener<MemberDTO> {
+public class MembersFragment extends BaseChildFragment<MembersPresenter> implements MembersUiContract, OnListItemClickListener<MemberVO> {
 
     public static final String KEY_LIST_STATE = "list_state";
     @BindView(R.id.list_items) protected RecyclerView mMembersList;
@@ -105,7 +105,7 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
     }
 
     @Override
-    public void onItemClick(MemberDTO member) {
+    public void onItemClick(MemberVO member) {
         MemberDetailFragment detailFragment = MemberDetailFragment.newInstance(member);
         //Toast.makeText(getActivity(), model.getId(), Toast.LENGTH_SHORT).show();
 //        addChildFragment(MembersFragment.newInstance(), "FRAG_MEMBERS_"+new Random().nextInt(500));
@@ -113,7 +113,7 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
     }
 
     @Override
-    public void onLoadMembers(List<MemberDTO> memberDTOs) {
+    public void onLoadMembers(List<MemberVO> memberDTOs) {
         mAdapter.setItems(memberDTOs);
     }
 }

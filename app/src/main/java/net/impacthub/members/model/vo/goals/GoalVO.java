@@ -9,13 +9,18 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.model.dto.message;
+package net.impacthub.members.model.vo.goals;
 
 /**
  * @author Filippo Ash
  * @version 1.0
- * @date 8/18/2017.
+ * @date 8/9/2017.
  */
 
-public class MessageDTO {
+public class GoalVO {
+
+    public String mImageURL;
+    public String mName;
+    public String mSummary;
+    public String mDescription;
 }

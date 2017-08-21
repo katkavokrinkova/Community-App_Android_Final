@@ -19,7 +19,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import net.impacthub.members.R;
-import net.impacthub.members.model.dto.events.EventDTO;
+import net.impacthub.members.model.vo.events.EventVO;
 import net.impacthub.members.ui.base.BaseChildFragment;
 import net.impacthub.members.ui.common.ImageLoaderHelper;
 
@@ -38,7 +38,7 @@ public class EventDetailFragment extends BaseChildFragment {
     @BindView(R.id.list_items) protected RecyclerView mEventDetailList;
     @BindView(R.id.image_header) protected ImageView mHeaderImage;
 
-    public static EventDetailFragment newInstance(EventDTO model) {
+    public static EventDetailFragment newInstance(EventVO model) {
 
         Bundle args = new Bundle();
         args.putString(EXTRA_IMAGE_URL, model.mImageURL);

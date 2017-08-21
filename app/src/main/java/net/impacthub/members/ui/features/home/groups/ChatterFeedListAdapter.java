@@ -21,7 +21,7 @@ import android.widget.Toast;
 
 import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnChatterFeedItemClickListener;
-import net.impacthub.members.model.dto.chatter.ChatterDTO;
+import net.impacthub.members.model.vo.chatter.ChatterVO;
 import net.impacthub.members.ui.base.BaseListAdapter;
 import net.impacthub.members.ui.common.DateTimeAgoHelper;
 import net.impacthub.members.ui.common.ImageLoaderHelper;
@@ -33,7 +33,7 @@ import net.impacthub.members.ui.common.RecyclerViewHolder;
  * @date 8/17/2017.
  */
 
-public class ChatterFeedListAdapter extends BaseListAdapter<ChatterFeedListAdapter.ChatterFeedViewHolder, ChatterDTO> {
+public class ChatterFeedListAdapter extends BaseListAdapter<ChatterFeedListAdapter.ChatterFeedViewHolder, ChatterVO> {
 
     private OnChatterFeedItemClickListener mFeedItemClickListener;
 
@@ -55,7 +55,7 @@ public class ChatterFeedListAdapter extends BaseListAdapter<ChatterFeedListAdapt
         mFeedItemClickListener = clickListener;
     }
 
-    class ChatterFeedViewHolder extends RecyclerViewHolder<ChatterDTO> implements View.OnClickListener {
+    class ChatterFeedViewHolder extends RecyclerViewHolder<ChatterVO> implements View.OnClickListener {
 
         final ImageView memberImage;
         final ImageView likeIndicatorImage;
@@ -82,7 +82,7 @@ public class ChatterFeedListAdapter extends BaseListAdapter<ChatterFeedListAdapt
         }
 
         @Override
-        protected void bindViewsWith(ChatterDTO itemData) {
+        protected void bindViewsWith(ChatterVO itemData) {
             Context context = memberImage.getContext();
             displayName.setText(itemData.mDisplayName);
             displayComment.setText(itemData.mComment);
@@ -99,7 +99,7 @@ public class ChatterFeedListAdapter extends BaseListAdapter<ChatterFeedListAdapt
         public void onClick(View view) {
             if (mFeedItemClickListener != null) {
                 Context context = view.getContext();
-                        ChatterDTO chatterDTO = getItem(getAdapterPosition());
+                        ChatterVO chatterDTO = getItem(getAdapterPosition());
                 switch (view.getId()) {
                     case R.id.member_image:
                         mFeedItemClickListener.onProfileImageClicked(chatterDTO);

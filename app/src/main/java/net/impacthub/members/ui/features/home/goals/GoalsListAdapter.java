@@ -19,7 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.impacthub.members.R;
-import net.impacthub.members.model.dto.goals.GoalDTO;
+import net.impacthub.members.model.vo.goals.GoalVO;
 import net.impacthub.members.ui.base.BaseListAdapter;
 import net.impacthub.members.ui.common.ImageLoaderHelper;
 import net.impacthub.members.ui.common.RecyclerViewHolder;
@@ -30,7 +30,7 @@ import net.impacthub.members.ui.common.RecyclerViewHolder;
  * @date 8/9/2017.
  */
 
-class GoalsListAdapter extends BaseListAdapter<GoalsListAdapter.GoalsHolder, GoalDTO> {
+class GoalsListAdapter extends BaseListAdapter<GoalsListAdapter.GoalsHolder, GoalVO> {
 
     GoalsListAdapter(LayoutInflater inflater) {
         super(inflater);
@@ -46,7 +46,7 @@ class GoalsListAdapter extends BaseListAdapter<GoalsListAdapter.GoalsHolder, Goa
         holder.bindViewsWith(getItem(position));
     }
 
-    class GoalsHolder extends RecyclerViewHolder<GoalDTO> implements View.OnClickListener {
+    class GoalsHolder extends RecyclerViewHolder<GoalVO> implements View.OnClickListener {
 
         final ImageView goalImage;
         final TextView goalTitle;
@@ -61,7 +61,7 @@ class GoalsListAdapter extends BaseListAdapter<GoalsListAdapter.GoalsHolder, Goa
         }
 
         @Override
-        protected void bindViewsWith(GoalDTO itemData) {
+        protected void bindViewsWith(GoalVO itemData) {
             Context context = goalImage.getContext();
             goalTitle.setText(itemData.mName);
             goalSummary.setText(itemData.mSummary);

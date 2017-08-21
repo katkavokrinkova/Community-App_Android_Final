@@ -11,12 +11,12 @@
 
 package net.impacthub.members.presenter.features.groups;
 
-import net.impacthub.members.model.dto.chatter.ChatterDTO;
+import net.impacthub.members.model.vo.chatter.ChatterVO;
 import net.impacthub.members.presenter.features.error.ErrorHandlerUiContract;
 
 import java.util.List;
 
 public interface ChatterFeedUiContract extends ErrorHandlerUiContract {
 
-    void onLoadChatterFeed(List<ChatterDTO> chatterDTOs);
+    void onLoadChatterFeed(List<ChatterVO> chatterDTOs);
 }

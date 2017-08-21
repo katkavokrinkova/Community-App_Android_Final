@@ -11,7 +11,7 @@
 
 package net.impacthub.members.mapper.projects;
 
-import net.impacthub.members.model.dto.projects.ProjectDTO;
+import net.impacthub.members.model.vo.projects.ProjectVO;
 import net.impacthub.members.model.features.projects.Organisation__r;
 import net.impacthub.members.model.features.projects.ProjectResponse;
 import net.impacthub.members.model.features.projects.Records;
@@ -27,14 +27,14 @@ import java.util.List;
 
 public class ProjectMapper {
 
-    public List<ProjectDTO> map(ProjectResponse response) {
-        List<ProjectDTO> projectDTOs = new LinkedList<>();
+    public List<ProjectVO> map(ProjectResponse response) {
+        List<ProjectVO> projectDTOs = new LinkedList<>();
         if (response != null) {
             Records[] records = response.getRecords();
             if (records != null) {
                 for (Records record : records) {
                     if (record != null) {
-                        ProjectDTO projectDTO = new ProjectDTO();
+                        ProjectVO projectDTO = new ProjectVO();
                         projectDTO.mProjectId = record.getId();
                         projectDTO.mName = record.getName();
                         Organisation__r organisation__r = record.getOrganisation__r();

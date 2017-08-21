@@ -21,9 +21,9 @@ import android.widget.ImageView;
 
 import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnListItemClickListener;
-import net.impacthub.members.model.dto.companies.CompanyDTO;
-import net.impacthub.members.model.dto.members.MemberDTO;
-import net.impacthub.members.model.dto.projects.ProjectDTO;
+import net.impacthub.members.model.vo.companies.CompanyVO;
+import net.impacthub.members.model.vo.members.MemberVO;
+import net.impacthub.members.model.vo.projects.ProjectVO;
 import net.impacthub.members.presenter.features.companies.CompanyDetailUiContract;
 import net.impacthub.members.presenter.features.companies.CompanyDetailUiPresenter;
 import net.impacthub.members.ui.base.BaseChildFragment;
@@ -61,10 +61,10 @@ public class CompanyDetailFragment extends BaseChildFragment<CompanyDetailUiPres
     @BindView(R.id.tabs) protected TabLayout mCompanyTab;
     @BindView(R.id.pager) protected ViewPager mCompanyPages;
 
-    private ViewBinder<List<ProjectDTO>> mViewBinder2;
-    private ViewBinder<List<MemberDTO>> mViewBinder3;
+    private ViewBinder<List<ProjectVO>> mViewBinder2;
+    private ViewBinder<List<MemberVO>> mViewBinder3;
 
-    public static CompanyDetailFragment newInstance(CompanyDTO model) {
+    public static CompanyDetailFragment newInstance(CompanyVO model) {
 
         Bundle args = new Bundle();
         args.putString(EXTRA_COMPANY_ID, model.mCompanyId);
@@ -104,15 +104,15 @@ public class CompanyDetailFragment extends BaseChildFragment<CompanyDetailUiPres
 
         AppPagerAdapter adapter = new AppPagerAdapter(context);
         adapter.addVieBinder(new AboutViewBinder());
-        adapter.addVieBinder(mViewBinder2 = new ProjectsViewBinder(new OnListItemClickListener<ProjectDTO>() {
+        adapter.addVieBinder(mViewBinder2 = new ProjectsViewBinder(new OnListItemClickListener<ProjectVO>() {
             @Override
-            public void onItemClick(ProjectDTO model) {
+            public void onItemClick(ProjectVO model) {
                 addChildFragment(ProjectDetailFragment.newInstance(model), "FRAG_PROJECT_DETAIL");
             }
         }));
-        adapter.addVieBinder(mViewBinder3 = new MembersViewBinder(new OnListItemClickListener<MemberDTO>() {
+        adapter.addVieBinder(mViewBinder3 = new MembersViewBinder(new OnListItemClickListener<MemberVO>() {
             @Override
-            public void onItemClick(MemberDTO model) {
+            public void onItemClick(MemberVO model) {
                 addChildFragment(MemberDetailFragment.newInstance(model), "FRAG_MEMBER_DETAIL");
             }
         }));
@@ -128,12 +128,12 @@ public class CompanyDetailFragment extends BaseChildFragment<CompanyDetailUiPres
     }
 
     @Override
-    public void onLoadProjects(List<ProjectDTO> projectDTOs) {
+    public void onLoadProjects(List<ProjectVO> projectDTOs) {
         mViewBinder2.bindView(projectDTOs);
     }
 
     @Override
-    public void onLoadMembers(List<MemberDTO> memberDTOs) {
+    public void onLoadMembers(List<MemberVO> memberDTOs) {
         mViewBinder3.bindView(memberDTOs);
     }
 }

@@ -1,7 +1,7 @@
 package net.impacthub.members.presenter.features.members;
 
 import net.impacthub.members.mapper.members.MembersMapper;
-import net.impacthub.members.model.dto.members.MemberDTO;
+import net.impacthub.members.model.vo.members.MemberVO;
 import net.impacthub.members.model.features.members.MembersResponse;
 import net.impacthub.members.presenter.base.UiPresenter;
 import net.impacthub.members.usecase.base.UseCaseGenerator;
@@ -32,7 +32,7 @@ public class MembersPresenter extends UiPresenter<MembersUiContract> {
         subscribeWith(mObservableGenerator.getUseCase(), new DisposableSingleObserver<MembersResponse>() {
             @Override
             public void onSuccess(@NonNull MembersResponse response) {
-                List<MemberDTO> memberDTOs = new MembersMapper().mapMembers(response);
+                List<MemberVO> memberDTOs = new MembersMapper().mapMembers(response);
                 getUi().onLoadMembers(memberDTOs);
                 getUi().onChangeStatus(false);
             }

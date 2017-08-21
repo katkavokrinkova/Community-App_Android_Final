@@ -11,7 +11,7 @@
 
 package net.impacthub.members.mapper.conversations;
 
-import net.impacthub.members.model.dto.conversations.ConversationDTO;
+import net.impacthub.members.model.vo.conversations.ConversationVO;
 import net.impacthub.members.model.features.conversations.Body;
 import net.impacthub.members.model.features.conversations.Conversations;
 import net.impacthub.members.model.features.conversations.ConversationsResponse;
@@ -30,14 +30,14 @@ import java.util.List;
 
 public class ConversationMapper {
 
-    public List<ConversationDTO> map(ConversationsResponse response, String userId) {
-        List<ConversationDTO> conversationDTOs = new LinkedList<>();
+    public List<ConversationVO> map(ConversationsResponse response, String userId) {
+        List<ConversationVO> conversationDTOs = new LinkedList<>();
         if (response != null) {
             Conversations[] conversations = response.getConversations();
             if (conversations != null) {
                 for (Conversations conversation : conversations) {
                     if (conversation != null) {
-                        ConversationDTO conversationDTO = new ConversationDTO();
+                        ConversationVO conversationDTO = new ConversationVO();
                         conversationDTO.mConversationId = conversation.getId();
                         Boolean read = Boolean.valueOf(conversation.getRead());
                         conversationDTO.mIsRead = read != null ? read : true;

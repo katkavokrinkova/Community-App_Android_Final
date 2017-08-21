@@ -11,7 +11,7 @@
 
 package net.impacthub.members.mapper.companies;
 
-import net.impacthub.members.model.dto.companies.CompanyDTO;
+import net.impacthub.members.model.vo.companies.CompanyVO;
 import net.impacthub.members.model.features.companies.CompaniesResponse;
 import net.impacthub.members.model.features.companies.Records;
 
@@ -26,14 +26,14 @@ import java.util.List;
 
 public class CompaniesMapper {
 
-    public List<CompanyDTO> map(CompaniesResponse response) {
-        List<CompanyDTO> companyDTOs = new LinkedList<>();
+    public List<CompanyVO> map(CompaniesResponse response) {
+        List<CompanyVO> companyDTOs = new LinkedList<>();
         if (response != null) {
             Records[] records = response.getRecords();
             if (records != null) {
                 for (Records record : records) {
                     if (record != null) {
-                        CompanyDTO company = new CompanyDTO();
+                        CompanyVO company = new CompanyVO();
                         company.mCompanyId = record.getId();
                         company.mCompanyName = record.getName();
                         company.mCompanySector = record.getSector_Industry__c();

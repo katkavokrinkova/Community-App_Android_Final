@@ -12,7 +12,7 @@
 package net.impacthub.members.presenter.features.groups;
 
 import net.impacthub.members.mapper.groups.GroupsMapper;
-import net.impacthub.members.model.dto.groups.GroupDTO;
+import net.impacthub.members.model.vo.groups.GroupVO;
 import net.impacthub.members.model.features.groups.GroupsResponse;
 import net.impacthub.members.model.features.members.MembersResponse;
 import net.impacthub.members.model.features.members.Records;
@@ -50,7 +50,7 @@ public class GroupPresenter extends UiPresenter<GroupUiContract> {
         subscribeWith(mAllGroupsUseCase.getUseCase(), new DisposableSingleObserver<GroupsResponse>() {
             @Override
             public void onSuccess(@NonNull GroupsResponse response) {
-                List<GroupDTO> groupList = new GroupsMapper().map(response);
+                List<GroupVO> groupList = new GroupsMapper().map(response);
                 getUi().onLoadAllGroups(groupList);
             }
 
@@ -71,7 +71,7 @@ public class GroupPresenter extends UiPresenter<GroupUiContract> {
         subscribeWith(yourGroupsSingle, new DisposableSingleObserver<GroupsResponse>() {
             @Override
             public void onSuccess(@NonNull GroupsResponse response) {
-                List<GroupDTO> groupList = new GroupsMapper().map(response);
+                List<GroupVO> groupList = new GroupsMapper().map(response);
                 getUi().onLoadYourGroups(groupList);
             }
 

@@ -19,7 +19,7 @@ import android.widget.LinearLayout;
 
 import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnChatterFeedItemClickListener;
-import net.impacthub.members.model.dto.chatter.ChatterDTO;
+import net.impacthub.members.model.vo.chatter.ChatterVO;
 import net.impacthub.members.ui.binder.ViewBinder;
 import net.impacthub.members.ui.common.LinearItemsMarginDecorator;
 import net.impacthub.members.ui.features.home.groups.ChatterFeedListAdapter;
@@ -32,7 +32,7 @@ import java.util.List;
  * @date 8/21/2017.
  */
 
-public class ChatterViewBinder implements ViewBinder<List<ChatterDTO>> {
+public class ChatterViewBinder implements ViewBinder<List<ChatterVO>> {
 
     private final OnChatterFeedItemClickListener mItemClickListener;
     private ChatterFeedListAdapter mAdapter;
@@ -55,7 +55,7 @@ public class ChatterViewBinder implements ViewBinder<List<ChatterDTO>> {
     }
 
     @Override
-    public void bindView(List<ChatterDTO> model) {
+    public void bindView(List<ChatterVO> model) {
         mAdapter.setItems(model);
     }
 }

@@ -9,21 +9,27 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.model.dto.events;
+package net.impacthub.members.model.vo.members;
 
 /**
  * @author Filippo Ash
  * @version 1.0
- * @date 8/14/2017.
+ * @date 8/16/2017.
  */
 
-public class EventDTO {
+public class MemberVO {
 
-    public String mImageURL;
-    public String mName;
-    public String mDescription;
+    public String mMemberId;
+    public String mFirstName;
+    public String mLastName;
+    public String mFullName;
+    public String mProfilePicURL;
+    public String mLinkInstagram;
+    public String mLinkFacebook;
+    public String mLinkTwitter;
+    public String mLinkLinkedin;
     public String mLocation;
-    public String mDate;
-    public String mTime;
-    public String mOrganizerName;
+    public String mAboutMe;
+    public String mProfession;
+    public String mStatusUpdate;
 }

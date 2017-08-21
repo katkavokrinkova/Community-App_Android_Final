@@ -19,7 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.impacthub.members.R;
-import net.impacthub.members.model.dto.companies.CompanyDTO;
+import net.impacthub.members.model.vo.companies.CompanyVO;
 import net.impacthub.members.ui.base.BaseListAdapter;
 import net.impacthub.members.ui.common.ImageLoaderHelper;
 import net.impacthub.members.ui.common.RecyclerViewHolder;
@@ -30,7 +30,7 @@ import net.impacthub.members.ui.common.RecyclerViewHolder;
  * @date 8/4/2017.
  */
 
-class CompaniesListAdapter extends BaseListAdapter<CompaniesListAdapter.ViewHolder, CompanyDTO> {
+class CompaniesListAdapter extends BaseListAdapter<CompaniesListAdapter.ViewHolder, CompanyVO> {
 
     protected CompaniesListAdapter(LayoutInflater inflater) {
         super(inflater);
@@ -47,7 +47,7 @@ class CompaniesListAdapter extends BaseListAdapter<CompaniesListAdapter.ViewHold
         holder.bindViewsWith(getItem(position));
     }
 
-    class ViewHolder extends RecyclerViewHolder<CompanyDTO> implements View.OnClickListener {
+    class ViewHolder extends RecyclerViewHolder<CompanyVO> implements View.OnClickListener {
 
         final ImageView companyBannerLogo;
         final ImageView companyBannerImage;
@@ -68,7 +68,7 @@ class CompaniesListAdapter extends BaseListAdapter<CompaniesListAdapter.ViewHold
         }
 
         @Override
-        protected void bindViewsWith(CompanyDTO item) {
+        protected void bindViewsWith(CompanyVO item) {
             Context context = companyBannerImage.getContext();
             companyName.setText(item.mCompanyName);
             companySector.setText(item.mCompanySector);

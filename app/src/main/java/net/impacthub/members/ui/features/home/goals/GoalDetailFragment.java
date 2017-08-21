@@ -21,9 +21,9 @@ import android.widget.TextView;
 
 import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnListItemClickListener;
-import net.impacthub.members.model.dto.goals.GoalDTO;
-import net.impacthub.members.model.dto.groups.GroupDTO;
-import net.impacthub.members.model.dto.members.MemberDTO;
+import net.impacthub.members.model.vo.goals.GoalVO;
+import net.impacthub.members.model.vo.groups.GroupVO;
+import net.impacthub.members.model.vo.members.MemberVO;
 import net.impacthub.members.presenter.features.goals.GoalsDetailUiContract;
 import net.impacthub.members.presenter.features.goals.GoalsDetailUiPresenter;
 import net.impacthub.members.ui.base.BaseChildFragment;
@@ -62,10 +62,10 @@ public class GoalDetailFragment extends BaseChildFragment<GoalsDetailUiPresenter
     @BindView(R.id.tabs) protected TabLayout mGoalTab;
     @BindView(R.id.pager) protected ViewPager mGoalPages;
 
-    private ViewBinder<List<GroupDTO>> mViewBinder2;
-    private ViewBinder<List<MemberDTO>> mViewBinder3;
+    private ViewBinder<List<GroupVO>> mViewBinder2;
+    private ViewBinder<List<MemberVO>> mViewBinder3;
 
-    public static GoalDetailFragment newInstance(GoalDTO model) {
+    public static GoalDetailFragment newInstance(GoalVO model) {
 
         Bundle args = new Bundle();
         args.putString(EXTRA_GOAL_IMAGE_URL, model.mImageURL);
@@ -105,15 +105,15 @@ public class GoalDetailFragment extends BaseChildFragment<GoalsDetailUiPresenter
         AppPagerAdapter adapter = new AppPagerAdapter(getContext());
 
         adapter.addVieBinder(new AboutViewBinder(goalName, goalDescription));
-        adapter.addVieBinder(mViewBinder2 = new GroupsViewBinder(new OnListItemClickListener<GroupDTO>() {
+        adapter.addVieBinder(mViewBinder2 = new GroupsViewBinder(new OnListItemClickListener<GroupVO>() {
             @Override
-            public void onItemClick(GroupDTO model) {
+            public void onItemClick(GroupVO model) {
                 addChildFragment(GroupDetailFragment.newInstance(model), "FRAG_GROUP_DETAIL");
             }
         }));
-        adapter.addVieBinder(mViewBinder3 = new MembersViewBinder(new OnListItemClickListener<MemberDTO>() {
+        adapter.addVieBinder(mViewBinder3 = new MembersViewBinder(new OnListItemClickListener<MemberVO>() {
             @Override
-            public void onItemClick(MemberDTO model) {
+            public void onItemClick(MemberVO model) {
                 addChildFragment(MemberDetailFragment.newInstance(model), "FRAG_MEMBER_DETAIL");
             }
         }));
@@ -132,12 +132,12 @@ public class GoalDetailFragment extends BaseChildFragment<GoalsDetailUiPresenter
     }
 
     @Override
-    public void onLoadGroups(List<GroupDTO> groupDTOs) {
+    public void onLoadGroups(List<GroupVO> groupDTOs) {
         mViewBinder2.bindView(groupDTOs);
     }
 
     @Override
-    public void onLoadMembers(List<MemberDTO> memberDTOs) {
+    public void onLoadMembers(List<MemberVO> memberDTOs) {
         mViewBinder3.bindView(memberDTOs);
     }
 }

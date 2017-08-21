@@ -18,7 +18,7 @@ import android.view.View;
 
 import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnListItemClickListener;
-import net.impacthub.members.model.dto.companies.CompanyDTO;
+import net.impacthub.members.model.vo.companies.CompanyVO;
 import net.impacthub.members.presenter.features.companies.CompaniesUiContract;
 import net.impacthub.members.presenter.features.companies.CompaniesUiPresenter;
 import net.impacthub.members.ui.base.BaseChildFragment;
@@ -34,7 +34,7 @@ import butterknife.BindView;
  * @date 03/08/2017.
  */
 
-public class CompaniesFragment extends BaseChildFragment<CompaniesUiPresenter> implements CompaniesUiContract, OnListItemClickListener<CompanyDTO> {
+public class CompaniesFragment extends BaseChildFragment<CompaniesUiPresenter> implements CompaniesUiContract, OnListItemClickListener<CompanyVO> {
 
     @BindView(R.id.list_items) protected RecyclerView mCompanyList;
     private CompaniesListAdapter mAdapter;
@@ -73,12 +73,12 @@ public class CompaniesFragment extends BaseChildFragment<CompaniesUiPresenter> i
     }
 
     @Override
-    public void onItemClick(CompanyDTO model) {
+    public void onItemClick(CompanyVO model) {
         addChildFragment(CompanyDetailFragment.newInstance(model), "FRAG_COMPANY_DETAIL");
     }
 
     @Override
-    public void onLoadCompanies(List<CompanyDTO> companies) {
+    public void onLoadCompanies(List<CompanyVO> companies) {
         mAdapter.setItems(companies);
     }
 }

@@ -9,7 +9,7 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.model.dto.groups;
+package net.impacthub.members.model.vo.companies;
 
 /**
  * @author Filippo Ash
@@ -17,12 +17,13 @@ package net.impacthub.members.model.dto.groups;
  * @date 8/4/2017.
  */
 
-public class GroupDTO {
+public class CompanyVO {
 
-    public String mName;
-    public String mGroupDescription;
-    public String mImageURL;
-    public String mCities;
-    public String mMemberCount;
-    public String mChatterGroupId;
+    public String mCompanyId;
+    public String mCompanyName;
+    public String mCompanySector;
+    public String mCompanyLogo;
+    public String mCompanyBanner;
+    public String mCompanyMemberCount;
+    public String mCompanyLocation;
 }

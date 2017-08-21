@@ -19,7 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.impacthub.members.R;
-import net.impacthub.members.model.dto.projects.ProjectDTO;
+import net.impacthub.members.model.vo.projects.ProjectVO;
 import net.impacthub.members.ui.base.BaseListAdapter;
 import net.impacthub.members.ui.common.ImageLoaderHelper;
 import net.impacthub.members.ui.common.RecyclerViewHolder;
@@ -30,7 +30,7 @@ import net.impacthub.members.ui.common.RecyclerViewHolder;
  * @date 8/10/2017.
  */
 
-public class ProjectsLisAdapter extends BaseListAdapter<ProjectsLisAdapter.ProjectViewHolder, ProjectDTO> {
+public class ProjectsLisAdapter extends BaseListAdapter<ProjectsLisAdapter.ProjectViewHolder, ProjectVO> {
 
     public ProjectsLisAdapter(LayoutInflater inflater) {
         super(inflater);
@@ -46,7 +46,7 @@ public class ProjectsLisAdapter extends BaseListAdapter<ProjectsLisAdapter.Proje
         holder.bindViewsWith(getItem(position));
     }
 
-    class ProjectViewHolder extends RecyclerViewHolder<ProjectDTO> implements View.OnClickListener {
+    class ProjectViewHolder extends RecyclerViewHolder<ProjectVO> implements View.OnClickListener {
 
         final ImageView projectImage;
         final TextView projectTitle;
@@ -65,7 +65,7 @@ public class ProjectsLisAdapter extends BaseListAdapter<ProjectsLisAdapter.Proje
         }
 
         @Override
-        protected void bindViewsWith(ProjectDTO itemData) {
+        protected void bindViewsWith(ProjectVO itemData) {
             Context context = projectImage.getContext();
             projectTitle.setText(itemData.mName);
             projectOrganizationName.setText(itemData.mOrganizationName);

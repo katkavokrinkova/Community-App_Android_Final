@@ -18,7 +18,7 @@ import android.view.View;
 
 import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnListItemClickListener;
-import net.impacthub.members.model.dto.goals.GoalDTO;
+import net.impacthub.members.model.vo.goals.GoalVO;
 import net.impacthub.members.presenter.features.goals.GoalsUiPresenter;
 import net.impacthub.members.presenter.features.goals.GoalsUiContract;
 import net.impacthub.members.ui.base.BaseChildFragment;
@@ -34,7 +34,7 @@ import butterknife.BindView;
  * @date 03/08/2017.
  */
 
-public class GoalsFragment extends BaseChildFragment<GoalsUiPresenter> implements OnListItemClickListener<GoalDTO>, GoalsUiContract {
+public class GoalsFragment extends BaseChildFragment<GoalsUiPresenter> implements OnListItemClickListener<GoalVO>, GoalsUiContract {
 
     @BindView(R.id.list_items) protected RecyclerView mGoalsList;
 
@@ -74,12 +74,12 @@ public class GoalsFragment extends BaseChildFragment<GoalsUiPresenter> implement
     }
 
     @Override
-    public void onItemClick(GoalDTO model) {
+    public void onItemClick(GoalVO model) {
         addChildFragment(GoalDetailFragment.newInstance(model), "FRAG_GOAL_DETAIL");
     }
 
     @Override
-    public void onLoadGoals(List<GoalDTO> goals) {
+    public void onLoadGoals(List<GoalVO> goals) {
         mAdapter.setItems(goals);
     }
 }

@@ -19,7 +19,7 @@ import android.widget.LinearLayout;
 
 import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnListItemClickListener;
-import net.impacthub.members.model.dto.groups.GroupDTO;
+import net.impacthub.members.model.vo.groups.GroupVO;
 import net.impacthub.members.ui.binder.ViewBinder;
 import net.impacthub.members.ui.common.LinearItemsMarginDecorator;
 import net.impacthub.members.ui.features.home.groups.GroupsListAdapter;
@@ -32,12 +32,12 @@ import java.util.List;
  * @date 8/11/2017.
  */
 
-public class GroupsViewBinder implements ViewBinder<List<GroupDTO>> {
+public class GroupsViewBinder implements ViewBinder<List<GroupVO>> {
 
     private GroupsListAdapter mAdapter;
-    private final OnListItemClickListener<GroupDTO> mItemClickListener;
+    private final OnListItemClickListener<GroupVO> mItemClickListener;
 
-    public GroupsViewBinder(OnListItemClickListener<GroupDTO> itemClickListener) {
+    public GroupsViewBinder(OnListItemClickListener<GroupVO> itemClickListener) {
         mItemClickListener = itemClickListener;
     }
 
@@ -56,7 +56,7 @@ public class GroupsViewBinder implements ViewBinder<List<GroupDTO>> {
 
 
     @Override
-    public void bindView(List<GroupDTO> model) {
+    public void bindView(List<GroupVO> model) {
         mAdapter.setItems(model);
     }
 }

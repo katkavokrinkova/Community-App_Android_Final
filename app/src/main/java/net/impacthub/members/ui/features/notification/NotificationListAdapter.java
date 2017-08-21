@@ -19,7 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.impacthub.members.R;
-import net.impacthub.members.model.dto.notifications.NotificationDTO;
+import net.impacthub.members.model.vo.notifications.NotificationVO;
 import net.impacthub.members.ui.base.BaseListAdapter;
 import net.impacthub.members.ui.common.DateTimeAgoHelper;
 import net.impacthub.members.ui.common.ImageLoaderHelper;
@@ -32,7 +32,7 @@ import net.impacthub.members.ui.widgets.CircleImageView;
  * @date 8/4/2017.
  */
 
-class NotificationListAdapter extends BaseListAdapter<NotificationListAdapter.ViewHolder, NotificationDTO> {
+class NotificationListAdapter extends BaseListAdapter<NotificationListAdapter.ViewHolder, NotificationVO> {
 
     NotificationListAdapter(LayoutInflater inflater) {
         super(inflater);
@@ -49,7 +49,7 @@ class NotificationListAdapter extends BaseListAdapter<NotificationListAdapter.Vi
         holder.bindViewsWith(getItem(position));
     }
 
-    class ViewHolder extends RecyclerViewHolder<NotificationDTO> implements View.OnClickListener {
+    class ViewHolder extends RecyclerViewHolder<NotificationVO> implements View.OnClickListener {
 
         final CircleImageView profileImage;
         final TextView notificationMessage;
@@ -66,7 +66,7 @@ class NotificationListAdapter extends BaseListAdapter<NotificationListAdapter.Vi
         }
 
         @Override
-        protected void bindViewsWith(NotificationDTO item) {
+        protected void bindViewsWith(NotificationVO item) {
             Context context = profileImage.getContext();
             notificationMessage.setText(item.mMessage);
             new DateTimeAgoHelper(elapsedTime, item.mCreatedDate);

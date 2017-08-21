@@ -12,7 +12,7 @@
 package net.impacthub.members.presenter.features.jobs;
 
 import net.impacthub.members.mapper.jobs.JobsMapper;
-import net.impacthub.members.model.dto.jobs.JobDTO;
+import net.impacthub.members.model.vo.jobs.JobVO;
 import net.impacthub.members.model.features.jobs.JobsResponse;
 import net.impacthub.members.presenter.base.UiPresenter;
 import net.impacthub.members.usecase.base.UseCaseGenerator;
@@ -43,7 +43,7 @@ public class JobsPresenter extends UiPresenter<JobsUiContract> {
         subscribeWith(mJobsUseCase.getUseCase(), new DisposableSingleObserver<JobsResponse>() {
             @Override
             public void onSuccess(@NonNull JobsResponse response) {
-                List<JobDTO> jobs = new JobsMapper().map(response);
+                List<JobVO> jobs = new JobsMapper().map(response);
                 getUi().onLoadJobs(jobs);
                 getUi().onChangeStatus(false);
             }

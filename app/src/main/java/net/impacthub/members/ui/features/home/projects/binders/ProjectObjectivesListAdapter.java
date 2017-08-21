@@ -18,7 +18,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import net.impacthub.members.R;
-import net.impacthub.members.model.dto.objectives.ObjectiveDTO;
+import net.impacthub.members.model.vo.objectives.ObjectiveVO;
 import net.impacthub.members.model.pojo.ListItem;
 import net.impacthub.members.ui.base.BaseListAdapter;
 import net.impacthub.members.ui.common.RecyclerViewHolder;
@@ -61,7 +61,7 @@ class ProjectObjectivesListAdapter extends BaseListAdapter<RecyclerView.ViewHold
                 ((TitleViewHolder) holder).bindViewsWith(titleItem.getModel());
                 break;
             case ListItem.TYPE_TWO:
-                ListItem<ObjectiveDTO> objectiveItem = (ListItem<ObjectiveDTO>) getItem(position);
+                ListItem<ObjectiveVO> objectiveItem = (ListItem<ObjectiveVO>) getItem(position);
                 ((ObjectiveViewHolder) holder).bindViewsWith(objectiveItem.getModel());
                 break;
         }
@@ -82,7 +82,7 @@ class ProjectObjectivesListAdapter extends BaseListAdapter<RecyclerView.ViewHold
         }
     }
 
-    private class ObjectiveViewHolder extends RecyclerViewHolder<ObjectiveDTO>{
+    private class ObjectiveViewHolder extends RecyclerViewHolder<ObjectiveVO>{
 
         final TextView objectiveCount;
         final TextView title;
@@ -98,7 +98,7 @@ class ProjectObjectivesListAdapter extends BaseListAdapter<RecyclerView.ViewHold
         }
 
         @Override
-        protected void bindViewsWith(ObjectiveDTO itemData) {
+        protected void bindViewsWith(ObjectiveVO itemData) {
             objectiveCount.setText(String.valueOf(itemData.mCount));
             title.setText(String.valueOf(itemData.mTitle));
             summary.setText(String.valueOf(itemData.mSummary));

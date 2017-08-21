@@ -12,7 +12,7 @@
 package net.impacthub.members.presenter.features.projects;
 
 import net.impacthub.members.mapper.projects.ProjectMapper;
-import net.impacthub.members.model.dto.projects.ProjectDTO;
+import net.impacthub.members.model.vo.projects.ProjectVO;
 import net.impacthub.members.model.features.members.MembersResponse;
 import net.impacthub.members.model.features.members.Records;
 import net.impacthub.members.model.features.projects.ProjectResponse;
@@ -49,7 +49,7 @@ public class ProjectsUiPresenter extends UiPresenter<ProjectsUiContract> {
         subscribeWith(mAllProjectsUseCase.getUseCase(), new DisposableSingleObserver<ProjectResponse>() {
             @Override
             public void onSuccess(@NonNull ProjectResponse response) {
-                List<ProjectDTO> projectDTOs = new ProjectMapper().map(response);
+                List<ProjectVO> projectDTOs = new ProjectMapper().map(response);
                 getUi().onLoadAllProjects(projectDTOs);
             }
 
@@ -70,7 +70,7 @@ public class ProjectsUiPresenter extends UiPresenter<ProjectsUiContract> {
         subscribeWith(single, new DisposableSingleObserver<ProjectResponse>() {
             @Override
             public void onSuccess(@NonNull ProjectResponse projectResponse) {
-                List<ProjectDTO> projectDTOs = new ProjectMapper().map(projectResponse);
+                List<ProjectVO> projectDTOs = new ProjectMapper().map(projectResponse);
                 getUi().onLoadYourProjects(projectDTOs);
             }
 

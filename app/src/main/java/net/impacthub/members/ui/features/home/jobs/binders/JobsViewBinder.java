@@ -19,7 +19,7 @@ import android.widget.LinearLayout;
 
 import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnListItemClickListener;
-import net.impacthub.members.model.dto.jobs.JobDTO;
+import net.impacthub.members.model.vo.jobs.JobVO;
 import net.impacthub.members.ui.binder.ViewBinder;
 import net.impacthub.members.ui.common.LinearItemsMarginDecorator;
 import net.impacthub.members.ui.features.home.jobs.JobsListAdapter;
@@ -32,12 +32,12 @@ import java.util.List;
  * @date 8/16/2017.
  */
 
-public class JobsViewBinder implements ViewBinder<List<JobDTO>> {
+public class JobsViewBinder implements ViewBinder<List<JobVO>> {
 
-    private final OnListItemClickListener<JobDTO> mItemClickListener;
+    private final OnListItemClickListener<JobVO> mItemClickListener;
     private JobsListAdapter mAdapter;
 
-    public JobsViewBinder(OnListItemClickListener<JobDTO> itemClickListener) {
+    public JobsViewBinder(OnListItemClickListener<JobVO> itemClickListener) {
         mItemClickListener = itemClickListener;
     }
 
@@ -55,7 +55,7 @@ public class JobsViewBinder implements ViewBinder<List<JobDTO>> {
     }
 
     @Override
-    public void bindView(List<JobDTO> model) {
+    public void bindView(List<JobVO> model) {
         mAdapter.setItems(model);
     }
 }

@@ -9,7 +9,7 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.model.dto.notifications;
+package net.impacthub.members.model.vo.notifications;
 
 import android.support.annotation.DrawableRes;
 import android.text.TextUtils;

@@ -11,7 +11,7 @@
 
 package net.impacthub.members.presenter.features.companies;
 
-import net.impacthub.members.model.dto.companies.CompanyDTO;
+import net.impacthub.members.model.vo.companies.CompanyVO;
 import net.impacthub.members.presenter.features.error.ErrorHandlerUiContract;
 
 import java.util.List;
@@ -24,5 +24,5 @@ import java.util.List;
 
 public interface CompaniesUiContract extends ErrorHandlerUiContract {
 
-    void onLoadCompanies(List<CompanyDTO> companies);
+    void onLoadCompanies(List<CompanyVO> companies);
 }

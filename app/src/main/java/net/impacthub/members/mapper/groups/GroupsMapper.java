@@ -11,7 +11,7 @@
 
 package net.impacthub.members.mapper.groups;
 
-import net.impacthub.members.model.dto.groups.GroupDTO;
+import net.impacthub.members.model.vo.groups.GroupVO;
 import net.impacthub.members.model.features.groups.GroupsResponse;
 import net.impacthub.members.model.features.groups.Records;
 
@@ -26,14 +26,14 @@ import java.util.List;
 
 public class GroupsMapper {
 
-    public List<GroupDTO> map(GroupsResponse response) {
-        List<GroupDTO> groups = new LinkedList<>();
+    public List<GroupVO> map(GroupsResponse response) {
+        List<GroupVO> groups = new LinkedList<>();
         if (response != null) {
             Records[] records = response.getRecords();
             if (records != null) {
                 for (Records record : records) {
                     if (record != null) {
-                        GroupDTO group = new GroupDTO();
+                        GroupVO group = new GroupVO();
                         group.mImageURL = record.getImageURL__c();
                         group.mName = record.getName();
                         group.mGroupDescription = record.getGroup_Desc__c();

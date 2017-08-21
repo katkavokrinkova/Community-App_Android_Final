@@ -12,7 +12,7 @@
 package net.impacthub.members.presenter.features.companies;
 
 import net.impacthub.members.mapper.companies.CompaniesMapper;
-import net.impacthub.members.model.dto.companies.CompanyDTO;
+import net.impacthub.members.model.vo.companies.CompanyVO;
 import net.impacthub.members.model.features.companies.CompaniesResponse;
 import net.impacthub.members.presenter.base.UiPresenter;
 import net.impacthub.members.usecase.base.UseCaseGenerator;
@@ -43,7 +43,7 @@ public class CompaniesUiPresenter extends UiPresenter<CompaniesUiContract> {
         subscribeWith(mCompaniesUseCase.getUseCase(), new DisposableSingleObserver<CompaniesResponse>() {
             @Override
             public void onSuccess(@NonNull CompaniesResponse response) {
-                List<CompanyDTO> companies = new CompaniesMapper().map(response);
+                List<CompanyVO> companies = new CompaniesMapper().map(response);
                 getUi().onLoadCompanies(companies);
                 getUi().onChangeStatus(false);
             }

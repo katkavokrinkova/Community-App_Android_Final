@@ -9,7 +9,7 @@ import android.view.View;
 
 import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnListItemClickListener;
-import net.impacthub.members.model.dto.conversations.ConversationDTO;
+import net.impacthub.members.model.vo.conversations.ConversationVO;
 import net.impacthub.members.presenter.features.conversations.ConversationsPresenter;
 import net.impacthub.members.presenter.features.conversations.ConversationsUiContract;
 import net.impacthub.members.ui.base.BaseChildFragment;
@@ -26,7 +26,7 @@ import butterknife.BindView;
  * @date 8/1/2017.
  */
 
-public class ConversationsFragment extends BaseChildFragment<ConversationsPresenter> implements OnListItemClickListener<ConversationDTO>,ConversationsUiContract {
+public class ConversationsFragment extends BaseChildFragment<ConversationsPresenter> implements OnListItemClickListener<ConversationVO>,ConversationsUiContract {
 
     @BindView(R.id.list_items) protected RecyclerView mConversationList;
 
@@ -85,12 +85,12 @@ public class ConversationsFragment extends BaseChildFragment<ConversationsPresen
     }
 
     @Override
-    public void onItemClick(ConversationDTO model) {
+    public void onItemClick(ConversationVO model) {
         addChildFragment(MessageFragment.newInstance(model), "FRAG_MESSAGE_THREAD");
     }
 
     @Override
-    public void onLoadConversations(List<ConversationDTO> conversations) {
+    public void onLoadConversations(List<ConversationVO> conversations) {
         mAdapter.setItems(conversations);
     }
 }

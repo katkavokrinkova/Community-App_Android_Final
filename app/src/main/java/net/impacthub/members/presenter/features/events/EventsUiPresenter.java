@@ -12,7 +12,7 @@
 package net.impacthub.members.presenter.features.events;
 
 import net.impacthub.members.mapper.events.EventsMapper;
-import net.impacthub.members.model.dto.events.EventDTO;
+import net.impacthub.members.model.vo.events.EventVO;
 import net.impacthub.members.model.features.events.EventsResponse;
 import net.impacthub.members.model.features.members.MembersResponse;
 import net.impacthub.members.model.features.members.Records;
@@ -50,7 +50,7 @@ public class EventsUiPresenter extends UiPresenter<EventsUiContract> {
         subscribeWith(mAllEventsUseCase.getUseCase(), new DisposableSingleObserver<EventsResponse>() {
             @Override
             public void onSuccess(@NonNull EventsResponse response) {
-                List<EventDTO> eventDTOs = new EventsMapper().map(response);
+                List<EventVO> eventDTOs = new EventsMapper().map(response);
                 getUi().onLoadAllEvents(eventDTOs);
             }
 
@@ -71,7 +71,7 @@ public class EventsUiPresenter extends UiPresenter<EventsUiContract> {
         subscribeWith(singleEventYouManage, new DisposableSingleObserver<EventsResponse>() {
             @Override
             public void onSuccess(@NonNull EventsResponse response) {
-                List<EventDTO> eventDTOs = new EventsMapper().map(response);
+                List<EventVO> eventDTOs = new EventsMapper().map(response);
                 getUi().onLoadEventsYouManage(eventDTOs);
             }
 
@@ -94,7 +94,7 @@ public class EventsUiPresenter extends UiPresenter<EventsUiContract> {
         subscribeWith(singleYourEvents, new DisposableSingleObserver<EventsResponse>() {
             @Override
             public void onSuccess(@NonNull EventsResponse response) {
-                List<EventDTO> eventDTOs = new EventsMapper().map(response);
+                List<EventVO> eventDTOs = new EventsMapper().map(response);
                 getUi().onLoadYourEvents(eventDTOs);
             }
 

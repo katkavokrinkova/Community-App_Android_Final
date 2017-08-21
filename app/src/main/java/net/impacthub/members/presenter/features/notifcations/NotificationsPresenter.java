@@ -12,7 +12,7 @@
 package net.impacthub.members.presenter.features.notifcations;
 
 import net.impacthub.members.mapper.notifications.NotificationMapper;
-import net.impacthub.members.model.dto.notifications.NotificationDTO;
+import net.impacthub.members.model.vo.notifications.NotificationVO;
 import net.impacthub.members.model.features.notifications.NotificationResponse;
 import net.impacthub.members.presenter.base.UiPresenter;
 import net.impacthub.members.usecase.base.UseCaseGenerator;
@@ -42,7 +42,7 @@ public class NotificationsPresenter extends UiPresenter<NotificationsUiContract>
         subscribeWith(mNotificationUseCase.getUseCase(), new DisposableSingleObserver<NotificationResponse>() {
             @Override
             public void onSuccess(@NonNull NotificationResponse response) {
-                List<NotificationDTO> notificationDTOList = new NotificationMapper().map(response);
+                List<NotificationVO> notificationDTOList = new NotificationMapper().map(response);
                 getUi().onLoadNotifications(notificationDTOList);
             }
 

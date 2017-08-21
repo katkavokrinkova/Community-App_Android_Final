@@ -15,9 +15,9 @@ import android.widget.TextView;
 
 import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnListItemClickListener;
-import net.impacthub.members.model.dto.groups.GroupDTO;
-import net.impacthub.members.model.dto.members.MemberDTO;
-import net.impacthub.members.model.dto.projects.ProjectDTO;
+import net.impacthub.members.model.vo.groups.GroupVO;
+import net.impacthub.members.model.vo.members.MemberVO;
+import net.impacthub.members.model.vo.projects.ProjectVO;
 import net.impacthub.members.model.pojo.ListItem;
 import net.impacthub.members.navigator.Navigator;
 import net.impacthub.members.presenter.features.members.MemberDetailPresenter;
@@ -89,7 +89,7 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
     private String mLinkLinkedin;
     private String mLinkInsta;
 
-    public static MemberDetailFragment newInstance(MemberDTO member) {
+    public static MemberDetailFragment newInstance(MemberVO member) {
 
         Bundle args = new Bundle();
         args.putString(EXTRA_MEMBER_ID, member.mMemberId);
@@ -193,15 +193,15 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
 
         mPagerAdapter = new AppPagerAdapter(getContext());
         mPagerAdapter.addVieBinder(new AboutViewBinder());
-        mPagerAdapter.addVieBinder(new ProjectsViewBinder(new OnListItemClickListener<ProjectDTO>() {
+        mPagerAdapter.addVieBinder(new ProjectsViewBinder(new OnListItemClickListener<ProjectVO>() {
             @Override
-            public void onItemClick(ProjectDTO model) {
+            public void onItemClick(ProjectVO model) {
                 addChildFragment(ProjectDetailFragment.newInstance(model), "FRAG_PROJECT_DETAIL");
             }
         }));
-        mPagerAdapter.addVieBinder(new GroupsViewBinder(new OnListItemClickListener<GroupDTO>() {
+        mPagerAdapter.addVieBinder(new GroupsViewBinder(new OnListItemClickListener<GroupVO>() {
             @Override
-            public void onItemClick(GroupDTO model) {
+            public void onItemClick(GroupVO model) {
                 addChildFragment(GroupDetailFragment.newInstance(model), "FRAG_GROUP_DETAIL");
             }
         }));
@@ -223,7 +223,7 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
     }
 
     @Override
-    public void onLoadProjects(List<ProjectDTO> projectDTOs) {
+    public void onLoadProjects(List<ProjectVO> projectDTOs) {
         if (mPagerAdapter != null) {
             ViewBinder viewBinder = mPagerAdapter.getItemAt(1);
             if (viewBinder != null) {
@@ -233,7 +233,7 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
     }
 
     @Override
-    public void onLoadGroups(List<GroupDTO> groupDTOs) {
+    public void onLoadGroups(List<GroupVO> groupDTOs) {
         if (mPagerAdapter != null) {
             ViewBinder viewBinder = mPagerAdapter.getItemAt(2);
             if (viewBinder != null) {

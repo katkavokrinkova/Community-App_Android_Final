@@ -19,7 +19,7 @@ import android.view.View;
 
 import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnListItemClickListener;
-import net.impacthub.members.model.dto.groups.GroupDTO;
+import net.impacthub.members.model.vo.groups.GroupVO;
 import net.impacthub.members.presenter.features.groups.GroupPresenter;
 import net.impacthub.members.presenter.features.groups.GroupUiContract;
 import net.impacthub.members.ui.base.BaseChildFragment;
@@ -38,16 +38,16 @@ import butterknife.BindView;
  * @date 03/08/2017.
  */
 
-public class GroupsFragment extends BaseChildFragment<GroupPresenter> implements GroupUiContract, OnListItemClickListener<GroupDTO> {
+public class GroupsFragment extends BaseChildFragment<GroupPresenter> implements GroupUiContract, OnListItemClickListener<GroupVO> {
 
     private static final String TITLES[] = {"ALL", "GROUPS YOU MANAGE", "YOUR GROUPS"};
 
     @BindView(R.id.tabs) protected TabLayout mGroupsTab;
     @BindView(R.id.pager) protected ViewPager mGroupsPages;
 
-    private ViewBinder<List<GroupDTO>> mViewBinder1;
-    private ViewBinder<List<GroupDTO>> mViewBinder2;
-    private ViewBinder<List<GroupDTO>> mViewBinder3;
+    private ViewBinder<List<GroupVO>> mViewBinder1;
+    private ViewBinder<List<GroupVO>> mViewBinder2;
+    private ViewBinder<List<GroupVO>> mViewBinder3;
 
     public static GroupsFragment newInstance() {
 
@@ -90,17 +90,17 @@ public class GroupsFragment extends BaseChildFragment<GroupPresenter> implements
     }
 
     @Override
-    public void onItemClick(GroupDTO model) {
+    public void onItemClick(GroupVO model) {
         addChildFragment(GroupDetailFragment.newInstance(model), "FRAG_GROUP_DETAIL");
     }
 
     @Override
-    public void onLoadAllGroups(List<GroupDTO> groupList) {
+    public void onLoadAllGroups(List<GroupVO> groupList) {
         mViewBinder1.bindView(groupList);
     }
 
     @Override
-    public void onLoadYourGroups(List<GroupDTO> groupList) {
+    public void onLoadYourGroups(List<GroupVO> groupList) {
         mViewBinder3.bindView(groupList);
     }
 }

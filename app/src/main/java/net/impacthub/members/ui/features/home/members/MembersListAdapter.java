@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import net.impacthub.members.R;
-import net.impacthub.members.model.dto.members.MemberDTO;
+import net.impacthub.members.model.vo.members.MemberVO;
 import net.impacthub.members.ui.base.BaseListAdapter;
 import net.impacthub.members.ui.common.ImageLoaderHelper;
 import net.impacthub.members.ui.common.RecyclerViewHolder;
@@ -18,7 +18,7 @@ import net.impacthub.members.ui.widgets.CircleImageView;
  * @date 8/1/2017.
  */
 
-public class MembersListAdapter extends BaseListAdapter<MembersListAdapter.ViewHolder, MemberDTO> {
+public class MembersListAdapter extends BaseListAdapter<MembersListAdapter.ViewHolder, MemberVO> {
 
     public MembersListAdapter(LayoutInflater inflater) {
         super(inflater);
@@ -35,7 +35,7 @@ public class MembersListAdapter extends BaseListAdapter<MembersListAdapter.ViewH
         holder.bindViewsWith(getItem(position));
     }
 
-    class ViewHolder extends RecyclerViewHolder<MemberDTO> implements View.OnClickListener {
+    class ViewHolder extends RecyclerViewHolder<MemberVO> implements View.OnClickListener {
 
         final View container;
         final CircleImageView memberImage;
@@ -54,7 +54,7 @@ public class MembersListAdapter extends BaseListAdapter<MembersListAdapter.ViewH
         }
 
         @Override
-        protected void bindViewsWith(MemberDTO item) {
+        protected void bindViewsWith(MemberVO item) {
             name.setText(item.mFullName);
             profession.setText(item.mProfession);
             locations.setText(item.mLocation);

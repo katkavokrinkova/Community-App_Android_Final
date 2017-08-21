@@ -11,10 +11,10 @@
 
 package net.impacthub.members.mapper.members;
 
-import net.impacthub.members.model.dto.groups.GroupDTO;
-import net.impacthub.members.model.dto.members.MemberDTO;
-import net.impacthub.members.model.dto.members.SkillsDTO;
-import net.impacthub.members.model.dto.projects.ProjectDTO;
+import net.impacthub.members.model.vo.groups.GroupVO;
+import net.impacthub.members.model.vo.members.MemberVO;
+import net.impacthub.members.model.vo.members.SkillsVO;
+import net.impacthub.members.model.vo.projects.ProjectVO;
 import net.impacthub.members.model.features.members.Affiliation;
 import net.impacthub.members.model.features.members.Affiliations;
 import net.impacthub.members.model.features.members.Organisation;
@@ -35,14 +35,14 @@ import java.util.List;
 
 public class MembersMapper {
 
-    public List<MemberDTO> mapMembers(MembersResponse responses) {
-        List<MemberDTO> memberDTOs = new LinkedList<>();
+    public List<MemberVO> mapMembers(MembersResponse responses) {
+        List<MemberVO> memberDTOs = new LinkedList<>();
         if (responses != null) {
             Records[] records = responses.getRecords();
             if (records != null) {
                 for (Records member : records) {
                     if (member != null) {
-                        MemberDTO memberDTO = new MemberDTO();
+                        MemberVO memberDTO = new MemberVO();
                         mapRecord(memberDTO, member);
                         memberDTOs.add(memberDTO);
                     }
@@ -52,8 +52,8 @@ public class MembersMapper {
         return memberDTOs;
     }
 
-    public MemberDTO map(MembersResponse profileResponse) {
-        MemberDTO memberDTO = new MemberDTO();
+    public MemberVO map(MembersResponse profileResponse) {
+        MemberVO memberDTO = new MemberVO();
         if (profileResponse != null) {
             Records[] records = profileResponse.getRecords();
             if (records != null && records.length > 0) {
@@ -66,7 +66,7 @@ public class MembersMapper {
         return memberDTO;
     }
 
-    private void mapRecord(MemberDTO memberDTO, Records record) {
+    private void mapRecord(MemberVO memberDTO, Records record) {
         memberDTO.mMemberId = record.getId();
         memberDTO.mFirstName = record.getFirstName();
         memberDTO.mLastName = record.getLastName();
@@ -82,8 +82,8 @@ public class MembersMapper {
         memberDTO.mProfession = record.getProfession__c();
     }
 
-    public List<ProjectDTO> mapProjects(Affiliations response) {
-        List<ProjectDTO> memberProjectDTOs = new LinkedList<>();
+    public List<ProjectVO> mapProjects(Affiliations response) {
+        List<ProjectVO> memberProjectDTOs = new LinkedList<>();
         if (response != null) {
             List<Affiliation> affiliations = response.getAffiliations();
             if (affiliations != null) {
@@ -91,7 +91,7 @@ public class MembersMapper {
                     Affiliation affiliation = affiliations.get(i);
                     if (affiliation != null) {
                         if ("Project".equals(affiliation.getDirectoryStyle())) {
-                            ProjectDTO memberProjectDTO = new ProjectDTO();
+                            ProjectVO memberProjectDTO = new ProjectVO();
                             memberProjectDTO.mProjectId = affiliation.getId();
                             memberProjectDTO.mName = affiliation.getName();
                             memberProjectDTO.mChatterGroupId = affiliation.getChatterGroupId();
@@ -111,8 +111,8 @@ public class MembersMapper {
         return memberProjectDTOs;
     }
 
-    public List<GroupDTO> mapGroups(Affiliations response) {
-        List<GroupDTO> groupDTOList = new LinkedList<>();
+    public List<GroupVO> mapGroups(Affiliations response) {
+        List<GroupVO> groupDTOList = new LinkedList<>();
         if (response != null) {
             List<Affiliation> affiliations = response.getAffiliations();
             if (affiliations != null) {
@@ -120,7 +120,7 @@ public class MembersMapper {
                     Affiliation affiliation = affiliations.get(i);
                     if (affiliation != null) {
                         if ("Group".equals(affiliation.getDirectoryStyle())) {
-                            GroupDTO group = new GroupDTO();
+                            GroupVO group = new GroupVO();
                             group.mImageURL = affiliation.getImageUrl();
                             group.mName = affiliation.getName();
                             group.mGroupDescription = affiliation.getGroupDesc();
@@ -143,11 +143,11 @@ public class MembersMapper {
                 for (int i = 0; i < skillList.size(); i++) {
                     Skill skill = skillList.get(i);
                     if (skill != null) {
-                        SkillsDTO skillsDTO = new SkillsDTO();
+                        SkillsVO skillsDTO = new SkillsVO();
                         skillsDTO.mTitle = skill.getName();
                         skillsDTO.mDescription = skill.getSkillDescription();
 
-                        ListItem<SkillsDTO> listItem = new ListItem<>(ListItem.TYPE_THREE);
+                        ListItem<SkillsVO> listItem = new ListItem<>(ListItem.TYPE_THREE);
                         listItem.setModel(skillsDTO);
                         infoList.add(listItem);
                     }

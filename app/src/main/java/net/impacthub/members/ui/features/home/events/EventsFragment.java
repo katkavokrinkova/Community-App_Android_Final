@@ -19,7 +19,7 @@ import android.view.View;
 
 import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnListItemClickListener;
-import net.impacthub.members.model.dto.events.EventDTO;
+import net.impacthub.members.model.vo.events.EventVO;
 import net.impacthub.members.presenter.features.events.EventsUiContract;
 import net.impacthub.members.presenter.features.events.EventsUiPresenter;
 import net.impacthub.members.ui.base.BaseChildFragment;
@@ -38,7 +38,7 @@ import butterknife.BindView;
  * @date 03/08/2017.
  */
 
-public class EventsFragment extends BaseChildFragment<EventsUiPresenter> implements EventsUiContract,OnListItemClickListener<EventDTO> {
+public class EventsFragment extends BaseChildFragment<EventsUiPresenter> implements EventsUiContract,OnListItemClickListener<EventVO> {
 
     public static final String TITLES[] = {"ALL", "EVENTS YOU MANAGE", "YOUR EVENTS"};
 
@@ -46,9 +46,9 @@ public class EventsFragment extends BaseChildFragment<EventsUiPresenter> impleme
     @BindView(R.id.pager) protected ViewPager mEventsPager;
 
     private AppPagerAdapter mPagerAdapter;
-    private ViewBinder<List<EventDTO>> mViewBinder1;
-    private ViewBinder<List<EventDTO>> mViewBinder2;
-    private ViewBinder<List<EventDTO>> mViewBinder3;
+    private ViewBinder<List<EventVO>> mViewBinder1;
+    private ViewBinder<List<EventVO>> mViewBinder2;
+    private ViewBinder<List<EventVO>> mViewBinder3;
 
     public static EventsFragment newInstance() {
 
@@ -90,22 +90,22 @@ public class EventsFragment extends BaseChildFragment<EventsUiPresenter> impleme
     }
 
     @Override
-    public void onLoadAllEvents(List<EventDTO> eventDTOs) {
+    public void onLoadAllEvents(List<EventVO> eventDTOs) {
         mViewBinder1.bindView(eventDTOs);
     }
 
     @Override
-    public void onLoadEventsYouManage(List<EventDTO> eventDTOs) {
+    public void onLoadEventsYouManage(List<EventVO> eventDTOs) {
         mViewBinder2.bindView(eventDTOs);
     }
 
     @Override
-    public void onLoadYourEvents(List<EventDTO> eventDTOs) {
+    public void onLoadYourEvents(List<EventVO> eventDTOs) {
         mViewBinder3.bindView(eventDTOs);
     }
 
     @Override
-    public void onItemClick(EventDTO model) {
+    public void onItemClick(EventVO model) {
         addChildFragment(EventDetailFragment.newInstance(model), "FRAG_EVENT_DETAIL");
     }
 }

@@ -11,7 +11,7 @@
 
 package net.impacthub.members.presenter.features.profile;
 
-import net.impacthub.members.model.dto.members.MemberDTO;
+import net.impacthub.members.model.vo.members.MemberVO;
 import net.impacthub.members.presenter.features.error.ErrorHandlerUiContract;
 
 /**
@@ -22,5 +22,5 @@ import net.impacthub.members.presenter.features.error.ErrorHandlerUiContract;
 
 public interface ProfileUiContract extends ErrorHandlerUiContract {
 
-    void onLoadCurrentMemberProfile(MemberDTO memberDTO);
+    void onLoadCurrentMemberProfile(MemberVO memberDTO);
 }

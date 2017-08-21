@@ -1,6 +1,6 @@
 package net.impacthub.members.presenter.features.members;
 
-import net.impacthub.members.model.dto.members.MemberDTO;
+import net.impacthub.members.model.vo.members.MemberVO;
 import net.impacthub.members.presenter.features.error.ErrorHandlerUiContract;
 
 import java.util.List;
@@ -13,5 +13,5 @@ import java.util.List;
 
 public interface MembersUiContract extends ErrorHandlerUiContract {
 
-    void onLoadMembers(List<MemberDTO> memberDTOs);
+    void onLoadMembers(List<MemberVO> memberDTOs);
 }

@@ -11,7 +11,7 @@
 
 package net.impacthub.members.presenter.features.jobs;
 
-import net.impacthub.members.model.dto.jobs.JobDTO;
+import net.impacthub.members.model.vo.jobs.JobVO;
 import net.impacthub.members.presenter.features.error.ErrorHandlerUiContract;
 
 import java.util.List;
@@ -24,5 +24,5 @@ import java.util.List;
 
 public interface JobsUiContract extends ErrorHandlerUiContract {
 
-    void onLoadJobs(List<JobDTO> jobs);
+    void onLoadJobs(List<JobVO> jobs);
 }

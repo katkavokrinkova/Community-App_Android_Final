@@ -19,8 +19,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.impacthub.members.R;
-import net.impacthub.members.model.dto.chatter.ChatterDTO;
-import net.impacthub.members.model.dto.groups.GroupDTO;
+import net.impacthub.members.model.vo.chatter.ChatterVO;
+import net.impacthub.members.model.vo.groups.GroupVO;
 import net.impacthub.members.presenter.features.groups.ChatterFeedPresenter;
 import net.impacthub.members.presenter.features.groups.ChatterFeedUiContract;
 import net.impacthub.members.ui.base.BaseChildFragment;
@@ -52,7 +52,7 @@ public class GroupDetailFragment extends BaseChildFragment<ChatterFeedPresenter>
 
     private ChatterFeedListAdapter mAdapter;
 
-    public static GroupDetailFragment newInstance(GroupDTO groupDTO) {
+    public static GroupDetailFragment newInstance(GroupVO groupDTO) {
 
         Bundle args = new Bundle();
         args.putString(EXTRA_CHATTER_FEED_ID, groupDTO.mChatterGroupId);
@@ -99,7 +99,7 @@ public class GroupDetailFragment extends BaseChildFragment<ChatterFeedPresenter>
     }
 
     @Override
-    public void onLoadChatterFeed(List<ChatterDTO> chatterDTOs) {
+    public void onLoadChatterFeed(List<ChatterVO> chatterDTOs) {
         mAdapter.setItems(chatterDTOs);
     }
 }

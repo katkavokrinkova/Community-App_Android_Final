@@ -19,7 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.impacthub.members.R;
-import net.impacthub.members.model.dto.conversations.ConversationDTO;
+import net.impacthub.members.model.vo.conversations.ConversationVO;
 import net.impacthub.members.ui.base.BaseListAdapter;
 import net.impacthub.members.ui.common.DateTimeAgoHelper;
 import net.impacthub.members.ui.common.ImageLoaderHelper;
@@ -31,7 +31,7 @@ import net.impacthub.members.ui.common.RecyclerViewHolder;
  * @date 8/9/2017.
  */
 
-class MessageListAdapter extends BaseListAdapter<MessageListAdapter.MessageViewHolder, ConversationDTO> {
+class MessageListAdapter extends BaseListAdapter<MessageListAdapter.MessageViewHolder, ConversationVO> {
 
     MessageListAdapter(LayoutInflater inflater) {
         super(inflater);
@@ -47,7 +47,7 @@ class MessageListAdapter extends BaseListAdapter<MessageListAdapter.MessageViewH
         holder.bindViewsWith(getItem(position));
     }
 
-    class MessageViewHolder extends RecyclerViewHolder<ConversationDTO> implements View.OnClickListener {
+    class MessageViewHolder extends RecyclerViewHolder<ConversationVO> implements View.OnClickListener {
 
         final ImageView profileImage;
         final TextView messageReadIcon;
@@ -66,7 +66,7 @@ class MessageListAdapter extends BaseListAdapter<MessageListAdapter.MessageViewH
         }
 
         @Override
-        protected void bindViewsWith(ConversationDTO itemData) {
+        protected void bindViewsWith(ConversationVO itemData) {
             Context context = profileImage.getContext();
             displayName.setText(itemData.mDisplayName);
             displayMessage.setText(itemData.mText);

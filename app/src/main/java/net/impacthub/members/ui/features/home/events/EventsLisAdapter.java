@@ -19,8 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.impacthub.members.R;
-import net.impacthub.members.model.dto.events.EventDTO;
-import net.impacthub.members.model.dto.projects.ProjectDTO;
+import net.impacthub.members.model.vo.events.EventVO;
 import net.impacthub.members.ui.base.BaseListAdapter;
 import net.impacthub.members.ui.common.ImageLoaderHelper;
 import net.impacthub.members.ui.common.RecyclerViewHolder;
@@ -31,7 +30,7 @@ import net.impacthub.members.ui.common.RecyclerViewHolder;
  * @date 8/10/2017.
  */
 
-public class EventsLisAdapter extends BaseListAdapter<EventsLisAdapter.EventViewHolder, EventDTO> {
+public class EventsLisAdapter extends BaseListAdapter<EventsLisAdapter.EventViewHolder, EventVO> {
 
     public EventsLisAdapter(LayoutInflater inflater) {
         super(inflater);
@@ -47,7 +46,7 @@ public class EventsLisAdapter extends BaseListAdapter<EventsLisAdapter.EventView
         holder.bindViewsWith(getItem(position));
     }
 
-    class EventViewHolder extends RecyclerViewHolder<EventDTO> implements View.OnClickListener {
+    class EventViewHolder extends RecyclerViewHolder<EventVO> implements View.OnClickListener {
 
         final ImageView eventImage;
         final TextView eventTitle;
@@ -66,7 +65,7 @@ public class EventsLisAdapter extends BaseListAdapter<EventsLisAdapter.EventView
         }
 
         @Override
-        protected void bindViewsWith(EventDTO itemData) {
+        protected void bindViewsWith(EventVO itemData) {
             Context context = eventImage.getContext();
             eventTitle.setText(itemData.mName);
             eventDate.setText(itemData.mDate);

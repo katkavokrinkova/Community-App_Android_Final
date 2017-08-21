@@ -9,21 +9,21 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.model.dto.conversations;
+package net.impacthub.members.model.vo.events;
 
 /**
  * @author Filippo Ash
  * @version 1.0
- * @date 8/9/2017.
+ * @date 8/14/2017.
  */
 
-public class ConversationDTO {
+public class EventVO {
 
-    public String mConversationId;
-    public String mDisplayName;
-    public String mRecipientUserId;
     public String mImageURL;
-    public String mText;
+    public String mName;
+    public String mDescription;
+    public String mLocation;
     public String mDate;
-    public Boolean mIsRead;
+    public String mTime;
+    public String mOrganizerName;
 }

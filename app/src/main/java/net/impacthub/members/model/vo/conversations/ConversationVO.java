@@ -9,7 +9,7 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.model.dto.goals;
+package net.impacthub.members.model.vo.conversations;
 
 /**
  * @author Filippo Ash
@@ -17,10 +17,13 @@ package net.impacthub.members.model.dto.goals;
  * @date 8/9/2017.
  */
 
-public class GoalDTO {
+public class ConversationVO {
 
+    public String mConversationId;
+    public String mDisplayName;
+    public String mRecipientUserId;
     public String mImageURL;
-    public String mName;
-    public String mSummary;
-    public String mDescription;
+    public String mText;
+    public String mDate;
+    public Boolean mIsRead;
 }

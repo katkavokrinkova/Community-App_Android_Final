@@ -22,8 +22,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.impacthub.members.R;
-import net.impacthub.members.model.dto.conversations.ConversationDTO;
-import net.impacthub.members.model.dto.notifications.NotificationType;
+import net.impacthub.members.model.vo.conversations.ConversationVO;
+import net.impacthub.members.model.vo.notifications.NotificationType;
 import net.impacthub.members.model.features.messages.ProcessedMessages;
 import net.impacthub.members.model.features.push.PushQuery;
 import net.impacthub.members.presenter.features.messages.MessageUiContract;
@@ -53,7 +53,7 @@ public class MessageFragment extends BaseChildFragment<MessagesUiPresenter> impl
     private MessageListAdapter mAdapter;
     private String mInReplyTo;
 
-    public static MessageFragment newInstance(ConversationDTO model) {
+    public static MessageFragment newInstance(ConversationVO model) {
         
         Bundle args = new Bundle();
         args.putString(EXTRA_CONVERSATION_ID, model.mConversationId);

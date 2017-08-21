@@ -11,7 +11,7 @@
 
 package net.impacthub.members.mapper.goals;
 
-import net.impacthub.members.model.dto.goals.GoalDTO;
+import net.impacthub.members.model.vo.goals.GoalVO;
 import net.impacthub.members.model.features.goals.GoalsResponse;
 import net.impacthub.members.model.features.goals.Records;
 
@@ -26,14 +26,14 @@ import java.util.List;
 
 public class GoalsMapper {
 
-    public List<GoalDTO> map(GoalsResponse response) {
-        List<GoalDTO> goals = new LinkedList<>();
+    public List<GoalVO> map(GoalsResponse response) {
+        List<GoalVO> goals = new LinkedList<>();
         if (response != null) {
             Records[] records = response.getRecords();
             if (records != null) {
                 for (Records record : records) {
                     if (record != null) {
-                        GoalDTO goalDTO = new GoalDTO();
+                        GoalVO goalDTO = new GoalVO();
                         goalDTO.mImageURL = record.getImageURL__c();
                         goalDTO.mName = record.getName();
                         goalDTO.mSummary = record.getSummary__c();

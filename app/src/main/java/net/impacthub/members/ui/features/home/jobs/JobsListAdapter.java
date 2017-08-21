@@ -19,7 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.impacthub.members.R;
-import net.impacthub.members.model.dto.jobs.JobDTO;
+import net.impacthub.members.model.vo.jobs.JobVO;
 import net.impacthub.members.ui.base.BaseListAdapter;
 import net.impacthub.members.ui.common.ImageLoaderHelper;
 import net.impacthub.members.ui.common.RecyclerViewHolder;
@@ -30,7 +30,7 @@ import net.impacthub.members.ui.common.RecyclerViewHolder;
  * @date 8/9/2017.
  */
 
-public class JobsListAdapter extends BaseListAdapter<JobsListAdapter.JobViewHolder, JobDTO> {
+public class JobsListAdapter extends BaseListAdapter<JobsListAdapter.JobViewHolder, JobVO> {
 
     public JobsListAdapter(LayoutInflater inflater) {
         super(inflater);
@@ -46,7 +46,7 @@ public class JobsListAdapter extends BaseListAdapter<JobsListAdapter.JobViewHold
         holder.bindViewsWith(getItem(position));
     }
 
-    class JobViewHolder extends RecyclerViewHolder<JobDTO> implements View.OnClickListener {
+    class JobViewHolder extends RecyclerViewHolder<JobVO> implements View.OnClickListener {
 
         final TextView jobTitle;
         final TextView jobCompany;
@@ -65,7 +65,7 @@ public class JobsListAdapter extends BaseListAdapter<JobsListAdapter.JobViewHold
         }
 
         @Override
-        protected void bindViewsWith(JobDTO itemData) {
+        protected void bindViewsWith(JobVO itemData) {
             Context context = jobLogoImage.getContext();
             jobTitle.setText(itemData.mName);
             jobCompany.setText(itemData.mCompanyName);

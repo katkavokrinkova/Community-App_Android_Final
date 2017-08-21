@@ -11,8 +11,8 @@
 
 package net.impacthub.members.presenter.features.goals;
 
-import net.impacthub.members.model.dto.groups.GroupDTO;
-import net.impacthub.members.model.dto.members.MemberDTO;
+import net.impacthub.members.model.vo.groups.GroupVO;
+import net.impacthub.members.model.vo.members.MemberVO;
 import net.impacthub.members.presenter.features.error.ErrorHandlerUiContract;
 
 import java.util.List;
@@ -25,7 +25,7 @@ import java.util.List;
 
 public interface GoalsDetailUiContract extends ErrorHandlerUiContract {
 
-    void onLoadGroups(List<GroupDTO> groupDTOs);
+    void onLoadGroups(List<GroupVO> groupDTOs);
 
-    void onLoadMembers(List<MemberDTO> memberDTOs);
+    void onLoadMembers(List<MemberVO> memberDTOs);
 }

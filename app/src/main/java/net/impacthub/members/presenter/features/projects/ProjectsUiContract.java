@@ -11,7 +11,7 @@
 
 package net.impacthub.members.presenter.features.projects;
 
-import net.impacthub.members.model.dto.projects.ProjectDTO;
+import net.impacthub.members.model.vo.projects.ProjectVO;
 import net.impacthub.members.presenter.features.error.ErrorHandlerUiContract;
 
 import java.util.List;
@@ -24,7 +24,7 @@ import java.util.List;
 
 public interface ProjectsUiContract extends ErrorHandlerUiContract {
 
-    void onLoadAllProjects(List<ProjectDTO> projectDTOs);
+    void onLoadAllProjects(List<ProjectVO> projectDTOs);
 
-    void onLoadYourProjects(List<ProjectDTO> projectDTOs);
+    void onLoadYourProjects(List<ProjectVO> projectDTOs);
 }

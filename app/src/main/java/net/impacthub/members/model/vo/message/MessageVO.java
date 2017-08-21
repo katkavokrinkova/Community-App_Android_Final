@@ -9,18 +9,13 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.model.dto.notifications;
+package net.impacthub.members.model.vo.message;
 
 /**
  * @author Filippo Ash
  * @version 1.0
- * @date 8/4/2017.
+ * @date 8/18/2017.
  */
 
-public class NotificationDTO {
-
-    public String mMessage;
-    public String mProfilePicUrl;
-    public String mCreatedDate;
-    public int mNotificationIcon;
+public class MessageVO {
 }

@@ -13,8 +13,8 @@ package net.impacthub.members.presenter.features.companies;
 
 import net.impacthub.members.mapper.members.MembersMapper;
 import net.impacthub.members.mapper.projects.ProjectMapper;
-import net.impacthub.members.model.dto.members.MemberDTO;
-import net.impacthub.members.model.dto.projects.ProjectDTO;
+import net.impacthub.members.model.vo.members.MemberVO;
+import net.impacthub.members.model.vo.projects.ProjectVO;
 import net.impacthub.members.model.features.members.MembersResponse;
 import net.impacthub.members.model.features.projects.ProjectResponse;
 import net.impacthub.members.presenter.base.UiPresenter;
@@ -42,7 +42,7 @@ public class CompanyDetailUiPresenter extends UiPresenter<CompanyDetailUiContrac
         subscribeWith(new CompanyProjectsUseCase(companyId).getUseCase(), new DisposableSingleObserver<ProjectResponse>() {
             @Override
             public void onSuccess(@NonNull ProjectResponse response) {
-                List<ProjectDTO> projectDTOs = new ProjectMapper().map(response);
+                List<ProjectVO> projectDTOs = new ProjectMapper().map(response);
                 getUi().onLoadProjects(projectDTOs);
             }
 
@@ -54,7 +54,7 @@ public class CompanyDetailUiPresenter extends UiPresenter<CompanyDetailUiContrac
         subscribeWith(new CompanyMembersUseCase(companyId).getUseCase(), new DisposableSingleObserver<MembersResponse>() {
             @Override
             public void onSuccess(@NonNull MembersResponse response) {
-                List<MemberDTO> memberDTOs = new MembersMapper().mapMembers(response);
+                List<MemberVO> memberDTOs = new MembersMapper().mapMembers(response);
                 getUi().onLoadMembers(memberDTOs);
             }
 

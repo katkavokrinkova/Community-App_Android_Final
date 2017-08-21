@@ -9,18 +9,20 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.model.dto.objectives;
+package net.impacthub.members.model.vo.groups;
 
 /**
  * @author Filippo Ash
  * @version 1.0
- * @date 8/16/2017.
+ * @date 8/4/2017.
  */
 
-public class ObjectiveDTO {
+public class GroupVO {
 
-    public String mTitle;
-    public String mSummary;
-    public int mCount;
-    public boolean mHideLastTimeLine;
+    public String mName;
+    public String mGroupDescription;
+    public String mImageURL;
+    public String mCities;
+    public String mMemberCount;
+    public String mChatterGroupId;
 }

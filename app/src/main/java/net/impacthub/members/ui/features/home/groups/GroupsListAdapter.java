@@ -19,7 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.impacthub.members.R;
-import net.impacthub.members.model.dto.groups.GroupDTO;
+import net.impacthub.members.model.vo.groups.GroupVO;
 import net.impacthub.members.ui.base.BaseListAdapter;
 import net.impacthub.members.ui.common.ImageLoaderHelper;
 import net.impacthub.members.ui.common.RecyclerViewHolder;
@@ -30,7 +30,7 @@ import net.impacthub.members.ui.common.RecyclerViewHolder;
  * @date 8/4/2017.
  */
 
-public class GroupsListAdapter extends BaseListAdapter<GroupsListAdapter.GroupViewHolder, GroupDTO> {
+public class GroupsListAdapter extends BaseListAdapter<GroupsListAdapter.GroupViewHolder, GroupVO> {
 
     public GroupsListAdapter(LayoutInflater inflater) {
         super(inflater);
@@ -47,7 +47,7 @@ public class GroupsListAdapter extends BaseListAdapter<GroupsListAdapter.GroupVi
         holder.bindViewsWith(getItem(position));
     }
 
-    class GroupViewHolder extends RecyclerViewHolder<GroupDTO> implements View.OnClickListener {
+    class GroupViewHolder extends RecyclerViewHolder<GroupVO> implements View.OnClickListener {
 
         final ImageView groupImage;
         final TextView groupName;
@@ -64,7 +64,7 @@ public class GroupsListAdapter extends BaseListAdapter<GroupsListAdapter.GroupVi
         }
 
         @Override
-        protected void bindViewsWith(GroupDTO itemData) {
+        protected void bindViewsWith(GroupVO itemData) {
             Context context = groupImage.getContext();
             groupName.setText(itemData.mName);
             location.setText(itemData.mCities);

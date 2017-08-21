@@ -11,7 +11,7 @@
 
 package net.impacthub.members.presenter.features.events;
 
-import net.impacthub.members.model.dto.events.EventDTO;
+import net.impacthub.members.model.vo.events.EventVO;
 import net.impacthub.members.presenter.features.error.ErrorHandlerUiContract;
 
 import java.util.List;
@@ -24,9 +24,9 @@ import java.util.List;
 
 public interface EventsUiContract extends ErrorHandlerUiContract {
 
-    void onLoadAllEvents(List<EventDTO> eventDTOs);
+    void onLoadAllEvents(List<EventVO> eventDTOs);
 
-    void onLoadEventsYouManage(List<EventDTO> eventDTOs);
+    void onLoadEventsYouManage(List<EventVO> eventDTOs);
 
-    void onLoadYourEvents(List<EventDTO> eventDTOs);
+    void onLoadYourEvents(List<EventVO> eventDTOs);
 }

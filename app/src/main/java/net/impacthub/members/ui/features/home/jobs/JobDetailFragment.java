@@ -18,7 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.impacthub.members.R;
-import net.impacthub.members.model.dto.jobs.JobDTO;
+import net.impacthub.members.model.vo.jobs.JobVO;
 import net.impacthub.members.ui.base.BaseChildFragment;
 import net.impacthub.members.ui.common.ImageLoaderHelper;
 
@@ -46,7 +46,7 @@ public class JobDetailFragment extends BaseChildFragment {
     @BindView(R.id.salary) protected TextView mSalaryTxt;
     @BindView(R.id.text_description) protected TextView mDescription;
 
-    public static JobDetailFragment newInstance(JobDTO jobDTO) {
+    public static JobDetailFragment newInstance(JobVO jobDTO) {
 
         Bundle args = new Bundle();
 

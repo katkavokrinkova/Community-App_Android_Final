@@ -3,7 +3,9 @@ package net.impacthub.members.model.features.filters;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Filter {
+import java.io.Serializable;
+
+public class Filter implements Serializable {
 
     @SerializedName("Name")
     @Expose

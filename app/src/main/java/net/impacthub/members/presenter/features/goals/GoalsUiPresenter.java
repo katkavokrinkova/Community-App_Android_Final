@@ -12,7 +12,7 @@
 package net.impacthub.members.presenter.features.goals;
 
 import net.impacthub.members.mapper.goals.GoalsMapper;
-import net.impacthub.members.model.dto.goals.GoalDTO;
+import net.impacthub.members.model.vo.goals.GoalVO;
 import net.impacthub.members.model.features.goals.GoalsResponse;
 import net.impacthub.members.presenter.base.UiPresenter;
 import net.impacthub.members.usecase.base.UseCaseGenerator;
@@ -43,7 +43,7 @@ public class GoalsUiPresenter extends UiPresenter<GoalsUiContract> {
         subscribeWith(mGoalsUseCase.getUseCase(), new DisposableSingleObserver<GoalsResponse>() {
             @Override
             public void onSuccess(@NonNull GoalsResponse response) {
-                List<GoalDTO> goals = new GoalsMapper().map(response);
+                List<GoalVO> goals = new GoalsMapper().map(response);
                 getUi().onLoadGoals(goals);
                 getUi().onChangeStatus(false);
             }

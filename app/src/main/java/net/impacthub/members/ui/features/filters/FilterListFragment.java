@@ -12,15 +12,18 @@
 package net.impacthub.members.ui.features.filters;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import net.impacthub.members.R;
-import net.impacthub.members.model.features.filters.SeparatedFilters;
-import net.impacthub.members.presenter.features.filters.FiltersUiContract;
-import net.impacthub.members.presenter.features.filters.FiltersUiPresenter;
+import net.impacthub.members.model.features.filters.Filter;
+import net.impacthub.members.model.vo.filters.FilterVO;
 import net.impacthub.members.ui.base.BaseChildFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -31,24 +34,21 @@ import butterknife.OnClick;
  * @date 8/21/2017.
  */
 
-public class FilterListFragment extends BaseChildFragment<FiltersUiPresenter> implements FiltersUiContract {
+public class FilterListFragment extends BaseChildFragment {
+
+    public static final String EXTRA_FILTERS = "EXTRA_FILTERS";
 
     @BindView(R.id.filter_items) protected RecyclerView mFilterItems;
 
     private FiltersAdapter mAdapter;
 
-    public static FilterListFragment newInstance() {
+    public static FilterListFragment newInstance(FilterVO filters) {
 
         Bundle args = new Bundle();
-
+        args.putSerializable(EXTRA_FILTERS, filters);
         FilterListFragment fragment = new FilterListFragment();
         fragment.setArguments(args);
         return fragment;
-    }
-
-    @Override
-    protected FiltersUiPresenter onCreatePresenter() {
-        return new FiltersUiPresenter(this);
     }
 
     @Override
@@ -65,14 +65,12 @@ public class FilterListFragment extends BaseChildFragment<FiltersUiPresenter> im
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setUpToolbar(R.string.filter);
+
+        FilterVO filters = (FilterVO) getArguments().getSerializable(EXTRA_FILTERS);
+
         mFilterItems.setHasFixedSize(true);
         mAdapter = new FiltersAdapter(getLayoutInflater(getArguments()));
+        mAdapter.setItems(filters.getFilters());
         mFilterItems.setAdapter(mAdapter);
-        getPresenter().getFiltersList();
-    }
-
-    @Override
-    public void onLoadFilters(SeparatedFilters response) {
-        mAdapter.setItems(response.getCities());
     }
 }

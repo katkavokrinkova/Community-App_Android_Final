@@ -11,7 +11,7 @@
 
 package net.impacthub.members.mapper.events;
 
-import net.impacthub.members.model.dto.events.EventDTO;
+import net.impacthub.members.model.vo.events.EventVO;
 import net.impacthub.members.model.features.events.EventsResponse;
 import net.impacthub.members.model.features.events.Organiser__r;
 import net.impacthub.members.model.features.events.Records;
@@ -32,14 +32,14 @@ import java.util.List;
 
 public class EventsMapper {
 
-    public List<EventDTO> map(EventsResponse response) {
-        List<EventDTO> eventDTOs = new LinkedList<>();
+    public List<EventVO> map(EventsResponse response) {
+        List<EventVO> eventDTOs = new LinkedList<>();
         if (response != null) {
             Records[] records = response.getRecords();
             if (records != null) {
                 for (Records record : records) {
                     if (record != null) {
-                        EventDTO eventDTO = new EventDTO();
+                        EventVO eventDTO = new EventVO();
                         eventDTO.mName = record.getName();
                         eventDTO.mImageURL = record.getEvent_Image_URL__c();
                         eventDTO.mDescription = record.getEvent_Description__c();

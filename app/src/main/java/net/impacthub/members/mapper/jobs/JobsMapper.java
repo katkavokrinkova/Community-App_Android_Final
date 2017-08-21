@@ -11,7 +11,7 @@
 
 package net.impacthub.members.mapper.jobs;
 
-import net.impacthub.members.model.dto.jobs.JobDTO;
+import net.impacthub.members.model.vo.jobs.JobVO;
 import net.impacthub.members.model.features.jobs.Company;
 import net.impacthub.members.model.features.jobs.JobsResponse;
 import net.impacthub.members.model.features.jobs.Records;
@@ -27,14 +27,14 @@ import java.util.List;
 
 public class JobsMapper {
 
-    public List<JobDTO> map(JobsResponse response) {
-        List<JobDTO> jobs = new LinkedList<>();
+    public List<JobVO> map(JobsResponse response) {
+        List<JobVO> jobs = new LinkedList<>();
         if (response != null) {
             Records[] records = response.getRecords();
             if (records != null) {
                 for (Records record : records) {
                     if (record != null) {
-                        JobDTO job = new JobDTO();
+                        JobVO job = new JobVO();
                         job.mName = record.getName();
                         job.mJobType = record.getJob_Type__c();
                         job.mLocation = record.getLocation__c();

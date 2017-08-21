@@ -9,7 +9,7 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.model.dto.jobs;
+package net.impacthub.members.model.vo.jobs;
 
 /**
  * @author Filippo Ash
@@ -17,7 +17,7 @@ package net.impacthub.members.model.dto.jobs;
  * @date 8/9/2017.
  */
 
-public class JobDTO {
+public class JobVO {
 
     public String mName;
     public String mJobType;

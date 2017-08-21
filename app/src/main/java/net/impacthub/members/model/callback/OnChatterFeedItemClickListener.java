@@ -11,7 +11,7 @@
 
 package net.impacthub.members.model.callback;
 
-import net.impacthub.members.model.dto.chatter.ChatterDTO;
+import net.impacthub.members.model.vo.chatter.ChatterVO;
 
 /**
  * @author Filippo Ash
@@ -21,5 +21,5 @@ import net.impacthub.members.model.dto.chatter.ChatterDTO;
 
 public interface OnChatterFeedItemClickListener {
 
-    void onProfileImageClicked(ChatterDTO chatterDTO);
+    void onProfileImageClicked(ChatterVO chatterDTO);
 }

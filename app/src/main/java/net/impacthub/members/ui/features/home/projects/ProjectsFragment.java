@@ -19,7 +19,7 @@ import android.view.View;
 
 import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnListItemClickListener;
-import net.impacthub.members.model.dto.projects.ProjectDTO;
+import net.impacthub.members.model.vo.projects.ProjectVO;
 import net.impacthub.members.presenter.features.projects.ProjectsUiContract;
 import net.impacthub.members.presenter.features.projects.ProjectsUiPresenter;
 import net.impacthub.members.ui.base.BaseChildFragment;
@@ -38,16 +38,16 @@ import butterknife.BindView;
  * @date 03/08/2017.
  */
 
-public class ProjectsFragment extends BaseChildFragment<ProjectsUiPresenter> implements OnListItemClickListener<ProjectDTO>,ProjectsUiContract {
+public class ProjectsFragment extends BaseChildFragment<ProjectsUiPresenter> implements OnListItemClickListener<ProjectVO>,ProjectsUiContract {
 
     private static final String TITLES[] = {"ALL", "PROJECTS YOU MANAGE", "YOUR PROJECTS"};
 
     @BindView(R.id.tabs) protected TabLayout mProjectsTab;
     @BindView(R.id.pager) protected ViewPager mProjectPages;
 
-    private ViewBinder<List<ProjectDTO>> mViewBinder1;
-    private ViewBinder<List<ProjectDTO>> mViewBinder2;
-    private ViewBinder<List<ProjectDTO>> mViewBinder3;
+    private ViewBinder<List<ProjectVO>> mViewBinder1;
+    private ViewBinder<List<ProjectVO>> mViewBinder2;
+    private ViewBinder<List<ProjectVO>> mViewBinder3;
 
     public static ProjectsFragment newInstance() {
         
@@ -89,17 +89,17 @@ public class ProjectsFragment extends BaseChildFragment<ProjectsUiPresenter> imp
     }
 
     @Override
-    public void onItemClick(ProjectDTO model) {
+    public void onItemClick(ProjectVO model) {
         addChildFragment(ProjectDetailFragment.newInstance(model), "FRAG_PROJECT_DETAIL");
     }
 
     @Override
-    public void onLoadAllProjects(List<ProjectDTO> projectDTOs) {
+    public void onLoadAllProjects(List<ProjectVO> projectDTOs) {
         mViewBinder1.bindView(projectDTOs);
     }
 
     @Override
-    public void onLoadYourProjects(List<ProjectDTO> projectDTOs) {
+    public void onLoadYourProjects(List<ProjectVO> projectDTOs) {
         mViewBinder3.bindView(projectDTOs);
     }
 }

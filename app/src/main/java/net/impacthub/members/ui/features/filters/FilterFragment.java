@@ -6,8 +6,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import net.impacthub.members.R;
+import net.impacthub.members.model.features.filters.Filter;
+import net.impacthub.members.model.features.filters.SeparatedFilters;
+import net.impacthub.members.model.vo.filters.FilterVO;
+import net.impacthub.members.presenter.features.filters.FiltersUiContract;
+import net.impacthub.members.presenter.features.filters.FiltersUiPresenter;
 import net.impacthub.members.ui.base.BaseChildFragment;
 import net.impacthub.members.ui.widgets.TypefaceTextView;
+
+import java.util.LinkedList;
+import java.util.List;
 
 import butterknife.OnClick;
 
@@ -17,7 +25,10 @@ import butterknife.OnClick;
  * @date 8/1/2017.
  */
 
-public class FilterFragment extends BaseChildFragment {
+public class FilterFragment extends BaseChildFragment<FiltersUiPresenter> implements FiltersUiContract {
+
+    private final List<Filter> mCities = new LinkedList<>();
+    private final List<Filter> mSectors = new LinkedList<>();
 
     public static FilterFragment newInstance() {
 
@@ -29,18 +40,23 @@ public class FilterFragment extends BaseChildFragment {
     }
 
     @Override
+    protected FiltersUiPresenter onCreatePresenter() {
+        return new FiltersUiPresenter(this);
+    }
+
+    @Override
     protected int getContentView() {
         return R.layout.fragment_filters;
     }
 
     @OnClick(R.id.city_bar)
     protected void onCityFilterClick() {
-        addChildFragment(FilterListFragment.newInstance(), "FRAG_FILTER_LIST");
+        addChildFragment(FilterListFragment.newInstance(new FilterVO(mCities)), "FRAG_FILTER_LIST");
     }
 
     @OnClick(R.id.sector_bar)
     protected void onSectorFilterClick() {
-        addChildFragment(FilterListFragment.newInstance(), "FRAG_FILTER_LIST");
+        addChildFragment(FilterListFragment.newInstance(new FilterVO(mSectors)), "FRAG_FILTER_LIST");
     }
 
     @Override
@@ -50,6 +66,7 @@ public class FilterFragment extends BaseChildFragment {
         toolbar.setNavigationOnClickListener(mCloseFilterListener);
         TypefaceTextView doneButton = (TypefaceTextView) view.findViewById(R.id.done);
         doneButton.setOnClickListener(mCloseFilterListener);
+        getPresenter().getFiltersList();
     }
 
     private final View.OnClickListener mCloseFilterListener = new View.OnClickListener() {
@@ -58,4 +75,12 @@ public class FilterFragment extends BaseChildFragment {
             getActivity().finish();
         }
     };
+
+    @Override
+    public void onLoadFilters(SeparatedFilters response) {
+        mCities.clear();
+        mSectors.clear();
+        mCities.addAll(response.getCities());
+        mSectors.addAll(response.getSectors());
+    }
 }
