@@ -41,26 +41,4 @@ public class GetMessagesUseCase extends BaseUseCaseGenerator<Single<Conversation
             }
         });
     }
-
-
-//    private static class ConversationCallableCombiner implements BigFu<ConversationMessages, ReadSet, ProcessedMessages> {
-//
-//        @Override
-//        public ProcessedMessages call(ConversationMessages conversationMessages, ReadSet ignored) {
-//            return new ProcessedMessages.Builder()
-//                    .messages(new MessageItemListConverter(conversationMessages).invoke())
-//                    .recipients(new RecipientListConverter(conversationMessages).invoke())
-//                    .inReplyTo(getLastMessageId(conversationMessages))
-//                    .build();
-//        }
-//
-//        private String getLastMessageId(final ConversationMessages conversationMessages) {
-//            return new FieldExtractor<String>(){
-//                @Override
-//                String extract() throws ParseException {
-//                    return conversationMessages.getMessages().getMessages().get(0).getId();
-//                }
-//            }.executeWithDefault(null);
-//        }
-//    }
 }

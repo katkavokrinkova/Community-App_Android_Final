@@ -19,10 +19,10 @@ package net.impacthub.members.model.features.push;
 
 public class PushQuery {
 
-    private String fromUserId;
-    private String toUserIds;
-    private String pushType;
-    private String relatedId;
+    private final String fromUserId;
+    private final String toUserIds;
+    private final String pushType;
+    private final String relatedId;
 
     public PushQuery(String fromUserId, String toUserIds, String pushType, String relatedId) {
         this.fromUserId = fromUserId;

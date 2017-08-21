@@ -37,7 +37,8 @@ public abstract class UiPresenter<UI extends UiContract> {
     }
 
     protected <D> void subscribeWith(Single<D> single, DisposableSingleObserver<D> singleObserver) {
-        getCompositeDisposable().add(single.subscribeOn(Schedulers.io())
+        getCompositeDisposable().add(
+                single.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.computation())
                 .cache()

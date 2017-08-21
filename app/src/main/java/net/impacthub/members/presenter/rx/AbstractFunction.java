@@ -33,5 +33,5 @@ public abstract class AbstractFunction<S, R, O> implements Function<R, O> {
         return apply(response, mSubject);
     }
 
-    protected abstract O apply(R response, S subject);
+    protected abstract O apply(R response, S subject) throws Exception;
 }

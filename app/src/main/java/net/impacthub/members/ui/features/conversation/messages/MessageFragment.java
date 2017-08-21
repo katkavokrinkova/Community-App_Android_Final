@@ -25,6 +25,7 @@ import net.impacthub.members.R;
 import net.impacthub.members.model.dto.conversations.ConversationDTO;
 import net.impacthub.members.model.dto.notifications.NotificationType;
 import net.impacthub.members.model.features.messages.ProcessedMessages;
+import net.impacthub.members.model.features.push.PushQuery;
 import net.impacthub.members.presenter.features.messages.MessageUiContract;
 import net.impacthub.members.presenter.features.messages.MessagesUiPresenter;
 import net.impacthub.members.ui.base.BaseChildFragment;
@@ -109,18 +110,23 @@ public class MessageFragment extends BaseChildFragment<MessagesUiPresenter> impl
     }
 
     private void sendMessage(String message) {
-        getPresenter().sendMessage(message, mInReplyTo);
+        String fromUserId = getUserAccount().getUserId();
+        String toUserIds = getArguments().getString(EXTRA_CONVERSATION_RECIPIENT_ID);
+        String pushType = NotificationType.TYPE_PRIVATE_MESSAGE.getType();
+
+        PushQuery pushQuery = new PushQuery(fromUserId, toUserIds, pushType, mConversationID);
+
+        getPresenter().sendMessage(mConversationID, pushQuery, message, mInReplyTo);
     }
 
     @Override
     public void onLoadMessages(ProcessedMessages processedMessages) {
-        if (processedMessages.isFromSentMessage()) {
-            mMessageField.setText(null);
-            getPresenter().sendPush(getUserAccount().getUserId(), getArguments().getString(EXTRA_CONVERSATION_RECIPIENT_ID), NotificationType.TYPE_PRIVATE_MESSAGE.getType(), mConversationID);
-            getPresenter().getMessageConversations(mConversationID, getUserAccount().getUserId());
-        } else {
-            mAdapter.setItems(processedMessages.getMessages());
-            mInReplyTo = processedMessages.getInReplyTo();
-        }
+        mAdapter.setItems(processedMessages.getMessages());
+        mInReplyTo = processedMessages.getInReplyTo();
+    }
+
+    @Override
+    public void onClearTextField() {
+        mMessageField.setText(null);
     }
 }

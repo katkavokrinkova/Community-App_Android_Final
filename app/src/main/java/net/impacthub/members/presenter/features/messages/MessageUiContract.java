@@ -23,4 +23,6 @@ import net.impacthub.members.presenter.features.error.ErrorHandlerUiContract;
 public interface MessageUiContract extends ErrorHandlerUiContract {
 
     void onLoadMessages(ProcessedMessages processedMessages);
+
+    void onClearTextField();
 }

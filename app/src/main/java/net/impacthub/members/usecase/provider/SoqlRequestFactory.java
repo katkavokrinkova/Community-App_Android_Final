@@ -220,7 +220,7 @@ public class SoqlRequestFactory {
 
     public RestRequest createSendPushRequest(JSONObject jsonObject) {
         return new RestRequest(RestRequest.RestMethod.POST,
-                "/services/apexrest/pushNotificationFromSF",
+                "/services/apexrest/pushNotificationFromSF/",
                 jsonObject);
     }
 
