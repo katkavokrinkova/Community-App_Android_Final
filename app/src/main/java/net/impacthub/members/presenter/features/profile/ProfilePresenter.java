@@ -11,9 +11,9 @@
 
 package net.impacthub.members.presenter.features.profile;
 
-import net.impacthub.members.mapper.profile.ProfileMapper;
-import net.impacthub.members.model.dto.profile.ProfileDTO;
-import net.impacthub.members.model.features.profile.ProfileResponse;
+import net.impacthub.members.mapper.members.MembersMapper;
+import net.impacthub.members.model.dto.members.MemberDTO;
+import net.impacthub.members.model.features.members.MembersResponse;
 import net.impacthub.members.presenter.base.UiPresenter;
 import net.impacthub.members.usecase.base.UseCaseGenerator;
 import net.impacthub.members.usecase.features.profile.ProfileUseCase;
@@ -30,7 +30,7 @@ import io.reactivex.observers.DisposableSingleObserver;
 
 public class ProfilePresenter extends UiPresenter<ProfileUiContract> {
 
-    private final UseCaseGenerator<Single<ProfileResponse>> mProfileUseCase = new ProfileUseCase();
+    private final UseCaseGenerator<Single<MembersResponse>> mProfileUseCase = new ProfileUseCase();
 
     public ProfilePresenter(ProfileUiContract uiContract) {
         super(uiContract);
@@ -38,11 +38,11 @@ public class ProfilePresenter extends UiPresenter<ProfileUiContract> {
 
     public void getProfile() {
         subscribeWith(mProfileUseCase.getUseCase(),
-                new DisposableSingleObserver<ProfileResponse>() {
+                new DisposableSingleObserver<MembersResponse>() {
                     @Override
-                    public void onSuccess(@NonNull ProfileResponse profileResponse) {
-                        ProfileDTO profileDTO = new ProfileMapper().map(profileResponse);
-                        getUi().onLoadProfile(profileDTO);
+                    public void onSuccess(@NonNull MembersResponse profileResponse) {
+                        MemberDTO memberDTO = new MembersMapper().map(profileResponse);
+                        getUi().onLoadCurrentMemberProfile(memberDTO);
                     }
 
                     @Override

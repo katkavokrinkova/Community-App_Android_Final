@@ -47,6 +47,7 @@ public class ChatterMapper {
 
                         Actor actor = element.getActor();
                         if (actor != null) {
+                            chatterDTO.mUserId = actor.getId();
                             chatterDTO.mDisplayName = actor.getDisplayName();
                             Photo photo = actor.getPhoto();
                             if (photo != null) {

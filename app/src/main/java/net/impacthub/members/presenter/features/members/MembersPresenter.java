@@ -2,7 +2,7 @@ package net.impacthub.members.presenter.features.members;
 
 import net.impacthub.members.mapper.members.MembersMapper;
 import net.impacthub.members.model.dto.members.MemberDTO;
-import net.impacthub.members.model.features.members.MemberResponse;
+import net.impacthub.members.model.features.members.MembersResponse;
 import net.impacthub.members.presenter.base.UiPresenter;
 import net.impacthub.members.usecase.base.UseCaseGenerator;
 import net.impacthub.members.usecase.features.members.MembersUseCase;
@@ -21,7 +21,7 @@ import io.reactivex.observers.DisposableSingleObserver;
 
 public class MembersPresenter extends UiPresenter<MembersUiContract> {
 
-    private final UseCaseGenerator<Single<MemberResponse>> mObservableGenerator = new MembersUseCase();
+    private final UseCaseGenerator<Single<MembersResponse>> mObservableGenerator = new MembersUseCase();
 
     public MembersPresenter(MembersUiContract uiContract) {
         super(uiContract);
@@ -29,10 +29,10 @@ public class MembersPresenter extends UiPresenter<MembersUiContract> {
 
     public void loadMembers() {
         getUi().onChangeStatus(true);
-        subscribeWith(mObservableGenerator.getUseCase(), new DisposableSingleObserver<MemberResponse>() {
+        subscribeWith(mObservableGenerator.getUseCase(), new DisposableSingleObserver<MembersResponse>() {
             @Override
-            public void onSuccess(@NonNull MemberResponse response) {
-                List<MemberDTO> memberDTOs = new MembersMapper().map(response);
+            public void onSuccess(@NonNull MembersResponse response) {
+                List<MemberDTO> memberDTOs = new MembersMapper().mapMembers(response);
                 getUi().onLoadMembers(memberDTOs);
                 getUi().onChangeStatus(false);
             }

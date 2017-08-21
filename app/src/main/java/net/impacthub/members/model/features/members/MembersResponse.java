@@ -9,7 +9,7 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.model.features.profile;
+package net.impacthub.members.model.features.members;
 
 /**
  * @author Filippo Ash
@@ -17,20 +17,27 @@ package net.impacthub.members.model.features.profile;
  * @date 03/08/2017.
  */
 
-public class Attributes {
-    public String getType() {
-        return type;
+public class MembersResponse {
+
+    private String done;
+    private Records[] records;
+    private String totalSize;
+
+
+    public String getDone() {
+        return done;
     }
 
-    public String getUrl() {
-        return url;
+    public Records[] getRecords() {
+        return records;
     }
 
-    private String type;
-    private String url;
+    public String getTotalSize() {
+        return totalSize;
+    }
 
     @Override
     public String toString() {
-        return "Attributes [type = " + type + ", url = " + url + "]";
+        return "MembersResponse [done = " + done + ", records = " + records + ", totalSize = " + totalSize + "]";
     }
 }

@@ -17,11 +17,11 @@ import net.impacthub.members.model.dto.members.SkillsDTO;
 import net.impacthub.members.model.dto.projects.ProjectDTO;
 import net.impacthub.members.model.features.members.Affiliation;
 import net.impacthub.members.model.features.members.Affiliations;
-import net.impacthub.members.model.features.members.Member;
-import net.impacthub.members.model.features.members.MemberResponse;
 import net.impacthub.members.model.features.members.Organisation;
 import net.impacthub.members.model.features.members.Skill;
 import net.impacthub.members.model.features.members.Skills;
+import net.impacthub.members.model.features.members.MembersResponse;
+import net.impacthub.members.model.features.members.Records;
 import net.impacthub.members.model.pojo.ListItem;
 
 import java.util.LinkedList;
@@ -35,30 +35,51 @@ import java.util.List;
 
 public class MembersMapper {
 
-    public List<MemberDTO> map(MemberResponse responses) {
+    public List<MemberDTO> mapMembers(MembersResponse responses) {
         List<MemberDTO> memberDTOs = new LinkedList<>();
         if (responses != null) {
-            List<Member> members = responses.getMembers();
-            if (members != null) {
-                for (Member member : members) {
+            Records[] records = responses.getRecords();
+            if (records != null) {
+                for (Records member : records) {
                     if (member != null) {
                         MemberDTO memberDTO = new MemberDTO();
-                        memberDTO.mMemberId = member.getId();
-                        memberDTO.mProfilePicURL = member.getProfilePic();
-                        memberDTO.mFullName = member.getFirstName() + " " + member.getLastName();
-                        memberDTO.mLinkInstagram = member.getInstagram();
-                        memberDTO.mLinkFacebook = member.getFacebook();
-                        memberDTO.mLinkTwitter = member.getTwitter();
-                        memberDTO.mLinkLinkedin = member.getLinkedIn();
-                        memberDTO.mLocation = member.getImpactHubCities();
-                        memberDTO.mAboutMe = member.getAboutMe();
-                        memberDTO.mProfession = member.getProfession();
+                        mapRecord(memberDTO, member);
                         memberDTOs.add(memberDTO);
                     }
                 }
             }
         }
         return memberDTOs;
+    }
+
+    public MemberDTO map(MembersResponse profileResponse) {
+        MemberDTO memberDTO = new MemberDTO();
+        if (profileResponse != null) {
+            Records[] records = profileResponse.getRecords();
+            if (records != null && records.length > 0) {
+                Records record = records[0];
+                if (record != null) {
+                    mapRecord(memberDTO, record);
+                }
+            }
+        }
+        return memberDTO;
+    }
+
+    private void mapRecord(MemberDTO memberDTO, Records record) {
+        memberDTO.mMemberId = record.getId();
+        memberDTO.mFirstName = record.getFirstName();
+        memberDTO.mLastName = record.getLastName();
+        memberDTO.mFullName = record.getFirstName() + " " + record.getLastName();
+        memberDTO.mProfilePicURL = record.getProfilePic__c();
+        memberDTO.mLinkInstagram = record.getInstagram__c();
+        memberDTO.mLinkFacebook = record.getFacebook__c();
+        memberDTO.mLinkTwitter = record.getTwitter__c();
+        memberDTO.mLinkLinkedin = record.getLinked_In__c();
+        memberDTO.mLocation = record.getImpact_Hub_Cities__c();
+        memberDTO.mAboutMe = record.getAbout_Me__c();
+        memberDTO.mStatusUpdate = record.getStatus_Update__c();
+        memberDTO.mProfession = record.getProfession__c();
     }
 
     public List<ProjectDTO> mapProjects(Affiliations response) {
@@ -73,6 +94,7 @@ public class MembersMapper {
                             ProjectDTO memberProjectDTO = new ProjectDTO();
                             memberProjectDTO.mProjectId = affiliation.getId();
                             memberProjectDTO.mName = affiliation.getName();
+                            memberProjectDTO.mChatterGroupId = affiliation.getChatterGroupId();
                             Organisation organisation = affiliation.getOrganisation();
                             if (organisation != null) {
                                 memberProjectDTO.mOrganizationName = organisation.getName();

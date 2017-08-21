@@ -9,17 +9,28 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.model.callback;
+package net.impacthub.members.model.features.members;
 
 /**
  * @author Filippo Ash
  * @version 1.0
- * @date 8/10/2017.
+ * @date 03/08/2017.
  */
 
-public interface OnTabVisibilityChangeListener {
+public class Attributes {
+    public String getType() {
+        return type;
+    }
 
-    void onVisibilityChanged(float offset, float totalOffset);
+    public String getUrl() {
+        return url;
+    }
 
-    void onReset();
+    private String type;
+    private String url;
+
+    @Override
+    public String toString() {
+        return "Attributes [type = " + type + ", url = " + url + "]";
+    }
 }

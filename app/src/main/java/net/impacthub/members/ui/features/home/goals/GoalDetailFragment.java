@@ -32,6 +32,7 @@ import net.impacthub.members.ui.common.AppPagerAdapter;
 import net.impacthub.members.ui.common.ImageLoaderHelper;
 import net.impacthub.members.ui.delegate.TabsDelegate;
 import net.impacthub.members.ui.features.home.goals.binders.AboutViewBinder;
+import net.impacthub.members.ui.features.home.groups.GroupDetailFragment;
 import net.impacthub.members.ui.features.home.groups.binders.GroupsViewBinder;
 import net.impacthub.members.ui.features.home.members.MemberDetailFragment;
 import net.impacthub.members.ui.features.home.members.binders.MembersViewBinder;
@@ -107,7 +108,7 @@ public class GoalDetailFragment extends BaseChildFragment<GoalsDetailUiPresenter
         adapter.addVieBinder(mViewBinder2 = new GroupsViewBinder(new OnListItemClickListener<GroupDTO>() {
             @Override
             public void onItemClick(GroupDTO model) {
-
+                addChildFragment(GroupDetailFragment.newInstance(model), "FRAG_GROUP_DETAIL");
             }
         }));
         adapter.addVieBinder(mViewBinder3 = new MembersViewBinder(new OnListItemClickListener<MemberDTO>() {

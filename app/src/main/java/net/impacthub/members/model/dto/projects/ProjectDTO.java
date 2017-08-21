@@ -25,4 +25,5 @@ public class ProjectDTO {
     public String mMemberCount;
     public String mLocation;
     public String mImageURL;
+    public String mChatterGroupId;
 }

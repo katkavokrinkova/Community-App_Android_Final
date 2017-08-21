@@ -41,6 +41,7 @@ public class ProjectMapper {
                         if (organisation__r != null) {
                             projectDTO.mOrganizationName = organisation__r.getName();
                         }
+                        projectDTO.mChatterGroupId = record.getChatterGroupId__c();
                         projectDTO.mMemberCount = record.getCountOfMembers__c();
                         projectDTO.mLocation = record.getImpact_Hub_Cities__c();
                         projectDTO.mImageURL = record.getImageURL__c();

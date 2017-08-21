@@ -9,7 +9,7 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.usecase.features.profile;
+package net.impacthub.members.usecase.features.members;
 
 import net.impacthub.members.model.features.members.MembersResponse;
 import net.impacthub.members.usecase.base.BaseUseCaseGenerator;
@@ -21,17 +21,23 @@ import io.reactivex.Single;
 /**
  * @author Filippo Ash
  * @version 1.0
- * @date 03/08/2017.
+ * @date 8/21/2017.
  */
 
-public class ProfileUseCase extends BaseUseCaseGenerator<Single<MembersResponse>, MembersResponse> {
+public class GetMemberByUserIdUseCase extends BaseUseCaseGenerator<Single<MembersResponse>, MembersResponse> {
+
+    private final String mUserId;
+
+    public GetMemberByUserIdUseCase(String userId) {
+        mUserId = userId;
+    }
 
     @Override
     public Single<MembersResponse> getUseCase() {
         return Single.fromCallable(new Callable<MembersResponse>() {
             @Override
             public MembersResponse call() throws Exception {
-                return getApiCall().getResponse(getSoqlRequestFactory().createGetProfileRequest(getUserAccount().getUserId()) , MembersResponse.class);
+                return getApiCall().getResponse(getSoqlRequestFactory().createGetProfileRequest(mUserId), MembersResponse.class);
             }
         });
     }

@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import net.impacthub.members.R;
+import net.impacthub.members.model.callback.OnChatterFeedItemClickListener;
 import net.impacthub.members.model.dto.chatter.ChatterDTO;
 import net.impacthub.members.ui.base.BaseListAdapter;
 import net.impacthub.members.ui.common.DateTimeAgoHelper;
@@ -34,7 +35,9 @@ import net.impacthub.members.ui.common.RecyclerViewHolder;
 
 public class ChatterFeedListAdapter extends BaseListAdapter<ChatterFeedListAdapter.ChatterFeedViewHolder, ChatterDTO> {
 
-    protected ChatterFeedListAdapter(LayoutInflater inflater) {
+    private OnChatterFeedItemClickListener mFeedItemClickListener;
+
+    public ChatterFeedListAdapter(LayoutInflater inflater) {
         super(inflater);
     }
 
@@ -46,6 +49,10 @@ public class ChatterFeedListAdapter extends BaseListAdapter<ChatterFeedListAdapt
     @Override
     public void onBindViewHolder(ChatterFeedViewHolder holder, int position) {
         holder.bindViewsWith(getItem(position));
+    }
+
+    public void setFeedItemClickListener(OnChatterFeedItemClickListener clickListener) {
+        mFeedItemClickListener = clickListener;
     }
 
     class ChatterFeedViewHolder extends RecyclerViewHolder<ChatterDTO> implements View.OnClickListener {
@@ -90,17 +97,20 @@ public class ChatterFeedListAdapter extends BaseListAdapter<ChatterFeedListAdapt
 
         @Override
         public void onClick(View view) {
-            Context context = view.getContext();
-            switch (view.getId()) {
-                case R.id.member_image:
-                    Toast.makeText(context, "Opening Member", Toast.LENGTH_SHORT).show();
-                    break;
-                case R.id.comment_indicator:
-                    Toast.makeText(context, "Opening Comments", Toast.LENGTH_SHORT).show();
-                    break;
-                case R.id.like_indicator:
-                    Toast.makeText(context, "Liking post", Toast.LENGTH_SHORT).show();
-                    break;
+            if (mFeedItemClickListener != null) {
+                Context context = view.getContext();
+                        ChatterDTO chatterDTO = getItem(getAdapterPosition());
+                switch (view.getId()) {
+                    case R.id.member_image:
+                        mFeedItemClickListener.onProfileImageClicked(chatterDTO);
+                        break;
+                    case R.id.comment_indicator:
+                        Toast.makeText(context, "Opening Comments", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.like_indicator:
+                        Toast.makeText(context, "Liking post", Toast.LENGTH_SHORT).show();
+                        break;
+                }
             }
         }
     }

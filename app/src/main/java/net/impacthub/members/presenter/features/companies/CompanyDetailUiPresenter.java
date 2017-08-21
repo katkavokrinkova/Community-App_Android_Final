@@ -15,7 +15,7 @@ import net.impacthub.members.mapper.members.MembersMapper;
 import net.impacthub.members.mapper.projects.ProjectMapper;
 import net.impacthub.members.model.dto.members.MemberDTO;
 import net.impacthub.members.model.dto.projects.ProjectDTO;
-import net.impacthub.members.model.features.members.MemberResponse;
+import net.impacthub.members.model.features.members.MembersResponse;
 import net.impacthub.members.model.features.projects.ProjectResponse;
 import net.impacthub.members.presenter.base.UiPresenter;
 import net.impacthub.members.usecase.features.companies.CompanyMembersUseCase;
@@ -51,10 +51,10 @@ public class CompanyDetailUiPresenter extends UiPresenter<CompanyDetailUiContrac
                 getUi().onError(e);
             }
         });
-        subscribeWith(new CompanyMembersUseCase(companyId).getUseCase(), new DisposableSingleObserver<MemberResponse>() {
+        subscribeWith(new CompanyMembersUseCase(companyId).getUseCase(), new DisposableSingleObserver<MembersResponse>() {
             @Override
-            public void onSuccess(@NonNull MemberResponse response) {
-                List<MemberDTO> memberDTOs = new MembersMapper().map(response);
+            public void onSuccess(@NonNull MembersResponse response) {
+                List<MemberDTO> memberDTOs = new MembersMapper().mapMembers(response);
                 getUi().onLoadMembers(memberDTOs);
             }
 

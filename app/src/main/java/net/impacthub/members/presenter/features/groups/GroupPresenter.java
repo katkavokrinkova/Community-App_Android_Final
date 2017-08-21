@@ -14,8 +14,8 @@ package net.impacthub.members.presenter.features.groups;
 import net.impacthub.members.mapper.groups.GroupsMapper;
 import net.impacthub.members.model.dto.groups.GroupDTO;
 import net.impacthub.members.model.features.groups.GroupsResponse;
-import net.impacthub.members.model.features.profile.ProfileResponse;
-import net.impacthub.members.model.features.profile.Records;
+import net.impacthub.members.model.features.members.MembersResponse;
+import net.impacthub.members.model.features.members.Records;
 import net.impacthub.members.presenter.base.UiPresenter;
 import net.impacthub.members.usecase.base.UseCaseGenerator;
 import net.impacthub.members.usecase.features.groups.AllGroupsUseCase;
@@ -38,7 +38,7 @@ import io.reactivex.observers.DisposableSingleObserver;
 
 public class GroupPresenter extends UiPresenter<GroupUiContract> {
 
-    private final UseCaseGenerator<Single<ProfileResponse>> mProfileUseCase = new ProfileUseCase();
+    private final UseCaseGenerator<Single<MembersResponse>> mProfileUseCase = new ProfileUseCase();
     private final UseCaseGenerator<Single<GroupsResponse>> mAllGroupsUseCase = new AllGroupsUseCase();
 
     public GroupPresenter(GroupUiContract uiContract) {
@@ -61,9 +61,9 @@ public class GroupPresenter extends UiPresenter<GroupUiContract> {
         });
 
         Single<GroupsResponse> yourGroupsSingle = mProfileUseCase.getUseCase()
-                .flatMap(new Function<ProfileResponse, SingleSource<GroupsResponse>>() {
+                .flatMap(new Function<MembersResponse, SingleSource<GroupsResponse>>() {
                     @Override
-                    public SingleSource<GroupsResponse> apply(@NonNull ProfileResponse profileResponse) throws Exception {
+                    public SingleSource<GroupsResponse> apply(@NonNull MembersResponse profileResponse) throws Exception {
                         Records record = profileResponse.getRecords()[0];
                         return new YourGroupsUseCase(record.getId()).getUseCase();
                     }

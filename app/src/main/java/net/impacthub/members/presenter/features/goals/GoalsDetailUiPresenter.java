@@ -16,7 +16,7 @@ import net.impacthub.members.mapper.members.MembersMapper;
 import net.impacthub.members.model.dto.groups.GroupDTO;
 import net.impacthub.members.model.dto.members.MemberDTO;
 import net.impacthub.members.model.features.groups.GroupsResponse;
-import net.impacthub.members.model.features.members.MemberResponse;
+import net.impacthub.members.model.features.members.MembersResponse;
 import net.impacthub.members.presenter.base.UiPresenter;
 import net.impacthub.members.usecase.features.goals.GoalGroupsUseCase;
 import net.impacthub.members.usecase.features.goals.GoalMembersUseCase;
@@ -52,10 +52,10 @@ public class GoalsDetailUiPresenter extends UiPresenter<GoalsDetailUiContract> {
             }
         });
 
-        subscribeWith(new GoalMembersUseCase(goalName).getUseCase(), new DisposableSingleObserver<MemberResponse>() {
+        subscribeWith(new GoalMembersUseCase(goalName).getUseCase(), new DisposableSingleObserver<MembersResponse>() {
             @Override
-            public void onSuccess(@NonNull MemberResponse response) {
-                List<MemberDTO> memberDTOs = new MembersMapper().map(response);
+            public void onSuccess(@NonNull MembersResponse response) {
+                List<MemberDTO> memberDTOs = new MembersMapper().mapMembers(response);
                 getUi().onLoadMembers(memberDTOs);
             }
 

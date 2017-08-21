@@ -11,7 +11,7 @@
 
 package net.impacthub.members.usecase.features.companies;
 
-import net.impacthub.members.model.features.members.MemberResponse;
+import net.impacthub.members.model.features.members.MembersResponse;
 import net.impacthub.members.usecase.base.BaseUseCaseGenerator;
 
 import java.util.concurrent.Callable;
@@ -24,7 +24,7 @@ import io.reactivex.Single;
  * @date 8/16/2017.
  */
 
-public class CompanyMembersUseCase extends BaseUseCaseGenerator<Single<MemberResponse>, MemberResponse> {
+public class CompanyMembersUseCase extends BaseUseCaseGenerator<Single<MembersResponse>, MembersResponse> {
 
     private final String mCompanyId;
 
@@ -33,11 +33,11 @@ public class CompanyMembersUseCase extends BaseUseCaseGenerator<Single<MemberRes
     }
 
     @Override
-    public Single<MemberResponse> getUseCase() {
-        return Single.fromCallable(new Callable<MemberResponse>() {
+    public Single<MembersResponse> getUseCase() {
+        return Single.fromCallable(new Callable<MembersResponse>() {
             @Override
-            public MemberResponse call() throws Exception {
-                return getApiCall().getResponse(getSoqlRequestFactory().createCompanyMemberDetailRequest(mCompanyId), MemberResponse.class);
+            public MembersResponse call() throws Exception {
+                return getApiCall().getResponse(getSoqlRequestFactory().createCompanyMemberDetailRequest(mCompanyId), MembersResponse.class);
             }
         });
     }

@@ -6,14 +6,9 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.DecelerateInterpolator;
-import android.widget.LinearLayout;
 
 import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnBackListener;
-import net.impacthub.members.model.callback.OnTabVisibilityChangeListener;
 import net.impacthub.members.ui.base.BaseActivity;
 import net.impacthub.members.ui.controllers.conversations.ConversationControllerFragment;
 import net.impacthub.members.ui.controllers.home.HomeControllerFragment;
@@ -33,7 +28,7 @@ import java.util.List;
  * @date 8/1/2017.
  */
 
-public class MainTabsActivity extends BaseActivity implements OnTabVisibilityChangeListener {
+public class MainTabsActivity extends BaseActivity {
 
     private static final String TAG = MainTabsActivity.class.getSimpleName();
 
@@ -45,7 +40,6 @@ public class MainTabsActivity extends BaseActivity implements OnTabVisibilityCha
         R.mipmap.tab_bar_profile,
     };
 
-    private LinearLayout mMainContainer;
     private ExtendedViewPager mPager;
     private TabLayout mTabLayout;
 
@@ -57,7 +51,6 @@ public class MainTabsActivity extends BaseActivity implements OnTabVisibilityCha
     @Override
     protected void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mMainContainer = (LinearLayout) findViewById(R.id.main_container_layout);
         mPager = (ExtendedViewPager) findViewById(R.id.pager);
         mTabLayout = (TabLayout) findViewById(R.id.navbar);
 
@@ -109,24 +102,6 @@ public class MainTabsActivity extends BaseActivity implements OnTabVisibilityCha
                 tabAt.setIcon(DrawableUtils.tintDrawableWithState(this, sIcons[i], stateList));
             }
         }
-    }
-
-    @Override
-    public void onVisibilityChanged(float offset, float totalOffset) {
-        int height = mTabLayout.getHeight();
-        float tabTranslationOffset = Math.abs((offset * (height * 1.0f / totalOffset)) - height);
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mTabLayout.getLayoutParams();
-        params.topMargin = (int) - tabTranslationOffset;
-        mTabLayout.setLayoutParams(params);
-        mTabLayout.setTranslationY(tabTranslationOffset);
-    }
-
-    @Override
-    public void onReset() {
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mTabLayout.getLayoutParams();
-        params.topMargin = 0;
-        mTabLayout.setLayoutParams(params);
-        mTabLayout.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
     }
 
     private class MainTabsPagerAdapter extends FragmentPagerAdapter {

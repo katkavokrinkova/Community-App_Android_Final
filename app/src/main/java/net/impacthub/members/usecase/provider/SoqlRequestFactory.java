@@ -34,11 +34,12 @@ public class SoqlRequestFactory {
             "How_Do_You_Most_Identify_with_Your_Curre__c,Twitter__c,Instagram__c,Facebook__c,Linked_In__c";
 
     private static final String PROFILE = "SELECT " + CONTACT + " FROM Contact WHERE User__c = '%s'";
+    private static final String ALL_MEMBERS_PROFILE = "SELECT " + CONTACT + " FROM Contact where User__c != null";
 
-    private static final String memberListQuery =
-            "select id, firstname, lastname, ProfilePic__c, Profession__c, Impact_Hub_Cities__c,"
-                    + "User__c, Skills__c, About_Me__c, Twitter__c, Instagram__c, Facebook__c, Linked_In__c "
-                    + "FROM Contact where User__c != null";
+//    private static final String memberListQuery =
+//            "select id, firstname, lastname, ProfilePic__c, Profession__c, Impact_Hub_Cities__c,"
+//                    + "User__c, Skills__c, About_Me__c, Twitter__c, Instagram__c, Facebook__c, Linked_In__c "
+//                    + "FROM Contact where User__c != null";
 
     private static final String filterCriteriaQuery =
             "select name, Grouping__c, Id from taxonomy__c "
@@ -95,12 +96,12 @@ public class SoqlRequestFactory {
 
     private final RestRequestFactory mRestRequestFactory = restRequestFactoryProvider();
 
-    public RestRequest createGetProfileRequest(String memberId) throws UnsupportedEncodingException {
-        return mRestRequestFactory.getForQuery(String.format(PROFILE, memberId));
+    public RestRequest createGetProfileRequest(String userId) throws UnsupportedEncodingException {
+        return mRestRequestFactory.getForQuery(String.format(PROFILE, userId));
     }
 
     public RestRequest createMemberListRequest() throws UnsupportedEncodingException {
-        return mRestRequestFactory.getForQuery(memberListQuery);
+        return mRestRequestFactory.getForQuery(ALL_MEMBERS_PROFILE);
     }
 
     public RestRequest createFilterCriteriaRequest() throws UnsupportedEncodingException {

@@ -9,19 +9,17 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.model.dto.profile;
+package net.impacthub.members.model.callback;
+
+import net.impacthub.members.model.dto.chatter.ChatterDTO;
 
 /**
  * @author Filippo Ash
  * @version 1.0
- * @date 03/08/2017.
+ * @date 8/21/2017.
  */
 
-public class ProfileDTO {
+public interface OnChatterFeedItemClickListener {
 
-    public String mFirstName;
-    public String mLastName;
-    public String mAvatar;
-    public String mStatusUpdate;
-    public String mCity;
+    void onProfileImageClicked(ChatterDTO chatterDTO);
 }

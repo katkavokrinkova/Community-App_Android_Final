@@ -22,7 +22,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.impacthub.members.R;
+import net.impacthub.members.model.callback.OnChatterFeedItemClickListener;
 import net.impacthub.members.model.callback.OnListItemClickListener;
+import net.impacthub.members.model.dto.chatter.ChatterDTO;
 import net.impacthub.members.model.dto.jobs.JobDTO;
 import net.impacthub.members.model.dto.members.MemberDTO;
 import net.impacthub.members.model.dto.projects.ProjectDTO;
@@ -39,6 +41,7 @@ import net.impacthub.members.ui.features.home.jobs.binders.JobsViewBinder;
 import net.impacthub.members.ui.features.home.members.MemberDetailFragment;
 import net.impacthub.members.ui.features.home.members.binders.AboutViewBinder;
 import net.impacthub.members.ui.features.home.members.binders.MembersViewBinder;
+import net.impacthub.members.ui.features.home.projects.binders.ChatterViewBinder;
 import net.impacthub.members.ui.features.home.projects.binders.ObjectivesViewBinder;
 
 import java.util.List;
@@ -51,11 +54,12 @@ import butterknife.BindView;
  * @date 8/16/2017.
  */
 
-public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPresenter> implements ProjectDetailUiContract {
+public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPresenter> implements ProjectDetailUiContract, OnChatterFeedItemClickListener {
 
     public static final String TITLES[] = {"FEED", "OBJECTIVES", "MEMBERS", "JOBS"};
 
     private static final String EXTRA_PROJECT_ID = "net.impacthub.members.ui.features.home.projects.EXTRA_PROJECT_ID";
+    private static final String EXTRA_PROJECT_CHATTER_ID = "net.impacthub.members.ui.features.home.projects.EXTRA_PROJECT_CHATTER_ID";
     private static final String EXTRA_PROJECT_IMAGE_URL = "net.impacthub.members.ui.features.home.projects.EXTRA_PROJECT_IMAGE_URL";
     private static final String EXTRA_PROJECT_NAME = "net.impacthub.members.ui.features.home.projects.EXTRA_PROJECT_NAME";
     private static final String EXTRA_PROJECT_ORGANIZATION_NAME = "net.impacthub.members.ui.features.home.projects.EXTRA_PROJECT_ORGANIZATION_NAME";
@@ -66,16 +70,18 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
     @BindView(R.id.tabs) protected TabLayout mProjectTab;
     @BindView(R.id.pager) protected ViewPager mProjectPages;
 
-    private AppPagerAdapter mPagerAdapter;
-
     private ViewBinder<List<ListItem<?>>> mViewBinder2;
     private ViewBinder<List<MemberDTO>> mViewBinder3;
     private ViewBinder<List<JobDTO>> mViewBinder4;
+    private ViewBinder<List<ChatterDTO>> mViewBinder1;
+
+    private AppPagerAdapter mPagerAdapter;
 
     public static ProjectDetailFragment newInstance(ProjectDTO projectDTO) {
 
         Bundle args = new Bundle();
         args.putString(EXTRA_PROJECT_ID, projectDTO.mProjectId);
+        args.putString(EXTRA_PROJECT_CHATTER_ID, projectDTO.mChatterGroupId);
         args.putString(EXTRA_PROJECT_NAME, projectDTO.mName);
         args.putString(EXTRA_PROJECT_ORGANIZATION_NAME, projectDTO.mOrganizationName);
         args.putString(EXTRA_PROJECT_IMAGE_URL, projectDTO.mImageURL);
@@ -101,23 +107,26 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
 
         Bundle arguments = getArguments();
         String projectId = arguments.getString(EXTRA_PROJECT_ID);
+        String feedId = arguments.getString(EXTRA_PROJECT_CHATTER_ID);
         String projectName = arguments.getString(EXTRA_PROJECT_NAME);
         String organizationName = arguments.getString(EXTRA_PROJECT_ORGANIZATION_NAME);
         String projectImageURL = arguments.getString(EXTRA_PROJECT_IMAGE_URL);
 
         setUpToolbar(projectName);
-        mToolbar.inflateMenu(R.menu.menu_message_conversation);
-        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.actionCompose:
-                        showToast("Compose clicked");
-                        return true;
+        if (mToolbar != null) {
+            mToolbar.inflateMenu(R.menu.menu_compose_post);
+            mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    switch (item.getItemId()) {
+                        case R.id.actionCompose:
+                            showToast("Compose clicked");
+                            return true;
+                    }
+                    return false;
                 }
-                return false;
-            }
-        });
+            });
+        }
 
         mTitle.setText(projectName);
         mSubTitle.setText(String.format("by %s", organizationName));
@@ -125,20 +134,27 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
         ImageLoaderHelper.loadImage(getContext(), buildUrl(projectImageURL), mImageDetail);
 
         mPagerAdapter = new AppPagerAdapter(getContext());
-        mPagerAdapter.addVieBinder(new AboutViewBinder());
-        mPagerAdapter.addVieBinder(mViewBinder2 = new ObjectivesViewBinder());
-        mPagerAdapter.addVieBinder(mViewBinder3 = new MembersViewBinder(new OnListItemClickListener<MemberDTO>() {
+
+        mViewBinder1 = new ChatterViewBinder(this);
+        mViewBinder2 = new ObjectivesViewBinder();
+        mViewBinder3 = new MembersViewBinder(new OnListItemClickListener<MemberDTO>() {
             @Override
             public void onItemClick(MemberDTO model) {
                 addChildFragment(MemberDetailFragment.newInstance(model), "FRAG_MEMBER_DETAIL");
             }
-        }));
-        mPagerAdapter.addVieBinder(mViewBinder4 = new JobsViewBinder(new OnListItemClickListener<JobDTO>() {
+        });
+
+        mViewBinder4 = new JobsViewBinder(new OnListItemClickListener<JobDTO>() {
             @Override
             public void onItemClick(JobDTO model) {
                 addChildFragment(JobDetailFragment.newInstance(model), "FRAG_JOB_DETAIL");
             }
-        }));
+        });
+
+        mPagerAdapter.addVieBinder(mViewBinder1);
+        mPagerAdapter.addVieBinder(mViewBinder2);
+        mPagerAdapter.addVieBinder(mViewBinder3);
+        mPagerAdapter.addVieBinder(mViewBinder4);
 
         mProjectPages.setAdapter(mPagerAdapter);
         mProjectPages.setOffscreenPageLimit(mPagerAdapter.getCount());
@@ -147,7 +163,12 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
 
         new TabsDelegate().setUp(mProjectTab, TITLES);
 
-        getPresenter().loadDetails(projectId);
+        getPresenter().loadDetails(feedId, projectId);
+    }
+
+    @Override
+    public void onLoadChatterFeed(List<ChatterDTO> chatterDTOs) {
+        mViewBinder1.bindView(chatterDTOs);
     }
 
     @Override
@@ -168,5 +189,15 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
         infoList.add(0, titleObjective);
 
         mViewBinder2.bindView(infoList);
+    }
+
+    @Override
+    public void onLoadMember(MemberDTO memberDTO) {
+        addChildFragment(MemberDetailFragment.newInstance(memberDTO), "FRAG_MEMBER_DETAIL");
+    }
+
+    @Override
+    public void onProfileImageClicked(ChatterDTO chatterDTO) {
+        getPresenter().loadMember(chatterDTO.mUserId);
     }
 }

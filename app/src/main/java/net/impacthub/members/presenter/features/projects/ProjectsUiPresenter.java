@@ -13,8 +13,8 @@ package net.impacthub.members.presenter.features.projects;
 
 import net.impacthub.members.mapper.projects.ProjectMapper;
 import net.impacthub.members.model.dto.projects.ProjectDTO;
-import net.impacthub.members.model.features.profile.ProfileResponse;
-import net.impacthub.members.model.features.profile.Records;
+import net.impacthub.members.model.features.members.MembersResponse;
+import net.impacthub.members.model.features.members.Records;
 import net.impacthub.members.model.features.projects.ProjectResponse;
 import net.impacthub.members.presenter.base.UiPresenter;
 import net.impacthub.members.usecase.base.UseCaseGenerator;
@@ -38,7 +38,7 @@ import io.reactivex.observers.DisposableSingleObserver;
 
 public class ProjectsUiPresenter extends UiPresenter<ProjectsUiContract> {
 
-    private final UseCaseGenerator<Single<ProfileResponse>> mProfileUseCase = new ProfileUseCase();
+    private final UseCaseGenerator<Single<MembersResponse>> mProfileUseCase = new ProfileUseCase();
     private final UseCaseGenerator<Single<ProjectResponse>> mAllProjectsUseCase = new AllProjectsUseCase();
 
     public ProjectsUiPresenter(ProjectsUiContract uiContract) {
@@ -60,9 +60,9 @@ public class ProjectsUiPresenter extends UiPresenter<ProjectsUiContract> {
         });
 
         Single<ProjectResponse> single = mProfileUseCase.getUseCase()
-                .flatMap(new Function<ProfileResponse, SingleSource<ProjectResponse>>() {
+                .flatMap(new Function<MembersResponse, SingleSource<ProjectResponse>>() {
                     @Override
-                    public SingleSource<ProjectResponse> apply(@NonNull ProfileResponse profileResponse) throws Exception {
+                    public SingleSource<ProjectResponse> apply(@NonNull MembersResponse profileResponse) throws Exception {
                         Records record = profileResponse.getRecords()[0];
                         return new YourProjectsUseCase(record.getId()).getUseCase();
                     }

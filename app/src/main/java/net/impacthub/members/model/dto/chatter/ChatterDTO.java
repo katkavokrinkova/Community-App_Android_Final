@@ -19,6 +19,7 @@ package net.impacthub.members.model.dto.chatter;
 
 public class ChatterDTO {
 
+    public String mUserId;
     public String mImageURL;
     public String mDisplayName;
     public String mDate;

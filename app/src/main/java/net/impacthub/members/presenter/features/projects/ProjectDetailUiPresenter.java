@@ -11,22 +11,25 @@
 
 package net.impacthub.members.presenter.features.projects;
 
+import net.impacthub.members.mapper.chatter.ChatterMapper;
 import net.impacthub.members.mapper.jobs.JobsMapper;
 import net.impacthub.members.mapper.members.MembersMapper;
 import net.impacthub.members.mapper.objectives.ObjectivesMapper;
+import net.impacthub.members.model.dto.chatter.ChatterDTO;
 import net.impacthub.members.model.dto.jobs.JobDTO;
 import net.impacthub.members.model.dto.members.MemberDTO;
-import net.impacthub.members.model.dto.objectives.ObjectiveDTO;
+import net.impacthub.members.model.features.chatterfeed.FeedElements;
 import net.impacthub.members.model.features.jobs.JobsResponse;
-import net.impacthub.members.model.features.members.MemberResponse;
 import net.impacthub.members.model.features.objectives.ObjectivesResponse;
+import net.impacthub.members.model.features.members.MembersResponse;
 import net.impacthub.members.model.pojo.ListItem;
 import net.impacthub.members.presenter.base.UiPresenter;
+import net.impacthub.members.usecase.features.groups.ChatterFeedUseCase;
+import net.impacthub.members.usecase.features.members.GetMemberByUserIdUseCase;
 import net.impacthub.members.usecase.features.projects.ProjectJobsUseCase;
 import net.impacthub.members.usecase.features.projects.ProjectMembersUseCase;
 import net.impacthub.members.usecase.features.projects.ProjectObjectivesUseCase;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import io.reactivex.annotations.NonNull;
@@ -44,7 +47,20 @@ public class ProjectDetailUiPresenter extends UiPresenter<ProjectDetailUiContrac
         super(uiContract);
     }
 
-    public void loadDetails(String projectId) {
+    public void loadDetails(String feedId, String projectId) {
+
+        subscribeWith(new ChatterFeedUseCase(feedId).getUseCase(), new DisposableSingleObserver<FeedElements>() {
+            @Override
+            public void onSuccess(@NonNull FeedElements feedElements) {
+                List<ChatterDTO> chatterDTOs = new ChatterMapper().map(feedElements);
+                getUi().onLoadChatterFeed(chatterDTOs);
+            }
+
+            @Override
+            public void onError(@NonNull Throwable e) {
+                getUi().onError(e);
+            }
+        });
 
         subscribeWith(new ProjectObjectivesUseCase(projectId).getUseCase(), new DisposableSingleObserver<ObjectivesResponse>() {
             @Override
@@ -60,10 +76,10 @@ public class ProjectDetailUiPresenter extends UiPresenter<ProjectDetailUiContrac
             }
         });
 
-        subscribeWith(new ProjectMembersUseCase(projectId).getUseCase(), new DisposableSingleObserver<MemberResponse>() {
+        subscribeWith(new ProjectMembersUseCase(projectId).getUseCase(), new DisposableSingleObserver<MembersResponse>() {
             @Override
-            public void onSuccess(@NonNull MemberResponse memberResponse) {
-                List<MemberDTO> memberDTOs = new MembersMapper().map(memberResponse);
+            public void onSuccess(@NonNull MembersResponse memberResponse) {
+                List<MemberDTO> memberDTOs = new MembersMapper().mapMembers(memberResponse);
                 getUi().onLoadMembers(memberDTOs);
             }
 
@@ -77,6 +93,21 @@ public class ProjectDetailUiPresenter extends UiPresenter<ProjectDetailUiContrac
             public void onSuccess(@NonNull JobsResponse jobsResponse) {
                 List<JobDTO> jobDTOs = new JobsMapper().map(jobsResponse);
                 getUi().onLoadJobs(jobDTOs);
+            }
+
+            @Override
+            public void onError(@NonNull Throwable e) {
+                getUi().onError(e);
+            }
+        });
+    }
+
+    public void loadMember(String userId) {
+        subscribeWith(new GetMemberByUserIdUseCase(userId).getUseCase(), new DisposableSingleObserver<MembersResponse>() {
+            @Override
+            public void onSuccess(@NonNull MembersResponse membersResponse) {
+                MemberDTO memberDTO = new MembersMapper().map(membersResponse);
+                getUi().onLoadMember(memberDTO);
             }
 
             @Override

@@ -11,6 +11,7 @@
 
 package net.impacthub.members.presenter.features.projects;
 
+import net.impacthub.members.model.dto.chatter.ChatterDTO;
 import net.impacthub.members.model.dto.jobs.JobDTO;
 import net.impacthub.members.model.dto.members.MemberDTO;
 import net.impacthub.members.model.pojo.ListItem;
@@ -26,9 +27,13 @@ import java.util.List;
 
 public interface ProjectDetailUiContract extends ErrorHandlerUiContract {
 
+    void onLoadChatterFeed(List<ChatterDTO> chatterDTOs);
+
     void onLoadMembers(List<MemberDTO> memberDTOs);
 
     void onLoadJobs(List<JobDTO> jobDTOs);
 
     void onLoadObjectives(List<ListItem<?>> infoList);
+
+    void onLoadMember(MemberDTO memberDTO);
 }

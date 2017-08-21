@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnListItemClickListener;
-import net.impacthub.members.model.callback.OnTabVisibilityChangeListener;
 import net.impacthub.members.model.dto.groups.GroupDTO;
 import net.impacthub.members.model.dto.members.MemberDTO;
 import net.impacthub.members.model.dto.projects.ProjectDTO;
@@ -62,6 +61,7 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
     public static final String EXTRA_MEMBER_FULL_NAME = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_FULL_NAME";
     public static final String EXTRA_MEMBER_LOCATION = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_LOCATION";
     public static final String EXTRA_MEMBER_ABOUT_ME = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_ABOUT_ME";
+    public static final String EXTRA_MEMBER_STATUS_UPDATE = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_STATUS_UPDATE";
     public static final String EXTRA_MEMBER_PROFESSION = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_PROFESSION";
 
     @BindView(R.id.app_bar_layout) protected AppBarLayout mAppBar;
@@ -71,7 +71,7 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
 //    @BindView(R.id.text_full_name) protected TextView mFullName;
     @BindView(R.id.locations) protected TextView mLocation;
     @BindView(R.id.text_profession) protected TextView mProfession;
-    @BindView(R.id.about) protected TextView mAboutMe;
+    @BindView(R.id.text_status_update) protected TextView mStatusUpdate;
 //
     @BindView(R.id.button_twitter) protected ImageButton mButtonTwitter;
     @BindView(R.id.button_facebook) protected ImageButton mButtonFacebook;
@@ -88,7 +88,6 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
     private String mLinkFacebook;
     private String mLinkLinkedin;
     private String mLinkInsta;
-    private String mAbout;
 
     public static MemberDetailFragment newInstance(MemberDTO member) {
 
@@ -102,6 +101,7 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
         args.putString(EXTRA_MEMBER_FULL_NAME, member.mFullName);
         args.putString(EXTRA_MEMBER_LOCATION, member.mLocation);
         args.putString(EXTRA_MEMBER_ABOUT_ME, member.mAboutMe);
+        args.putString(EXTRA_MEMBER_STATUS_UPDATE, member.mStatusUpdate);
         args.putString(EXTRA_MEMBER_PROFESSION, member.mProfession);
         MemberDetailFragment fragment = new MemberDetailFragment();
         fragment.setArguments(args);
@@ -156,8 +156,8 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
 
         mLocation.setText(arguments.getString(EXTRA_MEMBER_LOCATION));
         mProfession.setText(arguments.getString(EXTRA_MEMBER_PROFESSION));
-        mAbout = arguments.getString(EXTRA_MEMBER_ABOUT_ME);
-        mAboutMe.setText(mAbout);
+
+        mStatusUpdate.setText(arguments.getString(EXTRA_MEMBER_STATUS_UPDATE));
 
         setUpToolbar(fullName);
         mToolbar.inflateMenu(R.menu.menu_member_connect);
@@ -217,13 +217,6 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
     }
 
     @Override
-    public void onPause() {
-        OnTabVisibilityChangeListener listener = (OnTabVisibilityChangeListener) getActivity();
-        listener.onReset();
-        super.onPause();
-    }
-
-    @Override
     public void onDestroyView() {
         mAppBar.removeOnOffsetChangedListener(mOffsetChangeListenerAdapter);
         super.onDestroyView();
@@ -260,7 +253,7 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
                 infoList.add(0, titleAbout);
 
                 ListItem<String> descriptionAbout = new ListItem<>(ListItem.TYPE_TWO);
-                descriptionAbout.setModel(mAbout);
+                descriptionAbout.setModel(getArguments().getString(EXTRA_MEMBER_ABOUT_ME));
                 infoList.add(1, descriptionAbout);
 
                 viewBinder.bindView(infoList);

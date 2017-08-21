@@ -20,8 +20,10 @@ package net.impacthub.members.model.dto.members;
 public class MemberDTO {
 
     public String mMemberId;
-    public String mProfilePicURL;
+    public String mFirstName;
+    public String mLastName;
     public String mFullName;
+    public String mProfilePicURL;
     public String mLinkInstagram;
     public String mLinkFacebook;
     public String mLinkTwitter;
@@ -29,4 +31,5 @@ public class MemberDTO {
     public String mLocation;
     public String mAboutMe;
     public String mProfession;
+    public String mStatusUpdate;
 }
