@@ -84,7 +84,7 @@ public class GoalDetailFragment extends BaseChildFragment<GoalsDetailUiPresenter
 
     @Override
     protected int getContentView() {
-        return R.layout.fragment_goal_detail;
+        return R.layout.fragment_detail_goal;
     }
 
     @Override

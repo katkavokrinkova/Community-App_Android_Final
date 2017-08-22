@@ -71,7 +71,7 @@ public class GroupDetailFragment extends BaseChildFragment<ChatterFeedPresenter>
 
     @Override
     protected int getContentView() {
-        return R.layout.fragment_group_detail;
+        return R.layout.fragment_detail_group;
     }
 
     @Override

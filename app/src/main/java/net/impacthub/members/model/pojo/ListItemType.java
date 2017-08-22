@@ -9,12 +9,7 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.presenter.features.jobs;
-
-import net.impacthub.members.model.pojo.ListItemType;
-import net.impacthub.members.presenter.features.error.ErrorHandlerUiContract;
-
-import java.util.List;
+package net.impacthub.members.model.pojo;
 
 /**
  * @author Filippo Ash
@@ -22,7 +17,9 @@ import java.util.List;
  * @date 8/22/2017.
  */
 
-public interface JobsDetailUiContract extends ErrorHandlerUiContract {
+public interface ListItemType<M> {
 
-    void onLoadRelatedProjects(List<ListItemType> listItemTypes);
+    M getModel();
+
+    int getItemType();
 }

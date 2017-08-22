@@ -13,7 +13,7 @@ package net.impacthub.members.presenter.features.jobs;
 
 import net.impacthub.members.mapper.projects.ProjectMapper;
 import net.impacthub.members.model.features.projects.ProjectResponse;
-import net.impacthub.members.model.vo.projects.ProjectVO;
+import net.impacthub.members.model.pojo.ListItemType;
 import net.impacthub.members.presenter.base.UiPresenter;
 import net.impacthub.members.usecase.features.jobs.JobProjectsUseCase;
 
@@ -38,8 +38,8 @@ public class JobsDetailUiPresenter extends UiPresenter<JobsDetailUiContract> {
         subscribeWith(new JobProjectsUseCase(jobId).getUseCase(), new DisposableSingleObserver<ProjectResponse>() {
             @Override
             public void onSuccess(@NonNull ProjectResponse projectResponse) {
-                List<ProjectVO> projectVOs = new ProjectMapper().map(projectResponse);
-                getUi().onLoadRelatedProjects(projectVOs);
+                List<ListItemType> itemTypes = new ProjectMapper().mapAsListItemType(projectResponse);
+                getUi().onLoadRelatedProjects(itemTypes);
             }
 
             @Override

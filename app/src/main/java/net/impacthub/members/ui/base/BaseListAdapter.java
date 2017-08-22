@@ -51,6 +51,17 @@ public abstract class BaseListAdapter<VH extends RecyclerView.ViewHolder, DTO> e
         notifyDataSetChanged();
     }
 
+    public void appendItems(List<DTO> items) {
+        int size = mItems.size();
+        mItems.addAll(items);
+        notifyItemRangeInserted(size, mItems.size());
+    }
+
+    public void appendItem(DTO item) {
+        mItems.add(item);
+        notifyItemInserted(mItems.size());
+    }
+
     @Override
     public int getItemCount() {
         return mItems.size();

@@ -13,18 +13,24 @@ package net.impacthub.members.ui.features.home.jobs;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import net.impacthub.members.R;
+import net.impacthub.members.model.callback.OnListItemClickListener;
+import net.impacthub.members.model.pojo.ListItemType;
+import net.impacthub.members.model.pojo.SimpleItem;
+import net.impacthub.members.model.vo.jobs.JobDescriptionVO;
 import net.impacthub.members.model.vo.jobs.JobVO;
 import net.impacthub.members.model.vo.projects.ProjectVO;
 import net.impacthub.members.presenter.features.jobs.JobsDetailUiContract;
 import net.impacthub.members.presenter.features.jobs.JobsDetailUiPresenter;
 import net.impacthub.members.ui.base.BaseChildFragment;
 import net.impacthub.members.ui.common.ImageLoaderHelper;
+import net.impacthub.members.ui.features.home.projects.ProjectDetailFragment;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -46,11 +52,9 @@ public class JobDetailFragment extends BaseChildFragment<JobsDetailUiPresenter> 
     public static final String EXTRA_JOB_MEMBER_DESCRIPTION = "net.impacthub.members.ui.features.home.jobs.EXTRA_JOB_MEMBER_DESCRIPTION";
 
     @BindView(R.id.image_detail) protected ImageView mImageDetail;
-    @BindView(R.id.text_info_title) protected TextView mDetailTitle;
-    @BindView(R.id.locations) protected TextView mLocation;
-    @BindView(R.id.member_count) protected TextView mMemberCount;
-    @BindView(R.id.salary) protected TextView mSalaryTxt;
-    @BindView(R.id.text_description) protected TextView mDescription;
+    @BindView(R.id.list_items) protected RecyclerView mJobDetailList;
+
+    private JobDetailListAdapter mAdapter;
 
     public static JobDetailFragment newInstance(JobVO jobDTO) {
 
@@ -76,7 +80,7 @@ public class JobDetailFragment extends BaseChildFragment<JobsDetailUiPresenter> 
 
     @Override
     protected int getContentView() {
-        return R.layout.fragment_job_detail;
+        return R.layout.fragment_detail_job;
     }
 
     @Override
@@ -88,6 +92,7 @@ public class JobDetailFragment extends BaseChildFragment<JobsDetailUiPresenter> 
         String jobId = arguments.getString(EXTRA_JOB_ID);
         String jobName = arguments.getString(EXTRA_JOB_NAME);
         String jobImage = arguments.getString(EXTRA_JOB_IMAGE_URL);
+
         String jobLocation = arguments.getString(EXTRA_JOB_LOCATION);
         String jobMemberCount = arguments.getString(EXTRA_JOB_MEMBER_COUNT);
         String jobSalary = arguments.getString(EXTRA_JOB_MEMBER_SALARY);
@@ -95,11 +100,23 @@ public class JobDetailFragment extends BaseChildFragment<JobsDetailUiPresenter> 
 
         setUpToolbar(jobName);
 
-        mDetailTitle.setText("JOB DESCRIPTION");
-        mLocation.setText(jobLocation);
-        mMemberCount.setText(jobMemberCount);
-        mSalaryTxt.setText(jobSalary);
-        mDescription.setText(jobDescription);
+        List<ListItemType> listItemTypes = new LinkedList<>();
+        listItemTypes.add(new SimpleItem<String>("JOBS DESCRIPTION", 0));
+        listItemTypes.add(new SimpleItem<JobDescriptionVO>(new JobDescriptionVO(jobLocation, jobMemberCount, jobSalary), 1));
+        listItemTypes.add(new SimpleItem<String>(jobDescription, 2));
+
+        mAdapter = new JobDetailListAdapter(getLayoutInflater(getArguments()));
+        mAdapter.setItemClickListener(new OnListItemClickListener<ListItemType>() {
+            @Override
+            public void onItemClick(ListItemType model) {
+                ProjectVO projectVO = (ProjectVO) model.getModel();
+                addChildFragment(ProjectDetailFragment.newInstance(projectVO), "FRAG_PROJECT_DETAIL");
+            }
+        });
+        mAdapter.setItems(listItemTypes);
+
+        mJobDetailList.setHasFixedSize(true);
+        mJobDetailList.setAdapter(mAdapter);
 
         ImageLoaderHelper.loadImage(getContext(), buildUrl(jobImage), mImageDetail);
 
@@ -107,7 +124,8 @@ public class JobDetailFragment extends BaseChildFragment<JobsDetailUiPresenter> 
     }
 
     @Override
-    public void onLoadRelatedProjects(List<ProjectVO> projectVOs) {
-        showToast("Size " + projectVOs.size());
+    public void onLoadRelatedProjects(List<ListItemType> listItemTypes) {
+        mAdapter.appendItem(new SimpleItem<String>("RELATED JOBS", 0));
+        mAdapter.appendItems(listItemTypes);
     }
 }
