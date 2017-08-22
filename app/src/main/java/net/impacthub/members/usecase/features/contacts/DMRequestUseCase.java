@@ -11,6 +11,7 @@
 
 package net.impacthub.members.usecase.features.contacts;
 
+import net.impacthub.members.model.features.contacts.ContactsResponse;
 import net.impacthub.members.usecase.base.BaseUseCaseGenerator;
 
 import java.util.concurrent.Callable;
@@ -20,18 +21,23 @@ import io.reactivex.Single;
 /**
  * @author Filippo Ash
  * @version 1.0
- * @date 8/17/2017.
+ * @date 8/22/2017.
  */
 
-public class ContactsUseCase extends BaseUseCaseGenerator<Single<Object>, Object> {
+public class DMRequestUseCase extends BaseUseCaseGenerator<Single<ContactsResponse>, ContactsResponse> {
+
+    private final String mContactId;
+
+    public DMRequestUseCase(String contactId) {
+        mContactId = contactId;
+    }
 
     @Override
-    public Single<Object> getUseCase() {
-        return Single.fromCallable(new Callable<Object>() {
+    public Single<ContactsResponse> getUseCase() {
+        return Single.fromCallable(new Callable<ContactsResponse>() {
             @Override
-            public Object call() throws Exception {
-
-                return getApiCall().getResponse(getSoqlRequestFactory().createCompaniesRequest(), Object.class);
+            public ContactsResponse call() throws Exception {
+                return getApiCall().getResponse(getSoqlRequestFactory().createDirectMessageRequest(mContactId), ContactsResponse.class);
             }
         });
     }

@@ -80,7 +80,7 @@ public class ConversationsFragment extends BaseChildFragment<ConversationsPresen
         super.setUserVisibleHint(isVisibleToUser);
         ConversationsPresenter presenter = getPresenter();
         if (presenter != null && isVisibleToUser) {
-            presenter.getConversations(getUserAccount().getUserId());
+            presenter.getConversations();
         }
     }
 

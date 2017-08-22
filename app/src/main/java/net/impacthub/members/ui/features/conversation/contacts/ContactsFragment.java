@@ -19,6 +19,9 @@ import android.view.View;
 
 import net.impacthub.members.R;
 import net.impacthub.members.model.pojo.ListItemType;
+import net.impacthub.members.model.vo.contacts.ContactVO;
+import net.impacthub.members.presenter.features.contacts.ContactsUiContract;
+import net.impacthub.members.presenter.features.contacts.ContactsUiPresenter;
 import net.impacthub.members.ui.base.BaseChildFragment;
 import net.impacthub.members.ui.binder.ViewBinder;
 import net.impacthub.members.ui.common.AppPagerAdapter;
@@ -35,7 +38,7 @@ import butterknife.BindView;
  * @date 8/17/2017.
  */
 
-public class ContactsFragment extends BaseChildFragment {
+public class ContactsFragment extends BaseChildFragment<ContactsUiPresenter> implements ContactsUiContract {
 
     private static final String TITLES[] = {"ACTIVE", "PENDING", "REJECTED"};
 
@@ -53,6 +56,11 @@ public class ContactsFragment extends BaseChildFragment {
         ContactsFragment fragment = new ContactsFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    protected ContactsUiPresenter onCreatePresenter() {
+        return new ContactsUiPresenter(this);
     }
 
     @Override
@@ -76,5 +84,12 @@ public class ContactsFragment extends BaseChildFragment {
         mContactsTab.setupWithViewPager(mContactPages);
 
         new TabsDelegate().setUp(mContactsTab, TITLES);
+
+        getPresenter().getContacts();
+    }
+
+    @Override
+    public void onLoadContacts(List<ContactVO> contactVOs) {
+
     }
 }

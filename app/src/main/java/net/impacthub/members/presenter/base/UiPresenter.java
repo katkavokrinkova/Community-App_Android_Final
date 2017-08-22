@@ -1,5 +1,7 @@
 package net.impacthub.members.presenter.base;
 
+import com.salesforce.androidsdk.accounts.UserAccount;
+
 import java.lang.ref.WeakReference;
 
 import io.reactivex.Single;
@@ -7,6 +9,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
+
+import static net.impacthub.members.application.salesforce.SalesforceModuleDependency.userAccountProvider;
 
 /**
  * @author Filippo Ash
@@ -16,12 +20,17 @@ import io.reactivex.schedulers.Schedulers;
 
 public abstract class UiPresenter<UI extends UiContract> {
 
+    private final UserAccount mUserAccount = userAccountProvider();
     private WeakReference<UI> mUiReference;
     private CompositeDisposable mCompositeDisposable;
     private boolean mFetching;
 
     public UiPresenter(UI uiContract) {
         mUiReference = new WeakReference<>(uiContract);
+    }
+
+    protected UserAccount getUserAccount() {
+        return mUserAccount;
     }
 
     public void registerUi() {
