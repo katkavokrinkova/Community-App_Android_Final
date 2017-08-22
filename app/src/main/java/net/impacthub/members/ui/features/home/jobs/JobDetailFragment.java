@@ -13,11 +13,8 @@ package net.impacthub.members.ui.features.home.jobs;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,7 +29,6 @@ import net.impacthub.members.presenter.features.jobs.JobsDetailUiContract;
 import net.impacthub.members.presenter.features.jobs.JobsDetailUiPresenter;
 import net.impacthub.members.ui.base.BaseChildFragment;
 import net.impacthub.members.ui.common.ImageLoaderHelper;
-import net.impacthub.members.ui.common.RecyclerViewScrollListener;
 import net.impacthub.members.ui.features.home.projects.ProjectDetailFragment;
 
 import java.util.LinkedList;
@@ -129,19 +125,6 @@ public class JobDetailFragment extends BaseChildFragment<JobsDetailUiPresenter> 
         mAdapter.setItems(listItemTypes);
 
         mJobDetailList.setHasFixedSize(true);
-        mJobDetailList.addOnScrollListener(new RecyclerViewScrollListener() {
-            @Override
-            public void onHide() {
-                CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) mApplyButton.getLayoutParams();
-                int fabBottomMargin = lp.bottomMargin;
-                mApplyButton.animate().translationY(mApplyButton.getHeight() + fabBottomMargin).setInterpolator(new AccelerateInterpolator(2)).start();
-            }
-
-            @Override
-            public void onShow() {
-                mApplyButton.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
-            }
-        });
         mJobDetailList.setAdapter(mAdapter);
 
         ImageLoaderHelper.loadImage(getContext(), buildUrl(jobImage), mImageDetail);
