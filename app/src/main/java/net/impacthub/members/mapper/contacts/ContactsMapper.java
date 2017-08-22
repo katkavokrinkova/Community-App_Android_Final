@@ -11,10 +11,14 @@
 
 package net.impacthub.members.mapper.contacts;
 
+import android.util.Log;
+
 import net.impacthub.members.model.features.contacts.ContactsResponse;
+import net.impacthub.members.model.features.contacts.Records;
 import net.impacthub.members.model.features.members.MembersResponse;
 import net.impacthub.members.model.vo.contacts.ContactVO;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -29,7 +33,20 @@ public class ContactsMapper {
 
     }
 
-    public List<ContactVO> mapContactMembers(ContactsResponse contactsResponse, MembersResponse membersResponse, String userId) {
-        return null;
+    public List<ContactVO> mapContactMembers(ContactsResponse contactsResponse, MembersResponse membersResponse, String contactId) {
+        List<ContactVO> contactVOs = new LinkedList<>();
+        if (contactsResponse != null) {
+            Records[] records = contactsResponse.getRecords();
+            if (records != null) {
+                for (Records record : records) {
+                    ContactVO contactVO = new ContactVO();
+                    String contactTo__c = record.getContactTo__c();
+                    
+                    Log.d("FILIPPO-CONTACTS", record.getId() + " -- " + contactId + "Contract from [ " + record.getContactFrom__c() +", " + contactTo__c + " ] || Status -> " + record.getStatus__c() );
+                    contactVOs.add(contactVO);
+                }
+            }
+        }
+        return contactVOs;
     }
 }

@@ -17,6 +17,7 @@ import net.impacthub.members.model.features.members.MembersResponse;
 import net.impacthub.members.model.features.members.Records;
 import net.impacthub.members.model.vo.contacts.ContactVO;
 import net.impacthub.members.presenter.base.UiPresenter;
+import net.impacthub.members.presenter.rx.AbstractBigFunction;
 import net.impacthub.members.usecase.base.UseCaseGenerator;
 import net.impacthub.members.usecase.features.contacts.DMRequestUseCase;
 import net.impacthub.members.usecase.features.members.MembersUseCase;
@@ -51,12 +52,14 @@ public class ContactsUiPresenter extends UiPresenter<ContactsUiContract> {
                     @Override
                     public SingleSource<? extends List<ContactVO>> apply(@NonNull MembersResponse membersResponse) throws Exception {
                         Records record = membersResponse.getRecords()[0];
+                        String contactId = record.getId();
                         return Single.zip(
-                                new DMRequestUseCase(record.getId()).getUseCase(),
-                                new MembersUseCase().getUseCase(), new BiFunction<ContactsResponse, MembersResponse, List<ContactVO>>() {
+                                new DMRequestUseCase(contactId).getUseCase(),
+                                new MembersUseCase().getUseCase(),
+                                new AbstractBigFunction<String, ContactsResponse, MembersResponse, List<ContactVO>>(contactId) {
                                     @Override
-                                    public List<ContactVO> apply(@NonNull ContactsResponse response, @NonNull MembersResponse membersResponse) throws Exception {
-                                        return new ContactsMapper().mapContactMembers(response, membersResponse, getUserAccount().getUserId());
+                                    protected List<ContactVO> apply(ContactsResponse response, MembersResponse membersResponse, String subject) {
+                                        return new ContactsMapper().mapContactMembers(response, membersResponse, subject);
                                     }
                                 }
                         );
