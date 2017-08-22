@@ -44,6 +44,7 @@ public class JobsMapper {
                         Company company = record.getCompany__r();
                         if (company != null) {
                             job.mCompanyName = company.getName();
+                            job.mWebsite = company.getWebsite();
                             job.mLogoURL = company.getLogo_Image_Url__c();
                             job.mMemberCount = company.getNumber_of_Employees__c();
                             job.mBannerImageURL = company.getBanner_Image_Url__c();

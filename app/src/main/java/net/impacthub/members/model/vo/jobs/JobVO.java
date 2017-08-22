@@ -29,4 +29,5 @@ public class JobVO {
     public String mSalary;
     public String mMemberCount;
     public String mBannerImageURL;
+    public String mWebsite;
 }

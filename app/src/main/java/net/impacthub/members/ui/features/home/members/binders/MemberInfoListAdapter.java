@@ -104,7 +104,7 @@ class MemberInfoListAdapter extends BaseListAdapter<RecyclerView.ViewHolder, Lis
 
         @Override
         protected void bindViewsWith(String itemData) {
-            description.setText(Html.fromHtml(itemData));
+            description.setText(itemData != null ? Html.fromHtml(itemData) : null);
         }
     }
 

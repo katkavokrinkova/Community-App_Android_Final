@@ -25,6 +25,7 @@ import net.impacthub.members.model.pojo.SimpleItem;
 import net.impacthub.members.model.vo.jobs.JobDescriptionVO;
 import net.impacthub.members.model.vo.jobs.JobVO;
 import net.impacthub.members.model.vo.projects.ProjectVO;
+import net.impacthub.members.navigator.Navigator;
 import net.impacthub.members.presenter.features.jobs.JobsDetailUiContract;
 import net.impacthub.members.presenter.features.jobs.JobsDetailUiPresenter;
 import net.impacthub.members.ui.base.BaseChildFragment;
@@ -52,6 +53,7 @@ public class JobDetailFragment extends BaseChildFragment<JobsDetailUiPresenter> 
     public static final String EXTRA_JOB_MEMBER_COUNT = "net.impacthub.members.ui.features.home.jobs.EXTRA_JOB_MEMBER_COUNT";
     public static final String EXTRA_JOB_MEMBER_SALARY = "net.impacthub.members.ui.features.home.jobs.EXTRA_JOB_MEMBER_SALARY";
     public static final String EXTRA_JOB_MEMBER_DESCRIPTION = "net.impacthub.members.ui.features.home.jobs.EXTRA_JOB_MEMBER_DESCRIPTION";
+    public static final String EXTRA_JOB_WEBSITE = "net.impacthub.members.ui.features.home.jobs.EXTRA_JOB_WEBSITE";
 
     @BindView(R.id.image_detail) protected ImageView mImageDetail;
     @BindView(R.id.list_items) protected RecyclerView mJobDetailList;
@@ -70,6 +72,7 @@ public class JobDetailFragment extends BaseChildFragment<JobsDetailUiPresenter> 
         args.putString(EXTRA_JOB_MEMBER_COUNT, jobDTO.mMemberCount);
         args.putString(EXTRA_JOB_MEMBER_SALARY, jobDTO.mSalary);
         args.putString(EXTRA_JOB_MEMBER_DESCRIPTION, jobDTO.mDescription);
+        args.putString(EXTRA_JOB_WEBSITE, jobDTO.mWebsite);
 
         JobDetailFragment fragment = new JobDetailFragment();
         fragment.setArguments(args);
@@ -88,7 +91,7 @@ public class JobDetailFragment extends BaseChildFragment<JobsDetailUiPresenter> 
 
     @OnClick(R.id.done)
     protected void onApplyClicked() {
-        showToast("Applying for job");
+        Navigator.startOtherWebActivity(getContext(), getArguments().getString(EXTRA_JOB_WEBSITE));
     }
 
     @Override
