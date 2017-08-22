@@ -11,9 +11,8 @@
 
 package net.impacthub.members.usecase.features.jobs;
 
-import net.impacthub.members.model.features.jobs.JobsResponse;
+import net.impacthub.members.model.features.projects.ProjectResponse;
 import net.impacthub.members.usecase.base.BaseUseCaseGenerator;
-import net.impacthub.members.utilities.DateUtils;
 
 import java.util.concurrent.Callable;
 
@@ -22,17 +21,23 @@ import io.reactivex.Single;
 /**
  * @author Filippo Ash
  * @version 1.0
- * @date 8/9/2017.
+ * @date 8/22/2017.
  */
 
-public class JobsUseCase extends BaseUseCaseGenerator<Single<JobsResponse>, JobsResponse> {
+public class JobProjectsUseCase extends BaseUseCaseGenerator<Single<ProjectResponse>, ProjectResponse> {
+
+    private final String mJobId;
+
+    public JobProjectsUseCase(String jobId) {
+        mJobId = jobId;
+    }
 
     @Override
-    public Single<JobsResponse> getUseCase() {
-        return Single.fromCallable(new Callable<JobsResponse>() {
+    public Single<ProjectResponse> getUseCase() {
+        return Single.fromCallable(new Callable<ProjectResponse>() {
             @Override
-            public JobsResponse call() throws Exception {
-                return getApiCall().getResponse(getSoqlRequestFactory().createJobsRequest(0, 250, DateUtils.getShortDate()), JobsResponse.class);
+            public ProjectResponse call() throws Exception {
+                return getApiCall().getResponse(getSoqlRequestFactory().createJobProjectsRequest(mJobId), ProjectResponse.class);
             }
         });
     }

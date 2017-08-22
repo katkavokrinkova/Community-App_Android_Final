@@ -35,6 +35,7 @@ public class JobsMapper {
                 for (Records record : records) {
                     if (record != null) {
                         JobVO job = new JobVO();
+                        job.mJobId = record.getId();
                         job.mName = record.getName();
                         job.mJobType = record.getJob_Type__c();
                         job.mLocation = record.getLocation__c();

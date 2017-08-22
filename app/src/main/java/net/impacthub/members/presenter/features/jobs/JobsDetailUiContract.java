@@ -9,24 +9,20 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.model.vo.jobs;
+package net.impacthub.members.presenter.features.jobs;
+
+import net.impacthub.members.model.vo.projects.ProjectVO;
+import net.impacthub.members.presenter.features.error.ErrorHandlerUiContract;
+
+import java.util.List;
 
 /**
  * @author Filippo Ash
  * @version 1.0
- * @date 8/9/2017.
+ * @date 8/22/2017.
  */
 
-public class JobVO {
+public interface JobsDetailUiContract extends ErrorHandlerUiContract {
 
-    public String mJobId;
-    public String mName;
-    public String mJobType;
-    public String mLocation;
-    public String mCompanyName;
-    public String mLogoURL;
-    public String mDescription;
-    public String mSalary;
-    public String mMemberCount;
-    public String mBannerImageURL;
+    void onLoadRelatedProjects(List<ProjectVO> projectVOs);
 }

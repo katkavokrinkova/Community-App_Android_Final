@@ -88,6 +88,7 @@ public class SoqlRequestFactory {
     private static final String YOUR_PROJECTS = "SELECT " + PROJECT + " FROM Directory__c WHERE Directory_Style__c = 'Project' AND id IN (select DirectoryID__c FROM Directory_Member__c WHERE ContactID__c ='%s')";
     private static final String PROJECT_MEMBER = "SELECT " + CONTACT + " FROM Contact WHERE id IN (SELECT contactID__c FROM Directory_Member__c WHERE DirectoryID__c='%s')";
     private static final String PROJECT_JOBS = "SELECT " + JOB_COLUMNS + " FROM Job__c WHERE Project__r.id='%s'";
+    private static final String JOB_PROJECT = "SELECT " + PROJECT + " FROM Directory__c WHERE Organisation__c in (SELECT Company__c FROM Job__c WHERE id ='%s')";
 
     private static final String COMPANY_PROJECT = "SELECT " + PROJECT + " FROM Directory__c WHERE Directory_Style__c ='Project' AND Organisation__c ='%s'";
     private static final String COMPANY_MEMBER = "SELECT " + CONTACT + " FROM Contact WHERE User__c != NULL AND accountid='%s'";
@@ -146,6 +147,10 @@ public class SoqlRequestFactory {
 
     public RestRequest createProjectJobsRequest(String projectId) throws UnsupportedEncodingException {
         return mRestRequestFactory.getForQuery(String.format(PROJECT_JOBS, projectId));
+    }
+
+    public RestRequest createJobProjectsRequest(String jobId) throws UnsupportedEncodingException {
+        return mRestRequestFactory.getForQuery(String.format(JOB_PROJECT, jobId));
     }
 
     public RestRequest createJobsRequest(int skip, int top, String date) throws UnsupportedEncodingException {

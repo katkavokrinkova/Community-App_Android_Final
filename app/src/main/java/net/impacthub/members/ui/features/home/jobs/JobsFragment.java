@@ -19,7 +19,7 @@ import android.view.View;
 import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnListItemClickListener;
 import net.impacthub.members.model.vo.jobs.JobVO;
-import net.impacthub.members.presenter.features.jobs.JobsPresenter;
+import net.impacthub.members.presenter.features.jobs.JobsUiPresenter;
 import net.impacthub.members.presenter.features.jobs.JobsUiContract;
 import net.impacthub.members.ui.base.BaseChildFragment;
 import net.impacthub.members.ui.common.LinearItemsMarginDecorator;
@@ -34,7 +34,7 @@ import butterknife.BindView;
  * @date 03/08/2017.
  */
 
-public class JobsFragment extends BaseChildFragment<JobsPresenter> implements OnListItemClickListener<JobVO>,JobsUiContract {
+public class JobsFragment extends BaseChildFragment<JobsUiPresenter> implements OnListItemClickListener<JobVO>,JobsUiContract {
 
     @BindView(R.id.list_items) protected RecyclerView mJobsList;
 
@@ -50,8 +50,8 @@ public class JobsFragment extends BaseChildFragment<JobsPresenter> implements On
     }
 
     @Override
-    protected JobsPresenter onCreatePresenter() {
-        return new JobsPresenter(this);
+    protected JobsUiPresenter onCreatePresenter() {
+        return new JobsUiPresenter(this);
     }
 
     @Override

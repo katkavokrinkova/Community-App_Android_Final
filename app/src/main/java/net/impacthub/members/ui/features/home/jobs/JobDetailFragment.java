@@ -19,8 +19,13 @@ import android.widget.TextView;
 
 import net.impacthub.members.R;
 import net.impacthub.members.model.vo.jobs.JobVO;
+import net.impacthub.members.model.vo.projects.ProjectVO;
+import net.impacthub.members.presenter.features.jobs.JobsDetailUiContract;
+import net.impacthub.members.presenter.features.jobs.JobsDetailUiPresenter;
 import net.impacthub.members.ui.base.BaseChildFragment;
 import net.impacthub.members.ui.common.ImageLoaderHelper;
+
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -30,8 +35,9 @@ import butterknife.BindView;
  * @date 8/16/2017.
  */
 
-public class JobDetailFragment extends BaseChildFragment {
+public class JobDetailFragment extends BaseChildFragment<JobsDetailUiPresenter> implements JobsDetailUiContract {
 
+    public static final String EXTRA_JOB_ID = "net.impacthub.members.ui.features.home.jobs.EXTRA_JOB_ID";
     public static final String EXTRA_JOB_NAME = "net.impacthub.members.ui.features.home.jobs.EXTRA_JOB_NAME";
     public static final String EXTRA_JOB_IMAGE_URL = "net.impacthub.members.ui.features.home.jobs.EXTRA_JOB_IMAGE_URL";
     public static final String EXTRA_JOB_LOCATION = "net.impacthub.members.ui.features.home.jobs.EXTRA_JOB_LOCATION";
@@ -50,6 +56,7 @@ public class JobDetailFragment extends BaseChildFragment {
 
         Bundle args = new Bundle();
 
+        args.putString(EXTRA_JOB_ID, jobDTO.mJobId);
         args.putString(EXTRA_JOB_NAME, jobDTO.mName);
         args.putString(EXTRA_JOB_IMAGE_URL, jobDTO.mBannerImageURL);
         args.putString(EXTRA_JOB_LOCATION, jobDTO.mLocation);
@@ -63,6 +70,11 @@ public class JobDetailFragment extends BaseChildFragment {
     }
 
     @Override
+    protected JobsDetailUiPresenter onCreatePresenter() {
+        return new JobsDetailUiPresenter(this);
+    }
+
+    @Override
     protected int getContentView() {
         return R.layout.fragment_job_detail;
     }
@@ -73,6 +85,7 @@ public class JobDetailFragment extends BaseChildFragment {
 
         Bundle arguments = getArguments();
 
+        String jobId = arguments.getString(EXTRA_JOB_ID);
         String jobName = arguments.getString(EXTRA_JOB_NAME);
         String jobImage = arguments.getString(EXTRA_JOB_IMAGE_URL);
         String jobLocation = arguments.getString(EXTRA_JOB_LOCATION);
@@ -89,5 +102,12 @@ public class JobDetailFragment extends BaseChildFragment {
         mDescription.setText(jobDescription);
 
         ImageLoaderHelper.loadImage(getContext(), buildUrl(jobImage), mImageDetail);
+
+        getPresenter().getProjects(jobId);
+    }
+
+    @Override
+    public void onLoadRelatedProjects(List<ProjectVO> projectVOs) {
+        showToast("Size " + projectVOs.size());
     }
 }
