@@ -15,10 +15,11 @@ import android.widget.TextView;
 
 import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnListItemClickListener;
+import net.impacthub.members.model.pojo.ListItemType;
+import net.impacthub.members.model.pojo.SimpleItem;
 import net.impacthub.members.model.vo.groups.GroupVO;
 import net.impacthub.members.model.vo.members.MemberVO;
 import net.impacthub.members.model.vo.projects.ProjectVO;
-import net.impacthub.members.model.pojo.ListItem;
 import net.impacthub.members.navigator.Navigator;
 import net.impacthub.members.presenter.features.members.MemberDetailPresenter;
 import net.impacthub.members.presenter.features.members.MemberDetailUiContract;
@@ -243,20 +244,15 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
     }
 
     @Override
-    public void onLoadExtraInfo(List<ListItem<?>> infoList) {
+    public void onLoadExtraInfo(List<ListItemType> listItemTypes) {
         if (mPagerAdapter != null) {
             ViewBinder viewBinder = mPagerAdapter.getItemAt(0);
             if (viewBinder != null) {
 
-                ListItem<String> titleAbout = new ListItem<>(ListItem.TYPE_ONE);
-                titleAbout.setModel("About");
-                infoList.add(0, titleAbout);
+                listItemTypes.add(0, new SimpleItem<String>("About", 0));
+                listItemTypes.add(1, new SimpleItem<String>(getArguments().getString(EXTRA_MEMBER_ABOUT_ME), 1));
 
-                ListItem<String> descriptionAbout = new ListItem<>(ListItem.TYPE_TWO);
-                descriptionAbout.setModel(getArguments().getString(EXTRA_MEMBER_ABOUT_ME));
-                infoList.add(1, descriptionAbout);
-
-                viewBinder.bindView(infoList);
+                viewBinder.bindView(listItemTypes);
             }
         }
     }

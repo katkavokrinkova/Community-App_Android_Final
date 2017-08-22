@@ -11,18 +11,19 @@
 
 package net.impacthub.members.mapper.members;
 
+import net.impacthub.members.model.features.members.Affiliation;
+import net.impacthub.members.model.features.members.Affiliations;
+import net.impacthub.members.model.features.members.MembersResponse;
+import net.impacthub.members.model.features.members.Organisation;
+import net.impacthub.members.model.features.members.Records;
+import net.impacthub.members.model.features.members.Skill;
+import net.impacthub.members.model.features.members.Skills;
+import net.impacthub.members.model.pojo.ListItemType;
+import net.impacthub.members.model.pojo.SimpleItem;
 import net.impacthub.members.model.vo.groups.GroupVO;
 import net.impacthub.members.model.vo.members.MemberVO;
 import net.impacthub.members.model.vo.members.SkillsVO;
 import net.impacthub.members.model.vo.projects.ProjectVO;
-import net.impacthub.members.model.features.members.Affiliation;
-import net.impacthub.members.model.features.members.Affiliations;
-import net.impacthub.members.model.features.members.Organisation;
-import net.impacthub.members.model.features.members.Skill;
-import net.impacthub.members.model.features.members.Skills;
-import net.impacthub.members.model.features.members.MembersResponse;
-import net.impacthub.members.model.features.members.Records;
-import net.impacthub.members.model.pojo.ListItem;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -136,7 +137,8 @@ public class MembersMapper {
         return groupDTOList;
     }
 
-    public void appendSkills(List<ListItem<?>> infoList, Skills skills) {
+    public List<ListItemType> mapAsListItemType(Skills skills) {
+        List<ListItemType> itemTypes = new LinkedList<>();
         if (skills != null) {
             List<Skill> skillList = skills.getSkills();
             if (skillList != null) {
@@ -146,13 +148,11 @@ public class MembersMapper {
                         SkillsVO skillsDTO = new SkillsVO();
                         skillsDTO.mTitle = skill.getName();
                         skillsDTO.mDescription = skill.getSkillDescription();
-
-                        ListItem<SkillsVO> listItem = new ListItem<>(ListItem.TYPE_THREE);
-                        listItem.setModel(skillsDTO);
-                        infoList.add(listItem);
+                        itemTypes.add(new SimpleItem<SkillsVO>(skillsDTO, 2));
                     }
                 }
             }
         }
+        return itemTypes;
     }
 }

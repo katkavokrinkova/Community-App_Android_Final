@@ -15,14 +15,14 @@ import net.impacthub.members.mapper.chatter.ChatterMapper;
 import net.impacthub.members.mapper.jobs.JobsMapper;
 import net.impacthub.members.mapper.members.MembersMapper;
 import net.impacthub.members.mapper.objectives.ObjectivesMapper;
+import net.impacthub.members.model.features.chatterfeed.FeedElements;
+import net.impacthub.members.model.features.jobs.JobsResponse;
+import net.impacthub.members.model.features.members.MembersResponse;
+import net.impacthub.members.model.features.objectives.ObjectivesResponse;
+import net.impacthub.members.model.pojo.ListItemType;
 import net.impacthub.members.model.vo.chatter.ChatterVO;
 import net.impacthub.members.model.vo.jobs.JobVO;
 import net.impacthub.members.model.vo.members.MemberVO;
-import net.impacthub.members.model.features.chatterfeed.FeedElements;
-import net.impacthub.members.model.features.jobs.JobsResponse;
-import net.impacthub.members.model.features.objectives.ObjectivesResponse;
-import net.impacthub.members.model.features.members.MembersResponse;
-import net.impacthub.members.model.pojo.ListItem;
 import net.impacthub.members.presenter.base.UiPresenter;
 import net.impacthub.members.usecase.features.groups.ChatterFeedUseCase;
 import net.impacthub.members.usecase.features.members.GetMemberByUserIdUseCase;
@@ -32,7 +32,9 @@ import net.impacthub.members.usecase.features.projects.ProjectObjectivesUseCase;
 
 import java.util.List;
 
+import io.reactivex.Single;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableSingleObserver;
 
 /**
@@ -62,12 +64,19 @@ public class ProjectDetailUiPresenter extends UiPresenter<ProjectDetailUiContrac
             }
         });
 
-        subscribeWith(new ProjectObjectivesUseCase(projectId).getUseCase(), new DisposableSingleObserver<ObjectivesResponse>() {
+        Single<List<ListItemType>> listSingle = new ProjectObjectivesUseCase(projectId).getUseCase()
+                .map(new Function<ObjectivesResponse, List<ListItemType>>() {
+                    @Override
+                    public List<ListItemType> apply(@NonNull ObjectivesResponse objectivesResponse) throws Exception {
+                        return new ObjectivesMapper().mapAsListItem(objectivesResponse);
+                    }
+                });
+
+        subscribeWith(listSingle, new DisposableSingleObserver<List<ListItemType>>() {
+
             @Override
-            public void onSuccess(@NonNull ObjectivesResponse response) {
-//                List<ObjectiveVO> objectiveDTOs = new ObjectivesMapper().map(response);
-                List<ListItem<?>> infoList = new ObjectivesMapper().mapAsListItem(response);
-                getUi().onLoadObjectives(infoList);
+            public void onSuccess(@NonNull List<ListItemType> listItemTypes) {
+                getUi().onLoadObjectives(listItemTypes);
             }
 
             @Override

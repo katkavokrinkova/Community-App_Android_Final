@@ -18,8 +18,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import net.impacthub.members.R;
+import net.impacthub.members.model.pojo.ListItemType;
 import net.impacthub.members.model.vo.objectives.ObjectiveVO;
-import net.impacthub.members.model.pojo.ListItem;
 import net.impacthub.members.ui.base.BaseListAdapter;
 import net.impacthub.members.ui.common.RecyclerViewHolder;
 
@@ -29,7 +29,7 @@ import net.impacthub.members.ui.common.RecyclerViewHolder;
  * @date 8/16/2017.
  */
 
-class ProjectObjectivesListAdapter extends BaseListAdapter<RecyclerView.ViewHolder, ListItem<?>> {
+class ProjectObjectivesListAdapter extends BaseListAdapter<RecyclerView.ViewHolder, ListItemType> {
 
     ProjectObjectivesListAdapter(LayoutInflater inflater) {
         super(inflater);
@@ -44,7 +44,7 @@ class ProjectObjectivesListAdapter extends BaseListAdapter<RecyclerView.ViewHold
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder;
         switch (viewType) {
-            case ListItem.TYPE_ONE:
+            case 0:
                 viewHolder = new TitleViewHolder(getLayoutInflater().inflate(R.layout.item_layout_info_title, parent, false));
                 break;
             default:
@@ -55,14 +55,13 @@ class ProjectObjectivesListAdapter extends BaseListAdapter<RecyclerView.ViewHold
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        Object model = getItem(position).getModel();
         switch (getItemViewType(position)) {
-            case ListItem.TYPE_ONE:
-                ListItem<String> titleItem = (ListItem<String>) getItem(position);
-                ((TitleViewHolder) holder).bindViewsWith(titleItem.getModel());
+            case 0:
+                ((TitleViewHolder) holder).bindViewsWith((String) model);
                 break;
-            case ListItem.TYPE_TWO:
-                ListItem<ObjectiveVO> objectiveItem = (ListItem<ObjectiveVO>) getItem(position);
-                ((ObjectiveViewHolder) holder).bindViewsWith(objectiveItem.getModel());
+            case 1:
+                ((ObjectiveViewHolder) holder).bindViewsWith((ObjectiveVO) model);
                 break;
         }
     }

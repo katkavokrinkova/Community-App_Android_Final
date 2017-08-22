@@ -12,21 +12,22 @@
 package net.impacthub.members.presenter.features.members;
 
 import net.impacthub.members.mapper.members.MembersMapper;
-import net.impacthub.members.model.vo.groups.GroupVO;
-import net.impacthub.members.model.vo.projects.ProjectVO;
 import net.impacthub.members.model.features.members.Affiliations;
 import net.impacthub.members.model.features.members.Skills;
-import net.impacthub.members.model.pojo.ListItem;
+import net.impacthub.members.model.pojo.ListItemType;
+import net.impacthub.members.model.pojo.SimpleItem;
+import net.impacthub.members.model.vo.groups.GroupVO;
+import net.impacthub.members.model.vo.projects.ProjectVO;
 import net.impacthub.members.presenter.base.UiPresenter;
 import net.impacthub.members.usecase.base.UseCaseGenerator;
 import net.impacthub.members.usecase.features.members.AboutMemberUseCase;
 import net.impacthub.members.usecase.features.members.MemberSkillsUseCase;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import io.reactivex.Single;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableSingleObserver;
 
 /**
@@ -42,17 +43,20 @@ public class MemberDetailPresenter extends UiPresenter<MemberDetailUiContract> {
     }
 
     public void loadDetails(String memberId) {
-        UseCaseGenerator<Single<Skills>> mSkillsUseCase = new MemberSkillsUseCase(memberId);
-        subscribeWith(mSkillsUseCase.getUseCase(), new DisposableSingleObserver<Skills>() {
-            @Override
-            public void onSuccess(@NonNull Skills skills) {
-                List<ListItem<?>> infoList = new LinkedList<>();
+        Single<List<ListItemType>> listSingle = new MemberSkillsUseCase(memberId).getUseCase()
+                .map(new Function<Skills, List<ListItemType>>() {
+                    @Override
+                    public List<ListItemType> apply(@NonNull Skills skills) throws Exception {
+                        List<ListItemType> listItemTypes = new MembersMapper().mapAsListItemType(skills);
+                        listItemTypes.add(0, new SimpleItem<String>("My Skills", 0));
+                        return listItemTypes;
+                    }
+                });
+        subscribeWith(listSingle, new DisposableSingleObserver<List<ListItemType>>() {
 
-                ListItem<String> titleSkills = new ListItem<>(ListItem.TYPE_ONE);
-                titleSkills.setModel("My Skills");
-                infoList.add(titleSkills);
-                new MembersMapper().appendSkills(infoList, skills);
-                getUi().onLoadExtraInfo(infoList);
+            @Override
+            public void onSuccess(@NonNull List<ListItemType> listItemTypes) {
+                getUi().onLoadExtraInfo(listItemTypes);
             }
 
             @Override

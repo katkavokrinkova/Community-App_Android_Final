@@ -12,14 +12,15 @@
 package net.impacthub.members.ui.features.home.members.binders;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import net.impacthub.members.R;
+import net.impacthub.members.model.pojo.ListItemType;
 import net.impacthub.members.model.vo.members.SkillsVO;
-import net.impacthub.members.model.pojo.ListItem;
 import net.impacthub.members.ui.base.BaseListAdapter;
 import net.impacthub.members.ui.common.RecyclerViewHolder;
 
@@ -29,7 +30,7 @@ import net.impacthub.members.ui.common.RecyclerViewHolder;
  * @date 8/11/2017.
  */
 
-class MemberInfoListAdapter extends BaseListAdapter<RecyclerView.ViewHolder, ListItem<?>> {
+class MemberInfoListAdapter extends BaseListAdapter<RecyclerView.ViewHolder, ListItemType> {
 
     MemberInfoListAdapter(LayoutInflater inflater) {
         super(inflater);
@@ -44,10 +45,10 @@ class MemberInfoListAdapter extends BaseListAdapter<RecyclerView.ViewHolder, Lis
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder;
         switch (viewType) {
-            case ListItem.TYPE_ONE:
+            case 0:
                 viewHolder = new TitleViewHolder(getLayoutInflater().inflate(R.layout.item_layout_info_title, parent, false));
                 break;
-            case ListItem.TYPE_TWO:
+            case 1:
                 viewHolder = new AboutDescriptionViewHolder(getLayoutInflater().inflate(R.layout.layout_description_info, parent, false));
                 break;
             default:
@@ -58,18 +59,19 @@ class MemberInfoListAdapter extends BaseListAdapter<RecyclerView.ViewHolder, Lis
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        Object model = getItem(position).getModel();
         switch (getItemViewType(position)) {
-            case ListItem.TYPE_ONE:
-                ListItem<String> titleItem = (ListItem<String>) getItem(position);
-                ((TitleViewHolder) holder).bindViewsWith(titleItem.getModel());
+            case 0:
+                String titleItem = (String) model;
+                ((TitleViewHolder) holder).bindViewsWith(titleItem);
                 break;
-            case ListItem.TYPE_TWO:
-                ListItem<String> descriptionItem = (ListItem<String>) getItem(position);
-                ((AboutDescriptionViewHolder) holder).bindViewsWith(descriptionItem.getModel());
+            case 1:
+                String descriptionItem = (String) model;
+                ((AboutDescriptionViewHolder) holder).bindViewsWith(descriptionItem);
                 break;
-            case ListItem.TYPE_THREE:
-                ListItem<SkillsVO> skillItems = (ListItem<SkillsVO>) getItem(position);
-                ((SkillDetailViewHolder) holder).bindViewsWith(skillItems.getModel());
+            case 2:
+                SkillsVO skillItem = (SkillsVO) model;
+                ((SkillDetailViewHolder) holder).bindViewsWith(skillItem);
                 break;
         }
     }
@@ -96,11 +98,13 @@ class MemberInfoListAdapter extends BaseListAdapter<RecyclerView.ViewHolder, Lis
         AboutDescriptionViewHolder(View itemView) {
             super(itemView);
             description = (TextView) itemView.findViewById(R.id.text_description);
+            int padding = itemView.getResources().getDimensionPixelOffset(R.dimen.default_content_large_gap);
+            description.setPadding(padding, padding, padding, padding);
         }
 
         @Override
         protected void bindViewsWith(String itemData) {
-            description.setText(itemData);
+            description.setText(Html.fromHtml(itemData));
         }
     }
 

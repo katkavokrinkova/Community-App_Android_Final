@@ -18,7 +18,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import net.impacthub.members.R;
-import net.impacthub.members.model.pojo.ListItem;
+import net.impacthub.members.model.pojo.ListItemType;
 import net.impacthub.members.ui.binder.ViewBinder;
 
 import java.util.List;
@@ -29,7 +29,7 @@ import java.util.List;
  * @date 8/10/2017.
  */
 
-public class AboutViewBinder implements ViewBinder<List<ListItem<?>>> {
+public class AboutViewBinder implements ViewBinder<List<ListItemType>> {
 
     private MemberInfoListAdapter mAdapter;
 
@@ -44,7 +44,7 @@ public class AboutViewBinder implements ViewBinder<List<ListItem<?>>> {
     }
 
     @Override
-    public void bindView(List<ListItem<?>> model) {
+    public void bindView(List<ListItemType> model) {
         mAdapter.setItems(model);
     }
 }

@@ -11,9 +11,9 @@
 
 package net.impacthub.members.presenter.features.members;
 
+import net.impacthub.members.model.pojo.ListItemType;
 import net.impacthub.members.model.vo.groups.GroupVO;
 import net.impacthub.members.model.vo.projects.ProjectVO;
-import net.impacthub.members.model.pojo.ListItem;
 import net.impacthub.members.presenter.features.error.ErrorHandlerUiContract;
 
 import java.util.List;
@@ -30,5 +30,5 @@ public interface MemberDetailUiContract extends ErrorHandlerUiContract {
 
     void onLoadGroups(List<GroupVO> groupDTOs);
 
-    void onLoadExtraInfo(List<ListItem<?>> infoList);
+    void onLoadExtraInfo(List<ListItemType> listItemTypes);
 }

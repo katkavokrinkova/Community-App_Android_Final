@@ -18,7 +18,7 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import net.impacthub.members.R;
-import net.impacthub.members.model.pojo.ListItem;
+import net.impacthub.members.model.pojo.ListItemType;
 import net.impacthub.members.ui.base.BaseChildFragment;
 import net.impacthub.members.ui.binder.ViewBinder;
 import net.impacthub.members.ui.common.AppPagerAdapter;
@@ -42,9 +42,9 @@ public class ContactsFragment extends BaseChildFragment {
     @BindView(R.id.tabs) protected TabLayout mContactsTab;
     @BindView(R.id.pager) protected ViewPager mContactPages;
 
-    private ViewBinder<List<ListItem<?>>> mViewBinder1;
-    private ViewBinder<List<ListItem<?>>> mViewBinder2;
-    private ViewBinder<List<ListItem<?>>> mViewBinder3;
+    private ViewBinder<List<ListItemType>> mViewBinder1;
+    private ViewBinder<List<ListItemType>> mViewBinder2;
+    private ViewBinder<List<ListItemType>> mViewBinder3;
 
     public static ContactsFragment newInstance() {
 

@@ -13,9 +13,13 @@ package net.impacthub.members.ui.features.home.jobs;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnListItemClickListener;
@@ -28,12 +32,14 @@ import net.impacthub.members.presenter.features.jobs.JobsDetailUiContract;
 import net.impacthub.members.presenter.features.jobs.JobsDetailUiPresenter;
 import net.impacthub.members.ui.base.BaseChildFragment;
 import net.impacthub.members.ui.common.ImageLoaderHelper;
+import net.impacthub.members.ui.common.RecyclerViewScrollListener;
 import net.impacthub.members.ui.features.home.projects.ProjectDetailFragment;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * @author Filippo Ash
@@ -53,6 +59,7 @@ public class JobDetailFragment extends BaseChildFragment<JobsDetailUiPresenter> 
 
     @BindView(R.id.image_detail) protected ImageView mImageDetail;
     @BindView(R.id.list_items) protected RecyclerView mJobDetailList;
+    @BindView(R.id.done) protected TextView mApplyButton;
 
     private JobDetailListAdapter mAdapter;
 
@@ -83,6 +90,11 @@ public class JobDetailFragment extends BaseChildFragment<JobsDetailUiPresenter> 
         return R.layout.fragment_detail_job;
     }
 
+    @OnClick(R.id.done)
+    protected void onApplyClicked() {
+        showToast("Applying for job");
+    }
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -99,6 +111,7 @@ public class JobDetailFragment extends BaseChildFragment<JobsDetailUiPresenter> 
         String jobDescription = arguments.getString(EXTRA_JOB_MEMBER_DESCRIPTION);
 
         setUpToolbar(jobName);
+        mApplyButton.setText("Apply for this job");
 
         List<ListItemType> listItemTypes = new LinkedList<>();
         listItemTypes.add(new SimpleItem<String>("JOBS DESCRIPTION", 0));
@@ -116,6 +129,19 @@ public class JobDetailFragment extends BaseChildFragment<JobsDetailUiPresenter> 
         mAdapter.setItems(listItemTypes);
 
         mJobDetailList.setHasFixedSize(true);
+        mJobDetailList.addOnScrollListener(new RecyclerViewScrollListener() {
+            @Override
+            public void onHide() {
+                CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) mApplyButton.getLayoutParams();
+                int fabBottomMargin = lp.bottomMargin;
+                mApplyButton.animate().translationY(mApplyButton.getHeight() + fabBottomMargin).setInterpolator(new AccelerateInterpolator(2)).start();
+            }
+
+            @Override
+            public void onShow() {
+                mApplyButton.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
+            }
+        });
         mJobDetailList.setAdapter(mAdapter);
 
         ImageLoaderHelper.loadImage(getContext(), buildUrl(jobImage), mImageDetail);

@@ -24,11 +24,12 @@ import android.widget.TextView;
 import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnChatterFeedItemClickListener;
 import net.impacthub.members.model.callback.OnListItemClickListener;
+import net.impacthub.members.model.pojo.ListItemType;
+import net.impacthub.members.model.pojo.SimpleItem;
 import net.impacthub.members.model.vo.chatter.ChatterVO;
 import net.impacthub.members.model.vo.jobs.JobVO;
 import net.impacthub.members.model.vo.members.MemberVO;
 import net.impacthub.members.model.vo.projects.ProjectVO;
-import net.impacthub.members.model.pojo.ListItem;
 import net.impacthub.members.presenter.features.projects.ProjectDetailUiContract;
 import net.impacthub.members.presenter.features.projects.ProjectDetailUiPresenter;
 import net.impacthub.members.ui.base.BaseChildFragment;
@@ -69,12 +70,10 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
     @BindView(R.id.tabs) protected TabLayout mProjectTab;
     @BindView(R.id.pager) protected ViewPager mProjectPages;
 
-    private ViewBinder<List<ListItem<?>>> mViewBinder2;
+    private ViewBinder<List<ListItemType>> mViewBinder2;
     private ViewBinder<List<MemberVO>> mViewBinder3;
     private ViewBinder<List<JobVO>> mViewBinder4;
     private ViewBinder<List<ChatterVO>> mViewBinder1;
-
-    private AppPagerAdapter mPagerAdapter;
 
     public static ProjectDetailFragment newInstance(ProjectVO projectDTO) {
 
@@ -132,7 +131,7 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
 
         ImageLoaderHelper.loadImage(getContext(), buildUrl(projectImageURL), mImageDetail);
 
-        mPagerAdapter = new AppPagerAdapter(getContext());
+        AppPagerAdapter adapter = new AppPagerAdapter(getContext());
 
         mViewBinder1 = new ChatterViewBinder(this);
         mViewBinder2 = new ObjectivesViewBinder();
@@ -150,13 +149,13 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
             }
         });
 
-        mPagerAdapter.addVieBinder(mViewBinder1);
-        mPagerAdapter.addVieBinder(mViewBinder2);
-        mPagerAdapter.addVieBinder(mViewBinder3);
-        mPagerAdapter.addVieBinder(mViewBinder4);
+        adapter.addVieBinder(mViewBinder1);
+        adapter.addVieBinder(mViewBinder2);
+        adapter.addVieBinder(mViewBinder3);
+        adapter.addVieBinder(mViewBinder4);
 
-        mProjectPages.setAdapter(mPagerAdapter);
-        mProjectPages.setOffscreenPageLimit(mPagerAdapter.getCount());
+        mProjectPages.setAdapter(adapter);
+        mProjectPages.setOffscreenPageLimit(adapter.getCount());
 
         mProjectTab.setupWithViewPager(mProjectPages);
 
@@ -181,13 +180,9 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
     }
 
     @Override
-    public void onLoadObjectives(List<ListItem<?>> infoList) {
-
-        ListItem<String> titleObjective = new ListItem<>(ListItem.TYPE_ONE);
-        titleObjective.setModel("GOALS");
-        infoList.add(0, titleObjective);
-
-        mViewBinder2.bindView(infoList);
+    public void onLoadObjectives(List<ListItemType> listItemTypes) {
+        listItemTypes.add(0, new SimpleItem<String>("GOALS", 0));
+        mViewBinder2.bindView(listItemTypes);
     }
 
     @Override

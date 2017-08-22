@@ -11,10 +11,11 @@
 
 package net.impacthub.members.mapper.objectives;
 
-import net.impacthub.members.model.vo.objectives.ObjectiveVO;
 import net.impacthub.members.model.features.objectives.ObjectivesResponse;
 import net.impacthub.members.model.features.objectives.Records;
-import net.impacthub.members.model.pojo.ListItem;
+import net.impacthub.members.model.pojo.ListItemType;
+import net.impacthub.members.model.pojo.SimpleItem;
+import net.impacthub.members.model.vo.objectives.ObjectiveVO;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -43,8 +44,8 @@ public class ObjectivesMapper {
         return objectiveDTOs;
     }
 
-    public List<ListItem<?>> mapAsListItem(ObjectivesResponse response) {
-        List<ListItem<?>> infoList = new LinkedList<>();
+    public List<ListItemType> mapAsListItem(ObjectivesResponse response) {
+        List<ListItemType> listItems = new LinkedList<>();
         if (response != null) {
             Records[] records = response.getRecords();
             if (records != null) {
@@ -57,14 +58,11 @@ public class ObjectivesMapper {
                         objectiveDTO.mSummary = record.getGoal_Summary__c();
                         objectiveDTO.mCount = (i+ 1);
                         objectiveDTO.mHideLastTimeLine = ((i+1) == length);
-
-                        ListItem<Object> listItem = new ListItem<>(ListItem.TYPE_TWO);
-                        listItem.setModel(objectiveDTO);
-                        infoList.add(listItem);
+                        listItems.add(new SimpleItem<ObjectiveVO>(objectiveDTO, 1));
                     }
                 }
             }
         }
-        return infoList;
+        return listItems;
     }
 }
