@@ -13,12 +13,11 @@ package net.impacthub.members.usecase.provider;
 
 import android.support.annotation.NonNull;
 
-import com.google.gson.GsonBuilder;
 import com.salesforce.androidsdk.rest.ApiVersionStrings;
 import com.salesforce.androidsdk.rest.RestRequest;
 
 import net.impacthub.members.application.salesforce.RestRequestFactory;
-import net.impacthub.members.model.features.conversations.OutgoingMessage;
+import net.impacthub.members.model.features.messages.OutgoingMessage;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -200,7 +199,7 @@ public class SoqlRequestFactory {
         return mRestRequestFactory.getForQuery(String.format(DIRECT_MESSAG_REQUEST_QUERY, contactId, contactId));
     }
 
-    public RestRequest createConversationsRequest(String communityId) {
+    public RestRequest createMessageRequest(String communityId) {
         return new RestRequest(RestRequest.RestMethod.GET,
                 getPath(communityId, "users/me/", "conversations"));
     }

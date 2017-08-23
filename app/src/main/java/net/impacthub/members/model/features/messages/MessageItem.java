@@ -11,6 +11,8 @@
 
 package net.impacthub.members.model.features.messages;
 
+import java.util.Date;
+
 public class MessageItem {
 
     private String senderId;
@@ -18,7 +20,7 @@ public class MessageItem {
     private String senderName;
     private String message;
     private boolean isMessageRichText;
-    private String sendDate;
+    private Date sendDate;
     private MessageType messageType;
 
     private MessageItem(Builder builder) {
@@ -37,7 +39,7 @@ public class MessageItem {
         private String senderName;
         private String message;
         private boolean isMessageRichText;
-        private String sendDate;
+        private Date sendDate;
         private MessageType messageType;
 
         public Builder() {
@@ -68,7 +70,7 @@ public class MessageItem {
             return this;
         }
 
-        public Builder sentDate(String sendDate) {
+        public Builder sentDate(Date sendDate) {
             this.sendDate = sendDate;
             return this;
         }
@@ -103,7 +105,7 @@ public class MessageItem {
         return isMessageRichText;
     }
 
-    public String getSendDate() {
+    public Date getSendDate() {
         return sendDate;
     }
 

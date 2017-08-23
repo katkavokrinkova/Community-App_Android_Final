@@ -15,15 +15,13 @@ package net.impacthub.members.model.features.conversations;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
+public class ReadSet {
 
-public class Conversations {
-
-    @SerializedName("conversations")
+    @SerializedName("read")
     @Expose
-    private List<Conversation> conversations = null;
+    private Boolean read;
 
-    public List<Conversation> getConversations() {
-        return conversations;
+    public Boolean getRead() {
+        return read;
     }
 }

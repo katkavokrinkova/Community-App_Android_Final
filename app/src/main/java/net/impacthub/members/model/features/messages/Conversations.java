@@ -12,18 +12,36 @@
 
 package net.impacthub.members.model.features.messages;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
-import java.util.List;
-
 public class Conversations {
 
-    @SerializedName("conversations")
-    @Expose
-    private List<Conversation> conversations = null;
+    private String id;
+    private LatestMessage latestMessage;
+    private Boolean read;
+    private String url;
+    private Members[] members;
 
-    public List<Conversation> getConversations() {
-        return conversations;
+    public String getId() {
+        return id;
+    }
+
+    public LatestMessage getLatestMessage() {
+        return latestMessage;
+    }
+
+    public Boolean  getRead() {
+        return read;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public Members[] getMembers() {
+        return members;
+    }
+
+    @Override
+    public String toString() {
+        return "Conversations [id = " + id + ", latestMessage = " + latestMessage + ", read = " + read + ", url = " + url + ", members = " + members + "]";
     }
 }

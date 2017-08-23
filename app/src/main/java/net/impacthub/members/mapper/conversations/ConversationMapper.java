@@ -11,67 +11,67 @@
 
 package net.impacthub.members.mapper.conversations;
 
-import net.impacthub.members.model.vo.conversations.ConversationVO;
-import net.impacthub.members.model.features.conversations.Body;
-import net.impacthub.members.model.features.conversations.Conversations;
-import net.impacthub.members.model.features.conversations.ConversationsResponse;
-import net.impacthub.members.model.features.conversations.LatestMessage;
-import net.impacthub.members.model.features.conversations.Photo;
-import net.impacthub.members.model.features.conversations.Recipients;
+import net.impacthub.members.model.features.conversations.ConversationMessages;
+import net.impacthub.members.model.features.conversations.Member;
+import net.impacthub.members.model.features.conversations.Message;
+import net.impacthub.members.model.features.conversations.MessageItem;
+import net.impacthub.members.model.features.conversations.ProcessedMessages;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
 /**
  * @author Filippo Ash
  * @version 1.0
- * @date 8/9/2017.
+ * @date 8/18/2017.
  */
 
 public class ConversationMapper {
 
-    public List<ConversationVO> map(ConversationsResponse response, String userId) {
-        List<ConversationVO> conversationDTOs = new LinkedList<>();
-        if (response != null) {
-            Conversations[] conversations = response.getConversations();
-            if (conversations != null) {
-                for (Conversations conversation : conversations) {
-                    if (conversation != null) {
-                        ConversationVO conversationDTO = new ConversationVO();
-                        conversationDTO.mConversationId = conversation.getId();
-                        Boolean read = Boolean.valueOf(conversation.getRead());
-                        conversationDTO.mIsRead = read != null ? read : true;
-                        LatestMessage latestMessage = conversation.getLatestMessage();
-                        if (latestMessage != null) {
-                            conversationDTO.mDate = latestMessage.getSentDate();
-                            Body body = latestMessage.getBody();
-                            if (body != null) {
-                                conversationDTO.mText = body.getText();
-                            }
-                            Recipients[] recipients = latestMessage.getRecipients();
-                            if (recipients != null) {
-                                for (int i = 0; i < recipients.length; i++) {
-                                    Recipients recipient = recipients[i];
-                                    if (recipient != null) {
-                                        String recipientId = recipient.getId();
-                                        if (recipientId != null && !recipientId.equals(userId)) {
-                                            conversationDTO.mDisplayName = recipient.getDisplayName();
-                                            conversationDTO.mRecipientUserId = recipientId;
-                                            Photo photo = recipient.getPhoto();
-                                            if (photo != null) {
-                                                conversationDTO.mImageURL = photo.getSmallPhotoUrl();
-                                            }
-                                            break;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        conversationDTOs.add(conversationDTO);
-                    }
-                }
+    private final ConversationTypeEvaluator mMessageTypeEvaluator = new ConversationTypeEvaluator();
+
+    public ProcessedMessages map(ConversationMessages conversationMessages, String userId) {
+        return new ProcessedMessages.Builder()
+                .messages(mapMessages(conversationMessages, userId))
+                .recipients(mapRecipientIds(conversationMessages, userId))
+                .inReplyTo(conversationMessages.getMessages().getMessages().get(0).getId())
+                .build();
+    }
+
+    private List<String> mapRecipientIds(ConversationMessages conversationMessages, String userId) {
+        HashSet<String> idSet = new HashSet<>();
+        List<Member> members = conversationMessages.getMembers();
+        if (members != null) {
+            for (Member member : members) {
+                idSet.add(member.getId());
             }
         }
-        return conversationDTOs;
+        idSet.remove(userId);
+        return new LinkedList<>(idSet);
+    }
+
+    private List<MessageItem> mapMessages(ConversationMessages conversationMessages, String userId) {
+        List<MessageItem> messageItems = new LinkedList<>();
+        List<Message> messages = conversationMessages.getMessages().getMessages();
+        for (Message message : messages) {
+            messageItems.add(getMessageItemFrom(message, userId));
+        }
+        mMessageTypeEvaluator.setPreviousItem(null);
+        return messageItems;
+    }
+
+    private MessageItem getMessageItemFrom(Message message, String userId) {
+        MessageItem messageItem = new MessageItem.Builder()
+                .senderId(message.getSender().getId())
+                .message(message.getBody().getText())
+                .isMessageRichText(message.getBody().isRichText())
+                .senderName(message.getSender().getName())
+                .senderImageUrl(message.getSender().getPhoto().getSmallPhotoUrl())
+                .sentDate(message.getSentDate())
+                .messageType(mMessageTypeEvaluator.evaluateMessageTypeFrom(message, userId))
+                .build();
+        mMessageTypeEvaluator.setPreviousItem(messageItem);
+        return messageItem;
     }
 }

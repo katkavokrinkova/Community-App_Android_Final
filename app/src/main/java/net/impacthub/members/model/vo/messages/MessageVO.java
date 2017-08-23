@@ -1,4 +1,3 @@
-
 /*
  * Copyright (c) 2017 Lightful. All Rights Reserved.
  *
@@ -10,20 +9,21 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.model.features.conversations;
+package net.impacthub.members.model.vo.messages;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+/**
+ * @author Filippo Ash
+ * @version 1.0
+ * @date 8/9/2017.
+ */
 
-import java.util.List;
+public class MessageVO {
 
-public class Conversations {
-
-    @SerializedName("conversations")
-    @Expose
-    private List<Conversation> conversations = null;
-
-    public List<Conversation> getConversations() {
-        return conversations;
-    }
+    public String mConversationId;
+    public String mDisplayName;
+    public String mRecipientUserId;
+    public String mImageURL;
+    public String mText;
+    public String mDate;
+    public Boolean mIsRead;
 }

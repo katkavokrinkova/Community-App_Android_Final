@@ -1,4 +1,3 @@
-
 /*
  * Copyright (c) 2017 Lightful. All Rights Reserved.
  *
@@ -12,26 +11,20 @@
 
 package net.impacthub.members.model.features.messages;
 
-public class Body {
+/**
+ * @author Filippo Ash
+ * @version 1.0
+ * @date 8/9/2017.
+ */
 
-    private String text;
-    private String[] messageSegments;
-    private boolean isRichText;
+public class ReputationLevel {
 
-    public String getText() {
-        return text;
-    }
-
-    public String[] getMessageSegments() {
-        return messageSegments;
-    }
-
-    public boolean isRichText() {
-        return isRichText;
-    }
+    private String levelImageUrl;
+    private String levelNumber;
+    private String levelName;
 
     @Override
     public String toString() {
-        return "Body [text = " + text + ", messageSegments = " + messageSegments + ", isRichText = " + isRichText + "]";
+        return "ReputationLevel [levelImageUrl = " + levelImageUrl + ", levelNumber = " + levelNumber + ", levelName = " + levelName + "]";
     }
 }

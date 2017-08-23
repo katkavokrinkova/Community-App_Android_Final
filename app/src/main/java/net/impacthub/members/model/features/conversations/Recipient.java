@@ -12,12 +12,11 @@
 
 package net.impacthub.members.model.features.conversations;
 
+import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
-public class Sender {
+public class Recipient {
 
     @SerializedName("additionalLabel")
     @Expose
@@ -57,7 +56,7 @@ public class Sender {
     private List<Object> stamps = null;
     @SerializedName("title")
     @Expose
-    private Object title;
+    private String title;
     @SerializedName("type")
     @Expose
     private String type;
@@ -161,11 +160,11 @@ public class Sender {
         this.stamps = stamps;
     }
 
-    public Object getTitle() {
+    public String getTitle() {
         return title;
     }
 
-    public void setTitle(Object title) {
+    public void setTitle(String title) {
         this.title = title;
     }
 

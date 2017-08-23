@@ -1,4 +1,3 @@
-
 /*
  * Copyright (c) 2017 Lightful. All Rights Reserved.
  *
@@ -12,7 +11,13 @@
 
 package net.impacthub.members.model.features.messages;
 
-public class Sender {
+/**
+ * @author Filippo Ash
+ * @version 1.0
+ * @date 8/9/2017.
+ */
+
+public class Recipients {
 
     private String lastName;
     private String additionalLabel;
@@ -112,6 +117,6 @@ public class Sender {
 
     @Override
     public String toString() {
-        return "Sender [lastName = " + lastName + ", additionalLabel = " + additionalLabel + ", isInThisCommunity = " + isInThisCommunity + ", communityNickname = " + communityNickname + ", type = " + type + ", companyName = " + companyName + ", photo = " + photo + ", url = " + url + ", motif = " + motif + ", userType = " + userType + ", id = " + id + ", isActive = " + isActive + ", title = " + title + ", reputation = " + reputation + ", name = " + name + ", stamps = " + stamps + ", displayName = " + displayName + ", firstName = " + firstName + ", mySubscription = " + mySubscription + "]";
+        return "Recipients [lastName = " + lastName + ", additionalLabel = " + additionalLabel + ", isInThisCommunity = " + isInThisCommunity + ", communityNickname = " + communityNickname + ", type = " + type + ", companyName = " + companyName + ", photo = " + photo + ", url = " + url + ", motif = " + motif + ", userType = " + userType + ", id = " + id + ", isActive = " + isActive + ", title = " + title + ", reputation = " + reputation + ", name = " + name + ", stamps = " + stamps + ", displayName = " + displayName + ", firstName = " + firstName + ", mySubscription = " + mySubscription + "]";
     }
 }

@@ -12,26 +12,23 @@
 
 package net.impacthub.members.model.features.conversations;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class Body {
 
-    private String text;
-    private String[] messageSegments;
+    @SerializedName("isRichText")
+    @Expose
     private boolean isRichText;
-
-    public String getText() {
-        return text;
-    }
-
-    public String[] getMessageSegments() {
-        return messageSegments;
-    }
+    @SerializedName("text")
+    @Expose
+    private String text;
 
     public boolean isRichText() {
         return isRichText;
     }
 
-    @Override
-    public String toString() {
-        return "Body [text = " + text + ", messageSegments = " + messageSegments + ", isRichText = " + isRichText + "]";
+    public String getText() {
+        return text;
     }
 }

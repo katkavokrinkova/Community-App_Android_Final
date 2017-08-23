@@ -3,7 +3,7 @@ package net.impacthub.members.ui.controllers.conversations;
 import android.support.v4.app.Fragment;
 
 import net.impacthub.members.ui.base.BaseControllerFragment;
-import net.impacthub.members.ui.features.conversation.ConversationsFragment;
+import net.impacthub.members.ui.features.messages.MessagesFragment;
 
 /**
  * @author Filippo Ash
@@ -14,6 +14,6 @@ import net.impacthub.members.ui.features.conversation.ConversationsFragment;
 public class ConversationControllerFragment extends BaseControllerFragment {
     @Override
     protected Fragment createFragment() {
-        return ConversationsFragment.newInstance();
+        return MessagesFragment.newInstance();
     }
 }

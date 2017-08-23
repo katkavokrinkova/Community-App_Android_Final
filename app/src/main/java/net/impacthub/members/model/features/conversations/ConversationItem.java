@@ -11,40 +11,47 @@
 
 package net.impacthub.members.model.features.conversations;
 
-public class MessageItem {
+import java.util.Date;
 
-    private String senderId;
+public class ConversationItem {
+
+    private String id;
+    private boolean read;
     private String senderImageUrl;
     private String senderName;
     private String message;
     private boolean isMessageRichText;
-    private String sendDate;
-    private MessageType messageType;
+    private Date sendDate;
 
-    private MessageItem(Builder builder) {
-        senderId = builder.senderId;
+    private ConversationItem(Builder builder) {
+        id = builder.id;
+        read = builder.read;
         senderImageUrl = builder.senderImageUrl;
         senderName = builder.senderName;
         message = builder.message;
         isMessageRichText = builder.isMessageRichText;
         sendDate = builder.sendDate;
-        messageType = builder.messageType;
     }
 
     public static final class Builder {
-        private String senderId;
+        private String id;
+        private boolean read;
         private String senderImageUrl;
         private String senderName;
         private String message;
         private boolean isMessageRichText;
-        private String sendDate;
-        private MessageType messageType;
+        private Date sendDate;
 
         public Builder() {
         }
 
-        public Builder senderId(String senderId) {
-            this.senderId = senderId;
+        public Builder id(String id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder read(boolean read) {
+            this.read = read;
             return this;
         }
 
@@ -68,23 +75,22 @@ public class MessageItem {
             return this;
         }
 
-        public Builder sentDate(String sendDate) {
+        public Builder sendDate(Date sendDate) {
             this.sendDate = sendDate;
             return this;
         }
 
-        public Builder messageType(MessageType messageType) {
-            this.messageType = messageType;
-            return this;
-        }
-
-        public MessageItem build() {
-            return new MessageItem(this);
+        public ConversationItem build() {
+            return new ConversationItem(this);
         }
     }
 
-    public String getSenderId() {
-        return senderId;
+    public String getId() {
+        return id;
+    }
+
+    public boolean isRead() {
+        return read;
     }
 
     public String getSenderImageUrl() {
@@ -103,15 +109,7 @@ public class MessageItem {
         return isMessageRichText;
     }
 
-    public String getSendDate() {
+    public Date getSendDate() {
         return sendDate;
-    }
-
-    public MessageType getMessageType() {
-        return messageType;
-    }
-
-    public void setMessageType(MessageType messageType) {
-        this.messageType = messageType;
     }
 }

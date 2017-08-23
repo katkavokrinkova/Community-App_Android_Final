@@ -12,25 +12,15 @@
 
 package net.impacthub.members.model.features.messages;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
 public class Photo {
 
-    @SerializedName("mediumPhotoUrl")
-    @Expose
-    private String mediumPhotoUrl;
-    @SerializedName("photoVersionId")
-    @Expose
-    private String photoVersionId;
-    @SerializedName("smallPhotoUrl")
-    @Expose
+    private String fullEmailPhotoUrl;
+    private String largePhotoUrl;
     private String smallPhotoUrl;
-    @SerializedName("standardEmailPhotoUrl")
-    @Expose
     private String standardEmailPhotoUrl;
-    @SerializedName("url")
-    @Expose
+    private String photoVersionId;
+    private String mediumPhotoUrl;
+
     private String url;
 
     public String getMediumPhotoUrl() {
@@ -51,5 +41,10 @@ public class Photo {
 
     public String getUrl() {
         return url;
+    }
+
+    @Override
+    public String toString() {
+        return "Photo [fullEmailPhotoUrl = " + fullEmailPhotoUrl + ", largePhotoUrl = " + largePhotoUrl + ", smallPhotoUrl = " + smallPhotoUrl + ", standardEmailPhotoUrl = " + standardEmailPhotoUrl + ", photoVersionId = " + photoVersionId + ", mediumPhotoUrl = " + mediumPhotoUrl + ", url = " + url + "]";
     }
 }

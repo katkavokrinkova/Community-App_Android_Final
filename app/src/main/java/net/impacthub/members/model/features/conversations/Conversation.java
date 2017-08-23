@@ -15,38 +15,44 @@ package net.impacthub.members.model.features.conversations;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Photo {
+import java.util.List;
 
-    @SerializedName("mediumPhotoUrl")
+public class Conversation {
+
+    @SerializedName("id")
     @Expose
-    private String mediumPhotoUrl;
-    @SerializedName("photoVersionId")
+    private String id;
+    @SerializedName("latestMessage")
     @Expose
-    private String photoVersionId;
-    @SerializedName("smallPhotoUrl")
+    private Message latestMessage;
+    @SerializedName("members")
     @Expose
-    private String smallPhotoUrl;
-    @SerializedName("standardEmailPhotoUrl")
+    private List<Member> members = null;
+    @SerializedName("read")
     @Expose
-    private String standardEmailPhotoUrl;
+    private boolean read;
     @SerializedName("url")
     @Expose
     private String url;
 
-    public String getMediumPhotoUrl() {
-        return mediumPhotoUrl;
+    public String getId() {
+        return id;
     }
 
-    public String getPhotoVersionId() {
-        return photoVersionId;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getSmallPhotoUrl() {
-        return smallPhotoUrl;
+    public Message getLatestMessage() {
+        return latestMessage;
     }
 
-    public String getStandardEmailPhotoUrl() {
-        return standardEmailPhotoUrl;
+    public List<Member> getMembers() {
+        return members;
+    }
+
+    public boolean isRead() {
+        return read;
     }
 
     public String getUrl() {
