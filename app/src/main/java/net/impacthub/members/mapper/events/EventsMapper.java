@@ -43,7 +43,14 @@ public class EventsMapper {
                         eventDTO.mName = record.getName();
                         eventDTO.mImageURL = record.getEvent_Image_URL__c();
                         eventDTO.mDescription = record.getEvent_Description__c();
-                        eventDTO.mLocation = record.getEvent_City__c();
+                        eventDTO.mCity = record.getEvent_City__c();
+                        eventDTO.mCountry = record.getEvent_Country__c();
+                        eventDTO.mStreet = record.getEvent_Street__c();
+                        eventDTO.mZipCode = record.getEvent_ZipCode__c();
+                        eventDTO.mRegisteredLink = record.getEvent_RegisterLink__c();
+                        eventDTO.mType = record.getEvent_Type__c();
+                        eventDTO.mSubType = record.getEvent_SubType__c();
+                        eventDTO.mVisibilityPrice = record.getEvent_Visibility__c();
 
                         try {
                             DateFormat dateFormat = new SimpleDateFormat(DateUtils.ISO_8601_FORMAT);

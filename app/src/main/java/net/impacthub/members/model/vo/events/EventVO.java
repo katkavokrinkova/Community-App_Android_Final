@@ -22,8 +22,15 @@ public class EventVO {
     public String mImageURL;
     public String mName;
     public String mDescription;
-    public String mLocation;
+    public String mCity;
     public String mDate;
     public String mTime;
     public String mOrganizerName;
+    public String mRegisteredLink;
+    public String mType;
+    public String mSubType;
+    public String mVisibilityPrice;
+    public String mZipCode;
+    public String mStreet;
+    public String mCountry;
 }

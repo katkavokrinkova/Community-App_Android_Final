@@ -128,7 +128,7 @@ public class JobDetailListAdapter extends BaseListAdapter<RecyclerView.ViewHolde
 
         DescriptionViewHolder(View itemView) {
             super(itemView);
-            description = (TextView) itemView.findViewById(R.id.text_description);
+            description = (TextView) itemView.findViewById(R.id.text_event_description);
         }
 
         @Override

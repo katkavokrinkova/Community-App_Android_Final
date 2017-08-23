@@ -97,7 +97,7 @@ class MemberInfoListAdapter extends BaseListAdapter<RecyclerView.ViewHolder, Lis
 
         AboutDescriptionViewHolder(View itemView) {
             super(itemView);
-            description = (TextView) itemView.findViewById(R.id.text_description);
+            description = (TextView) itemView.findViewById(R.id.text_event_description);
             int padding = itemView.getResources().getDimensionPixelOffset(R.dimen.default_content_large_gap);
             description.setPadding(padding, padding, padding, padding);
         }
@@ -116,7 +116,7 @@ class MemberInfoListAdapter extends BaseListAdapter<RecyclerView.ViewHolder, Lis
         SkillDetailViewHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.text_info_title);
-            description = (TextView) itemView.findViewById(R.id.text_description);
+            description = (TextView) itemView.findViewById(R.id.text_event_description);
         }
 
         @Override

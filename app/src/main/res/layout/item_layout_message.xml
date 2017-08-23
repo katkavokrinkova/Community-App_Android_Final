@@ -66,7 +66,7 @@
                 tools:text="Lorem Ipsum sed maiora at optimus…." />
 
             <net.impacthub.members.ui.widgets.TypefaceTextView
-                android:id="@+id/text_date"
+                android:id="@+id/text_event_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/item_text_top_margin"

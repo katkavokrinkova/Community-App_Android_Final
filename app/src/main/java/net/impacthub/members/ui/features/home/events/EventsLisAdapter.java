@@ -69,7 +69,7 @@ public class EventsLisAdapter extends BaseListAdapter<EventsLisAdapter.EventView
             Context context = eventImage.getContext();
             eventTitle.setText(itemData.mName);
             eventDate.setText(itemData.mDate);
-            eventCity.setText(itemData.mLocation);
+            eventCity.setText(itemData.mCity);
             eventTime.setText(itemData.mTime);
             ImageLoaderHelper.loadImage(context, buildUrl(itemData.mImageURL), eventImage);
         }

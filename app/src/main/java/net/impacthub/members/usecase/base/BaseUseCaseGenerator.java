@@ -11,6 +11,7 @@
 
 package net.impacthub.members.usecase.base;
 
+import com.google.gson.Gson;
 import com.salesforce.androidsdk.accounts.UserAccount;
 
 import net.impacthub.members.usecase.provider.ApiCall;
@@ -28,6 +29,7 @@ import static net.impacthub.members.usecase.provider.UseCaseModule.soqlRequestFa
 
 public abstract class BaseUseCaseGenerator<UC, R> implements UseCaseGenerator<UC> {
 
+    private final Gson mGson = new Gson();
     private final ApiCall<R> mApiCall = apiCallProvider();
     private final SoqlRequestFactory mSoqlRequestFactory = soqlRequestFactoryProvider();
     private final UserAccount mUserAccount;
@@ -50,5 +52,9 @@ public abstract class BaseUseCaseGenerator<UC, R> implements UseCaseGenerator<UC
 
     protected UserAccount getUserAccount() {
         return mUserAccount;
+    }
+
+    protected  <T> T convertJson(String json, Class<T> type) {
+        return mGson.fromJson(json, type);
     }
 }

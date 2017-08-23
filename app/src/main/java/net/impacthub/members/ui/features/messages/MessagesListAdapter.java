@@ -61,7 +61,7 @@ class MessagesListAdapter extends BaseListAdapter<MessagesListAdapter.MessageVie
             messageReadIcon = (TextView) itemView.findViewById(R.id.image_message_read);
             displayName = (TextView) itemView.findViewById(R.id.text_sender);
             displayMessage = (TextView) itemView.findViewById(R.id.text_message);
-            displayDate = (TextView) itemView.findViewById(R.id.text_date);
+            displayDate = (TextView) itemView.findViewById(R.id.text_event_date);
             itemView.setOnClickListener(this);
         }
 

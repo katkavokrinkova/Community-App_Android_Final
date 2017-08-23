@@ -15,7 +15,7 @@
 <net.impacthub.members.ui.widgets.TypefaceTextView xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/text_description"
+    android:id="@+id/text_event_description"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:textColor="@color/warm_grey_2"

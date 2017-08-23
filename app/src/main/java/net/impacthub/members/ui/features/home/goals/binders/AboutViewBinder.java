@@ -41,7 +41,7 @@ public class AboutViewBinder extends ViewBinderAdapter {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.layout_about_goal, new LinearLayout(context), false);
         ((TextView) view.findViewById(R.id.text_info_title)).setText(mAboutTitle);
-        ((TextView) view.findViewById(R.id.text_description)).setText(mAboutDescription);
+        ((TextView) view.findViewById(R.id.text_event_description)).setText(mAboutDescription);
         return view;
     }
 }
