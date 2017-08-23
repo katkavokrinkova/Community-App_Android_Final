@@ -10,7 +10,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnBackListener;
 import net.impacthub.members.ui.base.BaseActivity;
-import net.impacthub.members.ui.controllers.conversations.ConversationControllerFragment;
+import net.impacthub.members.ui.controllers.messages.MessagesControllerFragment;
 import net.impacthub.members.ui.controllers.home.HomeControllerFragment;
 import net.impacthub.members.ui.controllers.notification.NotificationControllerFragment;
 import net.impacthub.members.ui.controllers.profile.ProfileControllerFragment;
@@ -58,7 +58,7 @@ public class MainTabsActivity extends BaseActivity {
         adapter.addFragment(new HomeControllerFragment());
         adapter.addFragment(new SearchControllerFragment());
         adapter.addFragment(new NotificationControllerFragment());
-        adapter.addFragment(new ConversationControllerFragment());
+        adapter.addFragment(new MessagesControllerFragment());
         adapter.addFragment(new ProfileControllerFragment());
 
         mPager.setPagingEnabled(false);

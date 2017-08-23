@@ -63,11 +63,10 @@ public class NotificationFragment extends BaseChildFragment<NotificationsPresent
     }
 
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        NotificationsPresenter presenter = getPresenter();
-        if (presenter != null && isVisibleToUser) {
-            presenter.getNotifications();
+    protected void onFragmentVisibilityChanged(boolean isVisible) {
+        super.onFragmentVisibilityChanged(isVisible);
+        if (isVisible) {
+            getPresenter().getNotifications();
         }
     }
 

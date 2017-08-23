@@ -78,11 +78,10 @@ public class MessagesFragment extends BaseChildFragment<MessagesUiPresenter> imp
     }
 
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        MessagesUiPresenter presenter = getPresenter();
-        if (presenter != null && isVisibleToUser) {
-            presenter.getConversations();
+    protected void onFragmentVisibilityChanged(boolean isVisible) {
+        super.onFragmentVisibilityChanged(isVisible);
+        if(isVisible) {
+            getPresenter().getConversations();
         }
     }
 

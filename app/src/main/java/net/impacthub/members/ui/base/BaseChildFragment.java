@@ -1,5 +1,6 @@
 package net.impacthub.members.ui.base;
 
+import android.support.annotation.CallSuper;
 import android.support.annotation.ColorInt;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
@@ -23,6 +24,7 @@ import static net.impacthub.members.application.salesforce.SalesforceModuleDepen
 
 public abstract class BaseChildFragment<P extends UiPresenter<? extends UiContract>> extends BaseFragment<P> {
 
+    private boolean mIsFirstLaunch = true;
     private final UserAccount mUserAccount = userAccountProvider();
     protected final View.OnClickListener mBackListener = new View.OnClickListener() {
         @Override
@@ -41,6 +43,27 @@ public abstract class BaseChildFragment<P extends UiPresenter<? extends UiContra
         }
         return url;
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        boolean userVisibleHint = getUserVisibleHint();
+        if(userVisibleHint && !mIsFirstLaunch) {
+            onFragmentVisibilityChanged(true);
+        } else {
+            mIsFirstLaunch = false;
+        }
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isResumed() && isVisibleToUser) {
+            onFragmentVisibilityChanged(true);
+        }
+    }
+
+    @CallSuper
+    protected void onFragmentVisibilityChanged(boolean isVisible) {}
 
     protected void setUpToolbar(String title) {
         if(mToolbar != null) {

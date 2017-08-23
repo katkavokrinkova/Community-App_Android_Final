@@ -1,4 +1,4 @@
-package net.impacthub.members.ui.controllers.conversations;
+package net.impacthub.members.ui.controllers.messages;
 
 import android.support.v4.app.Fragment;
 
@@ -11,7 +11,7 @@ import net.impacthub.members.ui.features.messages.MessagesFragment;
  * @date 8/1/2017.
  */
 
-public class ConversationControllerFragment extends BaseControllerFragment {
+public class MessagesControllerFragment extends BaseControllerFragment {
     @Override
     protected Fragment createFragment() {
         return MessagesFragment.newInstance();
