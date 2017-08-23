@@ -7,10 +7,12 @@ import android.view.View;
 
 import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnListItemClickListener;
+import net.impacthub.members.model.vo.conversations.ConversationVO;
 import net.impacthub.members.model.vo.notifications.NotificationVO;
 import net.impacthub.members.presenter.features.notifcations.NotificationsPresenter;
 import net.impacthub.members.presenter.features.notifcations.NotificationsUiContract;
 import net.impacthub.members.ui.base.BaseChildFragment;
+import net.impacthub.members.ui.features.messages.conversation.ConversationFragment;
 
 import java.util.List;
 
@@ -56,7 +58,18 @@ public class NotificationFragment extends BaseChildFragment<NotificationsPresent
         mAdapter.setItemClickListener(new OnListItemClickListener<NotificationVO>() {
             @Override
             public void onItemClick(NotificationVO model) {
-                showToast("Opening notification... needs implementation!");
+                switch (model.mNotificationType) {
+                    case TYPE_PRIVATE_MESSAGE:
+                        ConversationVO conversationVO = new ConversationVO();
+                        conversationVO.mConversationId = model.mConversationId;
+                        conversationVO.mRecipientUserId = model.mRecipientUserId;
+                        conversationVO.mDisplayName = model.mDisplayName;
+                        conversationVO.mImageURL = model.mProfilePicUrl;
+                        addChildFragment(ConversationFragment.newInstance(conversationVO), "FRAG_MESSAGE_THREAD");
+                        break;
+                    default:
+                        showToast("Opening notification... needs implementation!");
+                }
             }
         });
         mNotificationsList.setAdapter(mAdapter);

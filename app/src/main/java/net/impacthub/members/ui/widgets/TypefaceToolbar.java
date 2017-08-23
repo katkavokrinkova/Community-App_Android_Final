@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -35,7 +36,7 @@ public class TypefaceToolbar extends Toolbar {
     }
 
     private void initialise(Context context) {
-        mNewTitle = (TextView) inflate(context, R.layout.title_textview, null);
+        mNewTitle = (TextView) inflate(context, R.layout.toolbar_title_layout, null);
         mNewTitle.setText(getTitle());
         mNewTitle.setMaxLines(1);
         mNewTitle.setEllipsize(TextUtils.TruncateAt.END);
@@ -43,6 +44,17 @@ public class TypefaceToolbar extends Toolbar {
         params.gravity = Gravity.CENTER;
         addView(mNewTitle, params);
         getTitleTextView().setVisibility(GONE);
+        setTitle(null);
+    }
+
+    @Override
+    public void setTitle(@StringRes int resId) {
+
+    }
+
+    @Override
+    public void setTitle(CharSequence title) {
+
     }
 
     @NonNull

@@ -9,6 +9,7 @@ import android.view.View;
 
 import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnListItemClickListener;
+import net.impacthub.members.model.vo.conversations.ConversationVO;
 import net.impacthub.members.model.vo.messages.MessageVO;
 import net.impacthub.members.presenter.features.conversations.MessagesUiPresenter;
 import net.impacthub.members.presenter.features.conversations.MessagesUiContract;
@@ -87,7 +88,12 @@ public class MessagesFragment extends BaseChildFragment<MessagesUiPresenter> imp
 
     @Override
     public void onItemClick(MessageVO model) {
-        addChildFragment(ConversationFragment.newInstance(model), "FRAG_MESSAGE_THREAD");
+        ConversationVO conversationVO = new ConversationVO();
+        conversationVO.mConversationId = model.mConversationId;
+        conversationVO.mRecipientUserId = model.mRecipientUserId;
+        conversationVO.mDisplayName = model.mDisplayName;
+        conversationVO.mImageURL = model.mImageURL;
+        addChildFragment(ConversationFragment.newInstance(conversationVO), "FRAG_MESSAGE_THREAD");
     }
 
     @Override

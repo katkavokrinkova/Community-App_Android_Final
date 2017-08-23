@@ -11,12 +11,14 @@
 
 package net.impacthub.members.model.features.conversations;
 
+import net.impacthub.members.model.vo.conversations.RecipientVO;
+
 import java.util.List;
 
 public class ProcessedMessages {
 
     private final List<MessageItem> messages;
-    private final List<String> recipients;
+    private final List<RecipientVO> recipients;
     private final String inReplyTo;
     private final boolean fromSentMessage;
 
@@ -31,7 +33,7 @@ public class ProcessedMessages {
         return messages;
     }
 
-    public List<String> getRecipients() {
+    public List<RecipientVO> getRecipients() {
         return recipients;
     }
 
@@ -45,7 +47,7 @@ public class ProcessedMessages {
 
     public static final class Builder {
         private List<MessageItem> messages;
-        private List<String> recipients;
+        private List<RecipientVO> recipients;
         private String inReplyTo;
         private boolean fromSentMessage;
 
@@ -56,7 +58,7 @@ public class ProcessedMessages {
             return this;
         }
 
-        public Builder recipients(List<String> recipients) {
+        public Builder recipients(List<RecipientVO> recipients) {
             this.recipients = recipients;
             return this;
         }

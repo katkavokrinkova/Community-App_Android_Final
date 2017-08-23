@@ -44,7 +44,7 @@ public class ConversationUiPresenter extends UiPresenter<ConversationUiContract>
         super(uiContract);
     }
 
-    public void getMessageConversations(String conversationID, String userID) {
+    public void getMessageConversations(String conversationID) {
         getUi().onChangeStatus(true);
         Single<ProcessedMessages> messagesSingle = new GetProcessedMessagesUseCase(conversationID).getUseCase();
         subscribeWith(messagesSingle, new DisposableSingleObserver<ProcessedMessages>() {

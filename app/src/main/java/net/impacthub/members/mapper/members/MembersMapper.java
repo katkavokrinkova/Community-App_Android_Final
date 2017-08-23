@@ -20,6 +20,7 @@ import net.impacthub.members.model.features.members.Skill;
 import net.impacthub.members.model.features.members.Skills;
 import net.impacthub.members.model.pojo.ListItemType;
 import net.impacthub.members.model.pojo.SimpleItem;
+import net.impacthub.members.model.vo.conversations.RecipientVO;
 import net.impacthub.members.model.vo.groups.GroupVO;
 import net.impacthub.members.model.vo.members.MemberVO;
 import net.impacthub.members.model.vo.members.SkillsVO;
@@ -154,5 +155,18 @@ public class MembersMapper {
             }
         }
         return itemTypes;
+    }
+
+    public RecipientVO mapRecipient(MembersResponse response) {
+        RecipientVO recipientVO = new RecipientVO();
+        if (response != null) {
+            Records[] records = response.getRecords();
+            if (records != null && records.length > 0) {
+                Records record = records[0];
+                recipientVO.mDisplayName = record.getFirstName();
+                recipientVO.mImageURL = record.getProfilePic__c();
+            }
+        }
+        return recipientVO;
     }
 }

@@ -15,11 +15,14 @@ import net.impacthub.members.model.features.conversations.ConversationMessages;
 import net.impacthub.members.model.features.conversations.Member;
 import net.impacthub.members.model.features.conversations.Message;
 import net.impacthub.members.model.features.conversations.MessageItem;
+import net.impacthub.members.model.features.conversations.Photo;
 import net.impacthub.members.model.features.conversations.ProcessedMessages;
+import net.impacthub.members.model.vo.conversations.RecipientVO;
 
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Filippo Ash
@@ -39,16 +42,25 @@ public class ConversationMapper {
                 .build();
     }
 
-    private List<String> mapRecipientIds(ConversationMessages conversationMessages, String userId) {
-        HashSet<String> idSet = new HashSet<>();
+    private List<RecipientVO> mapRecipientIds(ConversationMessages conversationMessages, String userId) {
+        Map<String, RecipientVO> recipientVOMap = new HashMap<>();
+
         List<Member> members = conversationMessages.getMembers();
         if (members != null) {
             for (Member member : members) {
-                idSet.add(member.getId());
+                RecipientVO recipientVO = new RecipientVO();
+                String id = member.getId();
+                recipientVO.mId = id;
+                recipientVO.mDisplayName = member.getDisplayName();
+                Photo photo = member.getPhoto();
+                if (photo != null) {
+                    recipientVO.mImageURL = photo.getSmallPhotoUrl();
+                }
+                recipientVOMap.put(id, recipientVO);
             }
         }
-        idSet.remove(userId);
-        return new LinkedList<>(idSet);
+        recipientVOMap.remove(userId);
+        return new LinkedList<>(recipientVOMap.values());
     }
 
     private List<MessageItem> mapMessages(ConversationMessages conversationMessages, String userId) {

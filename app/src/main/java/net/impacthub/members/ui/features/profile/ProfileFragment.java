@@ -59,6 +59,7 @@ public class ProfileFragment extends BaseChildFragment<ProfilePresenter> impleme
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        setUpToolbar(R.string.profile);
         mLogoutButton.setText("Logout");
         getPresenter().getProfile();
     }

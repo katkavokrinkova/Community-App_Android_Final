@@ -2,7 +2,10 @@ package net.impacthub.members.utilities;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
@@ -25,5 +28,10 @@ public final class DrawableUtils {
         DrawableCompat.setTintList(drawable, stateList);
         DrawableCompat.setTintMode(drawable, PorterDuff.Mode.SRC_IN);
         return drawable;
+    }
+
+    public static Drawable resize(Resources resources, Bitmap bitmap, int width, int height) {
+        Bitmap bitmapResized = Bitmap.createScaledBitmap(bitmap, width, height, false);
+        return new BitmapDrawable(resources, bitmapResized);
     }
 }

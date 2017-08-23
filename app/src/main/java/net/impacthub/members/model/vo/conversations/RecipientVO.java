@@ -9,21 +9,17 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.model.vo.notifications;
+package net.impacthub.members.model.vo.conversations;
 
 /**
  * @author Filippo Ash
  * @version 1.0
- * @date 8/4/2017.
+ * @date 8/23/2017.
  */
 
-public class NotificationVO {
+public class RecipientVO {
 
-    public String mMessage;
-    public String mConversationId;
-    public String mRecipientUserId;
+    public String mId;
     public String mDisplayName;
-    public String mProfilePicUrl;
-    public String mCreatedDate;
-    public NotificationType mNotificationType;
+    public String mImageURL;
 }

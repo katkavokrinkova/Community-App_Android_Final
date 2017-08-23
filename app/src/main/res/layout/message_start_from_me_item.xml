@@ -6,7 +6,7 @@
 
     <net.impacthub.members.ui.widgets.CircleImageView
         android:id="@+id/sender_image"
-        android:layout_width="@dimen/message_thumbnail"
+        android:layout_width="@dimen/toolbar_thumbnail_size"
         android:layout_height="@dimen/message_thumbnail"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="@dimen/message_side_margin"

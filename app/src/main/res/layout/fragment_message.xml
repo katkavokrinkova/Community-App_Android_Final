@@ -17,28 +17,15 @@
     android:background="@color/message_background"
     android:orientation="vertical">
 
-    <net.impacthub.members.ui.widgets.TypefaceToolbar
+    <!--<include layout="@layout/toolbar_with_back_layout" />-->
+
+    <net.impacthub.members.ui.widgets.TypefaceToolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/toolbar"
         style="@style/ToolbarConstraint.WithBack"
-        android:gravity="center">
-
-        <net.impacthub.members.ui.widgets.CircleImageView
-            android:id="@+id/my_image"
-            android:layout_width="@dimen/message_thumbnail"
-            android:layout_height="@dimen/message_thumbnail"
-            android:contentDescription="@string/sender_name"
-            android:src="@drawable/ic_fp_40px" />
-
-        <TextView
-            android:id="@+id/my_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingEnd="@dimen/message_side_margin"
-            android:paddingStart="@dimen/message_side_margin"
-            android:text="Test"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title" />
-
-    </net.impacthub.members.ui.widgets.TypefaceToolbar>
+        app:contentInsetStart="0dp"
+        app:contentInsetStartWithNavigation="0dp"
+        app:title="" />
 
     <FrameLayout
         android:layout_width="match_parent"

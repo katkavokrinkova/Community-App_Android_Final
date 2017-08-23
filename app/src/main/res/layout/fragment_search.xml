@@ -8,8 +8,7 @@
 
     <net.impacthub.members.ui.widgets.TypefaceToolbar
         android:id="@+id/toolbar"
-        style="@style/ToolbarConstraint"
-        app:title="@string/search" />
+        style="@style/ToolbarConstraint"  />
 
     <FrameLayout
         android:layout_width="match_parent"

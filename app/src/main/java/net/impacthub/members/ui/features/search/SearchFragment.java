@@ -32,6 +32,7 @@ public class SearchFragment  extends BaseChildFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        setUpToolbar(R.string.search);
         //setStatusBarColor(R.color.colorWhite);
     }
 }

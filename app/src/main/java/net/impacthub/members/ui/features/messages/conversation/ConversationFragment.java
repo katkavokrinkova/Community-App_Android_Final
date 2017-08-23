@@ -11,6 +11,8 @@
 
 package net.impacthub.members.ui.features.messages.conversation;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -18,18 +20,25 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
+
 import net.impacthub.members.R;
-import net.impacthub.members.model.vo.messages.MessageVO;
-import net.impacthub.members.model.vo.notifications.NotificationType;
 import net.impacthub.members.model.features.conversations.ProcessedMessages;
 import net.impacthub.members.model.features.push.PushQuery;
+import net.impacthub.members.model.vo.conversations.ConversationVO;
+import net.impacthub.members.model.vo.conversations.RecipientVO;
+import net.impacthub.members.model.vo.notifications.NotificationType;
 import net.impacthub.members.presenter.features.messages.ConversationUiContract;
 import net.impacthub.members.presenter.features.messages.ConversationUiPresenter;
 import net.impacthub.members.ui.base.BaseChildFragment;
-import net.impacthub.members.ui.common.ImageLoaderHelper;
+import net.impacthub.members.ui.widgets.drawables.RoundedDrawable;
+import net.impacthub.members.utilities.DrawableUtils;
+
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -53,7 +62,7 @@ public class ConversationFragment extends BaseChildFragment<ConversationUiPresen
     private ConversationListAdapter mAdapter;
     private String mInReplyTo;
 
-    public static ConversationFragment newInstance(MessageVO model) {
+    public static ConversationFragment newInstance(ConversationVO model) {
         
         Bundle args = new Bundle();
         args.putString(EXTRA_CONVERSATION_ID, model.mConversationId);
@@ -78,18 +87,24 @@ public class ConversationFragment extends BaseChildFragment<ConversationUiPresen
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        setUpToolbar(R.string.label_conversation);
         Bundle arguments = getArguments();
         mConversationID = arguments.getString(EXTRA_CONVERSATION_ID);
-        String displayName = arguments.getString(EXTRA_CONVERSATION_DISPLAY_NAME);
-        String profileImage = arguments.getString(EXTRA_CONVERSATION_PROFILE_IMAGE);
 
-        if (mToolbar != null) {
-            ImageView displayImage = mToolbar.findViewById(R.id.my_image);
-            TextView displayNameTxt = mToolbar.findViewById(R.id.my_name);
-            ImageLoaderHelper.loadImage(getContext(), buildUrl(profileImage), displayImage);
-            displayNameTxt.setText(displayName);
-            mToolbar.setNavigationOnClickListener(mBackListener);
-        }
+        String imageURL = arguments.getString(EXTRA_CONVERSATION_PROFILE_IMAGE);
+
+        Glide.with(getContext().getApplicationContext()).asBitmap().load(imageURL).into(new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+                if (mToolbar != null) {
+                    RoundedDrawable roundedDrawable = new RoundedDrawable(resource);
+                    roundedDrawable.setOval(true);
+                    int thumbnailSize = getResources().getDimensionPixelOffset(R.dimen.toolbar_thumbnail_size);
+                    Drawable drawable = DrawableUtils.resize(getResources(), roundedDrawable.toBitmap(), thumbnailSize, thumbnailSize);
+                    mToolbar.setLogo(drawable);
+                }
+            }
+        });
 
         mMessageList.setHasFixedSize(true);
         mAdapter = new ConversationListAdapter(getLayoutInflater(getArguments()));
@@ -106,7 +121,8 @@ public class ConversationFragment extends BaseChildFragment<ConversationUiPresen
             }
         });
 
-        getPresenter().getMessageConversations(mConversationID, getUserAccount().getUserId());
+        ConversationUiPresenter presenter = getPresenter();
+        presenter.getMessageConversations(mConversationID);
     }
 
     private void sendMessage(String message) {
@@ -122,6 +138,11 @@ public class ConversationFragment extends BaseChildFragment<ConversationUiPresen
     @Override
     public void onLoadMessages(ProcessedMessages processedMessages) {
         mAdapter.setItems(processedMessages.getMessages());
+        List<RecipientVO> recipients = processedMessages.getRecipients();
+        if (recipients != null && recipients.size() > 0) {
+            RecipientVO recipientVO = recipients.get(0);
+            setUpToolbar(recipientVO.mDisplayName);
+        }
         mInReplyTo = processedMessages.getInReplyTo();
     }
 

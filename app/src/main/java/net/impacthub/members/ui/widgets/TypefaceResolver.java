@@ -25,6 +25,16 @@ class TypefaceResolver {
         mTypefaceCreator = typefaceCreator;
     }
 
+    void setTypeface(TextView textView, String fontPath) {
+        if (!textView.isInEditMode()){
+            Context context = textView.getContext();
+            Typeface typeface = getTypeface(context, fontPath);
+            if (typeface != null) {
+                textView.setTypeface(typeface);
+            }
+        }
+    }
+
     void setTypeface(TextView textView, AttributeSet attributeSet) {
         if (!textView.isInEditMode()){
             resolveAndSetTypeface(textView, attributeSet);
@@ -52,7 +62,7 @@ class TypefaceResolver {
     }
 
     @Nullable
-    private Typeface resolveTypeface(Context context, String typefaceName) {
+    public Typeface resolveTypeface(Context context, String typefaceName) {
         Typeface typeface = typefaces.get(typefaceName);
         if (typeface == null) {
             typeface = mTypefaceCreator.createFromAsset(context.getAssets(), typefaceName);

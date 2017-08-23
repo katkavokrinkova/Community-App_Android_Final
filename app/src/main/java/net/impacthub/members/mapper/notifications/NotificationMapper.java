@@ -38,9 +38,12 @@ public class NotificationMapper {
                     if (record != null) {
                         NotificationVO notificationDTO = new NotificationVO();
                         notificationDTO.mMessage = record.getMessage__c();
+                        notificationDTO.mConversationId = record.getRelatedId__c();
+                        notificationDTO.mRecipientUserId = record.getFromUserId__c();
+                        notificationDTO.mDisplayName = record.getName();
                         notificationDTO.mProfilePicUrl = record.getProfilePicURL__c();
                         notificationDTO.mCreatedDate = record.getCreatedDate();
-                        notificationDTO.mNotificationIcon = NotificationType.fromString(record.getType__c()).getIcon();
+                        notificationDTO.mNotificationType = NotificationType.fromString(record.getType__c());
                         notificationDTOList.add(notificationDTO);
                     }
                 }

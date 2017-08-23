@@ -1,21 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <net.impacthub.members.ui.widgets.TypefaceToolbar
         android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        style="@style/ToolbarConstraint"
         android:background="@color/colorPrimary"
-        android:elevation="3dp"
-        android:minHeight="@dimen/actionBarSize"
-        android:title=""
-        app:contentInsetStart="0dp"
-        app:contentInsetStartWithNavigation="0dp"
-        app:title="" />
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <include layout="@layout/common_simple_list_layout" />
 

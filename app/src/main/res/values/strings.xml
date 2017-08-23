@@ -53,4 +53,5 @@
     <string name="label_events">Events</string>
     <string name="label_projects">Projects</string>
     <string name="label_contact">Contacts</string>
+    <string name="label_conversation">Conversation</string>
 </resources>

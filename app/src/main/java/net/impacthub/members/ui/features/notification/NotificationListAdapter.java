@@ -70,7 +70,7 @@ class NotificationListAdapter extends BaseListAdapter<NotificationListAdapter.Vi
             Context context = profileImage.getContext();
             notificationMessage.setText(item.mMessage);
             new DateTimeAgoHelper(elapsedTime, item.mCreatedDate);
-            ImageLoaderHelper.loadImage(context, item.mNotificationIcon, notificationIcon);
+            ImageLoaderHelper.loadImage(context, item.mNotificationType.getIcon(), notificationIcon);
             ImageLoaderHelper.loadImage(context, buildUrl(item.mProfilePicUrl), profileImage);
         }
 
