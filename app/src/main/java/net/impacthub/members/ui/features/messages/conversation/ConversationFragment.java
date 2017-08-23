@@ -91,21 +91,6 @@ public class ConversationFragment extends BaseChildFragment<ConversationUiPresen
         Bundle arguments = getArguments();
         mConversationID = arguments.getString(EXTRA_CONVERSATION_ID);
 
-        String imageURL = arguments.getString(EXTRA_CONVERSATION_PROFILE_IMAGE);
-
-        Glide.with(getContext().getApplicationContext()).asBitmap().load(imageURL).into(new SimpleTarget<Bitmap>() {
-            @Override
-            public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
-                if (mToolbar != null) {
-                    RoundedDrawable roundedDrawable = new RoundedDrawable(resource);
-                    roundedDrawable.setOval(true);
-                    int thumbnailSize = getResources().getDimensionPixelOffset(R.dimen.toolbar_thumbnail_size);
-                    Drawable drawable = DrawableUtils.resize(getResources(), roundedDrawable.toBitmap(), thumbnailSize, thumbnailSize);
-                    mToolbar.setLogo(drawable);
-                }
-            }
-        });
-
         mMessageList.setHasFixedSize(true);
         mAdapter = new ConversationListAdapter(getLayoutInflater(getArguments()));
         mMessageList.setAdapter(mAdapter);
@@ -142,6 +127,19 @@ public class ConversationFragment extends BaseChildFragment<ConversationUiPresen
         if (recipients != null && recipients.size() > 0) {
             RecipientVO recipientVO = recipients.get(0);
             setUpToolbar(recipientVO.mDisplayName);
+
+            Glide.with(getContext().getApplicationContext()).asBitmap().load(recipientVO.mImageURL).into(new SimpleTarget<Bitmap>() {
+                @Override
+                public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+                    if (mToolbar != null) {
+                        RoundedDrawable roundedDrawable = new RoundedDrawable(resource);
+                        roundedDrawable.setOval(true);
+                        int thumbnailSize = getResources().getDimensionPixelOffset(R.dimen.toolbar_thumbnail_size);
+                        Drawable drawable = DrawableUtils.resize(getResources(), roundedDrawable.toBitmap(), thumbnailSize, thumbnailSize);
+                        mToolbar.setLogo(drawable);
+                    }
+                }
+            });
         }
         mInReplyTo = processedMessages.getInReplyTo();
     }
