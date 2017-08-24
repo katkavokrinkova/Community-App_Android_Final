@@ -50,6 +50,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/warm_grey_2"
                 android:textSize="14sp"
+                android:autoLink="all"
                 app:typeface="fonts/gt-walsheim-web.ttf"
                 tools:text="a b c d e f g a b c d e f g a b c d e f g a b c d e f g a b c d e f g a b c d e f g a b c d e f g a b c d e f g a b c d e f g " />
 
