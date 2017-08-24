@@ -73,6 +73,8 @@ class ProjectObjectivesListAdapter extends BaseListAdapter<RecyclerView.ViewHold
         TitleViewHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.text_info_title);
+            int padding = itemView.getResources().getDimensionPixelOffset(R.dimen.default_content_large_gap);
+            itemView.setPadding(padding, padding, padding, padding);
         }
 
         @Override

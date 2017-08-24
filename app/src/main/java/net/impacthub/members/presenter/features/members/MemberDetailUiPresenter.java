@@ -36,9 +36,9 @@ import io.reactivex.observers.DisposableSingleObserver;
  * @date 8/10/2017.
  */
 
-public class MemberDetailPresenter extends UiPresenter<MemberDetailUiContract> {
+public class MemberDetailUiPresenter extends UiPresenter<MemberDetailUiContract> {
 
-    public MemberDetailPresenter(MemberDetailUiContract uiContract) {
+    public MemberDetailUiPresenter(MemberDetailUiContract uiContract) {
         super(uiContract);
     }
 

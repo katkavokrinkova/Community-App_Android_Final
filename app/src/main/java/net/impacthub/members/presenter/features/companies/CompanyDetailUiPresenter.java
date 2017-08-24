@@ -11,8 +11,12 @@
 
 package net.impacthub.members.presenter.features.companies;
 
+import net.impacthub.members.mapper.companies.CompaniesMapper;
 import net.impacthub.members.mapper.members.MembersMapper;
 import net.impacthub.members.mapper.projects.ProjectMapper;
+import net.impacthub.members.model.features.companies.services.ServicesResponse;
+import net.impacthub.members.model.pojo.ListItemType;
+import net.impacthub.members.model.pojo.SimpleItem;
 import net.impacthub.members.model.vo.members.MemberVO;
 import net.impacthub.members.model.vo.projects.ProjectVO;
 import net.impacthub.members.model.features.members.MembersResponse;
@@ -20,6 +24,7 @@ import net.impacthub.members.model.features.projects.ProjectResponse;
 import net.impacthub.members.presenter.base.UiPresenter;
 import net.impacthub.members.usecase.features.companies.CompanyMembersUseCase;
 import net.impacthub.members.usecase.features.companies.CompanyProjectsUseCase;
+import net.impacthub.members.usecase.features.companies.CompanyServicesUseCase;
 
 import java.util.List;
 
@@ -39,6 +44,19 @@ public class CompanyDetailUiPresenter extends UiPresenter<CompanyDetailUiContrac
     }
 
     public void loadDetails(String companyId) {
+        subscribeWith(new CompanyServicesUseCase(companyId).getUseCase(), new DisposableSingleObserver<ServicesResponse>() {
+                    @Override
+                    public void onSuccess(@NonNull ServicesResponse response) {
+                        List<ListItemType> listItemTypes = new CompaniesMapper().mapAsListItemType(response);
+                        listItemTypes.add(0, new SimpleItem<String>("Our Services", 0));
+                        getUi().onLoadCompanyServices(listItemTypes);
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        getUi().onError(e);
+                    }
+                });
         subscribeWith(new CompanyProjectsUseCase(companyId).getUseCase(), new DisposableSingleObserver<ProjectResponse>() {
             @Override
             public void onSuccess(@NonNull ProjectResponse response) {

@@ -12,8 +12,10 @@
 package net.impacthub.members.ui.delegate;
 
 import android.util.Pair;
+import android.view.View;
 import android.widget.ImageButton;
 
+import net.impacthub.members.navigator.Navigator;
 import net.impacthub.members.utilities.ViewUtils;
 
 /**
@@ -30,6 +32,15 @@ public class DetailScreenDelegate {
             ImageButton button = buttonPair.second;
             if ((link != null && link.isEmpty()) || link == null ) {
                 ViewUtils.gone(button);
+            } else {
+                button.setTag(link);
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String link = (String) view.getTag();
+                        Navigator.startOtherWebActivity(view.getContext(), link);
+                    }
+                });
             }
         }
     }

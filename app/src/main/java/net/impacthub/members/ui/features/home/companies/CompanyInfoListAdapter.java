@@ -9,7 +9,7 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.ui.features.home.members.binders;
+package net.impacthub.members.ui.features.home.companies;
 
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -20,19 +20,22 @@ import android.widget.TextView;
 
 import net.impacthub.members.R;
 import net.impacthub.members.model.pojo.ListItemType;
-import net.impacthub.members.model.vo.members.SkillsVO;
+import net.impacthub.members.model.vo.companies.AboutCompanyVO;
+import net.impacthub.members.model.vo.companies.ServiceVO;
 import net.impacthub.members.ui.base.BaseListAdapter;
 import net.impacthub.members.ui.common.RecyclerViewHolder;
+
+import java.util.List;
 
 /**
  * @author Filippo Ash
  * @version 1.0
- * @date 8/11/2017.
+ * @date 8/24/2017.
  */
 
-public class MemberInfoListAdapter extends BaseListAdapter<RecyclerView.ViewHolder, ListItemType> {
+public class CompanyInfoListAdapter extends BaseListAdapter<RecyclerView.ViewHolder, ListItemType> {
 
-    public MemberInfoListAdapter(LayoutInflater inflater) {
+    public CompanyInfoListAdapter(LayoutInflater inflater) {
         super(inflater);
     }
 
@@ -49,12 +52,17 @@ public class MemberInfoListAdapter extends BaseListAdapter<RecyclerView.ViewHold
                 viewHolder = new TitleViewHolder(getLayoutInflater().inflate(R.layout.item_layout_info_title, parent, false));
                 break;
             case 1:
-                viewHolder = new AboutDescriptionViewHolder(getLayoutInflater().inflate(R.layout.layout_description_info, parent, false));
+                viewHolder = new AboutTopDetailViewHolder(getLayoutInflater().inflate(R.layout.layout_item_company_top_info, parent, false));
                 break;
             default:
-                viewHolder = new SkillDetailViewHolder(getLayoutInflater().inflate(R.layout.item_layout_info_pair_set, parent, false));
+                viewHolder = new ServiceDetailViewHolder(getLayoutInflater().inflate(R.layout.item_layout_info_pair_set, parent, false));
         }
         return viewHolder;
+    }
+
+    @Override
+    public void setItems(List<ListItemType> items) {
+        appendItems(items);
     }
 
     @Override
@@ -66,12 +74,10 @@ public class MemberInfoListAdapter extends BaseListAdapter<RecyclerView.ViewHold
                 ((TitleViewHolder) holder).bindViewsWith(titleItem);
                 break;
             case 1:
-                String descriptionItem = (String) model;
-                ((AboutDescriptionViewHolder) holder).bindViewsWith(descriptionItem);
+                ((AboutTopDetailViewHolder) holder).bindViewsWith((AboutCompanyVO) model);
                 break;
             case 2:
-                SkillsVO skillItem = (SkillsVO) model;
-                ((SkillDetailViewHolder) holder).bindViewsWith(skillItem);
+                ((ServiceDetailViewHolder) holder).bindViewsWith((ServiceVO) model);
                 break;
         }
     }
@@ -91,36 +97,41 @@ public class MemberInfoListAdapter extends BaseListAdapter<RecyclerView.ViewHold
         }
     }
 
-    private class AboutDescriptionViewHolder extends RecyclerViewHolder<String>{
+    private class AboutTopDetailViewHolder extends RecyclerViewHolder<AboutCompanyVO> {
 
+        final TextView locations;
+        final TextView memberCount;
         final TextView description;
 
-        AboutDescriptionViewHolder(View itemView) {
+        AboutTopDetailViewHolder(View itemView) {
             super(itemView);
-            description = (TextView) itemView.findViewById(R.id.text_event_description);
-            int padding = itemView.getResources().getDimensionPixelOffset(R.dimen.default_content_large_gap);
-            description.setPadding(padding, padding, padding, padding);
+            locations = (TextView) itemView.findViewById(R.id.locations);
+            memberCount = (TextView) itemView.findViewById(R.id.member_count);
+            description = (TextView) itemView.findViewById(R.id.text_description);
         }
 
         @Override
-        protected void bindViewsWith(String itemData) {
-            description.setText(itemData != null ? Html.fromHtml(itemData) : null);
+        protected void bindViewsWith(AboutCompanyVO itemData) {
+            String description = itemData.mDescription;
+            locations.setText(itemData.mLocation);
+            memberCount.setText(itemData.mMembersCount);
+            this.description.setText(description != null ? Html.fromHtml(description) : null);
         }
     }
 
-    private class SkillDetailViewHolder extends RecyclerViewHolder<SkillsVO>{
+    private class ServiceDetailViewHolder extends RecyclerViewHolder<ServiceVO> {
 
         final TextView title;
         final TextView description;
 
-        SkillDetailViewHolder(View itemView) {
+        ServiceDetailViewHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.text_info_title);
             description = (TextView) itemView.findViewById(R.id.text_event_description);
         }
 
         @Override
-        protected void bindViewsWith(SkillsVO itemData) {
+        protected void bindViewsWith(ServiceVO itemData) {
             title.setText(itemData.mTitle);
             description.setText(itemData.mDescription);
         }

@@ -20,26 +20,25 @@ import net.impacthub.members.model.pojo.SimpleItem;
 import net.impacthub.members.model.vo.groups.GroupVO;
 import net.impacthub.members.model.vo.members.MemberVO;
 import net.impacthub.members.model.vo.projects.ProjectVO;
-import net.impacthub.members.navigator.Navigator;
-import net.impacthub.members.presenter.features.members.MemberDetailPresenter;
 import net.impacthub.members.presenter.features.members.MemberDetailUiContract;
+import net.impacthub.members.presenter.features.members.MemberDetailUiPresenter;
 import net.impacthub.members.ui.base.BaseChildFragment;
 import net.impacthub.members.ui.binder.ViewBinder;
 import net.impacthub.members.ui.common.AppPagerAdapter;
 import net.impacthub.members.ui.common.ImageLoaderHelper;
 import net.impacthub.members.ui.common.SimpleOffsetChangeListenerAdapter;
+import net.impacthub.members.ui.common.binders.AboutViewBinder;
 import net.impacthub.members.ui.delegate.DetailScreenDelegate;
 import net.impacthub.members.ui.delegate.TabsDelegate;
 import net.impacthub.members.ui.features.home.groups.GroupDetailFragment;
 import net.impacthub.members.ui.features.home.groups.binders.GroupsViewBinder;
-import net.impacthub.members.ui.features.home.members.binders.AboutViewBinder;
+import net.impacthub.members.ui.features.home.members.binders.MemberInfoListAdapter;
 import net.impacthub.members.ui.features.home.projects.ProjectDetailFragment;
 import net.impacthub.members.ui.features.home.projects.binders.ProjectsViewBinder;
 
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
 /**
  * @author Filippo Ash
@@ -47,7 +46,7 @@ import butterknife.OnClick;
  * @date 03/08/2017.
  */
 
-public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresenter> implements MemberDetailUiContract {
+public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresenter> implements MemberDetailUiContract {
 
     private static final String TAG = MemberDetailFragment.class.getSimpleName();
 
@@ -83,12 +82,6 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
 //    @BindView(R.id.done) protected TypefaceTextView mDone;
 
     private AppPagerAdapter mPagerAdapter;
-    private final DetailScreenDelegate mScreenDelegate = new DetailScreenDelegate();
-
-    private String mLinkTwitter;
-    private String mLinkFacebook;
-    private String mLinkLinkedin;
-    private String mLinkInsta;
 
     public static MemberDetailFragment newInstance(MemberVO member) {
 
@@ -110,34 +103,13 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
     }
 
     @Override
-    protected MemberDetailPresenter onCreatePresenter() {
-        return new MemberDetailPresenter(this);
+    protected MemberDetailUiPresenter onCreatePresenter() {
+        return new MemberDetailUiPresenter(this);
     }
 
     @Override
     protected int getContentView() {
         return R.layout.fragment_member_detail;
-    }
-
-    @OnClick(R.id.button_twitter)
-    protected void onTwitterClicked() {
-        String link = "https://twitter.com/"+ mLinkTwitter.replace("@", "");
-        Navigator.startOtherWebActivity(getContext(), link);
-    }
-
-    @OnClick(R.id.button_facebook)
-    protected void onFacebookClicked() {
-        Navigator.startOtherWebActivity(getContext(), mLinkFacebook);
-    }
-
-    @OnClick(R.id.button_linkedin)
-    protected void onLinkedinClicked() {
-        Navigator.startOtherWebActivity(getContext(), mLinkLinkedin);
-    }
-
-    @OnClick(R.id.button_instagram)
-    protected void onInstaClicked() {
-        Navigator.startOtherWebActivity(getContext(), mLinkInsta);
     }
 
 //    @OnClick(R.id.done)
@@ -175,25 +147,24 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailPresente
             }
         });
 
+        String twitterFullLink = arguments.getString(EXTRA_MEMBER_TWITTER);
+        if (twitterFullLink != null) {
+            twitterFullLink = "https://twitter.com/"+ twitterFullLink.replace("@", "");
+        }
 
-        mLinkTwitter = arguments.getString(EXTRA_MEMBER_TWITTER);
-        mLinkFacebook = arguments.getString(EXTRA_MEMBER_FACEBOOK);
-        mLinkLinkedin = arguments.getString(EXTRA_MEMBER_LINKEDIN);
-        mLinkInsta = arguments.getString(EXTRA_MEMBER_INSTAGRAM);
+        Pair<String, ImageButton> twitterPair = new Pair<>(twitterFullLink, mButtonTwitter);
+        Pair<String, ImageButton> facebookPair = new Pair<>(arguments.getString(EXTRA_MEMBER_FACEBOOK), mButtonFacebook);
+        Pair<String, ImageButton> linkedinPair = new Pair<>(arguments.getString(EXTRA_MEMBER_LINKEDIN), mButtonLinkedin);
+        Pair<String, ImageButton> instagramPair = new Pair<>(arguments.getString(EXTRA_MEMBER_INSTAGRAM), mButtonInsta);
 
-        Pair<String, ImageButton> twitterPair = new Pair<>(mLinkTwitter, mButtonTwitter);
-        Pair<String, ImageButton> facebookPair = new Pair<>(mLinkFacebook, mButtonFacebook);
-        Pair<String, ImageButton> linkedinPair = new Pair<>(mLinkLinkedin, mButtonLinkedin);
-        Pair<String, ImageButton> instagramPair = new Pair<>(mLinkInsta, mButtonInsta);
-
-        mScreenDelegate.handleButtons(twitterPair, facebookPair, linkedinPair, instagramPair);
+        new DetailScreenDelegate().handleButtons(twitterPair, facebookPair, linkedinPair, instagramPair);
 
         ImageLoaderHelper.loadImage(getContext(), buildUrl(profilePic), mImageDetail);
 
         mAppBar.addOnOffsetChangedListener(mOffsetChangeListenerAdapter);
 
         mPagerAdapter = new AppPagerAdapter(getContext());
-        mPagerAdapter.addVieBinder(new AboutViewBinder());
+        mPagerAdapter.addVieBinder(new AboutViewBinder(new MemberInfoListAdapter(getLayoutInflater(getArguments()))));
         mPagerAdapter.addVieBinder(new ProjectsViewBinder(new OnListItemClickListener<ProjectVO>() {
             @Override
             public void onItemClick(ProjectVO model) {

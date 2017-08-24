@@ -11,9 +11,13 @@
 
 package net.impacthub.members.mapper.companies;
 
+import net.impacthub.members.model.features.companies.services.ServicesResponse;
+import net.impacthub.members.model.pojo.ListItemType;
+import net.impacthub.members.model.pojo.SimpleItem;
 import net.impacthub.members.model.vo.companies.CompanyVO;
 import net.impacthub.members.model.features.companies.CompaniesResponse;
 import net.impacthub.members.model.features.companies.Records;
+import net.impacthub.members.model.vo.companies.ServiceVO;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -36,6 +40,14 @@ public class CompaniesMapper {
                         CompanyVO company = new CompanyVO();
                         company.mCompanyId = record.getId();
                         company.mCompanyName = record.getName();
+
+                        company.mLinkFacebook = record.getFacebook__c();
+                        company.mLinkInstagram = record.getInstagram__c();
+                        company.mLinkLinkedin = record.getLinkedIn__c();
+                        company.mLinkTwitter = record.getTwitter__c();
+
+                        company.mCompanyDescription = record.getAbout_Us__c();
+                        company.mCompanyWebsite = record.getWebsite();
                         company.mCompanySector = record.getSector_Industry__c();
                         company.mCompanyLogo = record.getLogo_Image_Url__c();
                         company.mCompanyBanner = record.getBanner_Image_Url__c();
@@ -47,5 +59,21 @@ public class CompaniesMapper {
             }
         }
         return companyDTOs;
+    }
+
+    public List<ListItemType> mapAsListItemType(ServicesResponse response) {
+        List<ListItemType> listItemTypes = new LinkedList<>();
+        if (response != null) {
+            net.impacthub.members.model.features.companies.services.Records[] records = response.getRecords();
+            if (records != null) {
+                for (net.impacthub.members.model.features.companies.services.Records record : records) {
+                    ServiceVO serviceVO = new ServiceVO();
+                    serviceVO.mTitle = record.getName();
+                    serviceVO.mDescription = record.getService_Description__c();
+                    listItemTypes.add(new SimpleItem<ServiceVO>(serviceVO, 2));
+                }
+            }
+        }
+        return listItemTypes;
     }
 }

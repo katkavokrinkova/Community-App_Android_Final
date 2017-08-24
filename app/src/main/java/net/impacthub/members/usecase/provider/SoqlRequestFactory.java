@@ -61,6 +61,9 @@ public class SoqlRequestFactory {
             " Logo_Image_Url__c, Banner_Image_Url__c,Affiliated_SDG__c, Twitter__c, Instagram__c, Facebook__c, LinkedIn__c," +
             " Website, About_Us__c FROM account where id IN (SELECT accountid FROM contact WHERE user__c != null)";
 
+    private static final String COMPANY_SERVICE_COLUMNS = "id, name, Service_Description__c FROM Company_Service__c";
+    private static final String COMPANY_SERVICES = "SELECT " + COMPANY_SERVICE_COLUMNS + "  WHERE Company__r.id ='%s'";
+
     private static final String GROUP = "id, name, CountOfMembers__c, ImageURL__c, Group_Desc__c,Related_Impact_Goal__c, Impact_Hub_Cities__c, ChatterGroupId__c, Directory_Style__c,Sector__c";
     private static final String ALL_GROUPS = "SELECT "+ GROUP + " FROM Directory__c WHERE Directory_Style__c = 'Group'";
     private static final String YOUR_GROUPS = "SELECT "+ GROUP + " FROM Directory__c " +
@@ -117,6 +120,10 @@ public class SoqlRequestFactory {
 
     public RestRequest createCompaniesRequest() throws UnsupportedEncodingException {
         return mRestRequestFactory.getForQuery(COMPANIES);
+    }
+
+    public RestRequest createCompanyServicesRequest(String companyId) throws UnsupportedEncodingException {
+        return mRestRequestFactory.getForQuery(String.format(COMPANY_SERVICES, companyId));
     }
 
     public RestRequest createAllGroupRequest() throws UnsupportedEncodingException {

@@ -39,8 +39,6 @@ import net.impacthub.members.presenter.features.events.EventdetailUiPresenter;
 import net.impacthub.members.ui.base.BaseChildFragment;
 import net.impacthub.members.ui.common.ImageLoaderHelper;
 
-import java.net.URLEncoder;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -114,7 +112,7 @@ public class EventDetailFragment extends BaseChildFragment<EventdetailUiPresente
 
     @Override
     protected int getContentView() {
-        return R.layout.fragment_category_detail_with_fab;
+        return R.layout.fragment_detail_event;
     }
 
     @OnClick(R.id.done)

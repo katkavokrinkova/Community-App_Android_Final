@@ -13,12 +13,12 @@ package net.impacthub.members.mapper.projects;
 
 import android.support.annotation.NonNull;
 
-import net.impacthub.members.model.pojo.ListItemType;
-import net.impacthub.members.model.pojo.SimpleItem;
-import net.impacthub.members.model.vo.projects.ProjectVO;
 import net.impacthub.members.model.features.projects.Organisation__r;
 import net.impacthub.members.model.features.projects.ProjectResponse;
 import net.impacthub.members.model.features.projects.Records;
+import net.impacthub.members.model.pojo.ListItemType;
+import net.impacthub.members.model.pojo.SimpleItem;
+import net.impacthub.members.model.vo.projects.ProjectVO;
 
 import java.util.LinkedList;
 import java.util.List;

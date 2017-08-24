@@ -11,6 +11,7 @@
 
 package net.impacthub.members.presenter.features.companies;
 
+import net.impacthub.members.model.pojo.ListItemType;
 import net.impacthub.members.model.vo.members.MemberVO;
 import net.impacthub.members.model.vo.projects.ProjectVO;
 import net.impacthub.members.presenter.features.error.ErrorHandlerUiContract;
@@ -28,4 +29,6 @@ public interface CompanyDetailUiContract extends ErrorHandlerUiContract {
     void onLoadProjects(List<ProjectVO> projectDTOs);
 
     void onLoadMembers(List<MemberVO> memberDTOs);
+
+    void onLoadCompanyServices(List<ListItemType> listItemTypes);
 }

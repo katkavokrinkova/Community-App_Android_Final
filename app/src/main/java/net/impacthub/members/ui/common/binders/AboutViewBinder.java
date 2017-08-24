@@ -9,7 +9,7 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.ui.features.home.members.binders;
+package net.impacthub.members.ui.common.binders;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 
 import net.impacthub.members.R;
 import net.impacthub.members.model.pojo.ListItemType;
+import net.impacthub.members.ui.base.BaseListAdapter;
 import net.impacthub.members.ui.binder.ViewBinder;
 
 import java.util.List;
@@ -31,14 +32,17 @@ import java.util.List;
 
 public class AboutViewBinder implements ViewBinder<List<ListItemType>> {
 
-    private MemberInfoListAdapter mAdapter;
+    private final BaseListAdapter<RecyclerView.ViewHolder, ListItemType> mAdapter;
+
+    public AboutViewBinder(BaseListAdapter<RecyclerView.ViewHolder, ListItemType> adapter) {
+        mAdapter = adapter;
+    }
 
     @Override
     public View getView(Context context, int position) {
         LayoutInflater inflater = LayoutInflater.from(context);
         RecyclerView recyclerView = (RecyclerView) inflater.inflate(R.layout.common_list_layout_with_padding, new LinearLayout(context), false);
         recyclerView.setHasFixedSize(true);
-        mAdapter = new MemberInfoListAdapter(inflater);
         recyclerView.setAdapter(mAdapter);
         return recyclerView;
     }
