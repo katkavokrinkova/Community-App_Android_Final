@@ -11,14 +11,14 @@
 
 package net.impacthub.members.usecase.features.groups;
 
-import net.impacthub.members.model.features.chatterfeed.FeedElements;
+import net.impacthub.members.model.features.chatterfeed.ChatterFeedResponse;
 import net.impacthub.members.usecase.base.BaseUseCaseGenerator;
 
 import java.util.concurrent.Callable;
 
 import io.reactivex.Single;
 
-public class ChatterFeedUseCase extends BaseUseCaseGenerator<Single<FeedElements>, FeedElements> {
+public class ChatterFeedUseCase extends BaseUseCaseGenerator<Single<ChatterFeedResponse>, ChatterFeedResponse> {
 
     private final String mFeedId;
 
@@ -27,14 +27,14 @@ public class ChatterFeedUseCase extends BaseUseCaseGenerator<Single<FeedElements
     }
 
     @Override
-    public Single<FeedElements> getUseCase() {
+    public Single<ChatterFeedResponse> getUseCase() {
         return Single.fromCallable(new FeedElementsCallable());
     }
 
-    private class FeedElementsCallable implements Callable<FeedElements> {
+    private class FeedElementsCallable implements Callable<ChatterFeedResponse> {
         @Override
-        public FeedElements call() throws Exception {
-            return getApiCall().getResponse(getSoqlRequestFactory().createChatterFeedRequest(getUserAccount().getCommunityId(), mFeedId), FeedElements.class);
+        public ChatterFeedResponse call() throws Exception {
+            return getApiCall().getResponse(getSoqlRequestFactory().createChatterFeedRequest(getUserAccount().getCommunityId(), mFeedId), ChatterFeedResponse.class);
         }
     }
 }

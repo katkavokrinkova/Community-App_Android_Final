@@ -11,6 +11,8 @@
 
 package net.impacthub.members.mapper.chatter;
 
+import net.impacthub.members.model.features.groups.chatter.ChatterResponse;
+import net.impacthub.members.model.features.groups.chatter.Groups;
 import net.impacthub.members.model.vo.chatter.ChatterVO;
 import net.impacthub.members.model.features.chatterfeed.Actor;
 import net.impacthub.members.model.features.chatterfeed.Body;
@@ -19,12 +21,14 @@ import net.impacthub.members.model.features.chatterfeed.ChatterLikes;
 import net.impacthub.members.model.features.chatterfeed.Comments;
 import net.impacthub.members.model.features.chatterfeed.CommentsPage;
 import net.impacthub.members.model.features.chatterfeed.Element;
-import net.impacthub.members.model.features.chatterfeed.FeedElements;
+import net.impacthub.members.model.features.chatterfeed.ChatterFeedResponse;
 import net.impacthub.members.model.features.chatterfeed.LikesPage;
 import net.impacthub.members.model.features.chatterfeed.Photo;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Filippo Ash
@@ -34,7 +38,7 @@ import java.util.List;
 
 public class ChatterMapper {
 
-    public List<ChatterVO> map(FeedElements feedElements) {
+    public List<ChatterVO> map(ChatterFeedResponse feedElements) {
         List<ChatterVO> chatterDTOs = new LinkedList<>();
         if (feedElements != null) {
             List<Element> elements = feedElements.getElements();
@@ -82,5 +86,18 @@ public class ChatterMapper {
             }
         }
         return chatterDTOs;
+    }
+
+    public Set<String> mapChatterIdForGroups(ChatterResponse chatterGroupResponse) {
+        Set<String> ids = new HashSet<>();
+        if (chatterGroupResponse != null) {
+            Groups[] groups = chatterGroupResponse.getGroups();
+            if (groups != null) {
+                for (Groups group : groups) {
+                    ids.add(group.getId());
+                }
+            }
+        }
+        return ids;
     }
 }

@@ -64,7 +64,7 @@ public class SoqlRequestFactory {
     private static final String COMPANY_SERVICE_COLUMNS = "id, name, Service_Description__c FROM Company_Service__c";
     private static final String COMPANY_SERVICES = "SELECT " + COMPANY_SERVICE_COLUMNS + "  WHERE Company__r.id ='%s'";
 
-    private static final String GROUP = "id, name, CountOfMembers__c, ImageURL__c, Group_Desc__c,Related_Impact_Goal__c, Impact_Hub_Cities__c, ChatterGroupId__c, Directory_Style__c,Sector__c";
+    private static final String GROUP = "id, name, CountOfMembers__c, ImageURL__c, Group_Desc__c,Related_Impact_Goal__c, Impact_Hub_Cities__c, ChatterGroupType__c, ChatterGroupId__c, Directory_Style__c,Sector__c";
     private static final String ALL_GROUPS = "SELECT "+ GROUP + " FROM Directory__c WHERE Directory_Style__c = 'Group'";
     private static final String YOUR_GROUPS = "SELECT "+ GROUP + " FROM Directory__c " +
             "WHERE Directory_Style__c = 'Group' AND id IN (SELECT DirectoryID__c FROM Directory_Member__c WHERE ContactID__c ='%s')";
@@ -245,6 +245,11 @@ public class SoqlRequestFactory {
     public RestRequest createChatterFeedRequest(String communityId, String feedId) {
         return new RestRequest(RestRequest.RestMethod.GET,
                 getPath(communityId, "feeds/record/", feedId + "/feed-elements?filterGroup=Medium"));
+    }
+
+    public RestRequest createGetMyGroupsRequest(String communityId, String userId) {
+        return new RestRequest(RestRequest.RestMethod.GET,
+                getPath(communityId, "users/", userId + "/groups?filterGroup=Medium"));
     }
 
     @NonNull

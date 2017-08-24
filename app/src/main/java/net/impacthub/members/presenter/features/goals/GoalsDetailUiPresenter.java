@@ -42,7 +42,7 @@ public class GoalsDetailUiPresenter extends UiPresenter<GoalsDetailUiContract> {
         subscribeWith(new GoalGroupsUseCase(goalName).getUseCase(), new DisposableSingleObserver<GroupsResponse>() {
             @Override
             public void onSuccess(@NonNull GroupsResponse goalsResponse) {
-                List<GroupVO> groupDTOs = new GroupsMapper().map(goalsResponse);
+                List<GroupVO> groupDTOs = new GroupsMapper().mapGroups(goalsResponse);
                 getUi().onLoadGroups(groupDTOs);
             }
 

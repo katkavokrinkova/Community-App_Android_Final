@@ -26,6 +26,7 @@ public class Records {
     private String CountOfMembers__c;
     private String Sector__c;
     private String ChatterGroupId__c;
+    private String ChatterGroupType__c;
     private String Id;
     private Attributes attributes;
     private String ImageURL__c;
@@ -73,6 +74,10 @@ public class Records {
 
     public String getImpact_Hub_Cities__c() {
         return Impact_Hub_Cities__c;
+    }
+
+    public String getChatterGroupType__c() {
+        return ChatterGroupType__c;
     }
 
     @Override

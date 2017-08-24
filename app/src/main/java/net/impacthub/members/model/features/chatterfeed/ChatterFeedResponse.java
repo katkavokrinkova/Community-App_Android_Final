@@ -17,7 +17,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class FeedElements {
+public class ChatterFeedResponse {
 
     @SerializedName("elements")
     @Expose

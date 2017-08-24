@@ -15,7 +15,7 @@ import net.impacthub.members.mapper.chatter.ChatterMapper;
 import net.impacthub.members.mapper.jobs.JobsMapper;
 import net.impacthub.members.mapper.members.MembersMapper;
 import net.impacthub.members.mapper.objectives.ObjectivesMapper;
-import net.impacthub.members.model.features.chatterfeed.FeedElements;
+import net.impacthub.members.model.features.chatterfeed.ChatterFeedResponse;
 import net.impacthub.members.model.features.jobs.JobsResponse;
 import net.impacthub.members.model.features.members.MembersResponse;
 import net.impacthub.members.model.features.objectives.ObjectivesResponse;
@@ -51,9 +51,9 @@ public class ProjectDetailUiPresenter extends UiPresenter<ProjectDetailUiContrac
 
     public void loadDetails(String feedId, String projectId) {
 
-        subscribeWith(new ChatterFeedUseCase(feedId).getUseCase(), new DisposableSingleObserver<FeedElements>() {
+        subscribeWith(new ChatterFeedUseCase(feedId).getUseCase(), new DisposableSingleObserver<ChatterFeedResponse>() {
             @Override
-            public void onSuccess(@NonNull FeedElements feedElements) {
+            public void onSuccess(@NonNull ChatterFeedResponse feedElements) {
                 List<ChatterVO> chatterDTOs = new ChatterMapper().map(feedElements);
                 getUi().onLoadChatterFeed(chatterDTOs);
             }

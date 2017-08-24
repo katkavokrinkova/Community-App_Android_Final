@@ -14,7 +14,7 @@ package net.impacthub.members.presenter.features.groups;
 
 import net.impacthub.members.mapper.chatter.ChatterMapper;
 import net.impacthub.members.model.vo.chatter.ChatterVO;
-import net.impacthub.members.model.features.chatterfeed.FeedElements;
+import net.impacthub.members.model.features.chatterfeed.ChatterFeedResponse;
 import net.impacthub.members.presenter.base.UiPresenter;
 import net.impacthub.members.usecase.features.groups.ChatterFeedUseCase;
 
@@ -30,9 +30,9 @@ public class ChatterFeedPresenter extends UiPresenter<ChatterFeedUiContract> {
     }
 
     public void loadChatterFeed(String feedId) {
-        subscribeWith(new ChatterFeedUseCase(feedId).getUseCase(), new DisposableSingleObserver<FeedElements>() {
+        subscribeWith(new ChatterFeedUseCase(feedId).getUseCase(), new DisposableSingleObserver<ChatterFeedResponse>() {
             @Override
-            public void onSuccess(@NonNull FeedElements feedElements) {
+            public void onSuccess(@NonNull ChatterFeedResponse feedElements) {
                 List<ChatterVO> chatterDTOs = new ChatterMapper().map(feedElements);
                 getUi().onLoadChatterFeed(chatterDTOs);
             }

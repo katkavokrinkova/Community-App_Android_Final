@@ -11,12 +11,15 @@
 
 package net.impacthub.members.mapper.groups;
 
-import net.impacthub.members.model.vo.groups.GroupVO;
+import net.impacthub.members.mapper.chatter.ChatterMapper;
 import net.impacthub.members.model.features.groups.GroupsResponse;
 import net.impacthub.members.model.features.groups.Records;
+import net.impacthub.members.model.features.groups.chatter.ChatterResponse;
+import net.impacthub.members.model.vo.groups.GroupVO;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Filippo Ash
@@ -26,21 +29,41 @@ import java.util.List;
 
 public class GroupsMapper {
 
-    public List<GroupVO> map(GroupsResponse response) {
+    public List<GroupVO> mapGroups(GroupsResponse response) {
         List<GroupVO> groups = new LinkedList<>();
         if (response != null) {
             Records[] records = response.getRecords();
             if (records != null) {
                 for (Records record : records) {
                     if (record != null) {
-                        GroupVO group = new GroupVO();
-                        group.mImageURL = record.getImageURL__c();
-                        group.mName = record.getName();
-                        group.mGroupDescription = record.getGroup_Desc__c();
-                        group.mCities = record.getImpact_Hub_Cities__c();
-                        group.mMemberCount = record.getCountOfMembers__c();
-                        group.mChatterGroupId = record.getChatterGroupId__c();
-                        groups.add(group);
+                        groups.add(mapGroup(record));
+                    }
+                }
+            }
+        }
+        return groups;
+    }
+
+    private GroupVO mapGroup(Records record) {
+        GroupVO group = new GroupVO();
+        group.mImageURL = record.getImageURL__c();
+        group.mName = record.getName();
+        group.mGroupDescription = record.getGroup_Desc__c();
+        group.mCities = record.getImpact_Hub_Cities__c();
+        group.mMemberCount = record.getCountOfMembers__c();
+        group.mChatterGroupId = record.getChatterGroupId__c();
+        return group;
+    }
+
+    public List<GroupVO> mapFiltered(ChatterResponse myChatterGroupResponse, GroupsResponse allGroupResponse) {
+        List<GroupVO> groups = new LinkedList<>();
+        if (allGroupResponse != null) {
+            Records[] records = allGroupResponse.getRecords();
+            if (records != null) {
+                Set<String> chatterIds = new ChatterMapper().mapChatterIdForGroups(myChatterGroupResponse);
+                for (Records record : records) {
+                    if("Public".equalsIgnoreCase(record.getChatterGroupType__c()) || chatterIds.contains(record.getChatterGroupId__c())) {
+                        groups.add(mapGroup(record));
                     }
                 }
             }
