@@ -26,7 +26,9 @@ import net.impacthub.members.ui.base.BaseChildFragment;
 import net.impacthub.members.ui.binder.ViewBinder;
 import net.impacthub.members.ui.common.AppPagerAdapter;
 import net.impacthub.members.ui.delegate.TabsDelegate;
-import net.impacthub.members.ui.features.messages.contacts.binders.ContactViewBinder;
+import net.impacthub.members.ui.features.messages.contacts.binders.ContactsApprovedViewBinder;
+import net.impacthub.members.ui.features.messages.contacts.binders.ContactsPendingViewBinder;
+import net.impacthub.members.ui.features.messages.contacts.binders.ContactsRejectedViewBinder;
 
 import java.util.List;
 
@@ -45,9 +47,9 @@ public class ContactsFragment extends BaseChildFragment<ContactsUiPresenter> imp
     @BindView(R.id.tabs) protected TabLayout mContactsTab;
     @BindView(R.id.pager) protected ViewPager mContactPages;
 
-    private ViewBinder<Object> mViewBinder1;
-    private ViewBinder<Object> mViewBinder2;
-    private ViewBinder<Object> mViewBinder3;
+    private ViewBinder<List<ContactVO>> mViewBinder1;
+    private ViewBinder<List<ContactVO>> mViewBinder2;
+    private ViewBinder<List<ContactVO>> mViewBinder3;
 
     public static ContactsFragment newInstance() {
 
@@ -76,9 +78,9 @@ public class ContactsFragment extends BaseChildFragment<ContactsUiPresenter> imp
         AppPagerAdapter adapter = new AppPagerAdapter(getContext());
 //
         LayoutInflater inflater = getLayoutInflater(getArguments());
-        adapter.addVieBinder(mViewBinder1 = new ContactViewBinder(new ActiveContactsListAdapter(inflater)));
-        adapter.addVieBinder(mViewBinder2 = new ContactViewBinder(new PendingContactsListAdapter(inflater)));
-        adapter.addVieBinder(mViewBinder3 = new ContactViewBinder(new RejectedContactsListAdapter(inflater)));
+        adapter.addVieBinder(mViewBinder1 = new ContactsApprovedViewBinder());
+        adapter.addVieBinder(mViewBinder2 = new ContactsPendingViewBinder());
+        adapter.addVieBinder(mViewBinder3 = new ContactsRejectedViewBinder());
 //
         mContactPages.setAdapter(adapter);
         mContactPages.setOffscreenPageLimit(adapter.getCount());
@@ -90,7 +92,17 @@ public class ContactsFragment extends BaseChildFragment<ContactsUiPresenter> imp
     }
 
     @Override
-    public void onLoadContacts(List<ContactVO> contactVOs) {
+    public void onLoadApprovedContacts(List<ContactVO> contactVOs) {
+        mViewBinder1.bindView(contactVOs);
+    }
 
+    @Override
+    public void onLoadOutstandingContacts(List<ContactVO> contactVOs) {
+        mViewBinder2.bindView(contactVOs);
+    }
+
+    @Override
+    public void onLoadDeclinedContacts(List<ContactVO> contactVOs) {
+        mViewBinder3.bindView(contactVOs);
     }
 }

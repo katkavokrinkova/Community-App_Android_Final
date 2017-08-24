@@ -18,22 +18,21 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import net.impacthub.members.R;
+import net.impacthub.members.model.vo.contacts.ContactVO;
 import net.impacthub.members.ui.binder.ViewBinder;
 import net.impacthub.members.ui.common.LinearItemsMarginDecorator;
+
+import java.util.List;
 
 /**
  * @author Filippo Ash
  * @version 1.0
- * @date 8/22/2017.
+ * @date 8/24/2017.
  */
 
-public class ContactViewBinder implements ViewBinder<Object> {
+public class ContactsApprovedViewBinder implements ViewBinder<List<ContactVO>> {
 
-    private final RecyclerView.Adapter mAdapter;
-
-    public ContactViewBinder(RecyclerView.Adapter adapter) {
-        mAdapter = adapter;
-    }
+    private ActiveContactsListAdapter mAdapter;
 
     @Override
     public View getView(Context context, int position) {
@@ -42,12 +41,13 @@ public class ContactViewBinder implements ViewBinder<Object> {
         recyclerView.setHasFixedSize(true);
         int offset = context.getResources().getDimensionPixelOffset(R.dimen.default_content_normal_gap);
         recyclerView.addItemDecoration(new LinearItemsMarginDecorator(offset));
+        mAdapter = new ActiveContactsListAdapter(inflater);
         recyclerView.setAdapter(mAdapter);
         return recyclerView;
     }
 
     @Override
-    public void bindView(Object model) {
-
+    public void bindView(List<ContactVO> model) {
+        mAdapter.setItems(model);
     }
 }

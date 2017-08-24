@@ -24,11 +24,11 @@ import net.impacthub.members.usecase.features.members.MembersUseCase;
 import net.impacthub.members.usecase.features.profile.ProfileUseCase;
 
 import java.util.List;
+import java.util.Map;
 
 import io.reactivex.Single;
 import io.reactivex.SingleSource;
 import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableSingleObserver;
 
@@ -47,33 +47,39 @@ public class ContactsUiPresenter extends UiPresenter<ContactsUiContract> {
     }
 
     public void getContacts() {
-        Single<List<ContactVO>> listSingle = mProfileUseCase.getUseCase()
-                .flatMap(new Function<MembersResponse, SingleSource<? extends List<ContactVO>>>() {
+        Single<Map<String, List<ContactVO>>> listSingle = mProfileUseCase.getUseCase()
+                .flatMap(new Function<MembersResponse, SingleSource<? extends Map<String, List<ContactVO>>>>() {
                     @Override
-                    public SingleSource<? extends List<ContactVO>> apply(@NonNull MembersResponse membersResponse) throws Exception {
+                    public SingleSource<? extends Map<String, List<ContactVO>>> apply(@NonNull MembersResponse membersResponse) throws Exception {
                         Records record = membersResponse.getRecords()[0];
                         String contactId = record.getId();
                         return Single.zip(
                                 new DMRequestUseCase(contactId).getUseCase(),
                                 new MembersUseCase().getUseCase(),
-                                new AbstractBigFunction<String, ContactsResponse, MembersResponse, List<ContactVO>>(contactId) {
+                                new AbstractBigFunction<String, ContactsResponse, MembersResponse, Map<String, List<ContactVO>>> (contactId) {
                                     @Override
-                                    protected List<ContactVO> apply(ContactsResponse response, MembersResponse membersResponse, String subject) {
+                                    protected Map<String, List<ContactVO>> apply(ContactsResponse response, MembersResponse membersResponse, String subject) {
                                         return new ContactsMapper().mapContactMembers(response, membersResponse, subject);
                                     }
                                 }
                         );
                     }
                 });
-        subscribeWith(listSingle, new DisposableSingleObserver<List<ContactVO>>() {
+        getUi().onChangeStatus(true);
+        subscribeWith(listSingle, new DisposableSingleObserver<Map<String, List<ContactVO>>>() {
+
             @Override
-            public void onSuccess(@NonNull List<ContactVO> contactVOs) {
-                getUi().onLoadContacts(contactVOs);
+            public void onSuccess(@NonNull Map<String, List<ContactVO>> stringListMap) {
+                getUi().onLoadApprovedContacts(stringListMap.get("Approved"));
+                getUi().onLoadOutstandingContacts(stringListMap.get("Outstanding"));
+                getUi().onLoadDeclinedContacts(stringListMap.get("Declined"));
+                getUi().onChangeStatus(false);
             }
 
             @Override
             public void onError(@NonNull Throwable e) {
-
+                getUi().onError(e);
+                getUi().onChangeStatus(false);
             }
         });
     }

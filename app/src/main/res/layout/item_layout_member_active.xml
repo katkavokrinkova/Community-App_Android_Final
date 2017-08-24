@@ -97,12 +97,13 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/image_menu_icon"
+                android:id="@+id/button_message_contact"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/comment_bubble_small" />
 
             <net.impacthub.members.ui.widgets.TypefaceTextView
+                android:id="@+id/button_decline_contact"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"

@@ -94,7 +94,7 @@
 
 
                 <net.impacthub.members.ui.widgets.TypefaceTextView
-                    android:id="@+id/text_event_description"
+                    android:id="@+id/text_welcome_message"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/warm_grey_2"
@@ -115,12 +115,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:layout_marginLeft="16dp"
             android:orientation="horizontal">
 
             <net.impacthub.members.ui.widgets.TypefaceTextView
+                android:id="@+id/button_view_more"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="16dp"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="View More"
@@ -134,13 +135,13 @@
                 android:layout_weight="1"/>
 
             <ImageView
-                android:id="@+id/image_decline"
+                android:id="@+id/button_decline_contact"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/ic_decline_contact" />
 
             <ImageView
-                android:id="@+id/image_accept"
+                android:id="@+id/button_accept_contact"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/ic_accept_contact" />

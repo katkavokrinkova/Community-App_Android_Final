@@ -29,7 +29,6 @@ public class MessagesUiPresenter extends UiPresenter<MessagesUiContract> {
     }
 
     public void getConversations() {
-        getUi().onChangeStatus(true);
         Single<List<MessageVO>> single = mMessagesUseCase.getUseCase()
                 .map(new Function<MessageResponse, List<MessageVO>>() {
                     @Override
@@ -41,13 +40,11 @@ public class MessagesUiPresenter extends UiPresenter<MessagesUiContract> {
             @Override
             public void onSuccess(@NonNull List<MessageVO> messageVOList) {
                 getUi().onLoadMessages(messageVOList);
-                getUi().onChangeStatus(false);
             }
 
             @Override
             public void onError(@NonNull Throwable e) {
                 getUi().onError(e);
-                getUi().onChangeStatus(false);
             }
         });
     }

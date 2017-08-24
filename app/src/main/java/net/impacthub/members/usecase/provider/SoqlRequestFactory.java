@@ -28,6 +28,8 @@ import static net.impacthub.members.application.salesforce.SalesforceModuleDepen
 
 public class SoqlRequestFactory {
 
+    //User__c is the user ID
+    //id is the contact ID
     private static final String CONTACT = "id, firstname,lastname, ProfilePic__c, Profession__c, Impact_Hub_Cities__c," +
             " User__c,Skills__c, About_Me__c,Status_Update__c,Directory_Summary__c, Interested_SDG__c," +
             "How_Do_You_Most_Identify_with_Your_Curre__c,Twitter__c,Instagram__c,Facebook__c,Linked_In__c";

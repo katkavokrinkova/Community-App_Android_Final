@@ -11,6 +11,8 @@
 
 package net.impacthub.members.model.vo.contacts;
 
+import net.impacthub.members.model.vo.members.MemberVO;
+
 /**
  * @author Filippo Ash
  * @version 1.0
@@ -18,4 +20,7 @@ package net.impacthub.members.model.vo.contacts;
  */
 
 public class ContactVO {
+
+    public String mIntroMessage;
+    public MemberVO mMember;
 }

@@ -24,5 +24,9 @@ import java.util.List;
 
 public interface ContactsUiContract extends ErrorHandlerUiContract {
 
-    void onLoadContacts(List<ContactVO> contactVOs);
+    void onLoadApprovedContacts(List<ContactVO> contactVOs);
+
+    void onLoadOutstandingContacts(List<ContactVO> contactVOs);
+
+    void onLoadDeclinedContacts(List<ContactVO> contactVOs);
 }
