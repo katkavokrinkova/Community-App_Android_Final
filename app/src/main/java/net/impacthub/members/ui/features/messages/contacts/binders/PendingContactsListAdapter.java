@@ -108,13 +108,16 @@ public class PendingContactsListAdapter extends BaseListAdapter<PendingContactsL
                     if (contactVO != null && mItemActionListener != null) {
                         MemberVO member = contactVO.mMember;
                         if (member != null) {
-                            mItemActionListener.onAcceptContactRequest(contactVO.mDM_Id, member.mUserId);
+                            mItemActionListener.onUpdateContactRequest(contactVO.mDM_Id, member.mUserId, "Approved");
                         }
                     }
                     break;
                 case R.id.button_reject_contact:
-                    if (mItemActionListener != null) {
-                        mItemActionListener.onRejectContactRequest();
+                    if (contactVO != null && mItemActionListener != null) {
+                        MemberVO member = contactVO.mMember;
+                        if (member != null) {
+                            mItemActionListener.onUpdateContactRequest(contactVO.mDM_Id, member.mUserId, "Declined");
+                        }
                     }
                     break;
             }

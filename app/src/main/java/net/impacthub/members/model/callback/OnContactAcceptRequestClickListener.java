@@ -19,5 +19,5 @@ package net.impacthub.members.model.callback;
 
 public interface OnContactAcceptRequestClickListener {
 
-    void onAcceptContactRequest(String Dm_Id, String memberId);
+    void onUpdateContactRequest(String Dm_Id, String memberId, String status);
 }

@@ -73,6 +73,17 @@ public class ContactsMapper {
                 }
             }
         }
+
+        if(contactsMap.get("Approved") == null){
+            contactsMap.put("Approved", new LinkedList<ContactVO>());
+        }
+        if(contactsMap.get("Outstanding") == null){
+            contactsMap.put("Outstanding", new LinkedList<ContactVO>());
+        }
+        if(contactsMap.get("Declined") == null){
+            contactsMap.put("Declined", new LinkedList<ContactVO>());
+        }
+
         return contactsMap;
     }
 

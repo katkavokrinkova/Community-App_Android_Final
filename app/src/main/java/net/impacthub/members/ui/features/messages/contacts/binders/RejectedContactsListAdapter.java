@@ -91,7 +91,7 @@ public class RejectedContactsListAdapter extends BaseListAdapter<RejectedContact
             if (contactVO != null && mItemActionListener != null) {
                 MemberVO member = contactVO.mMember;
                 if (member != null) {
-                    mItemActionListener.onAcceptContactRequest(contactVO.mDM_Id, member.mUserId);
+                    mItemActionListener.onUpdateContactRequest(contactVO.mDM_Id, member.mUserId, "Approved");
                 }
             }
         }

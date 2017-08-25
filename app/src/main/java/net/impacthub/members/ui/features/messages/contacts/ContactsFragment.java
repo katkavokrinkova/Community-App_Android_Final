@@ -100,26 +100,20 @@ public class ContactsFragment extends BaseChildFragment<ContactsUiPresenter> imp
         adapter.addVieBinder(mViewBinder2 = new ContactsPendingViewBinder(new OnContactPendingRequestActionClickListener() {
 
             @Override
-            public void onRejectContactRequest() {
-                showToast("Rejecting contact");
-            }
-
-            @Override
             public void onViewMoreContactRequest() {
                 showToast("Viewing more");
             }
 
             @Override
-            public void onAcceptContactRequest(String Dm_Id, String memberId) {
-                getPresenter().acceptContact(Dm_Id, memberId);
-                //showToast("Accepting Contact");
+            public void onUpdateContactRequest(String Dm_Id, String memberId, String status) {
+                getPresenter().updateContactRequest(Dm_Id,status, memberId);
             }
         }));
         adapter.addVieBinder(mViewBinder3 = new ContactsRejectedViewBinder(new OnContactAcceptRequestClickListener() {
 
             @Override
-            public void onAcceptContactRequest(String Dm_Id, String memberId) {
-                getPresenter().acceptContact(Dm_Id, memberId);
+            public void onUpdateContactRequest(String Dm_Id, String memberId, String status) {
+                getPresenter().updateContactRequest(Dm_Id, status, memberId);
             }
         }));
 //

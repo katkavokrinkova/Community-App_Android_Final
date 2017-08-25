@@ -19,7 +19,5 @@ package net.impacthub.members.model.callback;
 
 public interface OnContactPendingRequestActionClickListener extends OnContactAcceptRequestClickListener {
 
-    void onRejectContactRequest();
-
     void onViewMoreContactRequest();
 }

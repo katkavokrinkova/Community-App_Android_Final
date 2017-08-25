@@ -90,9 +90,9 @@ public class ContactsUiPresenter extends UiPresenter<ContactsUiContract> {
         });
     }
 
-    public void acceptContact(String id, String pushUserId) {
+    public void updateContactRequest(String id, String status, String pushUserId) {
         try {
-            JSONObject jsonObject = new JSONObject(new Gson().toJson(new UpdateContactBody(id, "Approved", pushUserId)));
+            JSONObject jsonObject = new JSONObject(new Gson().toJson(new UpdateContactBody(id, status, pushUserId)));
             subscribeWith(new UpdateDMRequestStatusUseCase(jsonObject).getUseCase(), new DisposableSingleObserver<Object>() {
                 @Override
                 public void onSuccess(@NonNull Object o) {
