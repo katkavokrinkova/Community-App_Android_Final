@@ -15,7 +15,7 @@ import com.google.gson.Gson;
 
 import net.impacthub.members.model.features.conversations.Id;
 import net.impacthub.members.model.features.conversations.ProcessedMessages;
-import net.impacthub.members.model.features.push.PushQuery;
+import net.impacthub.members.model.features.push.PushBody;
 import net.impacthub.members.presenter.base.UiPresenter;
 import net.impacthub.members.presenter.rx.AbstractFunction;
 import net.impacthub.members.usecase.features.conversations.GetProcessedMessagesUseCase;
@@ -62,7 +62,7 @@ public class ConversationUiPresenter extends UiPresenter<ConversationUiContract>
         });
     }
 
-    public void sendMessage(String conversationID, PushQuery pushQuery, String message, String inReplyTo) {
+    public void sendMessage(String conversationID, PushBody pushQuery, String message, String inReplyTo) {
 
         Single<ProcessedMessages> messagesSingle = new SendMessageUseCase(message, inReplyTo).getUseCase()
                 .observeOn(AndroidSchedulers.mainThread())
@@ -73,9 +73,9 @@ public class ConversationUiPresenter extends UiPresenter<ConversationUiContract>
                     }
                 })
                 .observeOn(Schedulers.io())
-                .flatMap(new AbstractFunction<PushQuery, Id, SingleSource<?>>(pushQuery) {
+                .flatMap(new AbstractFunction<PushBody, Id, SingleSource<?>>(pushQuery) {
                     @Override
-                    protected SingleSource<?> apply(Id response, PushQuery subject) throws Exception {
+                    protected SingleSource<?> apply(Id response, PushBody subject) throws Exception {
                         JSONObject jsonObject = new JSONObject(new Gson().toJson(subject));
                         return new SendPushUseCase(jsonObject).getUseCase();
                     }

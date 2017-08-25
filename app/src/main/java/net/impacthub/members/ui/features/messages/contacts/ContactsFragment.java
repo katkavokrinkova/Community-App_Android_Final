@@ -19,6 +19,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import net.impacthub.members.R;
+import net.impacthub.members.model.callback.OnActiveContactActionClickListener;
+import net.impacthub.members.model.callback.OnContactAcceptRequestClickListener;
+import net.impacthub.members.model.callback.OnContactPendingRequestActionClickListener;
 import net.impacthub.members.model.vo.contacts.ContactVO;
 import net.impacthub.members.presenter.features.contacts.ContactsUiContract;
 import net.impacthub.members.presenter.features.contacts.ContactsUiPresenter;
@@ -78,9 +81,47 @@ public class ContactsFragment extends BaseChildFragment<ContactsUiPresenter> imp
         AppPagerAdapter adapter = new AppPagerAdapter(getContext());
 //
         LayoutInflater inflater = getLayoutInflater(getArguments());
-        adapter.addVieBinder(mViewBinder1 = new ContactsApprovedViewBinder());
-        adapter.addVieBinder(mViewBinder2 = new ContactsPendingViewBinder());
-        adapter.addVieBinder(mViewBinder3 = new ContactsRejectedViewBinder());
+        adapter.addVieBinder(mViewBinder1 = new ContactsApprovedViewBinder(new OnActiveContactActionClickListener() {
+            @Override
+            public void onItemClick(ContactVO model) {
+                showToast("Opening member");
+            }
+
+            @Override
+            public void onOpenConversation() {
+                showToast("Opening Conversation");
+            }
+
+            @Override
+            public void onDeclineContact() {
+                showToast("Declining contact");
+            }
+        }));
+        adapter.addVieBinder(mViewBinder2 = new ContactsPendingViewBinder(new OnContactPendingRequestActionClickListener() {
+
+            @Override
+            public void onRejectContactRequest() {
+                showToast("Rejecting contact");
+            }
+
+            @Override
+            public void onViewMoreContactRequest() {
+                showToast("Viewing more");
+            }
+
+            @Override
+            public void onAcceptContactRequest(String Dm_Id, String memberId) {
+                getPresenter().acceptContact(Dm_Id, memberId);
+                //showToast("Accepting Contact");
+            }
+        }));
+        adapter.addVieBinder(mViewBinder3 = new ContactsRejectedViewBinder(new OnContactAcceptRequestClickListener() {
+
+            @Override
+            public void onAcceptContactRequest(String Dm_Id, String memberId) {
+                getPresenter().acceptContact(Dm_Id, memberId);
+            }
+        }));
 //
         mContactPages.setAdapter(adapter);
         mContactPages.setOffscreenPageLimit(adapter.getCount());

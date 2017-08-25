@@ -11,17 +11,23 @@
 
 package net.impacthub.members.presenter.features.contacts;
 
+import com.google.gson.Gson;
+
 import net.impacthub.members.mapper.contacts.ContactsMapper;
 import net.impacthub.members.model.features.contacts.ContactsResponse;
 import net.impacthub.members.model.features.members.MembersResponse;
 import net.impacthub.members.model.features.members.Records;
 import net.impacthub.members.model.vo.contacts.ContactVO;
+import net.impacthub.members.model.vo.contacts.UpdateContactBody;
 import net.impacthub.members.presenter.base.UiPresenter;
 import net.impacthub.members.presenter.rx.AbstractBigFunction;
 import net.impacthub.members.usecase.base.UseCaseGenerator;
 import net.impacthub.members.usecase.features.contacts.DMRequestUseCase;
+import net.impacthub.members.usecase.features.contacts.UpdateDMRequestStatusUseCase;
 import net.impacthub.members.usecase.features.members.MembersUseCase;
 import net.impacthub.members.usecase.features.profile.ProfileUseCase;
+
+import org.json.JSONObject;
 
 import java.util.List;
 import java.util.Map;
@@ -82,5 +88,22 @@ public class ContactsUiPresenter extends UiPresenter<ContactsUiContract> {
                 getUi().onChangeStatus(false);
             }
         });
+    }
+
+    public void acceptContact(String id, String pushUserId) {
+        try {
+            JSONObject jsonObject = new JSONObject(new Gson().toJson(new UpdateContactBody(id, "Approved", pushUserId)));
+            subscribeWith(new UpdateDMRequestStatusUseCase(jsonObject).getUseCase(), new DisposableSingleObserver<Object>() {
+                @Override
+                public void onSuccess(@NonNull Object o) {
+                    getContacts();
+                }
+
+                @Override
+                public void onError(@NonNull Throwable e) {
+                    getUi().onError(e);
+                }
+            });
+        }catch (Exception e){}
     }
 }

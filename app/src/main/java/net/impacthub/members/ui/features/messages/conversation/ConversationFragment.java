@@ -28,7 +28,7 @@ import com.bumptech.glide.request.transition.Transition;
 
 import net.impacthub.members.R;
 import net.impacthub.members.model.features.conversations.ProcessedMessages;
-import net.impacthub.members.model.features.push.PushQuery;
+import net.impacthub.members.model.features.push.PushBody;
 import net.impacthub.members.model.vo.conversations.ConversationVO;
 import net.impacthub.members.model.vo.conversations.RecipientVO;
 import net.impacthub.members.model.vo.notifications.NotificationType;
@@ -115,7 +115,7 @@ public class ConversationFragment extends BaseChildFragment<ConversationUiPresen
         String toUserIds = getArguments().getString(EXTRA_CONVERSATION_RECIPIENT_ID);
         String pushType = NotificationType.TYPE_PRIVATE_MESSAGE.getType();
 
-        PushQuery pushQuery = new PushQuery(fromUserId, toUserIds, pushType, mConversationID);
+        PushBody pushQuery = new PushBody(fromUserId, toUserIds, pushType, mConversationID);
 
         getPresenter().sendMessage(mConversationID, pushQuery, message, mInReplyTo);
     }

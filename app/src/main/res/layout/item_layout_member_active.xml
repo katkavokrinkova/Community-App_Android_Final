@@ -58,6 +58,8 @@
                 android:layout_marginTop="@dimen/item_text_top_margin"
                 android:textColor="@color/warm_grey_2"
                 android:textSize="12sp"
+                android:ellipsize="end"
+                android:maxLines="1"
                 app:typeface="fonts/gt-walsheim-light-web.ttf"
                 tools:text="Hod carrier" />
 

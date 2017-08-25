@@ -9,19 +9,15 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.model.vo.contacts;
-
-import net.impacthub.members.model.vo.members.MemberVO;
+package net.impacthub.members.model.callback;
 
 /**
  * @author Filippo Ash
  * @version 1.0
- * @date 8/22/2017.
+ * @date 8/25/2017.
  */
 
-public class ContactVO {
+public interface OnContactAcceptRequestClickListener {
 
-    public String mDM_Id;
-    public String mIntroMessage;
-    public MemberVO mMember;
+    void onAcceptContactRequest(String Dm_Id, String memberId);
 }

@@ -17,9 +17,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import net.impacthub.members.R;
+import net.impacthub.members.model.callback.OnContactPendingRequestActionClickListener;
 import net.impacthub.members.model.vo.contacts.ContactVO;
 import net.impacthub.members.model.vo.members.MemberVO;
 import net.impacthub.members.ui.base.BaseListAdapter;
@@ -35,8 +35,11 @@ import net.impacthub.members.ui.widgets.CircleImageView;
 
 public class PendingContactsListAdapter extends BaseListAdapter<PendingContactsListAdapter.PendingContactViewHolder, ContactVO> {
 
-    protected PendingContactsListAdapter(LayoutInflater inflater) {
+    private final OnContactPendingRequestActionClickListener mItemActionListener;
+
+    protected PendingContactsListAdapter(LayoutInflater inflater, OnContactPendingRequestActionClickListener listener) {
         super(inflater);
+        mItemActionListener = listener;
     }
 
     @Override
@@ -60,7 +63,7 @@ public class PendingContactsListAdapter extends BaseListAdapter<PendingContactsL
 
         final TextView buttonViewMore;
         final ImageView buttonAcceptContact;
-        final ImageView buttonDeclineContact;
+        final ImageView buttonRejectContact;
 
         PendingContactViewHolder(View itemView) {
             super(itemView);
@@ -73,11 +76,10 @@ public class PendingContactsListAdapter extends BaseListAdapter<PendingContactsL
 
             buttonViewMore = (TextView) container.findViewById(R.id.button_view_more);
             buttonAcceptContact = (ImageView) container.findViewById(R.id.button_accept_contact);
-            buttonDeclineContact = (ImageView) container.findViewById(R.id.button_decline_contact);
+            buttonRejectContact = (ImageView) container.findViewById(R.id.button_reject_contact);
             buttonViewMore.setOnClickListener(this);
             buttonAcceptContact.setOnClickListener(this);
-            buttonDeclineContact.setOnClickListener(this);
-            itemView.setOnClickListener(this);
+            buttonRejectContact.setOnClickListener(this);
         }
 
         @Override
@@ -98,19 +100,23 @@ public class PendingContactsListAdapter extends BaseListAdapter<PendingContactsL
             ContactVO contactVO = getItem(getAdapterPosition());
             switch (view.getId()) {
                 case R.id.button_view_more:
-                    Toast.makeText(context, "viewing more", Toast.LENGTH_SHORT).show();
+                    if (mItemActionListener != null) {
+                        mItemActionListener.onViewMoreContactRequest();
+                    }
                     break;
                 case R.id.button_accept_contact:
-                    Toast.makeText(context, "accepting contact", Toast.LENGTH_SHORT).show();
-                    break;
-                case R.id.button_decline_contact:
-                    Toast.makeText(context, "declining contact", Toast.LENGTH_SHORT).show();
-                    break;
-                default:
-                    Toast.makeText(context, "opening member", Toast.LENGTH_SHORT).show();
-                    if (mItemClickListener != null) {
-                        mItemClickListener.onItemClick(contactVO);
+                    if (contactVO != null && mItemActionListener != null) {
+                        MemberVO member = contactVO.mMember;
+                        if (member != null) {
+                            mItemActionListener.onAcceptContactRequest(contactVO.mDM_Id, member.mUserId);
+                        }
                     }
+                    break;
+                case R.id.button_reject_contact:
+                    if (mItemActionListener != null) {
+                        mItemActionListener.onRejectContactRequest();
+                    }
+                    break;
             }
         }
     }

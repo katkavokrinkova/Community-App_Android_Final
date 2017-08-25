@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import net.impacthub.members.R;
+import net.impacthub.members.model.callback.OnActiveContactActionClickListener;
 import net.impacthub.members.model.vo.contacts.ContactVO;
 import net.impacthub.members.model.vo.members.MemberVO;
 import net.impacthub.members.ui.base.BaseListAdapter;
@@ -35,8 +36,11 @@ import net.impacthub.members.ui.widgets.CircleImageView;
 
 public class ActiveContactsListAdapter extends BaseListAdapter<ActiveContactsListAdapter.ActiveContactViewHolder, ContactVO> {
 
-    protected ActiveContactsListAdapter(LayoutInflater inflater) {
+    private final OnActiveContactActionClickListener mItemActionListener;
+
+    protected ActiveContactsListAdapter(LayoutInflater inflater, OnActiveContactActionClickListener listener) {
         super(inflater);
+        mItemActionListener = listener;
     }
 
     @Override
@@ -87,19 +91,21 @@ public class ActiveContactsListAdapter extends BaseListAdapter<ActiveContactsLis
 
         @Override
         public void onClick(View view) {
-            Context context = view.getContext();
             ContactVO contactVO = getItem(getAdapterPosition());
             switch (view.getId()) {
                 case R.id.button_message_contact:
-                    Toast.makeText(context, "creating message", Toast.LENGTH_SHORT).show();
+                    if (mItemActionListener != null) {
+                        mItemActionListener.onOpenConversation();
+                    }
                     break;
                 case R.id.button_decline_contact:
-                    Toast.makeText(context, "declining contact", Toast.LENGTH_SHORT).show();
+                    if (mItemActionListener != null) {
+                        mItemActionListener.onDeclineContact();
+                    }
                     break;
                 default:
-                    Toast.makeText(context, "opening member", Toast.LENGTH_SHORT).show();
-                    if (mItemClickListener != null) {
-                        mItemClickListener.onItemClick(contactVO);
+                    if (mItemActionListener != null) {
+                        mItemActionListener.onItemClick(contactVO);
                     }
             }
         }

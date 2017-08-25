@@ -9,19 +9,19 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.model.vo.contacts;
+package net.impacthub.members.model.callback;
 
-import net.impacthub.members.model.vo.members.MemberVO;
+import net.impacthub.members.model.vo.contacts.ContactVO;
 
 /**
  * @author Filippo Ash
  * @version 1.0
- * @date 8/22/2017.
+ * @date 8/25/2017.
  */
 
-public class ContactVO {
+public interface OnActiveContactActionClickListener extends OnListItemClickListener<ContactVO>  {
 
-    public String mDM_Id;
-    public String mIntroMessage;
-    public MemberVO mMember;
+    void onOpenConversation();
+
+    void onDeclineContact();
 }

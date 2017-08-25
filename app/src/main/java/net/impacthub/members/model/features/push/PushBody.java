@@ -17,14 +17,14 @@ package net.impacthub.members.model.features.push;
  * @date 8/18/2017.
  */
 
-public class PushQuery {
+public class PushBody {
 
     private final String fromUserId;
     private final String toUserIds;
     private final String pushType;
     private final String relatedId;
 
-    public PushQuery(String fromUserId, String toUserIds, String pushType, String relatedId) {
+    public PushBody(String fromUserId, String toUserIds, String pushType, String relatedId) {
         this.fromUserId = fromUserId;
         this.toUserIds = toUserIds;
         this.pushType = pushType;

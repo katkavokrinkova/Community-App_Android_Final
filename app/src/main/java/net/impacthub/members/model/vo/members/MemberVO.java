@@ -19,6 +19,7 @@ package net.impacthub.members.model.vo.members;
 
 public class MemberVO {
 
+    public String mUserId;
     public String mMemberId;
     public String mFirstName;
     public String mLastName;

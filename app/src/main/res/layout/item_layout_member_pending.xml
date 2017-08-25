@@ -135,7 +135,7 @@
                 android:layout_weight="1"/>
 
             <ImageView
-                android:id="@+id/button_decline_contact"
+                android:id="@+id/button_reject_contact"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/ic_decline_contact" />

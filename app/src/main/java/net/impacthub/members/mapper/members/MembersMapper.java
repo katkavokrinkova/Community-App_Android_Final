@@ -70,6 +70,7 @@ public class MembersMapper {
 
     private void mapRecord(MemberVO memberDTO, Records record) {
         memberDTO.mMemberId = record.getId();
+        memberDTO.mUserId = record.getUser__c();
         memberDTO.mFirstName = record.getFirstName();
         memberDTO.mLastName = record.getLastName();
         memberDTO.mFullName = record.getFirstName() + " " + record.getLastName();

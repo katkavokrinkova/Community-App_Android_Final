@@ -100,7 +100,7 @@ public class SoqlRequestFactory {
     private static final String OBJECTIVES = "SELECT Directory__c,Goal_Summary__c,Goal__c,Id,Name FROM Directory_Goal__c WHERE Directory__c='%s'";
 
     private static final String DM_COLUMNS = "ContactFrom__c,ContactTo__c,CreatedDate,Id,Name,Status__c,Introduction_Message__c";
-    private static final String DIRECT_MESSAG_REQUEST_QUERY = "SELECT " + DM_COLUMNS +" FROM DM_Request__c WHERE ContactFrom__c = '%s' OR contactTo__c = '%s'";
+    private static final String DIRECT_MESSAGE_REQUEST_QUERY = "SELECT " + DM_COLUMNS +" FROM DM_Request__c WHERE ContactFrom__c = '%s' OR contactTo__c = '%s'";
 
     private final RestRequestFactory mRestRequestFactory = restRequestFactoryProvider();
 
@@ -205,7 +205,7 @@ public class SoqlRequestFactory {
     }
 
     public RestRequest createDirectMessageRequest(String contactId) throws UnsupportedEncodingException {
-        return mRestRequestFactory.getForQuery(String.format(DIRECT_MESSAG_REQUEST_QUERY, contactId, contactId));
+        return mRestRequestFactory.getForQuery(String.format(DIRECT_MESSAGE_REQUEST_QUERY, contactId, contactId));
     }
 
     public RestRequest createMessageRequest(String communityId) {
@@ -241,6 +241,12 @@ public class SoqlRequestFactory {
     public RestRequest createSendPushRequest(JSONObject jsonObject) {
         return new RestRequest(RestRequest.RestMethod.POST,
                 "/services/apexrest/pushNotificationFromSF/",
+                jsonObject);
+    }
+
+    public RestRequest createUpdateDMRequest(JSONObject jsonObject) {
+        return new RestRequest(RestRequest.RestMethod.POST,
+                "/services/apexrest/UpdateDMRequest/",
                 jsonObject);
     }
 

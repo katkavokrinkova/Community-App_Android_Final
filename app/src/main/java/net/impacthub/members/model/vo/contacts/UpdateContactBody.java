@@ -11,17 +11,21 @@
 
 package net.impacthub.members.model.vo.contacts;
 
-import net.impacthub.members.model.vo.members.MemberVO;
-
 /**
  * @author Filippo Ash
  * @version 1.0
- * @date 8/22/2017.
+ * @date 8/25/2017.
  */
 
-public class ContactVO {
+public class UpdateContactBody {
 
-    public String mDM_Id;
-    public String mIntroMessage;
-    public MemberVO mMember;
+    private final String DM_id;
+    private final String Req_status;
+    private final String pushUserId;
+
+    public UpdateContactBody(String DM_id, String Req_status, String pushUserId) {
+        this.DM_id = DM_id;
+        this.Req_status = Req_status;
+        this.pushUserId = pushUserId;
+    }
 }

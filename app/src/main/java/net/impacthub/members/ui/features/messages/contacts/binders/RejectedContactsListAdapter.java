@@ -17,9 +17,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import net.impacthub.members.R;
+import net.impacthub.members.model.callback.OnContactAcceptRequestClickListener;
 import net.impacthub.members.model.vo.contacts.ContactVO;
 import net.impacthub.members.model.vo.members.MemberVO;
 import net.impacthub.members.ui.base.BaseListAdapter;
@@ -35,8 +35,11 @@ import net.impacthub.members.ui.widgets.CircleImageView;
 
 public class RejectedContactsListAdapter extends BaseListAdapter<RejectedContactsListAdapter.RejectedMemberViewHolder, ContactVO> {
 
-    protected RejectedContactsListAdapter(LayoutInflater inflater) {
+    private final OnContactAcceptRequestClickListener mItemActionListener;
+
+    protected RejectedContactsListAdapter(LayoutInflater inflater, OnContactAcceptRequestClickListener listener) {
         super(inflater);
+        mItemActionListener = listener;
     }
 
     @Override
@@ -68,7 +71,6 @@ public class RejectedContactsListAdapter extends BaseListAdapter<RejectedContact
             locations = (TextView) container.findViewById(R.id.locations);
             buttonAcceptContact = (ImageView) container.findViewById(R.id.button_accept_contact);
             buttonAcceptContact.setOnClickListener(this);
-            itemView.setOnClickListener(this);
         }
 
         @Override
@@ -86,15 +88,11 @@ public class RejectedContactsListAdapter extends BaseListAdapter<RejectedContact
         public void onClick(View view) {
             Context context = view.getContext();
             ContactVO contactVO = getItem(getAdapterPosition());
-            switch (view.getId()) {
-                case R.id.button_accept_contact:
-                    Toast.makeText(context, "accepting contact", Toast.LENGTH_SHORT).show();
-                    break;
-                default:
-                    Toast.makeText(context, "opening member", Toast.LENGTH_SHORT).show();
-                    if (mItemClickListener != null) {
-                        mItemClickListener.onItemClick(contactVO);
-                    }
+            if (contactVO != null && mItemActionListener != null) {
+                MemberVO member = contactVO.mMember;
+                if (member != null) {
+                    mItemActionListener.onAcceptContactRequest(contactVO.mDM_Id, member.mUserId);
+                }
             }
         }
     }
