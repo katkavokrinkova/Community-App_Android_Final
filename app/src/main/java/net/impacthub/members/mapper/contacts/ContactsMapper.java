@@ -54,7 +54,11 @@ public class ContactsMapper {
                     ContactVO contactVO = new ContactVO();
 
                     if("Approved".equalsIgnoreCase(status)) {
-                        contactVO.mMember = memberVOMap.get(contactTo__c);
+                        if (!contactId.equals(contactTo__c)) {
+                            contactVO.mMember = memberVOMap.get(contactTo__c);
+                        } else {
+                            contactVO.mMember = memberVOMap.get(contactFrom__c);
+                        }
                         contactVOList.add(contactVO);
                     } else if("Declined".equalsIgnoreCase(status) && contactId.equals(contactTo__c)) {
                         contactVO.mMember = memberVOMap.get(contactFrom__c);
@@ -64,7 +68,6 @@ public class ContactsMapper {
                         contactVO.mMember = memberVOMap.get(contactFrom__c);
                         contactVOList.add(contactVO);
                     }
-
                     contactsMap.put(status, contactVOList);
                 }
             }
