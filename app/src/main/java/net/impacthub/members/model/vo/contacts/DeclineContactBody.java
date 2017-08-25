@@ -9,9 +9,7 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.model.callback;
-
-import net.impacthub.members.model.vo.contacts.ContactVO;
+package net.impacthub.members.model.vo.contacts;
 
 /**
  * @author Filippo Ash
@@ -19,9 +17,11 @@ import net.impacthub.members.model.vo.contacts.ContactVO;
  * @date 8/25/2017.
  */
 
-public interface OnActiveContactActionClickListener extends OnListItemClickListener<ContactVO>  {
+public class DeclineContactBody {
 
-    void onOpenConversation();
+    private final String DM_id;
 
-    void onDeclineContact(String Dm_Id);
+    public DeclineContactBody(String dm_id) {
+        DM_id = dm_id;
+    }
 }

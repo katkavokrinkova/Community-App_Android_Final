@@ -11,6 +11,8 @@
 
 package net.impacthub.members.model.callback;
 
+import net.impacthub.members.model.vo.contacts.ContactVO;
+
 /**
  * @author Filippo Ash
  * @version 1.0
@@ -19,5 +21,5 @@ package net.impacthub.members.model.callback;
 
 public interface OnContactPendingRequestActionClickListener extends OnContactAcceptRequestClickListener {
 
-    void onViewMoreContactRequest();
+    void onViewMoreContactRequest(ContactVO contactVO);
 }

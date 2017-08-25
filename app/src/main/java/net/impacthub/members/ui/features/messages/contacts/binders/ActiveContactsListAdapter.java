@@ -99,8 +99,8 @@ public class ActiveContactsListAdapter extends BaseListAdapter<ActiveContactsLis
                     }
                     break;
                 case R.id.button_decline_contact:
-                    if (mItemActionListener != null) {
-                        mItemActionListener.onDeclineContact();
+                    if (contactVO != null && mItemActionListener != null) {
+                        mItemActionListener.onDeclineContact(contactVO.mDM_Id);
                     }
                     break;
                 default:

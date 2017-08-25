@@ -250,6 +250,12 @@ public class SoqlRequestFactory {
                 jsonObject);
     }
 
+    public RestRequest createDeleteDMRequest(JSONObject jsonObject) {
+        return new RestRequest(RestRequest.RestMethod.POST,
+                "/services/apexrest/DeleteDMRequest/",
+                jsonObject);
+    }
+
     public RestRequest createChatterFeedRequest(String communityId, String feedId) {
         return new RestRequest(RestRequest.RestMethod.GET,
                 getPath(communityId, "feeds/record/", feedId + "/feed-elements?filterGroup=Medium"));

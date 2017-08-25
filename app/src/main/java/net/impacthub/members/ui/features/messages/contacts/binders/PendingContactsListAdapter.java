@@ -80,6 +80,7 @@ public class PendingContactsListAdapter extends BaseListAdapter<PendingContactsL
             buttonViewMore.setOnClickListener(this);
             buttonAcceptContact.setOnClickListener(this);
             buttonRejectContact.setOnClickListener(this);
+            itemView.setOnClickListener(this);
         }
 
         @Override
@@ -99,11 +100,6 @@ public class PendingContactsListAdapter extends BaseListAdapter<PendingContactsL
             Context context = view.getContext();
             ContactVO contactVO = getItem(getAdapterPosition());
             switch (view.getId()) {
-                case R.id.button_view_more:
-                    if (mItemActionListener != null) {
-                        mItemActionListener.onViewMoreContactRequest();
-                    }
-                    break;
                 case R.id.button_accept_contact:
                     if (contactVO != null && mItemActionListener != null) {
                         MemberVO member = contactVO.mMember;
@@ -118,6 +114,12 @@ public class PendingContactsListAdapter extends BaseListAdapter<PendingContactsL
                         if (member != null) {
                             mItemActionListener.onUpdateContactRequest(contactVO.mDM_Id, member.mUserId, "Declined");
                         }
+                    }
+                    break;
+                case R.id.button_view_more:
+                default:
+                    if (mItemActionListener != null) {
+                        mItemActionListener.onViewMoreContactRequest(contactVO);
                     }
                     break;
             }

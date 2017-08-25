@@ -53,6 +53,7 @@ public class ContactsMapper {
 
                     ContactVO contactVO = new ContactVO();
                     contactVO.mDM_Id = record.getId();
+                    contactVO.mCreatedDate = record.getCreatedDate();
 
                     if("Approved".equalsIgnoreCase(status)) {
                         if (!contactId.equals(contactTo__c)) {

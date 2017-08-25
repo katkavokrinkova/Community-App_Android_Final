@@ -15,7 +15,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.View;
 
 import net.impacthub.members.R;
@@ -29,6 +28,7 @@ import net.impacthub.members.ui.base.BaseChildFragment;
 import net.impacthub.members.ui.binder.ViewBinder;
 import net.impacthub.members.ui.common.AppPagerAdapter;
 import net.impacthub.members.ui.delegate.TabsDelegate;
+import net.impacthub.members.ui.features.home.members.MemberDetailFragment;
 import net.impacthub.members.ui.features.messages.contacts.binders.ContactsApprovedViewBinder;
 import net.impacthub.members.ui.features.messages.contacts.binders.ContactsPendingViewBinder;
 import net.impacthub.members.ui.features.messages.contacts.binders.ContactsRejectedViewBinder;
@@ -76,15 +76,13 @@ public class ContactsFragment extends BaseChildFragment<ContactsUiPresenter> imp
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setUpToolbar(R.string.label_contact);
+        setUpToolbar(R.string.label_contacts);
 
         AppPagerAdapter adapter = new AppPagerAdapter(getContext());
-//
-        LayoutInflater inflater = getLayoutInflater(getArguments());
         adapter.addVieBinder(mViewBinder1 = new ContactsApprovedViewBinder(new OnActiveContactActionClickListener() {
             @Override
             public void onItemClick(ContactVO model) {
-                showToast("Opening member");
+                addChildFragment(MemberDetailFragment.newInstance(model.mMember), "FRAG_MEMBER_DETAIL");
             }
 
             @Override
@@ -93,30 +91,30 @@ public class ContactsFragment extends BaseChildFragment<ContactsUiPresenter> imp
             }
 
             @Override
-            public void onDeclineContact() {
-                showToast("Declining contact");
+            public void onDeclineContact(String Dm_Id) {
+                getPresenter().declineContact(Dm_Id);
             }
         }));
         adapter.addVieBinder(mViewBinder2 = new ContactsPendingViewBinder(new OnContactPendingRequestActionClickListener() {
 
             @Override
-            public void onViewMoreContactRequest() {
-                showToast("Viewing more");
+            public void onViewMoreContactRequest(ContactVO contactVO) {
+                addChildFragment(ViewMoreContactFragment.newInstance(contactVO), "FRAG_VIEW_MORE_CONTACT");
             }
 
             @Override
             public void onUpdateContactRequest(String Dm_Id, String memberId, String status) {
-                getPresenter().updateContactRequest(Dm_Id,status, memberId);
+                getPresenter().updateContactRequest(Dm_Id, memberId, status);
             }
         }));
         adapter.addVieBinder(mViewBinder3 = new ContactsRejectedViewBinder(new OnContactAcceptRequestClickListener() {
 
             @Override
             public void onUpdateContactRequest(String Dm_Id, String memberId, String status) {
-                getPresenter().updateContactRequest(Dm_Id, status, memberId);
+                getPresenter().updateContactRequest(Dm_Id, memberId, status);
             }
         }));
-//
+
         mContactPages.setAdapter(adapter);
         mContactPages.setOffscreenPageLimit(adapter.getCount());
         mContactsTab.setupWithViewPager(mContactPages);

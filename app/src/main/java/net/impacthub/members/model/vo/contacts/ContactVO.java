@@ -23,5 +23,6 @@ public class ContactVO {
 
     public String mDM_Id;
     public String mIntroMessage;
+    public String mCreatedDate;
     public MemberVO mMember;
 }

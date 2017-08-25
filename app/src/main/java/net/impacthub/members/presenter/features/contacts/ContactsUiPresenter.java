@@ -18,11 +18,13 @@ import net.impacthub.members.model.features.contacts.ContactsResponse;
 import net.impacthub.members.model.features.members.MembersResponse;
 import net.impacthub.members.model.features.members.Records;
 import net.impacthub.members.model.vo.contacts.ContactVO;
+import net.impacthub.members.model.vo.contacts.DeclineContactBody;
 import net.impacthub.members.model.vo.contacts.UpdateContactBody;
 import net.impacthub.members.presenter.base.UiPresenter;
 import net.impacthub.members.presenter.rx.AbstractBigFunction;
 import net.impacthub.members.usecase.base.UseCaseGenerator;
 import net.impacthub.members.usecase.features.contacts.DMRequestUseCase;
+import net.impacthub.members.usecase.features.contacts.DeleteDMRequest;
 import net.impacthub.members.usecase.features.contacts.UpdateDMRequestStatusUseCase;
 import net.impacthub.members.usecase.features.members.MembersUseCase;
 import net.impacthub.members.usecase.features.profile.ProfileUseCase;
@@ -90,7 +92,7 @@ public class ContactsUiPresenter extends UiPresenter<ContactsUiContract> {
         });
     }
 
-    public void updateContactRequest(String id, String status, String pushUserId) {
+    public void updateContactRequest(String id, String pushUserId, String status) {
         try {
             JSONObject jsonObject = new JSONObject(new Gson().toJson(new UpdateContactBody(id, status, pushUserId)));
             subscribeWith(new UpdateDMRequestStatusUseCase(jsonObject).getUseCase(), new DisposableSingleObserver<Object>() {
@@ -105,5 +107,22 @@ public class ContactsUiPresenter extends UiPresenter<ContactsUiContract> {
                 }
             });
         }catch (Exception e){}
+    }
+
+    public void declineContact(String contactId) {
+        try{
+            JSONObject jsonObject = new JSONObject(new Gson().toJson(new DeclineContactBody(contactId)));
+            subscribeWith(new DeleteDMRequest(jsonObject).getUseCase(), new DisposableSingleObserver<Object>() {
+                @Override
+                public void onSuccess(@NonNull Object o) {
+                    getContacts();
+                }
+
+                @Override
+                public void onError(@NonNull Throwable e) {
+                    getUi().onError(e);
+                }
+            });
+        }catch(Exception e){}
     }
 }

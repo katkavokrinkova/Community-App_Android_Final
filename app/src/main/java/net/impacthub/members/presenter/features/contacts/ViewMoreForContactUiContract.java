@@ -9,9 +9,9 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.model.callback;
+package net.impacthub.members.presenter.features.contacts;
 
-import net.impacthub.members.model.vo.contacts.ContactVO;
+import net.impacthub.members.presenter.features.error.ErrorHandlerUiContract;
 
 /**
  * @author Filippo Ash
@@ -19,9 +19,7 @@ import net.impacthub.members.model.vo.contacts.ContactVO;
  * @date 8/25/2017.
  */
 
-public interface OnActiveContactActionClickListener extends OnListItemClickListener<ContactVO>  {
+public interface ViewMoreForContactUiContract extends ErrorHandlerUiContract {
 
-    void onOpenConversation();
-
-    void onDeclineContact(String Dm_Id);
+    void onContactStateChanged();
 }
