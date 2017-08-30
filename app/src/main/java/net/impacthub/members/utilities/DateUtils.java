@@ -25,6 +25,13 @@ import java.util.TimeZone;
 public final class DateUtils {
 
     public static final String ISO_8601_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+    public static final String UTC_DATE_TIME_FORMAT_ISO_8601_1 = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+    public static final String UTC_DATE_TIME_FORMAT_ISO_8601_2 = "yyyy-MM-dd'T'HH:mm'Z'";
+    public static final String UTC_DATE_TIME_FORMAT_ISO_8601_3 = "yyyy-MM-dd'T'HH:mmZ";
+    public static final String UTC_DATE_TIME_FORMAT_ISO_8601_4 = "yyyy-MM-dd'T'HH:mm:ssX";
+    public static final String UTC_DATE_TIME_FORMAT_ISO_8601_5 = "yyyy-MM-dd'T'HH:mm:ssZ";
+    public static final String UTC_DATE_TIME_FORMAT_ISO_8601_6 = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+
     public static final String SIMPLE_FORMAT = "yyyy-MM-dd";
     public static final String DAY_MONTH_FORMAT = "dd MMM";
     public static final String DAY_MONTH_YEAR_FORMAT = "dd MMM yyyy";
@@ -36,6 +43,10 @@ public final class DateUtils {
 
     public static String getShortDate() {
         return new SimpleDateFormat(SIMPLE_FORMAT).format(new Date());
+    }
+
+    public static String getIso_8601Date() {
+        return new SimpleDateFormat(UTC_DATE_TIME_FORMAT_ISO_8601_6).format(new Date());
     }
 
     public static String getStringFromDate(Date date, String format) {

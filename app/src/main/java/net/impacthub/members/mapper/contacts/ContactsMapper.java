@@ -11,16 +11,13 @@
 
 package net.impacthub.members.mapper.contacts;
 
-import net.impacthub.members.mapper.members.MembersMapper;
 import net.impacthub.members.model.features.contacts.ContactsResponse;
 import net.impacthub.members.model.features.contacts.Records;
-import net.impacthub.members.model.features.members.MembersResponse;
+import net.impacthub.members.model.vo.contacts.ContactsWrapper;
 import net.impacthub.members.model.vo.contacts.ContactVO;
 import net.impacthub.members.model.vo.members.MemberVO;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -32,12 +29,11 @@ import java.util.Map;
 
 public class ContactsMapper {
 
-    public Map<String, List<ContactVO>> mapContactMembers(ContactsResponse contactsResponse, MembersResponse membersResponse, String contactId) {
-        Map<String, List<ContactVO>> contactsMap = new LinkedHashMap<>();
+    public ContactsWrapper mapContactMembers(ContactsResponse contactsResponse, List<MemberVO> memberVOs, String contactId) {
+        ContactsWrapper contactsWrapper = new ContactsWrapper();
         if (contactsResponse != null) {
             Records[] records = contactsResponse.getRecords();
             if (records != null && records.length > 0) {
-                List<MemberVO> memberVOs = new MembersMapper().mapMembers(membersResponse);
                 Map<String, MemberVO> memberVOMap = mapListAsMapWithId(memberVOs);
                 memberVOMap.remove(contactId);
                 for (Records record : records) {
@@ -46,52 +42,36 @@ public class ContactsMapper {
                     String contactFrom__c = record.getContactFrom__c();
 
                     String status = record.getStatus__c();
-                    List<ContactVO> contactVOList = contactsMap.get(status);
-                    if (contactVOList == null) {
-                        contactVOList = new LinkedList<>();
-                    }
 
                     ContactVO contactVO = new ContactVO();
                     contactVO.mDM_Id = record.getId();
                     contactVO.mCreatedDate = record.getCreatedDate();
 
-                    if("Approved".equalsIgnoreCase(status)) {
-                        if (!contactId.equals(contactTo__c)) {
-                            contactVO.mMember = memberVOMap.get(contactTo__c);
-                        } else {
+                    if ("Approved".equalsIgnoreCase(status)) {
+                        if (contactId.equals(contactTo__c)) {
                             contactVO.mMember = memberVOMap.get(contactFrom__c);
+                        } else {
+                            contactVO.mMember = memberVOMap.get(contactTo__c);
                         }
-                        contactVOList.add(contactVO);
-                    } else if("Declined".equalsIgnoreCase(status) && contactId.equals(contactTo__c)) {
+                        contactsWrapper.getApprovedContacts().add(contactVO);
+                    } else if ("Declined".equalsIgnoreCase(status) && contactId.equals(contactTo__c)) {
                         contactVO.mMember = memberVOMap.get(contactFrom__c);
-                        contactVOList.add(contactVO);
-                    } else if("Outstanding".equalsIgnoreCase(status)  && contactId.equals(contactTo__c)) {
+                        contactsWrapper.getDeclinedContacts().add(contactVO);
+                    } else if ("Outstanding".equalsIgnoreCase(status) && contactId.equals(contactTo__c)) {
                         contactVO.mIntroMessage = record.getIntroduction_Message__c();
                         contactVO.mMember = memberVOMap.get(contactFrom__c);
-                        contactVOList.add(contactVO);
+                        contactsWrapper.getOutstandingContacts().add(contactVO);
                     }
-                    contactsMap.put(status, contactVOList);
                 }
             }
         }
-
-        if(contactsMap.get("Approved") == null){
-            contactsMap.put("Approved", new LinkedList<ContactVO>());
-        }
-        if(contactsMap.get("Outstanding") == null){
-            contactsMap.put("Outstanding", new LinkedList<ContactVO>());
-        }
-        if(contactsMap.get("Declined") == null){
-            contactsMap.put("Declined", new LinkedList<ContactVO>());
-        }
-
-        return contactsMap;
+        return contactsWrapper;
     }
 
     private Map<String, MemberVO> mapListAsMapWithId(List<MemberVO> memberVOs) {
         Map<String, MemberVO> map = new HashMap<>();
         for (MemberVO memberVO : memberVOs) {
-            map.put(memberVO.mMemberId, memberVO);
+            map.put(memberVO.mContactId, memberVO);
         }
         return map;
     }

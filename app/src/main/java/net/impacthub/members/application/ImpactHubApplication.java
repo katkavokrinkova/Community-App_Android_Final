@@ -1,5 +1,6 @@
 package net.impacthub.members.application;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -35,16 +36,18 @@ public class ImpactHubApplication extends SalesforceApplication<SplashActivity> 
 
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
                 builder.setContentTitle("Impact Hub");
-                builder.setContentText(message.getString("test"));
-                builder.setSmallIcon(com.salesforce.androidsdk.R.drawable.sf__icon);
+                builder.setContentText(message.getString("contentText"));
+                builder.setSmallIcon(R.mipmap.ic_launcher);
 //                builder.setSound(getDefaultUri(TYPE_NOTIFICATION));
 
                 Intent notificationIntent = new Intent(context, MainTabsActivity.class);
-//                notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 notificationIntent.putExtra("message", message);
                 PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
                 builder.setContentIntent(contentIntent);
 
+                builder.setDefaults(Notification.DEFAULT_SOUND);
+                builder.setAutoCancel(true);
                 NotificationManager mNotificationManager =
                         (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                 mNotificationManager.notify(R.id.unique_id, builder.build());

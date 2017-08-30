@@ -86,7 +86,7 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
     public static MemberDetailFragment newInstance(MemberVO member) {
 
         Bundle args = new Bundle();
-        args.putString(EXTRA_MEMBER_ID, member.mMemberId);
+        args.putString(EXTRA_MEMBER_ID, member.mContactId);
         args.putString(EXTRA_MEMBER_PROFILE_PICTURE, member.mProfilePicURL);
         args.putString(EXTRA_MEMBER_INSTAGRAM, member.mLinkInstagram);
         args.putString(EXTRA_MEMBER_FACEBOOK, member.mLinkFacebook);

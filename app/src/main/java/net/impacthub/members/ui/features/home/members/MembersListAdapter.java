@@ -1,11 +1,14 @@
 package net.impacthub.members.ui.features.home.members;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.impacthub.members.R;
+import net.impacthub.members.model.vo.members.MemberStatus;
 import net.impacthub.members.model.vo.members.MemberVO;
 import net.impacthub.members.ui.base.BaseListAdapter;
 import net.impacthub.members.ui.common.ImageLoaderHelper;
@@ -18,47 +21,67 @@ import net.impacthub.members.ui.widgets.CircleImageView;
  * @date 8/1/2017.
  */
 
-public class MembersListAdapter extends BaseListAdapter<MembersListAdapter.ViewHolder, MemberVO> {
+public class MembersListAdapter extends BaseListAdapter<MembersListAdapter.MemberViewHolder, MemberVO> {
 
     public MembersListAdapter(LayoutInflater inflater) {
         super(inflater);
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View container = getLayoutInflater().inflate(R.layout.item_layout_member, parent, false);
-        return new ViewHolder(container);
+    public MemberViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new MemberViewHolder(getLayoutInflater().inflate(R.layout.item_layout_member, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(MemberViewHolder holder, int position) {
         holder.bindViewsWith(getItem(position));
     }
 
-    class ViewHolder extends RecyclerViewHolder<MemberVO> implements View.OnClickListener {
+    class MemberViewHolder extends RecyclerViewHolder<MemberVO> implements View.OnClickListener {
 
         final View container;
         final CircleImageView memberImage;
         final TextView name;
-        final TextView  profession;
-        final TextView  locations;
+        final TextView profession;
+        final TextView locations;
+        final ImageView iconMemberStatus;
 
-        ViewHolder(View itemView) {
+        MemberViewHolder(View itemView) {
             super(itemView);
             container = itemView;
             memberImage = (CircleImageView) container.findViewById(R.id.member_image);
             name = (TextView) container.findViewById(R.id.name);
             profession = (TextView) container.findViewById(R.id.profession);
             locations = (TextView) container.findViewById(R.id.locations);
+            iconMemberStatus = (ImageView) container.findViewById(R.id.image_member_status);
             itemView.setOnClickListener(this);
         }
 
         @Override
         protected void bindViewsWith(MemberVO item) {
+            Context context = memberImage.getContext();
             name.setText(item.mFullName);
             profession.setText(item.mProfession);
             locations.setText(item.mLocation);
-            ImageLoaderHelper.loadImage(memberImage.getContext(), buildUrl(item.mProfilePicURL), memberImage);
+            ImageLoaderHelper.loadImage(context, buildUrl(item.mProfilePicURL), memberImage);
+
+            switch (item.mMemberStatus) {
+                case MemberStatus.APPROVED:
+                    ImageLoaderHelper.loadImage(context, R.mipmap.comment_bubble_small, iconMemberStatus);
+                    break;
+                case MemberStatus.OUTSTANDING:
+                    ImageLoaderHelper.loadImage(context, R.mipmap.member_waiting, iconMemberStatus);
+                    break;
+                case MemberStatus.APPROVE_DECLINE_BY_ME:
+                    ImageLoaderHelper.loadImage(context, R.mipmap.member_waiting, iconMemberStatus);
+                    break;
+                case MemberStatus.NOT_CONTACTED:
+                    ImageLoaderHelper.loadImage(context, R.mipmap.comment_bubble_small, iconMemberStatus);
+                    break;
+                case MemberStatus.DECLINED:
+                default:
+                    ImageLoaderHelper.loadImage(context, 0, iconMemberStatus);
+            }
         }
 
         @Override

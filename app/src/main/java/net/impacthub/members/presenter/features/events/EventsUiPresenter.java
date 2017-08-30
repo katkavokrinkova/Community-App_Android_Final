@@ -12,10 +12,9 @@
 package net.impacthub.members.presenter.features.events;
 
 import net.impacthub.members.mapper.events.EventsMapper;
-import net.impacthub.members.model.vo.events.EventVO;
 import net.impacthub.members.model.features.events.EventsResponse;
-import net.impacthub.members.model.features.members.MembersResponse;
-import net.impacthub.members.model.features.members.Records;
+import net.impacthub.members.model.vo.events.EventVO;
+import net.impacthub.members.model.vo.members.MemberVO;
 import net.impacthub.members.presenter.base.UiPresenter;
 import net.impacthub.members.usecase.base.UseCaseGenerator;
 import net.impacthub.members.usecase.features.events.AllEventsUseCase;
@@ -40,7 +39,7 @@ import io.reactivex.observers.DisposableSingleObserver;
 public class EventsUiPresenter extends UiPresenter<EventsUiContract> {
 
     private final UseCaseGenerator<Single<EventsResponse>> mAllEventsUseCase = new AllEventsUseCase();
-    private final UseCaseGenerator<Single<MembersResponse>> mProfileUseCase = new ProfileUseCase();
+    private final UseCaseGenerator<Single<MemberVO>> mProfileUseCase = new ProfileUseCase();
 
     public EventsUiPresenter(EventsUiContract uiContract) {
         super(uiContract);
@@ -61,11 +60,10 @@ public class EventsUiPresenter extends UiPresenter<EventsUiContract> {
         });
 
         Single<EventsResponse> singleEventYouManage = mProfileUseCase.getUseCase()
-                .flatMap(new Function<MembersResponse, SingleSource<EventsResponse>>() {
+                .flatMap(new Function<MemberVO, SingleSource<? extends EventsResponse>>() {
                     @Override
-                    public SingleSource<EventsResponse> apply(@NonNull MembersResponse profileResponse) throws Exception {
-                        Records record = profileResponse.getRecords()[0];
-                        return new EventsYouManageUseCase(record.getId()).getUseCase();
+                    public SingleSource<? extends EventsResponse> apply(@NonNull MemberVO memberVO) throws Exception {
+                        return new EventsYouManageUseCase(memberVO.mContactId).getUseCase();
                     }
                 });
         subscribeWith(singleEventYouManage, new DisposableSingleObserver<EventsResponse>() {
@@ -84,11 +82,10 @@ public class EventsUiPresenter extends UiPresenter<EventsUiContract> {
 
 
         Single<EventsResponse> singleYourEvents = mProfileUseCase.getUseCase()
-                .flatMap(new Function<MembersResponse, SingleSource<EventsResponse>>() {
+                .flatMap(new Function<MemberVO, SingleSource<? extends EventsResponse>>() {
                     @Override
-                    public SingleSource<EventsResponse> apply(@NonNull MembersResponse profileResponse) throws Exception {
-                        Records record = profileResponse.getRecords()[0];
-                        return new YourEventsUseCase(record.getId()).getUseCase();
+                    public SingleSource<? extends EventsResponse> apply(@NonNull MemberVO memberVO) throws Exception {
+                        return new YourEventsUseCase(memberVO.mContactId).getUseCase();
                     }
                 });
         subscribeWith(singleYourEvents, new DisposableSingleObserver<EventsResponse>() {

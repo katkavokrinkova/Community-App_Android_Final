@@ -13,6 +13,7 @@ import com.salesforce.androidsdk.accounts.UserAccount;
 import net.impacthub.members.R;
 import net.impacthub.members.presenter.base.UiContract;
 import net.impacthub.members.presenter.base.UiPresenter;
+import net.impacthub.members.utilities.KeyboardUtils;
 
 import static net.impacthub.members.application.salesforce.SalesforceModuleDependency.userAccountProvider;
 
@@ -97,6 +98,7 @@ public abstract class BaseChildFragment<P extends UiPresenter<? extends UiContra
     }
 
     protected boolean popChildFragment() {
+        KeyboardUtils.hideNativeKeyboard(getActivity(), getView());
         FragmentManager manager = getParentFragment().getChildFragmentManager();
         if (manager.getBackStackEntryCount() > 0) {
             manager.popBackStack();

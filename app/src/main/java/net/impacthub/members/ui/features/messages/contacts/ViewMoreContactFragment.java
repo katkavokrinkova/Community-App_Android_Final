@@ -124,8 +124,9 @@ public class ViewMoreContactFragment extends BaseChildFragment<ViewMoreForContac
         mIntroTxt.setText(mDM_IntroMessage);
         new DateTimeAgoHelper(mCreatedDate, mDM_CreatedDate);
 
-        ImageLoaderHelper.loadImage(getContext(), buildUrl(mProfilePicURL), mContactImage);
-        Glide.with(getContext().getApplicationContext()).asBitmap().load(mProfilePicURL).into(new SimpleTarget<Bitmap>() {
+        String profilePictureURL = buildUrl(mProfilePicURL);
+        ImageLoaderHelper.loadImage(getContext(), profilePictureURL, mContactImage);
+        Glide.with(getContext().getApplicationContext()).asBitmap().load(profilePictureURL).into(new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
                 if (mToolbar != null) {

@@ -13,6 +13,7 @@ package net.impacthub.members.usecase.features.events;
 
 import net.impacthub.members.model.features.events.EventsResponse;
 import net.impacthub.members.usecase.base.BaseUseCaseGenerator;
+import net.impacthub.members.utilities.DateUtils;
 
 import java.util.concurrent.Callable;
 
@@ -37,7 +38,7 @@ public class EventsYouManageUseCase extends BaseUseCaseGenerator<Single<EventsRe
         return Single.fromCallable(new Callable<EventsResponse>() {
             @Override
             public EventsResponse call() throws Exception {
-                return getApiCall().getResponse(getSoqlRequestFactory().createEventsYouManageRequest(mContactId), EventsResponse.class);
+                return getApiCall().getResponse(getSoqlRequestFactory().createEventsYouManageRequest(mContactId, DateUtils.getIso_8601Date()), EventsResponse.class);
             }
         });
     }

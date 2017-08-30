@@ -18,6 +18,7 @@ import net.impacthub.members.ui.controllers.search.SearchControllerFragment;
 import net.impacthub.members.ui.widgets.ExtendedViewPager;
 import net.impacthub.members.utilities.ColorUtils;
 import net.impacthub.members.utilities.DrawableUtils;
+import net.impacthub.members.utilities.KeyboardUtils;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -70,6 +71,7 @@ public class MainTabsActivity extends BaseActivity {
         mTabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mPager) {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                KeyboardUtils.hideNativeKeyboard(MainTabsActivity.this, findViewById(android.R.id.content));
                 int position = tab.getPosition();
                 mPager.setCurrentItem(position, false);
             }
@@ -77,6 +79,7 @@ public class MainTabsActivity extends BaseActivity {
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
                 super.onTabReselected(tab);
+                KeyboardUtils.hideNativeKeyboard(MainTabsActivity.this, findViewById(android.R.id.content));
                 int position = tab.getPosition();
 
                 Fragment fragment = getSupportFragmentManager().getFragments().get(position);

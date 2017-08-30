@@ -11,12 +11,17 @@
 
 package net.impacthub.members.usecase.features.projects;
 
+import net.impacthub.members.mapper.members.MembersMapper;
 import net.impacthub.members.model.features.members.MembersResponse;
+import net.impacthub.members.model.vo.members.MemberVO;
 import net.impacthub.members.usecase.base.BaseUseCaseGenerator;
 
+import java.util.List;
 import java.util.concurrent.Callable;
 
 import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Function;
 
 /**
  * @author Filippo Ash
@@ -24,7 +29,7 @@ import io.reactivex.Single;
  * @date 8/16/2017.
  */
 
-public class ProjectMembersUseCase extends BaseUseCaseGenerator<Single<MembersResponse>, MembersResponse> {
+public class ProjectMembersUseCase extends BaseUseCaseGenerator<Single<List<MemberVO>>, MembersResponse> {
 
     private final String mProjectId;
 
@@ -33,11 +38,16 @@ public class ProjectMembersUseCase extends BaseUseCaseGenerator<Single<MembersRe
     }
 
     @Override
-    public Single<MembersResponse> getUseCase() {
+    public Single<List<MemberVO>> getUseCase() {
         return Single.fromCallable(new Callable<MembersResponse>() {
             @Override
             public MembersResponse call() throws Exception {
                 return getApiCall().getResponse(getSoqlRequestFactory().createProjectMembersRequest(mProjectId), MembersResponse.class);
+            }
+        }).map(new Function<MembersResponse, List<MemberVO>>() {
+            @Override
+            public List<MemberVO> apply(@NonNull MembersResponse membersResponse) throws Exception {
+                return new MembersMapper().mapMembers(membersResponse);
             }
         });
     }

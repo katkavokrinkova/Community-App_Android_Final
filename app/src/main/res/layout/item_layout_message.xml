@@ -38,8 +38,9 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
             android:layout_weight="1"
+            android:paddingRight="12dp"
+            android:paddingLeft="12dp"
             android:orientation="vertical">
 
             <net.impacthub.members.ui.widgets.TypefaceTextView
@@ -78,13 +79,10 @@
 
         <net.impacthub.members.ui.widgets.TypefaceTextView
             android:id="@+id/image_message_read"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
             android:background="@drawable/bg_circle_primary"
             android:gravity="center"
-            android:minHeight="24dp"
-            android:minWidth="24dp"
-            android:text="1"
             android:textColor="@color/colorWhite"
             android:textSize="12sp"
             app:typeface="fonts/gt-walsheim-light-web.ttf" />

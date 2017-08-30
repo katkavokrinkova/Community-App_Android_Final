@@ -19,8 +19,11 @@ package net.impacthub.members.model.vo.members;
 
 public class MemberVO {
 
+    @MemberStatus
+    public int mMemberStatus = MemberStatus.NOT_CONTACTED;
+
     public String mUserId;
-    public String mMemberId;
+    public String mContactId;
     public String mFirstName;
     public String mLastName;
     public String mFullName;

@@ -15,19 +15,25 @@ import net.impacthub.members.mapper.companies.CompaniesMapper;
 import net.impacthub.members.mapper.members.MembersMapper;
 import net.impacthub.members.mapper.projects.ProjectMapper;
 import net.impacthub.members.model.features.companies.services.ServicesResponse;
+import net.impacthub.members.model.features.contacts.ContactsResponse;
+import net.impacthub.members.model.features.projects.ProjectResponse;
 import net.impacthub.members.model.pojo.ListItemType;
 import net.impacthub.members.model.pojo.SimpleItem;
 import net.impacthub.members.model.vo.members.MemberVO;
 import net.impacthub.members.model.vo.projects.ProjectVO;
-import net.impacthub.members.model.features.members.MembersResponse;
-import net.impacthub.members.model.features.projects.ProjectResponse;
 import net.impacthub.members.presenter.base.UiPresenter;
+import net.impacthub.members.presenter.rx.AbstractBigFunction;
+import net.impacthub.members.presenter.rx.AbstractFunction;
 import net.impacthub.members.usecase.features.companies.CompanyMembersUseCase;
 import net.impacthub.members.usecase.features.companies.CompanyProjectsUseCase;
 import net.impacthub.members.usecase.features.companies.CompanyServicesUseCase;
+import net.impacthub.members.usecase.features.contacts.DMRequestUseCase;
+import net.impacthub.members.usecase.features.profile.ProfileUseCase;
 
 import java.util.List;
 
+import io.reactivex.Single;
+import io.reactivex.SingleSource;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.observers.DisposableSingleObserver;
 
@@ -69,11 +75,29 @@ public class CompanyDetailUiPresenter extends UiPresenter<CompanyDetailUiContrac
                 getUi().onError(e);
             }
         });
-        subscribeWith(new CompanyMembersUseCase(companyId).getUseCase(), new DisposableSingleObserver<MembersResponse>() {
+
+        Single<List<MemberVO>> single = new ProfileUseCase().getUseCase()
+                .flatMap(new AbstractFunction<String, MemberVO, SingleSource<? extends List<MemberVO>>>(companyId) {
+                    @Override
+                    protected SingleSource<? extends List<MemberVO>> apply(MemberVO response, String subject) throws Exception {
+                        String contactId = response.mContactId;
+                        return Single.zip(
+                                new DMRequestUseCase(contactId).getUseCase(),
+                                new CompanyMembersUseCase(subject).getUseCase(),
+                                new AbstractBigFunction<String, ContactsResponse, List<MemberVO>, List<MemberVO>>(contactId) {
+                                    @Override
+                                    protected List<MemberVO> apply(ContactsResponse response, List<MemberVO> memberVOs, String subject) {
+                                        return new MembersMapper().mapMembersList(memberVOs, response, subject);
+                                    }
+                                }
+                        );
+                    }
+                });
+
+        subscribeWith(single, new DisposableSingleObserver<List<MemberVO>>() {
             @Override
-            public void onSuccess(@NonNull MembersResponse response) {
-                List<MemberVO> memberDTOs = new MembersMapper().mapMembers(response);
-                getUi().onLoadMembers(memberDTOs);
+            public void onSuccess(@NonNull List<MemberVO> memberVOs) {
+                getUi().onLoadMembers(memberVOs);
             }
 
             @Override

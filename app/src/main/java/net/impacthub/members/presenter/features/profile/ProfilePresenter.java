@@ -11,9 +11,7 @@
 
 package net.impacthub.members.presenter.features.profile;
 
-import net.impacthub.members.mapper.members.MembersMapper;
 import net.impacthub.members.model.vo.members.MemberVO;
-import net.impacthub.members.model.features.members.MembersResponse;
 import net.impacthub.members.presenter.base.UiPresenter;
 import net.impacthub.members.usecase.base.UseCaseGenerator;
 import net.impacthub.members.usecase.features.profile.ProfileUseCase;
@@ -30,25 +28,23 @@ import io.reactivex.observers.DisposableSingleObserver;
 
 public class ProfilePresenter extends UiPresenter<ProfileUiContract> {
 
-    private final UseCaseGenerator<Single<MembersResponse>> mProfileUseCase = new ProfileUseCase();
+    private final UseCaseGenerator<Single<MemberVO>> mProfileUseCase = new ProfileUseCase();
 
     public ProfilePresenter(ProfileUiContract uiContract) {
         super(uiContract);
     }
 
     public void getProfile() {
-        subscribeWith(mProfileUseCase.getUseCase(),
-                new DisposableSingleObserver<MembersResponse>() {
-                    @Override
-                    public void onSuccess(@NonNull MembersResponse profileResponse) {
-                        MemberVO memberDTO = new MembersMapper().map(profileResponse);
-                        getUi().onLoadCurrentMemberProfile(memberDTO);
-                    }
+        subscribeWith(mProfileUseCase.getUseCase(), new DisposableSingleObserver<MemberVO>() {
+            @Override
+            public void onSuccess(@NonNull MemberVO memberVO) {
+                getUi().onLoadCurrentMemberProfile(memberVO);
+            }
 
-                    @Override
-                    public void onError(@NonNull Throwable e) {
-                        getUi().onError(e);
-                    }
-                });
+            @Override
+            public void onError(@NonNull Throwable e) {
+                getUi().onError(e);
+            }
+        });
     }
 }

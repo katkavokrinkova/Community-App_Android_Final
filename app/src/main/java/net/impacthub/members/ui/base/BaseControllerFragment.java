@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnBackListener;
+import net.impacthub.members.utilities.KeyboardUtils;
 
 import java.util.List;
 
@@ -73,6 +74,7 @@ public abstract class BaseControllerFragment extends Fragment implements OnBackL
     @Override
     public boolean onBack() {
         if (isAdded()) {
+            KeyboardUtils.hideNativeKeyboard(getActivity(), getView());
             FragmentManager manager = getChildFragmentManager();
             if (manager.getBackStackEntryCount() > 0) {
                 manager.popBackStack();

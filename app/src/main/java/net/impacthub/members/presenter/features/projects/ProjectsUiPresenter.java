@@ -12,10 +12,9 @@
 package net.impacthub.members.presenter.features.projects;
 
 import net.impacthub.members.mapper.projects.ProjectMapper;
-import net.impacthub.members.model.vo.projects.ProjectVO;
-import net.impacthub.members.model.features.members.MembersResponse;
-import net.impacthub.members.model.features.members.Records;
 import net.impacthub.members.model.features.projects.ProjectResponse;
+import net.impacthub.members.model.vo.members.MemberVO;
+import net.impacthub.members.model.vo.projects.ProjectVO;
 import net.impacthub.members.presenter.base.UiPresenter;
 import net.impacthub.members.usecase.base.UseCaseGenerator;
 import net.impacthub.members.usecase.features.profile.ProfileUseCase;
@@ -38,7 +37,7 @@ import io.reactivex.observers.DisposableSingleObserver;
 
 public class ProjectsUiPresenter extends UiPresenter<ProjectsUiContract> {
 
-    private final UseCaseGenerator<Single<MembersResponse>> mProfileUseCase = new ProfileUseCase();
+    private final UseCaseGenerator<Single<MemberVO>> mProfileUseCase = new ProfileUseCase();
     private final UseCaseGenerator<Single<ProjectResponse>> mAllProjectsUseCase = new AllProjectsUseCase();
 
     public ProjectsUiPresenter(ProjectsUiContract uiContract) {
@@ -60,11 +59,10 @@ public class ProjectsUiPresenter extends UiPresenter<ProjectsUiContract> {
         });
 
         Single<ProjectResponse> single = mProfileUseCase.getUseCase()
-                .flatMap(new Function<MembersResponse, SingleSource<ProjectResponse>>() {
+                .flatMap(new Function<MemberVO, SingleSource<? extends ProjectResponse>>() {
                     @Override
-                    public SingleSource<ProjectResponse> apply(@NonNull MembersResponse profileResponse) throws Exception {
-                        Records record = profileResponse.getRecords()[0];
-                        return new YourProjectsUseCase(record.getId()).getUseCase();
+                    public SingleSource<? extends ProjectResponse> apply(@NonNull MemberVO memberVO) throws Exception {
+                        return new YourProjectsUseCase(memberVO.mContactId).getUseCase();
                     }
                 });
         subscribeWith(single, new DisposableSingleObserver<ProjectResponse>() {

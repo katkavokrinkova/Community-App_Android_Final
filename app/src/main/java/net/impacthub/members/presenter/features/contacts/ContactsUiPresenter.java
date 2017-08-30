@@ -15,14 +15,12 @@ import com.google.gson.Gson;
 
 import net.impacthub.members.mapper.contacts.ContactsMapper;
 import net.impacthub.members.model.features.contacts.ContactsResponse;
-import net.impacthub.members.model.features.members.MembersResponse;
-import net.impacthub.members.model.features.members.Records;
-import net.impacthub.members.model.vo.contacts.ContactVO;
+import net.impacthub.members.model.vo.contacts.ContactsWrapper;
 import net.impacthub.members.model.vo.contacts.DeclineContactBody;
 import net.impacthub.members.model.vo.contacts.UpdateContactBody;
+import net.impacthub.members.model.vo.members.MemberVO;
 import net.impacthub.members.presenter.base.UiPresenter;
 import net.impacthub.members.presenter.rx.AbstractBigFunction;
-import net.impacthub.members.usecase.base.UseCaseGenerator;
 import net.impacthub.members.usecase.features.contacts.DMRequestUseCase;
 import net.impacthub.members.usecase.features.contacts.DeleteDMRequest;
 import net.impacthub.members.usecase.features.contacts.UpdateDMRequestStatusUseCase;
@@ -32,7 +30,6 @@ import net.impacthub.members.usecase.features.profile.ProfileUseCase;
 import org.json.JSONObject;
 
 import java.util.List;
-import java.util.Map;
 
 import io.reactivex.Single;
 import io.reactivex.SingleSource;
@@ -48,39 +45,37 @@ import io.reactivex.observers.DisposableSingleObserver;
 
 public class ContactsUiPresenter extends UiPresenter<ContactsUiContract> {
 
-    private final UseCaseGenerator<Single<MembersResponse>> mProfileUseCase = new ProfileUseCase();
-
     public ContactsUiPresenter(ContactsUiContract uiContract) {
         super(uiContract);
     }
 
     public void getContacts() {
-        Single<Map<String, List<ContactVO>>> listSingle = mProfileUseCase.getUseCase()
-                .flatMap(new Function<MembersResponse, SingleSource<? extends Map<String, List<ContactVO>>>>() {
+
+        Single<ContactsWrapper> listSingle = new ProfileUseCase().getUseCase()
+                .flatMap(new Function<MemberVO, SingleSource<ContactsWrapper>>() {
                     @Override
-                    public SingleSource<? extends Map<String, List<ContactVO>>> apply(@NonNull MembersResponse membersResponse) throws Exception {
-                        Records record = membersResponse.getRecords()[0];
-                        String contactId = record.getId();
+                    public SingleSource<ContactsWrapper> apply(@NonNull MemberVO memberVO) throws Exception {
+                        String contactId = memberVO.mContactId;
                         return Single.zip(
                                 new DMRequestUseCase(contactId).getUseCase(),
                                 new MembersUseCase().getUseCase(),
-                                new AbstractBigFunction<String, ContactsResponse, MembersResponse, Map<String, List<ContactVO>>> (contactId) {
+                                new AbstractBigFunction<String, ContactsResponse, List<MemberVO>, ContactsWrapper> (contactId) {
                                     @Override
-                                    protected Map<String, List<ContactVO>> apply(ContactsResponse response, MembersResponse membersResponse, String subject) {
-                                        return new ContactsMapper().mapContactMembers(response, membersResponse, subject);
+                                    protected ContactsWrapper apply(ContactsResponse response, List<MemberVO> memberVOs, String subject) {
+                                        return new ContactsMapper().mapContactMembers(response, memberVOs, subject);
                                     }
                                 }
                         );
                     }
                 });
         getUi().onChangeStatus(true);
-        subscribeWith(listSingle, new DisposableSingleObserver<Map<String, List<ContactVO>>>() {
+        subscribeWith(listSingle, new DisposableSingleObserver<ContactsWrapper>() {
 
             @Override
-            public void onSuccess(@NonNull Map<String, List<ContactVO>> stringListMap) {
-                getUi().onLoadApprovedContacts(stringListMap.get("Approved"));
-                getUi().onLoadOutstandingContacts(stringListMap.get("Outstanding"));
-                getUi().onLoadDeclinedContacts(stringListMap.get("Declined"));
+            public void onSuccess(@NonNull ContactsWrapper dispatcher) {
+                getUi().onLoadApprovedContacts(dispatcher.getApprovedContacts());
+                getUi().onLoadOutstandingContacts(dispatcher.getOutstandingContacts());
+                getUi().onLoadDeclinedContacts(dispatcher.getDeclinedContacts());
                 getUi().onChangeStatus(false);
             }
 

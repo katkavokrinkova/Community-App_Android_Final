@@ -13,16 +13,22 @@ package net.impacthub.members.presenter.features.goals;
 
 import net.impacthub.members.mapper.groups.GroupsMapper;
 import net.impacthub.members.mapper.members.MembersMapper;
+import net.impacthub.members.model.features.contacts.ContactsResponse;
+import net.impacthub.members.model.features.groups.GroupsResponse;
 import net.impacthub.members.model.vo.groups.GroupVO;
 import net.impacthub.members.model.vo.members.MemberVO;
-import net.impacthub.members.model.features.groups.GroupsResponse;
-import net.impacthub.members.model.features.members.MembersResponse;
 import net.impacthub.members.presenter.base.UiPresenter;
+import net.impacthub.members.presenter.rx.AbstractBigFunction;
+import net.impacthub.members.presenter.rx.AbstractFunction;
+import net.impacthub.members.usecase.features.contacts.DMRequestUseCase;
 import net.impacthub.members.usecase.features.goals.GoalGroupsUseCase;
 import net.impacthub.members.usecase.features.goals.GoalMembersUseCase;
+import net.impacthub.members.usecase.features.profile.ProfileUseCase;
 
 import java.util.List;
 
+import io.reactivex.Single;
+import io.reactivex.SingleSource;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.observers.DisposableSingleObserver;
 
@@ -52,11 +58,29 @@ public class GoalsDetailUiPresenter extends UiPresenter<GoalsDetailUiContract> {
             }
         });
 
-        subscribeWith(new GoalMembersUseCase(goalName).getUseCase(), new DisposableSingleObserver<MembersResponse>() {
+
+        Single<List<MemberVO>> single = new ProfileUseCase().getUseCase()
+                .flatMap(new AbstractFunction<String, MemberVO, SingleSource<? extends List<MemberVO>>>(goalName) {
+                    @Override
+                    protected SingleSource<? extends List<MemberVO>> apply(MemberVO response, String subject) throws Exception {
+                        String contactId = response.mContactId;
+                        return Single.zip(
+                                new DMRequestUseCase(contactId).getUseCase(),
+                                new GoalMembersUseCase(subject).getUseCase(),
+                                new AbstractBigFunction<String, ContactsResponse, List<MemberVO>, List<MemberVO>>(contactId) {
+                                    @Override
+                                    protected List<MemberVO> apply(ContactsResponse response, List<MemberVO> memberVOs, String subject) {
+                                        return new MembersMapper().mapMembersList(memberVOs, response, subject);
+                                    }
+                                }
+                        );
+                    }
+                });
+
+        subscribeWith(single, new DisposableSingleObserver<List<MemberVO>>() {
             @Override
-            public void onSuccess(@NonNull MembersResponse response) {
-                List<MemberVO> memberDTOs = new MembersMapper().mapMembers(response);
-                getUi().onLoadMembers(memberDTOs);
+            public void onSuccess(@NonNull List<MemberVO> memberVOs) {
+                getUi().onLoadMembers(memberVOs);
             }
 
             @Override

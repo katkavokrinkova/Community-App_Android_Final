@@ -14,9 +14,8 @@ package net.impacthub.members.presenter.features.groups;
 import net.impacthub.members.mapper.groups.GroupsMapper;
 import net.impacthub.members.model.features.groups.GroupsResponse;
 import net.impacthub.members.model.features.groups.chatter.ChatterResponse;
-import net.impacthub.members.model.features.members.MembersResponse;
-import net.impacthub.members.model.features.members.Records;
 import net.impacthub.members.model.vo.groups.GroupVO;
+import net.impacthub.members.model.vo.members.MemberVO;
 import net.impacthub.members.presenter.base.UiPresenter;
 import net.impacthub.members.usecase.base.UseCaseGenerator;
 import net.impacthub.members.usecase.features.groups.AllGroupsUseCase;
@@ -41,7 +40,7 @@ import io.reactivex.observers.DisposableSingleObserver;
 
 public class GroupPresenter extends UiPresenter<GroupUiContract> {
 
-    private final UseCaseGenerator<Single<MembersResponse>> mProfileUseCase = new ProfileUseCase();
+    private final UseCaseGenerator<Single<MemberVO>> mProfileUseCase = new ProfileUseCase();
     private final UseCaseGenerator<Single<ChatterResponse>> mMyGroupsUseCase = new GetMyGroupUseCase();
     private final UseCaseGenerator<Single<GroupsResponse>> mAllGroupsUseCase = new AllGroupsUseCase();
 
@@ -73,11 +72,10 @@ public class GroupPresenter extends UiPresenter<GroupUiContract> {
         });
 
         Single<GroupsResponse> yourGroupsSingle = mProfileUseCase.getUseCase()
-                .flatMap(new Function<MembersResponse, SingleSource<GroupsResponse>>() {
+                .flatMap(new Function<MemberVO, SingleSource<? extends GroupsResponse>>() {
                     @Override
-                    public SingleSource<GroupsResponse> apply(@NonNull MembersResponse profileResponse) throws Exception {
-                        Records record = profileResponse.getRecords()[0];
-                        return new YourGroupsUseCase(record.getId()).getUseCase();
+                    public SingleSource<? extends GroupsResponse> apply(@NonNull MemberVO memberVO) throws Exception {
+                        return new YourGroupsUseCase(memberVO.mContactId).getUseCase();
                     }
                 });
         subscribeWith(yourGroupsSingle, new DisposableSingleObserver<GroupsResponse>() {
