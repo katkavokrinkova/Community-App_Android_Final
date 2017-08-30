@@ -27,7 +27,7 @@ import net.impacthub.members.presenter.rx.AbstractFunction;
 import net.impacthub.members.usecase.features.companies.CompanyMembersUseCase;
 import net.impacthub.members.usecase.features.companies.CompanyProjectsUseCase;
 import net.impacthub.members.usecase.features.companies.CompanyServicesUseCase;
-import net.impacthub.members.usecase.features.contacts.DMRequestUseCase;
+import net.impacthub.members.usecase.features.contacts.DMGetContactsUseCase;
 import net.impacthub.members.usecase.features.profile.ProfileUseCase;
 
 import java.util.List;
@@ -82,7 +82,7 @@ public class CompanyDetailUiPresenter extends UiPresenter<CompanyDetailUiContrac
                     protected SingleSource<? extends List<MemberVO>> apply(MemberVO response, String subject) throws Exception {
                         String contactId = response.mContactId;
                         return Single.zip(
-                                new DMRequestUseCase(contactId).getUseCase(),
+                                new DMGetContactsUseCase(contactId).getUseCase(),
                                 new CompanyMembersUseCase(subject).getUseCase(),
                                 new AbstractBigFunction<String, ContactsResponse, List<MemberVO>, List<MemberVO>>(contactId) {
                                     @Override

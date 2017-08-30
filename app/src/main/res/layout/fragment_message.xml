@@ -39,16 +39,35 @@
 
     </FrameLayout>
 
-    <net.impacthub.members.ui.widgets.SendEditText
-        android:id="@+id/message_entry"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
         android:background="@color/colorWhite"
-        android:hint="@string/type_something"
-        android:imeOptions="actionSend"
-        android:inputType="textMultiLine"
-        android:lines="2"
-        android:paddingEnd="@dimen/message_side_margin"
-        android:paddingStart="@dimen/message_side_margin" />
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <net.impacthub.members.ui.widgets.TypefaceEditText
+            android:id="@+id/message_entry"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:hint="@string/type_something"
+            android:lines="2"
+            android:paddingEnd="@dimen/message_side_margin"
+            android:paddingStart="@dimen/message_side_margin"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
+            android:textColor="@color/brownish_grey"
+            android:textSize="16sp"
+            app:typeface="fonts/gt-walsheim-light-web.ttf" />
+
+        <ImageView
+            android:id="@+id/button_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:src="@mipmap/ic_send_black_24dp" />
+    </LinearLayout>
 
 </LinearLayout>

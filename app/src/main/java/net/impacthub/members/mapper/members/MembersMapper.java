@@ -29,7 +29,6 @@ import net.impacthub.members.model.vo.members.SkillsVO;
 import net.impacthub.members.model.vo.projects.ProjectVO;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -182,118 +181,6 @@ public class MembersMapper {
             map.put(memberVO.mContactId, memberVO);
         }
         return map;
-    }
-
-    public List<MemberVO> mapMembersFromContact(ContactsResponse contactsResponse, List<MemberVO> memberVOs, String contactId) {
-        List<MemberVO> memberVOList = new LinkedList<>();
-        if (contactsResponse != null) {
-            net.impacthub.members.model.features.contacts.Records[] records = contactsResponse.getRecords();
-            if (records != null && records.length > 0) {
-                Map<String, MemberVO> memberVOMap = mapListAsMapWithId(memberVOs);
-                memberVOMap.remove(contactId);
-
-                for (net.impacthub.members.model.features.contacts.Records record : records) {
-                    String contactTo__c = record.getContactTo__c();
-                    String contactFrom__c = record.getContactFrom__c();
-
-                    String status = record.getStatus__c();
-
-                    if ("Approved".equalsIgnoreCase(status)) {
-                        if (contactId.equals(contactTo__c)) {
-                            MemberVO memberVO = memberVOMap.get(contactFrom__c);
-                            memberVO.mMemberStatus = MemberStatus.APPROVED;
-                        } else {
-                            MemberVO memberVO = memberVOMap.get(contactTo__c);
-                            memberVO.mMemberStatus = MemberStatus.APPROVED;
-                        }
-                    } else if ("Declined".equalsIgnoreCase(status)) {
-                        if (contactId.equals(contactTo__c)) {
-                            MemberVO memberVO = memberVOMap.get(contactFrom__c);
-                            memberVO.mMemberStatus = MemberStatus.DECLINED;
-                        } else {
-                            MemberVO memberVO = memberVOMap.get(contactTo__c);
-                            memberVO.mMemberStatus = MemberStatus.DECLINED;
-                        }
-                    } else if ("Outstanding".equalsIgnoreCase(status)) {
-                        if (contactId.equals(contactTo__c)) {
-                            MemberVO memberVO = memberVOMap.get(contactFrom__c);
-                            memberVO.mMemberStatus = MemberStatus.APPROVE_DECLINE_BY_ME;
-                        } else {
-                            MemberVO memberVO = memberVOMap.get(contactTo__c);
-                            memberVO.mMemberStatus = MemberStatus.OUTSTANDING;
-                        }
-                    }
-                }
-                memberVOList.addAll(memberVOMap.values());
-            }
-        }
-        return memberVOList;
-    }
-
-    public List<MemberVO> mapMembers(List<MemberVO> memberVOs, ContactsResponse contactsResponse, String contactId) {
-        List<MemberVO> memberVOList = new LinkedList<>();
-        for (MemberVO memberVO : memberVOs) {
-            memberVO.mMemberStatus = getStatus(contactsResponse, memberVO.mContactId);
-            memberVOList.add(memberVO);
-        }
-        return memberVOList;
-    }
-
-    @MemberStatus
-    private int getStatus(ContactsResponse contactsResponse, String memberID) {
-        int memberStatus = MemberStatus.NOT_CONTACTED;
-        if (contactsResponse != null) {
-            net.impacthub.members.model.features.contacts.Records[] records = contactsResponse.getRecords();
-            if (records != null) {
-                for (net.impacthub.members.model.features.contacts.Records record : records) {
-                    String status = record.getStatus__c();
-                    if (memberID.equals(record.getContactFrom__c())) {
-                        if ("Approved".equalsIgnoreCase(status)) {
-                            memberStatus = MemberStatus.APPROVED;
-                        } else if ("Declined".equalsIgnoreCase(status)) {
-                            memberStatus = MemberStatus.DECLINED;
-                        } else if ("Outstanding".equalsIgnoreCase(status)) {
-                            memberStatus = MemberStatus.APPROVE_DECLINE_BY_ME;
-                        }
-                        break;
-                    }
-                    if (memberID.equals(record.getContactTo__c())) {
-                        if ("Approved".equalsIgnoreCase(status)) {
-                            memberStatus = MemberStatus.APPROVED;
-                        } else if ("Declined".equalsIgnoreCase(status)) {
-                            memberStatus = MemberStatus.DECLINED;
-                        } else if ("Outstanding".equalsIgnoreCase(status)) {
-                            memberStatus = MemberStatus.OUTSTANDING;
-                        }
-                        break;
-                    }
-                }
-            }
-        }
-        return memberStatus;
-    }
-
-//    public List<MemberVO> mapMembersList(List<MemberVO> memberVOs, ContactsResponse response, final String subject) {
-////        new LinkedHashMap<String, MemberVO>(memberVOs.listIterator().)
-//        for (MemberVO memberVO : memberVOs) {
-//            configMemberStatus(response, memberVO);
-//        }
-//        return memberVOs;
-//    }
-
-    private void configMemberStatus(ContactsResponse response, MemberVO memberVO) {
-        if (response != null) {
-            net.impacthub.members.model.features.contacts.Records[] records = response.getRecords();
-            if (records != null) {
-                String contactId = memberVO.mContactId;
-                for (net.impacthub.members.model.features.contacts.Records record : records) {
-                    if (record.getContactFrom__c().equals(contactId) || record.getContactTo__c().equals(contactId)) {
-                        memberVO.mMemberStatus = MemberStatus.OUTSTANDING;
-                        break;
-                    }
-                }
-            }
-        }
     }
 
     public List<MemberVO> mapMembersList(List<MemberVO> memberVOs, ContactsResponse contactsResponse, String contactId) {

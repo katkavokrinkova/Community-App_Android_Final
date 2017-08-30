@@ -30,6 +30,13 @@ public final class DrawableUtils {
         return drawable;
     }
 
+    public static Drawable tintDrawable(Context context, @DrawableRes int resId, int color) {
+        Drawable drawable = DrawableCompat.wrap(ContextCompat.getDrawable(context, resId)).mutate();
+        DrawableCompat.setTint(drawable, color);
+        DrawableCompat.setTintMode(drawable, PorterDuff.Mode.SRC_IN);
+        return drawable;
+    }
+
     public static Drawable resize(Resources resources, Bitmap bitmap, int width, int height) {
         Bitmap bitmapResized = Bitmap.createScaledBitmap(bitmap, width, height, false);
         return new BitmapDrawable(resources, bitmapResized);

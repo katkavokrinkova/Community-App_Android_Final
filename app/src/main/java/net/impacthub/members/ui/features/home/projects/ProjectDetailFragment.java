@@ -137,7 +137,7 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
             public void onItemClick(int viewId, ChatterVO model) {
                 switch (viewId) {
                     case R.id.member_image:
-                        getPresenter().loadMember(model.mUserId);
+                        addChildFragment(MemberDetailFragment.newInstance(model.mUserId), "FRAG_MEMBER_DETAIL");
                         break;
                     case R.id.comment_indicator:
                         showToast("Opening Comments");
@@ -152,7 +152,7 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
         mViewBinder3 = new MembersViewBinder(new OnListItemClickListener<MemberVO>() {
             @Override
             public void onItemClick(int viewId, MemberVO model) {
-                addChildFragment(MemberDetailFragment.newInstance(model), "FRAG_MEMBER_DETAIL");
+                addChildFragment(MemberDetailFragment.newInstance(model.mUserId), "FRAG_MEMBER_DETAIL");
             }
         });
 
@@ -197,10 +197,5 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
     public void onLoadObjectives(List<ListItemType> listItemTypes) {
         listItemTypes.add(0, new SimpleItem<String>("GOALS", 0));
         mViewBinder2.bindView(listItemTypes);
-    }
-
-    @Override
-    public void onLoadMember(MemberVO memberDTO) {
-        addChildFragment(MemberDetailFragment.newInstance(memberDTO), "FRAG_MEMBER_DETAIL");
     }
 }

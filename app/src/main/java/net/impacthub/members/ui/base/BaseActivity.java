@@ -1,5 +1,6 @@
 package net.impacthub.members.ui.base;
 
+import android.app.ProgressDialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
@@ -20,6 +21,8 @@ import android.widget.Toast;
  */
 
 public abstract class BaseActivity extends AppCompatActivity {
+
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,6 +53,14 @@ public abstract class BaseActivity extends AppCompatActivity {
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(containerId, fragment)
                 .commit();
+    }
+
+    private void createDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            mProgressDialog.setCancelable(true);
+        }
     }
 
     protected abstract int getContentView();

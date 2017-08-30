@@ -26,9 +26,8 @@ import net.impacthub.members.model.vo.members.MemberVO;
 import net.impacthub.members.presenter.base.UiPresenter;
 import net.impacthub.members.presenter.rx.AbstractBigFunction;
 import net.impacthub.members.presenter.rx.AbstractFunction;
-import net.impacthub.members.usecase.features.contacts.DMRequestUseCase;
+import net.impacthub.members.usecase.features.contacts.DMGetContactsUseCase;
 import net.impacthub.members.usecase.features.groups.ChatterFeedUseCase;
-import net.impacthub.members.usecase.features.members.GetMemberByUserIdUseCase;
 import net.impacthub.members.usecase.features.profile.ProfileUseCase;
 import net.impacthub.members.usecase.features.projects.ProjectJobsUseCase;
 import net.impacthub.members.usecase.features.projects.ProjectMembersUseCase;
@@ -96,7 +95,7 @@ public class ProjectDetailUiPresenter extends UiPresenter<ProjectDetailUiContrac
                     protected SingleSource<? extends List<MemberVO>> apply(MemberVO response, String subject) throws Exception {
                         String contactId = response.mContactId;
                         return Single.zip(
-                                new DMRequestUseCase(contactId).getUseCase(),
+                                new DMGetContactsUseCase(contactId).getUseCase(),
                                 new ProjectMembersUseCase(subject).getUseCase(),
                                 new AbstractBigFunction<String, ContactsResponse, List<MemberVO>, List<MemberVO>>(contactId) {
                                     @Override
@@ -124,20 +123,6 @@ public class ProjectDetailUiPresenter extends UiPresenter<ProjectDetailUiContrac
             public void onSuccess(@NonNull JobsResponse jobsResponse) {
                 List<JobVO> jobDTOs = new JobsMapper().map(jobsResponse);
                 getUi().onLoadJobs(jobDTOs);
-            }
-
-            @Override
-            public void onError(@NonNull Throwable e) {
-                getUi().onError(e);
-            }
-        });
-    }
-
-    public void loadMember(String userId) {
-        subscribeWith(new GetMemberByUserIdUseCase(userId).getUseCase(), new DisposableSingleObserver<MemberVO>() {
-            @Override
-            public void onSuccess(@NonNull MemberVO memberVO) {
-                getUi().onLoadMember(memberVO);
             }
 
             @Override

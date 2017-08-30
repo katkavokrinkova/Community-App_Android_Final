@@ -21,7 +21,7 @@ import net.impacthub.members.model.vo.contacts.UpdateContactBody;
 import net.impacthub.members.model.vo.members.MemberVO;
 import net.impacthub.members.presenter.base.UiPresenter;
 import net.impacthub.members.presenter.rx.AbstractBigFunction;
-import net.impacthub.members.usecase.features.contacts.DMRequestUseCase;
+import net.impacthub.members.usecase.features.contacts.DMGetContactsUseCase;
 import net.impacthub.members.usecase.features.contacts.DeleteDMRequest;
 import net.impacthub.members.usecase.features.contacts.UpdateDMRequestStatusUseCase;
 import net.impacthub.members.usecase.features.members.MembersUseCase;
@@ -57,7 +57,7 @@ public class ContactsUiPresenter extends UiPresenter<ContactsUiContract> {
                     public SingleSource<ContactsWrapper> apply(@NonNull MemberVO memberVO) throws Exception {
                         String contactId = memberVO.mContactId;
                         return Single.zip(
-                                new DMRequestUseCase(contactId).getUseCase(),
+                                new DMGetContactsUseCase(contactId).getUseCase(),
                                 new MembersUseCase().getUseCase(),
                                 new AbstractBigFunction<String, ContactsResponse, List<MemberVO>, ContactsWrapper> (contactId) {
                                     @Override

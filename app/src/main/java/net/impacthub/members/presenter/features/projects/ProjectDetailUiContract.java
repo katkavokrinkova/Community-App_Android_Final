@@ -34,6 +34,4 @@ public interface ProjectDetailUiContract extends ErrorHandlerUiContract {
     void onLoadJobs(List<JobVO> jobDTOs);
 
     void onLoadObjectives(List<ListItemType> listItemTypes);
-
-    void onLoadMember(MemberVO memberDTO);
 }

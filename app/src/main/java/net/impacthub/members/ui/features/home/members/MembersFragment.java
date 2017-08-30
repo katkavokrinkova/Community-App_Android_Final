@@ -9,12 +9,14 @@ import android.view.View;
 
 import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnListItemClickListener;
+import net.impacthub.members.model.vo.members.MemberStatusType;
 import net.impacthub.members.model.vo.members.MemberVO;
 import net.impacthub.members.presenter.features.members.MembersPresenter;
 import net.impacthub.members.presenter.features.members.MembersUiContract;
 import net.impacthub.members.ui.base.BaseChildFragment;
 import net.impacthub.members.ui.common.LinearItemsMarginDecorator;
 import net.impacthub.members.ui.features.filters.FilterActivity;
+import net.impacthub.members.ui.modal.ModalActivity;
 
 import java.util.List;
 
@@ -68,13 +70,15 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
         int offset = getResources().getDimensionPixelOffset(R.dimen.default_content_normal_gap);
         mMembersList.addItemDecoration(new LinearItemsMarginDecorator(offset, offset, 0, offset));
 
-        if (mAdapter == null) {
-            mAdapter = new MembersListAdapter(getActivity().getLayoutInflater());
-            mAdapter.setItemClickListener(this);
-            getPresenter().loadMembers();
-        }
-
+//        if (mAdapter == null) {
+//            mAdapter = new MembersListAdapter(getActivity().getLayoutInflater());
+//            mAdapter.setItemClickListener(this);
+//            getPresenter().loadMembers();
+//        }
+        mAdapter = new MembersListAdapter(getActivity().getLayoutInflater());
+        mAdapter.setItemClickListener(this);
         mMembersList.setAdapter(mAdapter);
+        getPresenter().loadMembers();
 
 //        if (mState != null) {
 //            mMembersList.getLayoutManager().onRestoreInstanceState(mState);
@@ -101,15 +105,37 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1234) {
         showToast("Back from filters...");
+        } else {
+            getPresenter().loadMembers();
+        }
     }
 
     @Override
     public void onItemClick(int viewId, MemberVO member) {
-        MemberDetailFragment detailFragment = MemberDetailFragment.newInstance(member);
-        //Toast.makeText(getActivity(), model.getId(), Toast.LENGTH_SHORT).show();
-//        addChildFragment(MembersFragment.newInstance(), "FRAG_MEMBERS_"+new Random().nextInt(500));
-        addChildFragment(detailFragment, "FRAG_MEMBER_DETAIL");
+        switch (viewId) {
+            case R.id.image_member_status:
+                MemberStatusType statusType = MemberStatusType.fromStatus(member.mMemberStatus);
+                showToast("User status " + statusType.getStatusText());
+                switch (statusType) {
+                    case NOT_CONTACTED:
+                        Intent intent = new Intent(getActivity(), ModalActivity.class);
+                        intent.putExtra(ModalActivity.MODAL_TYPE_CONNECT, true);
+                        intent.putExtra(ModalActivity.EXTRA_CONTACT_ID, member.mContactId);
+                        startActivityForResult(intent, 1122);
+                        break;
+                    case APPROVED:
+
+                        break;
+                    case APPROVE_DECLINE:
+                        addChildFragment(MemberDetailFragment.newInstance(member.mUserId), "FRAG_MEMBER_DETAIL");
+                        break;
+                }
+                break;
+            default:
+                addChildFragment(MemberDetailFragment.newInstance(member.mUserId), "FRAG_MEMBER_DETAIL");
+        }
     }
 
     @Override

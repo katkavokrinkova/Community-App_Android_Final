@@ -20,7 +20,7 @@ import net.impacthub.members.model.vo.members.MemberVO;
 import net.impacthub.members.presenter.base.UiPresenter;
 import net.impacthub.members.presenter.rx.AbstractBigFunction;
 import net.impacthub.members.presenter.rx.AbstractFunction;
-import net.impacthub.members.usecase.features.contacts.DMRequestUseCase;
+import net.impacthub.members.usecase.features.contacts.DMGetContactsUseCase;
 import net.impacthub.members.usecase.features.goals.GoalGroupsUseCase;
 import net.impacthub.members.usecase.features.goals.GoalMembersUseCase;
 import net.impacthub.members.usecase.features.profile.ProfileUseCase;
@@ -65,7 +65,7 @@ public class GoalsDetailUiPresenter extends UiPresenter<GoalsDetailUiContract> {
                     protected SingleSource<? extends List<MemberVO>> apply(MemberVO response, String subject) throws Exception {
                         String contactId = response.mContactId;
                         return Single.zip(
-                                new DMRequestUseCase(contactId).getUseCase(),
+                                new DMGetContactsUseCase(contactId).getUseCase(),
                                 new GoalMembersUseCase(subject).getUseCase(),
                                 new AbstractBigFunction<String, ContactsResponse, List<MemberVO>, List<MemberVO>>(contactId) {
                                     @Override

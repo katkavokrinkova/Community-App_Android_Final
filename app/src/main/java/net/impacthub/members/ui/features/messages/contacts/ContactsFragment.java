@@ -90,7 +90,7 @@ public class ContactsFragment extends BaseChildFragment<ContactsUiPresenter> imp
                         getPresenter().declineContact(model.mDM_Id);
                         break;
                     default:
-                        addChildFragment(MemberDetailFragment.newInstance(model.mMember), "FRAG_MEMBER_DETAIL");
+                        addChildFragment(MemberDetailFragment.newInstance(model.mMember.mUserId), "FRAG_MEMBER_DETAIL");
                 }
             }
         }));

@@ -39,7 +39,6 @@ public class MembersListAdapter extends BaseListAdapter<MembersListAdapter.Membe
 
     class MemberViewHolder extends RecyclerViewHolder<MemberVO> implements View.OnClickListener {
 
-        final View container;
         final CircleImageView memberImage;
         final TextView name;
         final TextView profession;
@@ -48,12 +47,12 @@ public class MembersListAdapter extends BaseListAdapter<MembersListAdapter.Membe
 
         MemberViewHolder(View itemView) {
             super(itemView);
-            container = itemView;
-            memberImage = (CircleImageView) container.findViewById(R.id.member_image);
-            name = (TextView) container.findViewById(R.id.name);
-            profession = (TextView) container.findViewById(R.id.profession);
-            locations = (TextView) container.findViewById(R.id.locations);
-            iconMemberStatus = (ImageView) container.findViewById(R.id.image_member_status);
+            memberImage = (CircleImageView) itemView.findViewById(R.id.member_image);
+            name = (TextView) itemView.findViewById(R.id.name);
+            profession = (TextView) itemView.findViewById(R.id.profession);
+            locations = (TextView) itemView.findViewById(R.id.locations);
+            iconMemberStatus = (ImageView) itemView.findViewById(R.id.image_member_status);
+            iconMemberStatus.setOnClickListener(this);
             itemView.setOnClickListener(this);
         }
 

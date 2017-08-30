@@ -16,7 +16,6 @@ import android.widget.TextView;
 import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnListItemClickListener;
 import net.impacthub.members.model.pojo.ListItemType;
-import net.impacthub.members.model.pojo.SimpleItem;
 import net.impacthub.members.model.vo.groups.GroupVO;
 import net.impacthub.members.model.vo.members.MemberVO;
 import net.impacthub.members.model.vo.projects.ProjectVO;
@@ -52,23 +51,12 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
 
     public static final String TITLES[] = {"ABOUT", "PROJECTS", "GROUPS"};
 
-    public static final String EXTRA_MEMBER_PROFILE_PICTURE = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_PROFILE_PICTURE";
-    public static final String EXTRA_MEMBER_ID = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_ID";
-    public static final String EXTRA_MEMBER_INSTAGRAM = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_INSTAGRAM";
-    public static final String EXTRA_MEMBER_FACEBOOK = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_FACEBOOK";
-    public static final String EXTRA_MEMBER_TWITTER = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_TWITTER";
-    public static final String EXTRA_MEMBER_LINKEDIN = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_LINKEDIN";
-    public static final String EXTRA_MEMBER_FULL_NAME = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_FULL_NAME";
-    public static final String EXTRA_MEMBER_LOCATION = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_LOCATION";
-    public static final String EXTRA_MEMBER_ABOUT_ME = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_ABOUT_ME";
-    public static final String EXTRA_MEMBER_STATUS_UPDATE = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_STATUS_UPDATE";
-    public static final String EXTRA_MEMBER_PROFESSION = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_PROFESSION";
+    public static final String EXTRA_MEMBER_USER_ID = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_USER_ID";
 
     @BindView(R.id.app_bar_layout) protected AppBarLayout mAppBar;
     @BindView(R.id.tabs) protected TabLayout mDetailsTab;
     @BindView(R.id.image_detail) protected ImageView mImageDetail;
     @BindView(R.id.container_connect) protected View mConnectContainer;
-//    @BindView(R.id.text_full_name) protected TextView mFullName;
     @BindView(R.id.locations) protected TextView mLocation;
     @BindView(R.id.text_profession) protected TextView mProfession;
     @BindView(R.id.text_status_update) protected TextView mStatusUpdate;
@@ -79,24 +67,12 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
     @BindView(R.id.button_instagram) protected ImageButton mButtonInsta;
 
     @BindView(R.id.pager) protected ViewPager mPager;
-//    @BindView(R.id.done) protected TypefaceTextView mDone;
-
     private AppPagerAdapter mPagerAdapter;
 
-    public static MemberDetailFragment newInstance(MemberVO member) {
+    public static MemberDetailFragment newInstance(String userId) {
 
         Bundle args = new Bundle();
-        args.putString(EXTRA_MEMBER_ID, member.mContactId);
-        args.putString(EXTRA_MEMBER_PROFILE_PICTURE, member.mProfilePicURL);
-        args.putString(EXTRA_MEMBER_INSTAGRAM, member.mLinkInstagram);
-        args.putString(EXTRA_MEMBER_FACEBOOK, member.mLinkFacebook);
-        args.putString(EXTRA_MEMBER_TWITTER, member.mLinkTwitter);
-        args.putString(EXTRA_MEMBER_LINKEDIN, member.mLinkLinkedin);
-        args.putString(EXTRA_MEMBER_FULL_NAME, member.mFullName);
-        args.putString(EXTRA_MEMBER_LOCATION, member.mLocation);
-        args.putString(EXTRA_MEMBER_ABOUT_ME, member.mAboutMe);
-        args.putString(EXTRA_MEMBER_STATUS_UPDATE, member.mStatusUpdate);
-        args.putString(EXTRA_MEMBER_PROFESSION, member.mProfession);
+        args.putString(EXTRA_MEMBER_USER_ID, userId);
         MemberDetailFragment fragment = new MemberDetailFragment();
         fragment.setArguments(args);
         return fragment;
@@ -112,27 +88,13 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
         return R.layout.fragment_member_detail;
     }
 
-//    @OnClick(R.id.done)
-//    protected void onDone(){
-//        showToast("Just Done!");
-//    }
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Bundle arguments = getArguments();
-        String memberId = arguments.getString(EXTRA_MEMBER_ID);
-        String profilePic = arguments.getString(EXTRA_MEMBER_PROFILE_PICTURE);
+        String userId = getArguments().getString(EXTRA_MEMBER_USER_ID);
+        getPresenter().getMember(userId);
 
-        String fullName = arguments.getString(EXTRA_MEMBER_FULL_NAME);
-
-        mLocation.setText(arguments.getString(EXTRA_MEMBER_LOCATION));
-        mProfession.setText(arguments.getString(EXTRA_MEMBER_PROFESSION));
-
-        mStatusUpdate.setText(arguments.getString(EXTRA_MEMBER_STATUS_UPDATE));
-
-        setUpToolbar(fullName);
         mToolbar.inflateMenu(R.menu.menu_member_connect);
 
         mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
@@ -146,20 +108,6 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
                 return false;
             }
         });
-
-        String twitterFullLink = arguments.getString(EXTRA_MEMBER_TWITTER);
-        if (twitterFullLink != null) {
-            twitterFullLink = "https://twitter.com/"+ twitterFullLink.replace("@", "");
-        }
-
-        Pair<String, ImageButton> twitterPair = new Pair<>(twitterFullLink, mButtonTwitter);
-        Pair<String, ImageButton> facebookPair = new Pair<>(arguments.getString(EXTRA_MEMBER_FACEBOOK), mButtonFacebook);
-        Pair<String, ImageButton> linkedinPair = new Pair<>(arguments.getString(EXTRA_MEMBER_LINKEDIN), mButtonLinkedin);
-        Pair<String, ImageButton> instagramPair = new Pair<>(arguments.getString(EXTRA_MEMBER_INSTAGRAM), mButtonInsta);
-
-        new DetailScreenDelegate().handleButtons(twitterPair, facebookPair, linkedinPair, instagramPair);
-
-        ImageLoaderHelper.loadImage(getContext(), buildUrl(profilePic), mImageDetail);
 
         mAppBar.addOnOffsetChangedListener(mOffsetChangeListenerAdapter);
 
@@ -185,13 +133,38 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
 
         new TabsDelegate().setUp(mDetailsTab, TITLES);
 
-        getPresenter().loadDetails(memberId);
     }
 
     @Override
     public void onDestroyView() {
         mAppBar.removeOnOffsetChangedListener(mOffsetChangeListenerAdapter);
         super.onDestroyView();
+    }
+
+    @Override
+    public void onLoadMember(MemberVO memberVO) {
+        getPresenter().loadDetails(memberVO.mContactId, memberVO.mStatusUpdate);
+
+        mLocation.setText(memberVO.mLocation);
+        mProfession.setText(memberVO.mProfession);
+
+        mStatusUpdate.setText(memberVO.mStatusUpdate);
+
+        setUpToolbar(memberVO.mFullName);
+
+        String twitterFullLink = memberVO.mLinkTwitter;
+        if (twitterFullLink != null) {
+            twitterFullLink = "https://twitter.com/"+ twitterFullLink.replace("@", "");
+        }
+
+        Pair<String, ImageButton> twitterPair = new Pair<>(twitterFullLink, mButtonTwitter);
+        Pair<String, ImageButton> facebookPair = new Pair<>(memberVO.mLinkFacebook, mButtonFacebook);
+        Pair<String, ImageButton> linkedinPair = new Pair<>(memberVO.mLinkLinkedin, mButtonLinkedin);
+        Pair<String, ImageButton> instagramPair = new Pair<>(memberVO.mLinkInstagram, mButtonInsta);
+
+        new DetailScreenDelegate().handleButtons(twitterPair, facebookPair, linkedinPair, instagramPair);
+
+        ImageLoaderHelper.loadImage(getContext(), buildUrl(memberVO.mProfilePicURL), mImageDetail);
     }
 
     @Override
@@ -219,10 +192,6 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
         if (mPagerAdapter != null) {
             ViewBinder viewBinder = mPagerAdapter.getItemAt(0);
             if (viewBinder != null) {
-
-                listItemTypes.add(0, new SimpleItem<String>("About", 0));
-                listItemTypes.add(1, new SimpleItem<String>(getArguments().getString(EXTRA_MEMBER_ABOUT_ME), 1));
-
                 viewBinder.bindView(listItemTypes);
             }
         }

@@ -21,8 +21,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.controllers.MainTabsActivity" />
+        <activity android:name=".ui.controllers.MainTabsActivity"
+            android:launchMode="singleTop"/>
         <activity android:name=".ui.features.filters.FilterActivity" />
+        <activity android:name=".ui.modal.ModalActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

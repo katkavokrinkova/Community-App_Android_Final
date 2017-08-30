@@ -16,11 +16,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -41,6 +38,7 @@ import net.impacthub.members.utilities.DrawableUtils;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * @author Filippo Ash
@@ -84,6 +82,11 @@ public class ConversationFragment extends BaseChildFragment<ConversationUiPresen
         return R.layout.fragment_message;
     }
 
+    @OnClick(R.id.button_send)
+    protected void onSendButtonClicked() {
+        sendMessage(mMessageField.getText().toString());
+    }
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -94,17 +97,6 @@ public class ConversationFragment extends BaseChildFragment<ConversationUiPresen
         mMessageList.setHasFixedSize(true);
         mAdapter = new ConversationListAdapter(getLayoutInflater(getArguments()));
         mMessageList.setAdapter(mAdapter);
-
-        mMessageField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-                boolean sendPressed = actionId == EditorInfo.IME_ACTION_SEND;
-                if(sendPressed) {
-                    sendMessage(mMessageField.getText().toString());
-                }
-                return sendPressed;
-            }
-        });
 
         ConversationUiPresenter presenter = getPresenter();
         presenter.getMessageConversations(mConversationID);

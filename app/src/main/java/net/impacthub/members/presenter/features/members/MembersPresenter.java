@@ -5,7 +5,7 @@ import net.impacthub.members.model.features.contacts.ContactsResponse;
 import net.impacthub.members.model.vo.members.MemberVO;
 import net.impacthub.members.presenter.base.UiPresenter;
 import net.impacthub.members.presenter.rx.AbstractBigFunction;
-import net.impacthub.members.usecase.features.contacts.DMRequestUseCase;
+import net.impacthub.members.usecase.features.contacts.DMGetContactsUseCase;
 import net.impacthub.members.usecase.features.members.MembersUseCase;
 import net.impacthub.members.usecase.features.profile.ProfileUseCase;
 
@@ -39,7 +39,7 @@ public class MembersPresenter extends UiPresenter<MembersUiContract> {
                         String contactId = memberVO.mContactId;
                         return Single.zip(
                                 new MembersUseCase().getUseCase(),
-                                new DMRequestUseCase(contactId).getUseCase(),
+                                new DMGetContactsUseCase(contactId).getUseCase(),
                                 new AbstractBigFunction<String, List<MemberVO>, ContactsResponse, List<MemberVO>>(contactId) {
                                     @Override
                                     protected List<MemberVO> apply(List<MemberVO> memberVOs, ContactsResponse response, String subject) {
