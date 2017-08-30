@@ -165,7 +165,7 @@ public class JobDetailListAdapter extends BaseListAdapter<RecyclerView.ViewHolde
         @Override
         public void onClick(View view) {
             if (mItemClickListener != null) {
-                mItemClickListener.onItemClick(getItem(getAdapterPosition()));
+                mItemClickListener.onItemClick(view.getId(), getItem(getAdapterPosition()));
             }
         }
     }

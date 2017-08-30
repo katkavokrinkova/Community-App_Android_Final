@@ -18,7 +18,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import net.impacthub.members.R;
-import net.impacthub.members.model.callback.OnContactAcceptRequestClickListener;
+import net.impacthub.members.model.callback.OnListItemClickListener;
 import net.impacthub.members.model.vo.contacts.ContactVO;
 import net.impacthub.members.ui.binder.ViewBinder;
 import net.impacthub.members.ui.common.LinearItemsMarginDecorator;
@@ -33,11 +33,11 @@ import java.util.List;
 
 public class ContactsRejectedViewBinder implements ViewBinder<List<ContactVO>> {
 
-    private final OnContactAcceptRequestClickListener mListener;
+    private final OnListItemClickListener<ContactVO> mListener;
     private RejectedContactsListAdapter mAdapter;
 
-    public ContactsRejectedViewBinder(OnContactAcceptRequestClickListener listener) {
-        mListener = listener;
+    public ContactsRejectedViewBinder(OnListItemClickListener<ContactVO> mListener) {
+        this.mListener = mListener;
     }
 
     @Override
@@ -47,7 +47,8 @@ public class ContactsRejectedViewBinder implements ViewBinder<List<ContactVO>> {
         recyclerView.setHasFixedSize(true);
         int offset = context.getResources().getDimensionPixelOffset(R.dimen.default_content_normal_gap);
         recyclerView.addItemDecoration(new LinearItemsMarginDecorator(offset));
-        mAdapter = new RejectedContactsListAdapter(inflater, mListener);
+        mAdapter = new RejectedContactsListAdapter(inflater);
+        mAdapter.setItemClickListener(mListener);
         recyclerView.setAdapter(mAdapter);
         return recyclerView;
     }

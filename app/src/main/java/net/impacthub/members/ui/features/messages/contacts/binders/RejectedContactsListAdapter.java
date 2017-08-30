@@ -11,7 +11,6 @@
 
 package net.impacthub.members.ui.features.messages.contacts.binders;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.impacthub.members.R;
-import net.impacthub.members.model.callback.OnContactAcceptRequestClickListener;
 import net.impacthub.members.model.vo.contacts.ContactVO;
 import net.impacthub.members.model.vo.members.MemberVO;
 import net.impacthub.members.ui.base.BaseListAdapter;
@@ -35,11 +33,8 @@ import net.impacthub.members.ui.widgets.CircleImageView;
 
 public class RejectedContactsListAdapter extends BaseListAdapter<RejectedContactsListAdapter.RejectedMemberViewHolder, ContactVO> {
 
-    private final OnContactAcceptRequestClickListener mItemActionListener;
-
-    protected RejectedContactsListAdapter(LayoutInflater inflater, OnContactAcceptRequestClickListener listener) {
+    protected RejectedContactsListAdapter(LayoutInflater inflater) {
         super(inflater);
-        mItemActionListener = listener;
     }
 
     @Override
@@ -86,13 +81,8 @@ public class RejectedContactsListAdapter extends BaseListAdapter<RejectedContact
 
         @Override
         public void onClick(View view) {
-            Context context = view.getContext();
-            ContactVO contactVO = getItem(getAdapterPosition());
-            if (contactVO != null && mItemActionListener != null) {
-                MemberVO member = contactVO.mMember;
-                if (member != null) {
-                    mItemActionListener.onUpdateContactRequest(contactVO.mDM_Id, member.mUserId, "Approved");
-                }
+            if (mItemClickListener != null) {
+                mItemClickListener.onItemClick(view.getId(), getItem(getAdapterPosition()));
             }
         }
     }

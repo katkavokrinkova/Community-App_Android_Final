@@ -22,7 +22,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.impacthub.members.R;
-import net.impacthub.members.model.callback.OnChatterFeedItemClickListener;
 import net.impacthub.members.model.callback.OnListItemClickListener;
 import net.impacthub.members.model.pojo.ListItemType;
 import net.impacthub.members.model.pojo.SimpleItem;
@@ -54,7 +53,7 @@ import butterknife.BindView;
  * @date 8/16/2017.
  */
 
-public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPresenter> implements ProjectDetailUiContract, OnChatterFeedItemClickListener {
+public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPresenter> implements ProjectDetailUiContract {
 
     public static final String TITLES[] = {"FEED", "OBJECTIVES", "MEMBERS", "JOBS"};
 
@@ -133,18 +132,33 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
 
         AppPagerAdapter adapter = new AppPagerAdapter(getContext());
 
-        mViewBinder1 = new ChatterViewBinder(this);
+        mViewBinder1 = new ChatterViewBinder(new OnListItemClickListener<ChatterVO>() {
+            @Override
+            public void onItemClick(int viewId, ChatterVO model) {
+                switch (viewId) {
+                    case R.id.member_image:
+                        getPresenter().loadMember(model.mUserId);
+                        break;
+                    case R.id.comment_indicator:
+                        showToast("Opening Comments");
+                        break;
+                    case R.id.like_indicator:
+                        showToast("Liking post");
+                        break;
+                }
+            }
+        });
         mViewBinder2 = new ObjectivesViewBinder();
         mViewBinder3 = new MembersViewBinder(new OnListItemClickListener<MemberVO>() {
             @Override
-            public void onItemClick(MemberVO model) {
+            public void onItemClick(int viewId, MemberVO model) {
                 addChildFragment(MemberDetailFragment.newInstance(model), "FRAG_MEMBER_DETAIL");
             }
         });
 
         mViewBinder4 = new JobsViewBinder(new OnListItemClickListener<JobVO>() {
             @Override
-            public void onItemClick(JobVO model) {
+            public void onItemClick(int viewId, JobVO model) {
                 addChildFragment(JobDetailFragment.newInstance(model), "FRAG_JOB_DETAIL");
             }
         });
@@ -188,10 +202,5 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
     @Override
     public void onLoadMember(MemberVO memberDTO) {
         addChildFragment(MemberDetailFragment.newInstance(memberDTO), "FRAG_MEMBER_DETAIL");
-    }
-
-    @Override
-    public void onProfileImageClicked(ChatterVO chatterDTO) {
-        getPresenter().loadMember(chatterDTO.mUserId);
     }
 }

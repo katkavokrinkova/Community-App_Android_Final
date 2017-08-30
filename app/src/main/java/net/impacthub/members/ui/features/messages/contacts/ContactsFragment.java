@@ -18,10 +18,9 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import net.impacthub.members.R;
-import net.impacthub.members.model.callback.OnActiveContactActionClickListener;
-import net.impacthub.members.model.callback.OnContactAcceptRequestClickListener;
-import net.impacthub.members.model.callback.OnContactPendingRequestActionClickListener;
+import net.impacthub.members.model.callback.OnListItemClickListener;
 import net.impacthub.members.model.vo.contacts.ContactVO;
+import net.impacthub.members.model.vo.members.MemberVO;
 import net.impacthub.members.presenter.features.contacts.ContactsUiContract;
 import net.impacthub.members.presenter.features.contacts.ContactsUiPresenter;
 import net.impacthub.members.ui.base.BaseChildFragment;
@@ -79,39 +78,52 @@ public class ContactsFragment extends BaseChildFragment<ContactsUiPresenter> imp
         setUpToolbar(R.string.label_contacts);
 
         AppPagerAdapter adapter = new AppPagerAdapter(getContext());
-        adapter.addVieBinder(mViewBinder1 = new ContactsApprovedViewBinder(new OnActiveContactActionClickListener() {
-            @Override
-            public void onItemClick(ContactVO model) {
-                addChildFragment(MemberDetailFragment.newInstance(model.mMember), "FRAG_MEMBER_DETAIL");
-            }
 
+        adapter.addVieBinder(mViewBinder1 = new ContactsApprovedViewBinder(new OnListItemClickListener<ContactVO>() {
             @Override
-            public void onOpenConversation() {
-                showToast("Opening Conversation");
-            }
-
-            @Override
-            public void onDeclineContact(String Dm_Id) {
-                getPresenter().declineContact(Dm_Id);
-            }
-        }));
-        adapter.addVieBinder(mViewBinder2 = new ContactsPendingViewBinder(new OnContactPendingRequestActionClickListener() {
-
-            @Override
-            public void onViewMoreContactRequest(ContactVO contactVO) {
-                addChildFragment(ViewMoreContactFragment.newInstance(contactVO), "FRAG_VIEW_MORE_CONTACT");
-            }
-
-            @Override
-            public void onUpdateContactRequest(String Dm_Id, String memberId, String status) {
-                getPresenter().updateContactRequest(Dm_Id, memberId, status);
+            public void onItemClick(int viewId, ContactVO model) {
+                switch (viewId) {
+                    case R.id.button_message_contact:
+                        showToast("Opening Conversation");
+                        break;
+                    case R.id.button_decline_contact:
+                        getPresenter().declineContact(model.mDM_Id);
+                        break;
+                    default:
+                        addChildFragment(MemberDetailFragment.newInstance(model.mMember), "FRAG_MEMBER_DETAIL");
+                }
             }
         }));
-        adapter.addVieBinder(mViewBinder3 = new ContactsRejectedViewBinder(new OnContactAcceptRequestClickListener() {
 
+        adapter.addVieBinder(mViewBinder2 = new ContactsPendingViewBinder(new OnListItemClickListener<ContactVO>() {
             @Override
-            public void onUpdateContactRequest(String Dm_Id, String memberId, String status) {
-                getPresenter().updateContactRequest(Dm_Id, memberId, status);
+            public void onItemClick(int viewId, ContactVO model) {
+                MemberVO member = model.mMember;
+                switch (viewId) {
+                    case R.id.button_accept_contact:
+                        if (member != null) {
+                            getPresenter().updateContactRequest(model.mDM_Id, member.mUserId, "Approved");
+                        }
+                        break;
+                    case R.id.button_reject_contact:
+                        if (member != null) {
+                            getPresenter().updateContactRequest(model.mDM_Id, member.mUserId, "Declined");
+                        }
+                        break;
+                    case R.id.button_view_more:
+                    default:
+                        addChildFragment(ViewMoreContactFragment.newInstance(model), "FRAG_VIEW_MORE_CONTACT");
+                }
+            }
+        }));
+
+        adapter.addVieBinder(mViewBinder3 = new ContactsRejectedViewBinder(new OnListItemClickListener<ContactVO>() {
+            @Override
+            public void onItemClick(int viewId, ContactVO model) {
+                MemberVO member = model.mMember;
+                if (member != null) {
+                    getPresenter().updateContactRequest(model.mDM_Id, member.mUserId, "Approved");
+                }
             }
         }));
 

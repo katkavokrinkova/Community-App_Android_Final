@@ -120,7 +120,7 @@ public class JobDetailFragment extends BaseChildFragment<JobsDetailUiPresenter> 
         mAdapter = new JobDetailListAdapter(getLayoutInflater(getArguments()));
         mAdapter.setItemClickListener(new OnListItemClickListener<ListItemType>() {
             @Override
-            public void onItemClick(ListItemType model) {
+            public void onItemClick(int viewId, ListItemType model) {
                 ProjectVO projectVO = (ProjectVO) model.getModel();
                 addChildFragment(ProjectDetailFragment.newInstance(projectVO), "FRAG_PROJECT_DETAIL");
             }

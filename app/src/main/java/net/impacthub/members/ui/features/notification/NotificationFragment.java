@@ -57,7 +57,7 @@ public class NotificationFragment extends BaseChildFragment<NotificationsPresent
         mAdapter = new NotificationListAdapter(getLayoutInflater(getArguments()));
         mAdapter.setItemClickListener(new OnListItemClickListener<NotificationVO>() {
             @Override
-            public void onItemClick(NotificationVO model) {
+            public void onItemClick(int viewId, NotificationVO model) {
                 switch (model.mNotificationType) {
                     case TYPE_PRIVATE_MESSAGE:
                         ConversationVO conversationVO = new ConversationVO();

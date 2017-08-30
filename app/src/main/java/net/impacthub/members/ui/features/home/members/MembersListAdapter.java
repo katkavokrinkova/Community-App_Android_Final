@@ -87,7 +87,7 @@ public class MembersListAdapter extends BaseListAdapter<MembersListAdapter.Membe
         @Override
         public void onClick(View v) {
             if (mItemClickListener != null) {
-                mItemClickListener.onItemClick(getItem(getAdapterPosition()));
+                mItemClickListener.onItemClick(v.getId(), getItem(getAdapterPosition()));
             }
         }
     }

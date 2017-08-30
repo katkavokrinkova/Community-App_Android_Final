@@ -87,7 +87,7 @@ public class MessagesFragment extends BaseChildFragment<MessagesUiPresenter> imp
     }
 
     @Override
-    public void onItemClick(MessageVO model) {
+    public void onItemClick(int viewId, MessageVO model) {
         ConversationVO conversationVO = new ConversationVO();
         conversationVO.mConversationId = model.mConversationId;
         conversationVO.mRecipientUserId = model.mRecipientUserId;

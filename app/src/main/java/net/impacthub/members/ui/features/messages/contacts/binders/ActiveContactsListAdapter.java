@@ -11,16 +11,13 @@
 
 package net.impacthub.members.ui.features.messages.contacts.binders;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import net.impacthub.members.R;
-import net.impacthub.members.model.callback.OnActiveContactActionClickListener;
 import net.impacthub.members.model.vo.contacts.ContactVO;
 import net.impacthub.members.model.vo.members.MemberVO;
 import net.impacthub.members.ui.base.BaseListAdapter;
@@ -36,11 +33,8 @@ import net.impacthub.members.ui.widgets.CircleImageView;
 
 public class ActiveContactsListAdapter extends BaseListAdapter<ActiveContactsListAdapter.ActiveContactViewHolder, ContactVO> {
 
-    private final OnActiveContactActionClickListener mItemActionListener;
-
-    protected ActiveContactsListAdapter(LayoutInflater inflater, OnActiveContactActionClickListener listener) {
+    protected ActiveContactsListAdapter(LayoutInflater inflater) {
         super(inflater);
-        mItemActionListener = listener;
     }
 
     @Override
@@ -91,22 +85,8 @@ public class ActiveContactsListAdapter extends BaseListAdapter<ActiveContactsLis
 
         @Override
         public void onClick(View view) {
-            ContactVO contactVO = getItem(getAdapterPosition());
-            switch (view.getId()) {
-                case R.id.button_message_contact:
-                    if (mItemActionListener != null) {
-                        mItemActionListener.onOpenConversation();
-                    }
-                    break;
-                case R.id.button_decline_contact:
-                    if (contactVO != null && mItemActionListener != null) {
-                        mItemActionListener.onDeclineContact(contactVO.mDM_Id);
-                    }
-                    break;
-                default:
-                    if (mItemActionListener != null) {
-                        mItemActionListener.onItemClick(contactVO);
-                    }
+            if (mItemClickListener != null) {
+                mItemClickListener.onItemClick(view.getId(), getItem(getAdapterPosition()));
             }
         }
     }

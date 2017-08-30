@@ -89,7 +89,7 @@ public class ProjectsFragment extends BaseChildFragment<ProjectsUiPresenter> imp
     }
 
     @Override
-    public void onItemClick(ProjectVO model) {
+    public void onItemClick(int viewId, ProjectVO model) {
         addChildFragment(ProjectDetailFragment.newInstance(model), "FRAG_PROJECT_DETAIL");
     }
 

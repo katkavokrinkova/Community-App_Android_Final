@@ -78,7 +78,7 @@ class MessagesListAdapter extends BaseListAdapter<MessagesListAdapter.MessageVie
         @Override
         public void onClick(View v) {
             if (mItemClickListener != null) {
-                mItemClickListener.onItemClick(getItem(getAdapterPosition()));
+                mItemClickListener.onItemClick(v.getId(), getItem(getAdapterPosition()));
             }
         }
     }

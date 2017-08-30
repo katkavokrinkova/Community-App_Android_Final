@@ -77,7 +77,7 @@ public class ProjectsLisAdapter extends BaseListAdapter<ProjectsLisAdapter.Proje
         @Override
         public void onClick(View v) {
             if (mItemClickListener != null) {
-                mItemClickListener.onItemClick(getItem(getAdapterPosition()));
+                mItemClickListener.onItemClick(v.getId(), getItem(getAdapterPosition()));
             }
         }
     }

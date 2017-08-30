@@ -74,7 +74,7 @@ public class GoalsFragment extends BaseChildFragment<GoalsUiPresenter> implement
     }
 
     @Override
-    public void onItemClick(GoalVO model) {
+    public void onItemClick(int viewId, GoalVO model) {
         addChildFragment(GoalDetailFragment.newInstance(model), "FRAG_GOAL_DETAIL");
     }
 

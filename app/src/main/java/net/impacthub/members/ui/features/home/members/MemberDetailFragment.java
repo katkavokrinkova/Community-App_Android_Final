@@ -167,13 +167,13 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
         mPagerAdapter.addVieBinder(new AboutViewBinder(new MemberInfoListAdapter(getLayoutInflater(getArguments()))));
         mPagerAdapter.addVieBinder(new ProjectsViewBinder(new OnListItemClickListener<ProjectVO>() {
             @Override
-            public void onItemClick(ProjectVO model) {
+            public void onItemClick(int viewId, ProjectVO model) {
                 addChildFragment(ProjectDetailFragment.newInstance(model), "FRAG_PROJECT_DETAIL");
             }
         }));
         mPagerAdapter.addVieBinder(new GroupsViewBinder(new OnListItemClickListener<GroupVO>() {
             @Override
-            public void onItemClick(GroupVO model) {
+            public void onItemClick(int viewId, GroupVO model) {
                 addChildFragment(GroupDetailFragment.newInstance(model), "FRAG_GROUP_DETAIL");
             }
         }));

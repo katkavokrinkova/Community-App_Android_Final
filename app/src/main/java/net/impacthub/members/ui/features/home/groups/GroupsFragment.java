@@ -90,7 +90,7 @@ public class GroupsFragment extends BaseChildFragment<GroupPresenter> implements
     }
 
     @Override
-    public void onItemClick(GroupVO model) {
+    public void onItemClick(int viewId, GroupVO model) {
         addChildFragment(GroupDetailFragment.newInstance(model), "FRAG_GROUP_DETAIL");
     }
 

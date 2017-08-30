@@ -73,7 +73,7 @@ public class CompaniesFragment extends BaseChildFragment<CompaniesUiPresenter> i
     }
 
     @Override
-    public void onItemClick(CompanyVO model) {
+    public void onItemClick(int viewId, CompanyVO model) {
         addChildFragment(CompanyDetailFragment.newInstance(model), "FRAG_COMPANY_DETAIL");
     }
 

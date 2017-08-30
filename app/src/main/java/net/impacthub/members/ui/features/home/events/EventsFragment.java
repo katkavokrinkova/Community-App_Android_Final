@@ -105,7 +105,7 @@ public class EventsFragment extends BaseChildFragment<EventsUiPresenter> impleme
     }
 
     @Override
-    public void onItemClick(EventVO model) {
+    public void onItemClick(int viewId, EventVO model) {
         addChildFragment(EventDetailFragment.newInstance(model), "FRAG_EVENT_DETAIL");
     }
 }

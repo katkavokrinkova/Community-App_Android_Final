@@ -18,7 +18,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import net.impacthub.members.R;
-import net.impacthub.members.model.callback.OnChatterFeedItemClickListener;
+import net.impacthub.members.model.callback.OnListItemClickListener;
 import net.impacthub.members.model.vo.chatter.ChatterVO;
 import net.impacthub.members.ui.binder.ViewBinder;
 import net.impacthub.members.ui.common.LinearItemsMarginDecorator;
@@ -34,11 +34,11 @@ import java.util.List;
 
 public class ChatterViewBinder implements ViewBinder<List<ChatterVO>> {
 
-    private final OnChatterFeedItemClickListener mItemClickListener;
+    private final OnListItemClickListener<ChatterVO> mItemClickListener;
     private ChatterFeedListAdapter mAdapter;
 
-    public ChatterViewBinder(OnChatterFeedItemClickListener itemClickListener) {
-        mItemClickListener = itemClickListener;
+    public ChatterViewBinder(OnListItemClickListener<ChatterVO> mItemClickListener) {
+        this.mItemClickListener = mItemClickListener;
     }
 
     @Override
@@ -47,7 +47,7 @@ public class ChatterViewBinder implements ViewBinder<List<ChatterVO>> {
         RecyclerView recyclerView = (RecyclerView) inflater.inflate(R.layout.common_list_layout, new LinearLayout(context), false);
         recyclerView.setHasFixedSize(true);
         mAdapter = new ChatterFeedListAdapter(inflater);
-        mAdapter.setFeedItemClickListener(mItemClickListener);
+        mAdapter.setItemClickListener(mItemClickListener);
         int offset = context.getResources().getDimensionPixelOffset(R.dimen.default_content_normal_gap);
         recyclerView.addItemDecoration(new LinearItemsMarginDecorator(offset));
         recyclerView.setAdapter(mAdapter);

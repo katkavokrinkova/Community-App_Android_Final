@@ -77,7 +77,7 @@ class NotificationListAdapter extends BaseListAdapter<NotificationListAdapter.Vi
         @Override
         public void onClick(View v) {
             if (mItemClickListener != null) {
-                mItemClickListener.onItemClick(getItem(getAdapterPosition()));
+                mItemClickListener.onItemClick(v.getId(), getItem(getAdapterPosition()));
             }
         }
     }
