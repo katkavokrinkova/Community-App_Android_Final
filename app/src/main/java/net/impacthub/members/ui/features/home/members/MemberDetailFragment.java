@@ -7,6 +7,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.util.Pair;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -166,7 +167,7 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
 
         mPagerAdapter = new AppPagerAdapter(getContext());
 
-        mPagerAdapter.addVieBinder(new AboutViewBinder(new MemberInfoListAdapter(getLayoutInflater())));
+        mPagerAdapter.addVieBinder(new AboutViewBinder(new MemberInfoListAdapter(LayoutInflater.from(getContext()))));
         mPagerAdapter.addVieBinder(new ProjectsViewBinder(new OnListItemClickListener<ProjectVO>() {
             @Override
             public void onItemClick(int viewId, ProjectVO model) {

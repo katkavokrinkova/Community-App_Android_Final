@@ -14,6 +14,7 @@ package net.impacthub.members.ui.features.home.jobs;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import net.impacthub.members.R;
@@ -64,7 +65,7 @@ public class JobsFragment extends BaseChildFragment<JobsUiPresenter> implements 
         super.onViewCreated(view, savedInstanceState);
         setUpToolbar(R.string.jobs);
         mJobsList.setHasFixedSize(true);
-        mAdapter = new JobsListAdapter(getLayoutInflater());
+        mAdapter = new JobsListAdapter(LayoutInflater.from(getContext()));
         mAdapter.setItemClickListener(this);
         int offset = getResources().getDimensionPixelOffset(R.dimen.default_content_normal_gap);
         mJobsList.addItemDecoration(new LinearItemsMarginDecorator(offset, offset, 0 ,offset));
