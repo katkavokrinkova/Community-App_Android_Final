@@ -49,7 +49,6 @@ public class ModalActivity extends BaseActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setResult(RESULT_OK);
                 finish();
             }
         });

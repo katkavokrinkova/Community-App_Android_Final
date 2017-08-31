@@ -117,7 +117,6 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
         switch (viewId) {
             case R.id.image_member_status:
                 MemberStatusType statusType = MemberStatusType.fromStatus(member.mMemberStatus);
-                showToast("User status " + statusType.getStatusText());
                 switch (statusType) {
                     case NOT_CONTACTED:
                         Intent intent = new Intent(getActivity(), ModalActivity.class);
