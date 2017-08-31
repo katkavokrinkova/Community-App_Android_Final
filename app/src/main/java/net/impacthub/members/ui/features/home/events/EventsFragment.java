@@ -40,12 +40,11 @@ import butterknife.BindView;
 
 public class EventsFragment extends BaseChildFragment<EventsUiPresenter> implements EventsUiContract,OnListItemClickListener<EventVO> {
 
-    public static final String TITLES[] = {"ALL", "EVENTS YOU MANAGE", "YOUR EVENTS"};
+    public static final String TITLES[] = {"ALL", "ATTENDING", "HOSTING"};
 
     @BindView(R.id.tabs) protected TabLayout mEventsTab;
     @BindView(R.id.pager) protected ViewPager mEventsPager;
 
-    private AppPagerAdapter mPagerAdapter;
     private ViewBinder<List<EventVO>> mViewBinder1;
     private ViewBinder<List<EventVO>> mViewBinder2;
     private ViewBinder<List<EventVO>> mViewBinder3;
@@ -74,14 +73,14 @@ public class EventsFragment extends BaseChildFragment<EventsUiPresenter> impleme
         super.onViewCreated(view, savedInstanceState);
         setUpToolbar(R.string.label_events);
 
-        mPagerAdapter = new AppPagerAdapter(getContext());
+        AppPagerAdapter adapter = new AppPagerAdapter(getContext());
 
-        mPagerAdapter.addVieBinder(mViewBinder1 = new EventsViewBinder(this));
-        mPagerAdapter.addVieBinder(mViewBinder2 = new EventsViewBinder(this));
-        mPagerAdapter.addVieBinder(mViewBinder3 = new EventsViewBinder(this));
+        adapter.addVieBinder(mViewBinder1 = new EventsViewBinder(this));
+        adapter.addVieBinder(mViewBinder2 = new EventsViewBinder(this));
+        adapter.addVieBinder(mViewBinder3 = new EventsViewBinder(this));
 
-        mEventsPager.setAdapter(mPagerAdapter);
-        mEventsPager.setOffscreenPageLimit(mPagerAdapter.getCount());
+        mEventsPager.setAdapter(adapter);
+        mEventsPager.setOffscreenPageLimit(adapter.getCount());
         mEventsTab.setupWithViewPager(mEventsPager);
 
         new TabsDelegate().setUp(mEventsTab, TITLES);
@@ -95,12 +94,12 @@ public class EventsFragment extends BaseChildFragment<EventsUiPresenter> impleme
     }
 
     @Override
-    public void onLoadEventsYouManage(List<EventVO> eventDTOs) {
+    public void onLoadEventsAttending(List<EventVO> eventDTOs) {
         mViewBinder2.bindView(eventDTOs);
     }
 
     @Override
-    public void onLoadYourEvents(List<EventVO> eventDTOs) {
+    public void onLoadEventsHosting(List<EventVO> eventDTOs) {
         mViewBinder3.bindView(eventDTOs);
     }
 

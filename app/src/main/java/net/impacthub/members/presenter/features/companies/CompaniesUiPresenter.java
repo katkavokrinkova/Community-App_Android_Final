@@ -22,6 +22,7 @@ import java.util.List;
 
 import io.reactivex.Single;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableSingleObserver;
 
 /**
@@ -40,11 +41,17 @@ public class CompaniesUiPresenter extends UiPresenter<CompaniesUiContract> {
 
     public void getCompanies() {
         getUi().onChangeStatus(true);
-        subscribeWith(mCompaniesUseCase.getUseCase(), new DisposableSingleObserver<CompaniesResponse>() {
+        Single<List<CompanyVO>> companiesSingle = mCompaniesUseCase.getUseCase()
+                .map(new Function<CompaniesResponse, List<CompanyVO>>() {
+                    @Override
+                    public List<CompanyVO> apply(@NonNull CompaniesResponse companiesResponse) throws Exception {
+                        return new CompaniesMapper().map(companiesResponse);
+                    }
+                });
+        subscribeWith(companiesSingle, new DisposableSingleObserver<List<CompanyVO>>() {
             @Override
-            public void onSuccess(@NonNull CompaniesResponse response) {
-                List<CompanyVO> companies = new CompaniesMapper().map(response);
-                getUi().onLoadCompanies(companies);
+            public void onSuccess(@NonNull List<CompanyVO> companyVOs) {
+                getUi().onLoadCompanies(companyVOs);
                 getUi().onChangeStatus(false);
             }
 

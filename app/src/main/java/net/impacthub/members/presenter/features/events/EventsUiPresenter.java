@@ -46,31 +46,17 @@ public class EventsUiPresenter extends UiPresenter<EventsUiContract> {
     }
 
     public void getEvents() {
-        subscribeWith(mAllEventsUseCase.getUseCase(), new DisposableSingleObserver<EventsResponse>() {
-            @Override
-            public void onSuccess(@NonNull EventsResponse response) {
-                List<EventVO> eventDTOs = new EventsMapper().map(response);
-                getUi().onLoadAllEvents(eventDTOs);
-            }
-
-            @Override
-            public void onError(@NonNull Throwable e) {
-                getUi().onError(e);
-            }
-        });
-
-        Single<EventsResponse> singleEventYouManage = mProfileUseCase.getUseCase()
-                .flatMap(new Function<MemberVO, SingleSource<? extends EventsResponse>>() {
+        Single<List<EventVO>> allEventsSingle = mAllEventsUseCase.getUseCase()
+                .map(new Function<EventsResponse, List<EventVO>>() {
                     @Override
-                    public SingleSource<? extends EventsResponse> apply(@NonNull MemberVO memberVO) throws Exception {
-                        return new EventsYouManageUseCase(memberVO.mContactId).getUseCase();
+                    public List<EventVO> apply(@NonNull EventsResponse response) throws Exception {
+                        return new EventsMapper().map(response);
                     }
                 });
-        subscribeWith(singleEventYouManage, new DisposableSingleObserver<EventsResponse>() {
+        subscribeWith(allEventsSingle, new DisposableSingleObserver<List<EventVO>>() {
             @Override
-            public void onSuccess(@NonNull EventsResponse response) {
-                List<EventVO> eventDTOs = new EventsMapper().map(response);
-                getUi().onLoadEventsYouManage(eventDTOs);
+            public void onSuccess(@NonNull List<EventVO> eventVOs) {
+                getUi().onLoadAllEvents(eventVOs);
             }
 
             @Override
@@ -79,20 +65,48 @@ public class EventsUiPresenter extends UiPresenter<EventsUiContract> {
             }
         });
 
-
-
-        Single<EventsResponse> singleYourEvents = mProfileUseCase.getUseCase()
+        Single<List<EventVO>> attendingEventsSingle = mProfileUseCase.getUseCase()
                 .flatMap(new Function<MemberVO, SingleSource<? extends EventsResponse>>() {
                     @Override
                     public SingleSource<? extends EventsResponse> apply(@NonNull MemberVO memberVO) throws Exception {
                         return new YourEventsUseCase(memberVO.mContactId).getUseCase();
                     }
+                })
+                .map(new Function<EventsResponse, List<EventVO>>() {
+                    @Override
+                    public List<EventVO> apply(@NonNull EventsResponse response) throws Exception {
+                        return new EventsMapper().map(response);
+                    }
                 });
-        subscribeWith(singleYourEvents, new DisposableSingleObserver<EventsResponse>() {
+        subscribeWith(attendingEventsSingle, new DisposableSingleObserver<List<EventVO>>() {
             @Override
-            public void onSuccess(@NonNull EventsResponse response) {
-                List<EventVO> eventDTOs = new EventsMapper().map(response);
-                getUi().onLoadYourEvents(eventDTOs);
+            public void onSuccess(@NonNull List<EventVO> eventVOList) {
+                getUi().onLoadEventsAttending(eventVOList);
+            }
+
+            @Override
+            public void onError(@NonNull Throwable e) {
+                getUi().onError(e);
+            }
+        });
+
+        Single<List<EventVO>> hostingEventsSingle = mProfileUseCase.getUseCase()
+                .flatMap(new Function<MemberVO, SingleSource<? extends EventsResponse>>() {
+                    @Override
+                    public SingleSource<? extends EventsResponse> apply(@NonNull MemberVO memberVO) throws Exception {
+                        return new EventsYouManageUseCase(memberVO.mContactId).getUseCase();
+                    }
+                })
+                .map(new Function<EventsResponse, List<EventVO>>() {
+                    @Override
+                    public List<EventVO> apply(@NonNull EventsResponse response) throws Exception {
+                        return new EventsMapper().map(response);
+                    }
+                });
+        subscribeWith(hostingEventsSingle, new DisposableSingleObserver<List<EventVO>>() {
+            @Override
+            public void onSuccess(@NonNull List<EventVO> eventVOList) {
+                getUi().onLoadEventsHosting(eventVOList);
             }
 
             @Override

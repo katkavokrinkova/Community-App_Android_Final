@@ -22,6 +22,7 @@ import java.util.List;
 
 import io.reactivex.Single;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableSingleObserver;
 
 /**
@@ -40,11 +41,17 @@ public class GoalsUiPresenter extends UiPresenter<GoalsUiContract> {
 
     public void getGoals() {
         getUi().onChangeStatus(true);
-        subscribeWith(mGoalsUseCase.getUseCase(), new DisposableSingleObserver<GoalsResponse>() {
+        Single<List<GoalVO>> goalsSingle = mGoalsUseCase.getUseCase()
+                .map(new Function<GoalsResponse, List<GoalVO>>() {
+                    @Override
+                    public List<GoalVO> apply(@NonNull GoalsResponse goalsResponse) throws Exception {
+                        return new GoalsMapper().map(goalsResponse);
+                    }
+                });
+        subscribeWith(goalsSingle, new DisposableSingleObserver<List<GoalVO>>() {
             @Override
-            public void onSuccess(@NonNull GoalsResponse response) {
-                List<GoalVO> goals = new GoalsMapper().map(response);
-                getUi().onLoadGoals(goals);
+            public void onSuccess(@NonNull List<GoalVO> goalVOs) {
+                getUi().onLoadGoals(goalVOs);
                 getUi().onChangeStatus(false);
             }
 

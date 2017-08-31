@@ -11,6 +11,8 @@
 
 package net.impacthub.members.presenter.features.messages;
 
+import android.text.TextUtils;
+
 import com.google.gson.Gson;
 
 import net.impacthub.members.model.features.conversations.Id;
@@ -63,6 +65,11 @@ public class ConversationUiPresenter extends UiPresenter<ConversationUiContract>
     }
 
     public void sendMessage(String conversationID, PushBody pushQuery, String message, String inReplyTo) {
+
+        if(TextUtils.isEmpty(message)) {
+            getUi().onError(new Throwable("Message should not be empty."));
+            return;
+        }
 
         Single<ProcessedMessages> messagesSingle = new SendMessageUseCase(message, inReplyTo).getUseCase()
                 .observeOn(AndroidSchedulers.mainThread())

@@ -17,9 +17,7 @@ import net.impacthub.members.model.features.events.Organiser__r;
 import net.impacthub.members.model.features.events.Records;
 import net.impacthub.members.utilities.DateUtils;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -53,15 +51,9 @@ public class EventsMapper {
                         eventDTO.mVisibilityPrice = record.getEvent_Visibility__c();
 
                         try {
-                            DateFormat dateFormat = new SimpleDateFormat(DateUtils.ISO_8601_FORMAT);
-                            Date startDate = dateFormat.parse(record.getEvent_Start_DateTime__c());
-                            eventDTO.mDate = new SimpleDateFormat(DateUtils.DAY_MONTH_FORMAT).format(startDate);
-                            Date endDate = dateFormat.parse(record.getEvent_End_DateTime__c());
-
-                            String start = new SimpleDateFormat(DateUtils.TIME_FORMAT_12_HOUR).format(startDate);
-                            String end = new SimpleDateFormat(DateUtils.TIME_FORMAT_12_HOUR).format(endDate);
-
-                            eventDTO.mTime = start + "-" + end;
+                            Date date = DateUtils.getDate(DateUtils.ISO_8601_FORMAT_1, record.getEvent_Start_DateTime__c());
+                            eventDTO.mDate = DateUtils.getStringFromDate(date, DateUtils.DAY_MONTH_YEAR_FORMAT);
+                            eventDTO.mTime = DateUtils.getStringFromDate(date, DateUtils.TIME_FORMAT_24_HOUR);
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }

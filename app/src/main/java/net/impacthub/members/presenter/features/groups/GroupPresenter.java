@@ -71,18 +71,23 @@ public class GroupPresenter extends UiPresenter<GroupUiContract> {
             }
         });
 
-        Single<GroupsResponse> yourGroupsSingle = mProfileUseCase.getUseCase()
+        Single<List<GroupVO>> yourGroupsSingle = mProfileUseCase.getUseCase()
                 .flatMap(new Function<MemberVO, SingleSource<? extends GroupsResponse>>() {
                     @Override
                     public SingleSource<? extends GroupsResponse> apply(@NonNull MemberVO memberVO) throws Exception {
                         return new YourGroupsUseCase(memberVO.mContactId).getUseCase();
                     }
+                })
+                .map(new Function<GroupsResponse, List<GroupVO>>() {
+                    @Override
+                    public List<GroupVO> apply(@NonNull GroupsResponse response) throws Exception {
+                        return new GroupsMapper().mapGroups(response);
+                    }
                 });
-        subscribeWith(yourGroupsSingle, new DisposableSingleObserver<GroupsResponse>() {
+        subscribeWith(yourGroupsSingle, new DisposableSingleObserver<List<GroupVO>>() {
             @Override
-            public void onSuccess(@NonNull GroupsResponse response) {
-                List<GroupVO> groupList = new GroupsMapper().mapGroups(response);
-                getUi().onLoadYourGroups(groupList);
+            public void onSuccess(@NonNull List<GroupVO> groupVOs) {
+                getUi().onLoadYourGroups(groupVOs);
             }
 
             @Override

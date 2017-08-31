@@ -14,10 +14,8 @@ package net.impacthub.members.ui.common;
 import android.os.Handler;
 import android.widget.TextView;
 
-import net.impacthub.members.ui.widgets.Iso8601DateFormat;
 import net.impacthub.members.utilities.DateUtils;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -44,10 +42,8 @@ public class DateTimeAgoHelper implements Runnable {
     @Override
     public void run() {
         try {
-            DateFormat dateFormat = new SimpleDateFormat(DateUtils.ISO_8601_FORMAT, Locale.UK);
-            dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+            Date date = DateUtils.getDate(DateUtils.ISO_8601_FORMAT_1, mGivenDate);
             Date now = new Date();
-            Date date = dateFormat.parse(mGivenDate);
 
             long dateTimeDifference = now.getTime() - date.getTime();
 

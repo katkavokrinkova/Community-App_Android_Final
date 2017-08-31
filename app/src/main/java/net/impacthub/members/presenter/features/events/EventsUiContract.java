@@ -26,7 +26,7 @@ public interface EventsUiContract extends ErrorHandlerUiContract {
 
     void onLoadAllEvents(List<EventVO> eventDTOs);
 
-    void onLoadEventsYouManage(List<EventVO> eventDTOs);
+    void onLoadEventsAttending(List<EventVO> eventDTOs);
 
-    void onLoadYourEvents(List<EventVO> eventDTOs);
+    void onLoadEventsHosting(List<EventVO> eventDTOs);
 }

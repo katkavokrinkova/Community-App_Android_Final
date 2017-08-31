@@ -55,16 +55,25 @@ public class ProjectDetailUiPresenter extends UiPresenter<ProjectDetailUiContrac
 
     public void loadDetails(String feedId, String projectId) {
 
-        subscribeWith(new ChatterFeedUseCase(feedId).getUseCase(), new DisposableSingleObserver<ChatterFeedResponse>() {
+        Single<List<ChatterVO>> chatterSingle = new ChatterFeedUseCase(feedId).getUseCase()
+                .map(new Function<ChatterFeedResponse, List<ChatterVO>>() {
+                    @Override
+                    public List<ChatterVO> apply(@NonNull ChatterFeedResponse chatterFeedResponse) throws Exception {
+                        return new ChatterMapper().map(chatterFeedResponse);
+                    }
+                });
+        getUi().onChangeStatus(true);
+        subscribeWith(chatterSingle, new DisposableSingleObserver<List<ChatterVO>>() {
             @Override
-            public void onSuccess(@NonNull ChatterFeedResponse feedElements) {
-                List<ChatterVO> chatterDTOs = new ChatterMapper().map(feedElements);
-                getUi().onLoadChatterFeed(chatterDTOs);
+            public void onSuccess(@NonNull List<ChatterVO> chatterVOs) {
+                getUi().onLoadChatterFeed(chatterVOs);
+                getUi().onChangeStatus(false);
             }
 
             @Override
             public void onError(@NonNull Throwable e) {
                 getUi().onError(e);
+                getUi().onChangeStatus(false);
             }
         });
 

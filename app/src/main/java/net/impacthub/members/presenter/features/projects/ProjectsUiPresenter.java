@@ -45,31 +45,45 @@ public class ProjectsUiPresenter extends UiPresenter<ProjectsUiContract> {
     }
 
     public void getProjects() {
-        subscribeWith(mAllProjectsUseCase.getUseCase(), new DisposableSingleObserver<ProjectResponse>() {
+        Single<List<ProjectVO>> allProjectsSingle = mAllProjectsUseCase.getUseCase()
+                .map(new Function<ProjectResponse, List<ProjectVO>>() {
+                    @Override
+                    public List<ProjectVO> apply(@NonNull ProjectResponse projectResponse) throws Exception {
+                        return new ProjectMapper().map(projectResponse);
+                    }
+                });
+        getUi().onChangeStatus(true);
+        subscribeWith(allProjectsSingle, new DisposableSingleObserver<List<ProjectVO>>() {
             @Override
-            public void onSuccess(@NonNull ProjectResponse response) {
-                List<ProjectVO> projectDTOs = new ProjectMapper().map(response);
-                getUi().onLoadAllProjects(projectDTOs);
+            public void onSuccess(@NonNull List<ProjectVO> projectVOs) {
+                getUi().onLoadAllProjects(projectVOs);
+                getUi().onChangeStatus(false);
             }
 
             @Override
             public void onError(@NonNull Throwable e) {
                 getUi().onError(e);
+                getUi().onChangeStatus(false);
             }
         });
 
-        Single<ProjectResponse> single = mProfileUseCase.getUseCase()
+        Single<List<ProjectVO>> yourProjectsSingle = mProfileUseCase.getUseCase()
                 .flatMap(new Function<MemberVO, SingleSource<? extends ProjectResponse>>() {
                     @Override
                     public SingleSource<? extends ProjectResponse> apply(@NonNull MemberVO memberVO) throws Exception {
                         return new YourProjectsUseCase(memberVO.mContactId).getUseCase();
                     }
+                })
+                .map(new Function<ProjectResponse, List<ProjectVO>>() {
+                    @Override
+                    public List<ProjectVO> apply(@NonNull ProjectResponse projectResponse) throws Exception {
+                        return new ProjectMapper().map(projectResponse);
+                    }
                 });
-        subscribeWith(single, new DisposableSingleObserver<ProjectResponse>() {
+        subscribeWith(yourProjectsSingle, new DisposableSingleObserver<List<ProjectVO>>() {
             @Override
-            public void onSuccess(@NonNull ProjectResponse projectResponse) {
-                List<ProjectVO> projectDTOs = new ProjectMapper().map(projectResponse);
-                getUi().onLoadYourProjects(projectDTOs);
+            public void onSuccess(@NonNull List<ProjectVO> projectVOs) {
+                getUi().onLoadYourProjects(projectVOs);
             }
 
             @Override
