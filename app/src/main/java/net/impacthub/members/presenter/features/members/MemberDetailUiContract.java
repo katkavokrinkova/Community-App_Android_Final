@@ -13,7 +13,6 @@ package net.impacthub.members.presenter.features.members;
 
 import net.impacthub.members.model.pojo.ListItemType;
 import net.impacthub.members.model.vo.groups.GroupVO;
-import net.impacthub.members.model.vo.members.MemberVO;
 import net.impacthub.members.model.vo.projects.ProjectVO;
 import net.impacthub.members.presenter.features.error.ErrorHandlerUiContract;
 
@@ -26,8 +25,6 @@ import java.util.List;
  */
 
 public interface MemberDetailUiContract extends ErrorHandlerUiContract {
-
-    void onLoadMember(MemberVO memberVO);
 
     void onLoadProjects(List<ProjectVO> projectDTOs);
 

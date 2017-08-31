@@ -17,6 +17,7 @@ import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnListItemClickListener;
 import net.impacthub.members.model.pojo.ListItemType;
 import net.impacthub.members.model.vo.groups.GroupVO;
+import net.impacthub.members.model.vo.members.MemberStatusType;
 import net.impacthub.members.model.vo.members.MemberVO;
 import net.impacthub.members.model.vo.projects.ProjectVO;
 import net.impacthub.members.presenter.features.members.MemberDetailUiContract;
@@ -52,6 +53,18 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
     public static final String TITLES[] = {"ABOUT", "PROJECTS", "GROUPS"};
 
     public static final String EXTRA_MEMBER_USER_ID = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_USER_ID";
+    public static final String EXTRA_MEMBER_CONTACT_ID = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_CONTACT_ID";
+    public static final String EXTRA_MEMBER_STATUS = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_STATUS";
+    public static final String EXTRA_MEMBER_PROFILE_PICTURE = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_PROFILE_PICTURE";
+    public static final String EXTRA_MEMBER_INSTAGRAM = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_INSTAGRAM";
+    public static final String EXTRA_MEMBER_FACEBOOK = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_FACEBOOK";
+    public static final String EXTRA_MEMBER_TWITTER = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_TWITTER";
+    public static final String EXTRA_MEMBER_LINKEDIN = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_LINKEDIN";
+    public static final String EXTRA_MEMBER_FULL_NAME = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_FULL_NAME";
+    public static final String EXTRA_MEMBER_LOCATION = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_LOCATION";
+    public static final String EXTRA_MEMBER_ABOUT_ME = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_ABOUT_ME";
+    public static final String EXTRA_MEMBER_STATUS_UPDATE = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_STATUS_UPDATE";
+    public static final String EXTRA_MEMBER_PROFESSION = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_PROFESSION";
 
     @BindView(R.id.app_bar_layout) protected AppBarLayout mAppBar;
     @BindView(R.id.tabs) protected TabLayout mDetailsTab;
@@ -60,7 +73,6 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
     @BindView(R.id.locations) protected TextView mLocation;
     @BindView(R.id.text_profession) protected TextView mProfession;
     @BindView(R.id.text_status_update) protected TextView mStatusUpdate;
-//
     @BindView(R.id.button_twitter) protected ImageButton mButtonTwitter;
     @BindView(R.id.button_facebook) protected ImageButton mButtonFacebook;
     @BindView(R.id.button_linkedin) protected ImageButton mButtonLinkedin;
@@ -69,10 +81,35 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
     @BindView(R.id.pager) protected ViewPager mPager;
     private AppPagerAdapter mPagerAdapter;
 
-    public static MemberDetailFragment newInstance(String userId) {
+    private String mContactIDValue;
+    private int mMemberStatus;
+    private String mFullNameValue;
+    private String mLocationValue;
+    private String mProfessionValue;
+    private String mStatusUpdateValue;
+    private String mAboutMeValue;
+    private String mTwitterLinkValue;
+    private String mFacebookLinkValue;
+    private String mLinkedinLinkValue;
+    private String mInstagramLinkValue;
+    private String mImageURLValue;
+
+    public static MemberDetailFragment newInstance(MemberVO member) {
 
         Bundle args = new Bundle();
-        args.putString(EXTRA_MEMBER_USER_ID, userId);
+        args.putString(EXTRA_MEMBER_USER_ID, member.mUserId);
+        args.putString(EXTRA_MEMBER_CONTACT_ID, member.mContactId);
+        args.putInt(EXTRA_MEMBER_STATUS, member.mMemberStatus);
+        args.putString(EXTRA_MEMBER_PROFILE_PICTURE, member.mProfilePicURL);
+        args.putString(EXTRA_MEMBER_INSTAGRAM, member.mLinkInstagram);
+        args.putString(EXTRA_MEMBER_FACEBOOK, member.mLinkFacebook);
+        args.putString(EXTRA_MEMBER_TWITTER, member.mLinkTwitter);
+        args.putString(EXTRA_MEMBER_LINKEDIN, member.mLinkLinkedin);
+        args.putString(EXTRA_MEMBER_FULL_NAME, member.mFullName);
+        args.putString(EXTRA_MEMBER_LOCATION, member.mLocation);
+        args.putString(EXTRA_MEMBER_ABOUT_ME, member.mAboutMe);
+        args.putString(EXTRA_MEMBER_STATUS_UPDATE, member.mStatusUpdate);
+        args.putString(EXTRA_MEMBER_PROFESSION, member.mProfession);
         MemberDetailFragment fragment = new MemberDetailFragment();
         fragment.setArguments(args);
         return fragment;
@@ -89,14 +126,30 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle arguments = getArguments();
+
+        mContactIDValue = arguments.getString(EXTRA_MEMBER_CONTACT_ID);
+        mMemberStatus = arguments.getInt(EXTRA_MEMBER_STATUS);
+        mFullNameValue = arguments.getString(EXTRA_MEMBER_FULL_NAME);
+        mLocationValue = arguments.getString(EXTRA_MEMBER_LOCATION);
+        mProfessionValue = arguments.getString(EXTRA_MEMBER_PROFESSION);
+        mStatusUpdateValue = arguments.getString(EXTRA_MEMBER_STATUS_UPDATE);
+        mAboutMeValue = arguments.getString(EXTRA_MEMBER_ABOUT_ME);
+        mTwitterLinkValue = arguments.getString(EXTRA_MEMBER_TWITTER);
+        mFacebookLinkValue = arguments.getString(EXTRA_MEMBER_FACEBOOK);
+        mLinkedinLinkValue = arguments.getString(EXTRA_MEMBER_LINKEDIN);
+        mInstagramLinkValue = arguments.getString(EXTRA_MEMBER_INSTAGRAM);
+        mImageURLValue = arguments.getString(EXTRA_MEMBER_PROFILE_PICTURE);
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setUpToolbar(R.string.label_member_detail);
-        String userId = getArguments().getString(EXTRA_MEMBER_USER_ID);
-        getPresenter().getMember(userId);
-
+        MemberStatusType statusType = MemberStatusType.fromStatus(mMemberStatus);
+        showToast(statusType.getStatusText());
         mToolbar.inflateMenu(R.menu.menu_member_connect);
-
         mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -112,7 +165,8 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
         mAppBar.addOnOffsetChangedListener(mOffsetChangeListenerAdapter);
 
         mPagerAdapter = new AppPagerAdapter(getContext());
-        mPagerAdapter.addVieBinder(new AboutViewBinder(new MemberInfoListAdapter(getLayoutInflater(getArguments()))));
+
+        mPagerAdapter.addVieBinder(new AboutViewBinder(new MemberInfoListAdapter(getLayoutInflater())));
         mPagerAdapter.addVieBinder(new ProjectsViewBinder(new OnListItemClickListener<ProjectVO>() {
             @Override
             public void onItemClick(int viewId, ProjectVO model) {
@@ -133,38 +187,34 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
 
         new TabsDelegate().setUp(mDetailsTab, TITLES);
 
+
+        setUpToolbar(mFullNameValue);
+        mLocation.setText(mLocationValue);
+        mProfession.setText(mProfessionValue);
+
+        mStatusUpdate.setText(mStatusUpdateValue);
+
+        String twitterFullLink = mTwitterLinkValue;
+        if (twitterFullLink != null) {
+            twitterFullLink = "https://twitter.com/"+ twitterFullLink.replace("@", "");
+        }
+
+        Pair<String, ImageButton> twitterPair = new Pair<>(twitterFullLink, mButtonTwitter);
+        Pair<String, ImageButton> facebookPair = new Pair<>(mFacebookLinkValue, mButtonFacebook);
+        Pair<String, ImageButton> linkedinPair = new Pair<>(mLinkedinLinkValue, mButtonLinkedin);
+        Pair<String, ImageButton> instagramPair = new Pair<>(mInstagramLinkValue, mButtonInsta);
+
+        new DetailScreenDelegate().handleButtons(twitterPair, facebookPair, linkedinPair, instagramPair);
+
+        ImageLoaderHelper.loadImage(getContext(), buildUrl(mImageURLValue), mImageDetail);
+
+        getPresenter().loadDetails(mContactIDValue, mAboutMeValue);
     }
 
     @Override
     public void onDestroyView() {
         mAppBar.removeOnOffsetChangedListener(mOffsetChangeListenerAdapter);
         super.onDestroyView();
-    }
-
-    @Override
-    public void onLoadMember(MemberVO memberVO) {
-        getPresenter().loadDetails(memberVO.mContactId, memberVO.mStatusUpdate);
-
-        mLocation.setText(memberVO.mLocation);
-        mProfession.setText(memberVO.mProfession);
-
-        mStatusUpdate.setText(memberVO.mStatusUpdate);
-
-        setUpToolbar(memberVO.mFullName);
-
-        String twitterFullLink = memberVO.mLinkTwitter;
-        if (twitterFullLink != null) {
-            twitterFullLink = "https://twitter.com/"+ twitterFullLink.replace("@", "");
-        }
-
-        Pair<String, ImageButton> twitterPair = new Pair<>(twitterFullLink, mButtonTwitter);
-        Pair<String, ImageButton> facebookPair = new Pair<>(memberVO.mLinkFacebook, mButtonFacebook);
-        Pair<String, ImageButton> linkedinPair = new Pair<>(memberVO.mLinkLinkedin, mButtonLinkedin);
-        Pair<String, ImageButton> instagramPair = new Pair<>(memberVO.mLinkInstagram, mButtonInsta);
-
-        new DetailScreenDelegate().handleButtons(twitterPair, facebookPair, linkedinPair, instagramPair);
-
-        ImageLoaderHelper.loadImage(getContext(), buildUrl(memberVO.mProfilePicURL), mImageDetail);
     }
 
     @Override

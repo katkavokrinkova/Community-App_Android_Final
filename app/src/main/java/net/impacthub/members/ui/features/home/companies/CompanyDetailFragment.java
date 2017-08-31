@@ -187,7 +187,7 @@ public class CompanyDetailFragment extends BaseChildFragment<CompanyDetailUiPres
         adapter.addVieBinder(mViewBinder3 = new MembersViewBinder(new OnListItemClickListener<MemberVO>() {
             @Override
             public void onItemClick(int viewId, MemberVO model) {
-                addChildFragment(MemberDetailFragment.newInstance(model.mUserId), "FRAG_MEMBER_DETAIL");
+                addChildFragment(MemberDetailFragment.newInstance(model), "FRAG_MEMBER_DETAIL");
             }
         }));
 

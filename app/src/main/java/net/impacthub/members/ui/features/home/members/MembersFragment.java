@@ -128,12 +128,12 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
 
                         break;
                     case APPROVE_DECLINE:
-                        addChildFragment(MemberDetailFragment.newInstance(member.mUserId), "FRAG_MEMBER_DETAIL");
+                        addChildFragment(MemberDetailFragment.newInstance(member), "FRAG_MEMBER_DETAIL");
                         break;
                 }
                 break;
             default:
-                addChildFragment(MemberDetailFragment.newInstance(member.mUserId), "FRAG_MEMBER_DETAIL");
+                addChildFragment(MemberDetailFragment.newInstance(member), "FRAG_MEMBER_DETAIL");
         }
     }
 

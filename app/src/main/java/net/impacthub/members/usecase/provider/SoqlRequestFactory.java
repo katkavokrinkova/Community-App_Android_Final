@@ -100,7 +100,7 @@ public class SoqlRequestFactory {
     private static final String OBJECTIVES = "SELECT Directory__c,Goal_Summary__c,Goal__c,Id,Name FROM Directory_Goal__c WHERE Directory__c='%s'";
 
     private static final String DM_COLUMNS = "ContactFrom__c,ContactTo__c,CreatedDate,Id,Name,Status__c,Introduction_Message__c";
-    private static final String DIRECT_MESSAGE_GET_CCNTACTS_QUERY = "SELECT " + DM_COLUMNS +" FROM DM_Request__c WHERE ContactFrom__c = '%s' OR contactTo__c = '%s'";
+    private static final String DIRECT_MESSAGE_GET_CONTACTS_QUERY = "SELECT " + DM_COLUMNS +" FROM DM_Request__c WHERE ContactFrom__c = '%s' OR contactTo__c = '%s'";
 
     private final RestRequestFactory mRestRequestFactory = restRequestFactoryProvider();
 
@@ -205,7 +205,7 @@ public class SoqlRequestFactory {
     }
 
     public RestRequest createDMGetContactsRequest(String contactId) throws UnsupportedEncodingException {
-        return mRestRequestFactory.getForQuery(String.format(DIRECT_MESSAGE_GET_CCNTACTS_QUERY, contactId, contactId));
+        return mRestRequestFactory.getForQuery(String.format(DIRECT_MESSAGE_GET_CONTACTS_QUERY, contactId, contactId));
     }
 
     public RestRequest createDMCreateContactRequest(JSONObject jsonObject) throws UnsupportedEncodingException {

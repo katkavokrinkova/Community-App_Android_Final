@@ -137,7 +137,8 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
             public void onItemClick(int viewId, ChatterVO model) {
                 switch (viewId) {
                     case R.id.member_image:
-                        addChildFragment(MemberDetailFragment.newInstance(model.mUserId), "FRAG_MEMBER_DETAIL");
+                        showToast("Opening member profile...");
+                        //addChildFragment(MemberDetailFragment.newInstance(model), "FRAG_MEMBER_DETAIL");
                         break;
                     case R.id.comment_indicator:
                         showToast("Opening Comments");
@@ -152,7 +153,7 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
         mViewBinder3 = new MembersViewBinder(new OnListItemClickListener<MemberVO>() {
             @Override
             public void onItemClick(int viewId, MemberVO model) {
-                addChildFragment(MemberDetailFragment.newInstance(model.mUserId), "FRAG_MEMBER_DETAIL");
+                addChildFragment(MemberDetailFragment.newInstance(model), "FRAG_MEMBER_DETAIL");
             }
         });
 
