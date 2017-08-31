@@ -1,5 +1,6 @@
 package net.impacthub.members.ui.features.home.members;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnListItemClickListener;
 import net.impacthub.members.model.pojo.ListItemType;
+import net.impacthub.members.model.vo.conversations.ConversationVO;
 import net.impacthub.members.model.vo.groups.GroupVO;
 import net.impacthub.members.model.vo.members.MemberStatusType;
 import net.impacthub.members.model.vo.members.MemberVO;
@@ -38,6 +40,7 @@ import net.impacthub.members.ui.features.home.groups.binders.GroupsViewBinder;
 import net.impacthub.members.ui.features.home.members.binders.MemberInfoListAdapter;
 import net.impacthub.members.ui.features.home.projects.ProjectDetailFragment;
 import net.impacthub.members.ui.features.home.projects.binders.ProjectsViewBinder;
+import net.impacthub.members.ui.features.messages.conversation.ConversationFragment;
 import net.impacthub.members.ui.modal.ModalActivity;
 
 import java.util.List;
@@ -58,6 +61,7 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
 
     public static final String EXTRA_MEMBER_USER_ID = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_USER_ID";
     public static final String EXTRA_MEMBER_CONTACT_ID = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_CONTACT_ID";
+    public static final String EXTRA_MEMBER_DM_ID = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_DM_ID";
     public static final String EXTRA_MEMBER_STATUS = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_STATUS";
     public static final String EXTRA_MEMBER_PROFILE_PICTURE = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_PROFILE_PICTURE";
     public static final String EXTRA_MEMBER_INSTAGRAM = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_INSTAGRAM";
@@ -85,6 +89,8 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
     @BindView(R.id.pager) protected ViewPager mPager;
     private AppPagerAdapter mPagerAdapter;
 
+    private String mUserIDValue;
+    private String mDM_ID;
     private String mContactIDValue;
     private int mMemberStatus;
     private String mFullNameValue;
@@ -103,6 +109,7 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
         Bundle args = new Bundle();
         args.putString(EXTRA_MEMBER_USER_ID, member.mUserId);
         args.putString(EXTRA_MEMBER_CONTACT_ID, member.mContactId);
+        args.putString(EXTRA_MEMBER_DM_ID, member.mDM_ID);
         args.putInt(EXTRA_MEMBER_STATUS, member.mMemberStatus);
         args.putString(EXTRA_MEMBER_PROFILE_PICTURE, member.mProfilePicURL);
         args.putString(EXTRA_MEMBER_INSTAGRAM, member.mLinkInstagram);
@@ -134,7 +141,9 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
         super.onCreate(savedInstanceState);
         Bundle arguments = getArguments();
 
+        mUserIDValue = arguments.getString(EXTRA_MEMBER_USER_ID);
         mContactIDValue = arguments.getString(EXTRA_MEMBER_CONTACT_ID);
+        mDM_ID = arguments.getString(EXTRA_MEMBER_DM_ID);
         mMemberStatus = arguments.getInt(EXTRA_MEMBER_STATUS);
         mFullNameValue = arguments.getString(EXTRA_MEMBER_FULL_NAME);
         mLocationValue = arguments.getString(EXTRA_MEMBER_LOCATION);
@@ -214,36 +223,33 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
         getPresenter().loadDetails(mContactIDValue, mAboutMeValue);
 
         MemberStatusType statusType = MemberStatusType.fromStatus(mMemberStatus);
-        mMemberStatusContainer.removeAllViews();
+
         switch (statusType) {
             case APPROVE_DECLINE:
+                mMemberStatusContainer.removeAllViews();
                 View approveDeclineView = LayoutInflater.from(getContext()).inflate(R.layout.item_layout_approve_decline_member, mMemberStatusContainer, false);
                 approveDeclineView.findViewById(R.id.button_approve_member).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        showToast("Approving Member....");
+                        getPresenter().updateContactRequest(mDM_ID, mUserIDValue, "Approved", 0);
                     }
                 });
                 approveDeclineView.findViewById(R.id.button_decline_member).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        showToast("Declining Member...");
+                        getPresenter().updateContactRequest(mDM_ID, mUserIDValue, "Declined", 1);
                     }
                 });
                 mMemberStatusContainer.addView(approveDeclineView);
                 break;
             case APPROVED:
-                TextView contactView = (TextView) LayoutInflater.from(getContext()).inflate(R.layout.item_layout_contact_member, mMemberStatusContainer, false);
-                contactView.setText("Contact " + mFullNameValue);
-                contactView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        showToast("Contacting Member...");
-                    }
-                });
-                mMemberStatusContainer.addView(contactView);
+                setUpConnectMemberButton();
+                break;
+            case OUTSTANDING:
+                setUpOutstandingView();
                 break;
             case NOT_CONTACTED:
+                mMemberStatusContainer.removeAllViews();
                 TextView connectView = (TextView) LayoutInflater.from(getContext()).inflate(R.layout.item_layout_connect_member, mMemberStatusContainer, false);
                 connectView.setText("Connect " + mFullNameValue);
                 connectView.setOnClickListener(new View.OnClickListener() {
@@ -258,14 +264,36 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
                 mMemberStatusContainer.addView(connectView);
                 break;
         }
-//        showToast(statusType.getStatusText());
+    }
+
+    private void setUpOutstandingView() {
+        mMemberStatusContainer.removeAllViews();
+        mMemberStatusContainer.addView(LayoutInflater.from(getContext()).inflate(R.layout.item_layout_awaiting_response_member, mMemberStatusContainer, false));
+    }
+
+    private void setUpConnectMemberButton() {
+        mMemberStatusContainer.removeAllViews();
+        TextView contactView = (TextView) LayoutInflater.from(getContext()).inflate(R.layout.item_layout_contact_member, mMemberStatusContainer, false);
+        contactView.setText("Contact " + mFullNameValue);
+        contactView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ConversationVO model = new ConversationVO();
+                model.mConversationId = "";
+                model.mDisplayName = mUserIDValue;
+                model.mImageURL = mImageURLValue;
+                model.mRecipientUserId = mUserIDValue;
+                addChildFragment(ConversationFragment.newInstance(model), "FRAG_MESSAGE_THREAD");
+            }
+        });
+        mMemberStatusContainer.addView(contactView);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 1122) {
-            showToast("Refreshing...");
+        if(requestCode == 1122 && resultCode == Activity.RESULT_OK) {
+            setUpOutstandingView();
         }
     }
 
@@ -303,6 +331,16 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
                 viewBinder.bindView(listItemTypes);
             }
         }
+    }
+
+    @Override
+    public void onMemberApproved() {
+        setUpConnectMemberButton();
+    }
+
+    @Override
+    public void onMemberDeclined() {
+        mMemberStatusContainer.removeAllViews();
     }
 
     private final SimpleOffsetChangeListenerAdapter mOffsetChangeListenerAdapter = new SimpleOffsetChangeListenerAdapter(){

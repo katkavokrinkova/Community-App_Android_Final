@@ -11,18 +11,25 @@
 
 package net.impacthub.members.presenter.features.members;
 
+import com.google.gson.Gson;
+
 import net.impacthub.members.mapper.members.MembersMapper;
 import net.impacthub.members.model.features.members.Affiliations;
 import net.impacthub.members.model.features.members.Skills;
 import net.impacthub.members.model.pojo.ListItemType;
 import net.impacthub.members.model.pojo.SimpleItem;
+import net.impacthub.members.model.vo.contacts.UpdateContactBody;
 import net.impacthub.members.model.vo.groups.GroupVO;
 import net.impacthub.members.model.vo.projects.ProjectVO;
 import net.impacthub.members.presenter.base.UiPresenter;
 import net.impacthub.members.presenter.rx.AbstractFunction;
+import net.impacthub.members.presenter.rx.DisposableSingleObserverAdapter;
 import net.impacthub.members.usecase.base.UseCaseGenerator;
+import net.impacthub.members.usecase.features.contacts.UpdateDMRequestStatusUseCase;
 import net.impacthub.members.usecase.features.members.AboutMemberUseCase;
 import net.impacthub.members.usecase.features.members.MemberSkillsUseCase;
+
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -83,5 +90,33 @@ public class MemberDetailUiPresenter extends UiPresenter<MemberDetailUiContract>
                 getUi().onError(e);
             }
         });
+    }
+
+    public void updateContactRequest(String id, String pushUserId, String status, int code) {
+        try {
+            JSONObject jsonObject = new JSONObject(new Gson().toJson(new UpdateContactBody(id, status, pushUserId)));
+            subscribeWith(new UpdateDMRequestStatusUseCase(jsonObject).getUseCase(), new DisposableSingleObserverAdapter<Integer, Object>(code) {
+                @Override
+                protected void onSuccess(Object o, Integer subject) {
+                    if ("Success".equals(o)) {
+                        switch (subject) {
+                            case 0:
+                                getUi().onMemberApproved();
+                                break;
+                            default:
+                                getUi().onMemberDeclined();
+                        }
+                    } else {
+                        getUi().onError(new Throwable(o.toString()));
+                    }
+                }
+
+                @Override
+                public void onError(@NonNull Throwable e) {
+                    getUi().onError(e);
+                }
+            });
+        } catch (Exception e) {
+        }
     }
 }

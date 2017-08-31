@@ -31,4 +31,8 @@ public interface MemberDetailUiContract extends ErrorHandlerUiContract {
     void onLoadGroups(List<GroupVO> groupDTOs);
 
     void onLoadExtraInfo(List<ListItemType> listItemTypes);
+
+    void onMemberApproved();
+
+    void onMemberDeclined();
 }

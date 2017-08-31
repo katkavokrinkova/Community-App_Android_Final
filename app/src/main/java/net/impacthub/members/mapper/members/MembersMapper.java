@@ -213,9 +213,13 @@ public class MembersMapper {
                     }
 
                     if(memberVOMap.containsKey(contactTo__c)) {
-                        memberVOMap.get(contactTo__c).mMemberStatus = memberStatus;
+                        MemberVO memberVO = memberVOMap.get(contactTo__c);
+                        memberVO.mMemberStatus = memberStatus;
+                        memberVO.mDM_ID = record.getId();
                     } else if(memberVOMap.containsKey(contactFrom__c)) {
-                        memberVOMap.get(contactFrom__c).mMemberStatus = memberStatus;
+                        MemberVO memberVO = memberVOMap.get(contactFrom__c);
+                        memberVO.mMemberStatus = memberStatus;
+                        memberVO.mDM_ID = record.getId();
                     }
                 }
                 memberVOList.addAll(memberVOMap.values());

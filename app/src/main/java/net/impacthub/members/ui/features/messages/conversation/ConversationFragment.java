@@ -58,7 +58,7 @@ public class ConversationFragment extends BaseChildFragment<ConversationUiPresen
 
     private String mConversationID;
     private ConversationListAdapter mAdapter;
-    private String mInReplyTo;
+    private String mInReplyTo = "";
 
     public static ConversationFragment newInstance(ConversationVO model) {
         

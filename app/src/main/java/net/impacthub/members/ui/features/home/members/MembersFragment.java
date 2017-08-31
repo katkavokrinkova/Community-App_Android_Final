@@ -70,15 +70,15 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
         int offset = getResources().getDimensionPixelOffset(R.dimen.default_content_normal_gap);
         mMembersList.addItemDecoration(new LinearItemsMarginDecorator(offset, offset, 0, offset));
 
-        if (mAdapter == null) {
-            mAdapter = new MembersListAdapter(getActivity().getLayoutInflater());
-            mAdapter.setItemClickListener(this);
-            getPresenter().loadMembers();
-        }
-//        mAdapter = new MembersListAdapter(getActivity().getLayoutInflater());
-//        mAdapter.setItemClickListener(this);
+//        if (mAdapter == null) {
+//            mAdapter = new MembersListAdapter(getActivity().getLayoutInflater());
+//            mAdapter.setItemClickListener(this);
+//            getPresenter().loadMembers();
+//        }
+        mAdapter = new MembersListAdapter(getActivity().getLayoutInflater());
+        mAdapter.setItemClickListener(this);
         mMembersList.setAdapter(mAdapter);
-        //getPresenter().loadMembers();
+        getPresenter().loadMembers();
 
 //        if (mState != null) {
 //            mMembersList.getLayoutManager().onRestoreInstanceState(mState);

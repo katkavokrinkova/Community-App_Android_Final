@@ -24,6 +24,7 @@ public class MemberVO {
 
     public String mUserId;
     public String mContactId;
+    public String mDM_ID;
     public String mFirstName;
     public String mLastName;
     public String mFullName;
