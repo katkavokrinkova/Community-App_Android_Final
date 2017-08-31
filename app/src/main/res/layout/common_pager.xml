@@ -69,8 +69,4 @@
 
     </LinearLayout>
 
-    <include
-        android:id="@+id/error_sub_handler"
-        layout="@layout/error_handler" />
-
 </FrameLayout>

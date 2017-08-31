@@ -91,7 +91,7 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        setUpToolbar(R.string.label_member_detail);
         String userId = getArguments().getString(EXTRA_MEMBER_USER_ID);
         getPresenter().getMember(userId);
 

@@ -55,4 +55,5 @@
     <string name="label_contacts">Contacts</string>
     <string name="label_conversation">Conversation</string>
     <string name="label_contact">Contact</string>
+    <string name="label_member_detail">Member Detail</string>
 </resources>

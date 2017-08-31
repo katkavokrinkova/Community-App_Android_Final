@@ -35,7 +35,7 @@
         android:maxLines="1"
         android:ellipsize="end"
         android:paddingTop="2dp"
-        android:text="London, UK"
+        tools:text="London, UK"
         android:textColor="@color/warm_grey_2"
         android:textSize="12sp"
         app:typeface="fonts/gt-walsheim-light-web.ttf" />

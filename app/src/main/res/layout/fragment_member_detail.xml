@@ -171,7 +171,7 @@
                             android:id="@+id/text_profession"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Marketing Consultant at Equinox Consultant"
+                            tools:text="Marketing Consultant at Equinox Consultant"
                             android:textColor="@color/greyish_brown_2"
                             android:textSize="14sp"
                             app:typeface="fonts/gt-walsheim-light-web.ttf" />
@@ -191,7 +191,7 @@
                             android:ellipsize="end"
                             android:gravity="center"
                             android:maxLines="3"
-                            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor. adipiscing elit, sed do eiusmod tempor."
+                            tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor. adipiscing elit, sed do eiusmod tempor."
                             android:textColor="@color/steel_grey"
                             android:textSize="15sp"
                             app:typeface="fonts/gt-walsheim-light-web.ttf" />
