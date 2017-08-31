@@ -10,6 +10,7 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -70,7 +71,7 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
     @BindView(R.id.app_bar_layout) protected AppBarLayout mAppBar;
     @BindView(R.id.tabs) protected TabLayout mDetailsTab;
     @BindView(R.id.image_detail) protected ImageView mImageDetail;
-    @BindView(R.id.container_connect) protected View mConnectContainer;
+    @BindView(R.id.container_connect) protected FrameLayout mMemberStatusContainer;
     @BindView(R.id.locations) protected TextView mLocation;
     @BindView(R.id.text_profession) protected TextView mProfession;
     @BindView(R.id.text_status_update) protected TextView mStatusUpdate;
@@ -148,8 +149,7 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        MemberStatusType statusType = MemberStatusType.fromStatus(mMemberStatus);
-        showToast(statusType.getStatusText());
+
         mToolbar.inflateMenu(R.menu.menu_member_connect);
         mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
@@ -210,6 +210,50 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
         ImageLoaderHelper.loadImage(getContext(), buildUrl(mImageURLValue), mImageDetail);
 
         getPresenter().loadDetails(mContactIDValue, mAboutMeValue);
+
+        MemberStatusType statusType = MemberStatusType.fromStatus(mMemberStatus);
+        mMemberStatusContainer.removeAllViews();
+        switch (statusType) {
+            case APPROVE_DECLINE:
+                View approveDeclineView = LayoutInflater.from(getContext()).inflate(R.layout.item_layout_approve_decline_member, mMemberStatusContainer, false);
+                approveDeclineView.findViewById(R.id.button_approve_member).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        showToast("Approving Member....");
+                    }
+                });
+                approveDeclineView.findViewById(R.id.button_decline_member).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        showToast("Declining Member...");
+                    }
+                });
+                mMemberStatusContainer.addView(approveDeclineView);
+                break;
+            case APPROVED:
+                TextView contactView = (TextView) LayoutInflater.from(getContext()).inflate(R.layout.item_layout_contact_member, mMemberStatusContainer, false);
+                contactView.setText("Contact " + mFullNameValue);
+                contactView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        showToast("Contacting Member...");
+                    }
+                });
+                mMemberStatusContainer.addView(contactView);
+                break;
+            case NOT_CONTACTED:
+                TextView connectView = (TextView) LayoutInflater.from(getContext()).inflate(R.layout.item_layout_connect_member, mMemberStatusContainer, false);
+                connectView.setText("Connect " + mFullNameValue);
+                connectView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        showToast("Connecting Member...");
+                    }
+                });
+                mMemberStatusContainer.addView(connectView);
+                break;
+        }
+//        showToast(statusType.getStatusText());
     }
 
     @Override

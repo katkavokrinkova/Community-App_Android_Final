@@ -123,37 +123,11 @@
 
                             </LinearLayout>
 
-                            <LinearLayout
+                            <FrameLayout
                                 android:id="@+id/container_connect"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:background="@drawable/bg_rounded_primary"
-                                android:gravity="center"
-                                android:orientation="horizontal"
-                                android:layout_marginTop="4dp"
-                                android:paddingBottom="8dp"
-                                android:paddingTop="8dp">
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:src="@mipmap/ic_notification_contact_request"
-                                    android:tint="@color/colorWhite" />
-
-                                <net.impacthub.members.ui.widgets.TypefaceTextView
-                                    android:id="@+id/done"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="12dp"
-                                    android:gravity="center"
-                                    android:text="Connect"
-                                    android:textColor="@android:color/white"
-                                    android:textSize="16sp"
-                                    app:typeface="fonts/gt-walsheim-web.ttf"
-                                    tools:showIn="@layout/fragment_filters" />
-
-                            </LinearLayout>
-
+                                android:layout_marginTop="12dp" />
 
                         </LinearLayout>
 
@@ -171,10 +145,10 @@
                             android:id="@+id/text_profession"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            tools:text="Marketing Consultant at Equinox Consultant"
                             android:textColor="@color/greyish_brown_2"
                             android:textSize="14sp"
-                            app:typeface="fonts/gt-walsheim-light-web.ttf" />
+                            app:typeface="fonts/gt-walsheim-light-web.ttf"
+                            tools:text="Marketing Consultant at Equinox Consultant" />
 
                         <include
                             layout="@layout/layout_info_location"
@@ -186,15 +160,15 @@
                             android:id="@+id/text_status_update"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
                             android:layout_marginBottom="8dp"
+                            android:layout_marginTop="16dp"
                             android:ellipsize="end"
                             android:gravity="center"
                             android:maxLines="3"
-                            tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor. adipiscing elit, sed do eiusmod tempor."
                             android:textColor="@color/steel_grey"
                             android:textSize="15sp"
-                            app:typeface="fonts/gt-walsheim-light-web.ttf" />
+                            app:typeface="fonts/gt-walsheim-light-web.ttf"
+                            tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor. adipiscing elit, sed do eiusmod tempor." />
 
                     </LinearLayout>
 
