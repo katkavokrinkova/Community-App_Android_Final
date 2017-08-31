@@ -72,10 +72,10 @@ public class ContactsUiPresenter extends UiPresenter<ContactsUiContract> {
         subscribeWith(listSingle, new DisposableSingleObserver<ContactsWrapper>() {
 
             @Override
-            public void onSuccess(@NonNull ContactsWrapper dispatcher) {
-                getUi().onLoadApprovedContacts(dispatcher.getApprovedContacts());
-                getUi().onLoadOutstandingContacts(dispatcher.getOutstandingContacts());
-                getUi().onLoadDeclinedContacts(dispatcher.getDeclinedContacts());
+            public void onSuccess(@NonNull ContactsWrapper contactsWrapper) {
+                getUi().onLoadApprovedContacts(contactsWrapper.getApprovedContacts());
+                getUi().onLoadOutstandingContacts(contactsWrapper.getOutstandingContacts());
+                getUi().onLoadDeclinedContacts(contactsWrapper.getDeclinedContacts());
                 getUi().onChangeStatus(false);
             }
 

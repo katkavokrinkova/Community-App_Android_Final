@@ -11,6 +11,8 @@
 
 package net.impacthub.members.ui.features.home.events;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.NestedScrollView;
@@ -37,6 +39,7 @@ import net.impacthub.members.navigator.Navigator;
 import net.impacthub.members.presenter.features.events.EventdetailUiContract;
 import net.impacthub.members.presenter.features.events.EventdetailUiPresenter;
 import net.impacthub.members.ui.base.BaseChildFragment;
+import net.impacthub.members.ui.common.AbstractOnMarkerClickListener;
 import net.impacthub.members.ui.common.ImageLoaderHelper;
 
 import butterknife.BindView;
@@ -192,16 +195,19 @@ public class EventDetailFragment extends BaseChildFragment<EventdetailUiPresente
                 .build();
         mGoogleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         mGoogleMap.addMarker(new MarkerOptions()
-                .title("Title")
-                .snippet("snippet")
                 .anchor(0.0f, 1.0f)
                 .position(latLng)
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-        mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+        mGoogleMap.setOnMarkerClickListener(new AbstractOnMarkerClickListener<LatLng>(latLng) {
             @Override
-            public boolean onMarkerClick(Marker marker) {
-                showToast("Clicked on the Marker");
-                return false;
+            protected boolean onMarkerClick(Marker marker, LatLng subject) {
+                Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?daddr=" + subject.latitude + "," + subject.longitude));
+                if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+                    startActivity(intent);
+                } else {
+                    showToast("Maps not found on this device!");
+                }
+                return true;
             }
         });
     }

@@ -22,6 +22,7 @@ import java.util.List;
 
 import io.reactivex.Single;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableSingleObserver;
 
 /**
@@ -40,11 +41,17 @@ public class JobsUiPresenter extends UiPresenter<JobsUiContract> {
 
     public void getJobs() {
         getUi().onChangeStatus(true);
-        subscribeWith(mJobsUseCase.getUseCase(), new DisposableSingleObserver<JobsResponse>() {
+        Single<List<JobVO>> jobsSingle = mJobsUseCase.getUseCase()
+                .map(new Function<JobsResponse, List<JobVO>>() {
+                    @Override
+                    public List<JobVO> apply(@NonNull JobsResponse jobsResponse) throws Exception {
+                        return new JobsMapper().map(jobsResponse);
+                    }
+                });
+        subscribeWith(jobsSingle, new DisposableSingleObserver<List<JobVO>>() {
             @Override
-            public void onSuccess(@NonNull JobsResponse response) {
-                List<JobVO> jobs = new JobsMapper().map(response);
-                getUi().onLoadJobs(jobs);
+            public void onSuccess(@NonNull List<JobVO> jobVOs) {
+                getUi().onLoadJobs(jobVOs);
                 getUi().onChangeStatus(false);
             }
 

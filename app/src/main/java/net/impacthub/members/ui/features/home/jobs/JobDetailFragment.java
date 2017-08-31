@@ -137,7 +137,6 @@ public class JobDetailFragment extends BaseChildFragment<JobsDetailUiPresenter> 
 
     @Override
     public void onLoadRelatedProjects(List<ListItemType> listItemTypes) {
-        mAdapter.appendItem(new SimpleItem<String>("RELATED JOBS", 0));
         mAdapter.appendItems(listItemTypes);
     }
 }
