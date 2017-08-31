@@ -56,11 +56,6 @@
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop" />
 
-                    <!--<View-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:background="#60000000" />-->
-
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="180dp"
