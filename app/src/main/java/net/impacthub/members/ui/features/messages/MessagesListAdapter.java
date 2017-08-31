@@ -21,7 +21,6 @@ import android.widget.TextView;
 import net.impacthub.members.R;
 import net.impacthub.members.model.vo.messages.MessageVO;
 import net.impacthub.members.ui.base.BaseListAdapter;
-import net.impacthub.members.ui.common.DateTimeAgoHelper;
 import net.impacthub.members.ui.common.ImageLoaderHelper;
 import net.impacthub.members.ui.common.RecyclerViewHolder;
 
@@ -70,7 +69,7 @@ class MessagesListAdapter extends BaseListAdapter<MessagesListAdapter.MessageVie
             Context context = profileImage.getContext();
             displayName.setText(itemData.mDisplayName);
             displayMessage.setText(itemData.mText);
-            new DateTimeAgoHelper(displayDate, itemData.mDate);
+            displayDate.setText(itemData.mDate);
             messageReadIcon.setVisibility(itemData.mIsRead ? View.GONE : View.VISIBLE);
             ImageLoaderHelper.loadImage(context, buildUrl(itemData.mImageURL), profileImage);
         }

@@ -5,13 +5,13 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnBackListener;
 import net.impacthub.members.ui.base.BaseActivity;
-import net.impacthub.members.ui.controllers.messages.MessagesControllerFragment;
 import net.impacthub.members.ui.controllers.home.HomeControllerFragment;
+import net.impacthub.members.ui.controllers.messages.MessagesControllerFragment;
 import net.impacthub.members.ui.controllers.notification.NotificationControllerFragment;
 import net.impacthub.members.ui.controllers.profile.ProfileControllerFragment;
 import net.impacthub.members.ui.controllers.search.SearchControllerFragment;
@@ -107,7 +107,7 @@ public class MainTabsActivity extends BaseActivity {
         }
     }
 
-    private class MainTabsPagerAdapter extends FragmentPagerAdapter {
+    private class MainTabsPagerAdapter extends FragmentStatePagerAdapter {
 
         private final List<Fragment> mFragmentList = new LinkedList<>();
 

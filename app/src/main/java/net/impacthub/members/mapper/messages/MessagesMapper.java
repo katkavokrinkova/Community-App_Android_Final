@@ -18,6 +18,7 @@ import net.impacthub.members.model.features.messages.MessageResponse;
 import net.impacthub.members.model.features.messages.LatestMessage;
 import net.impacthub.members.model.features.messages.Photo;
 import net.impacthub.members.model.features.messages.Recipients;
+import net.impacthub.members.utilities.DateUtils;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -43,7 +44,7 @@ public class MessagesMapper {
                         conversationDTO.mIsRead = read != null ? read : true;
                         LatestMessage latestMessage = conversation.getLatestMessage();
                         if (latestMessage != null) {
-                            conversationDTO.mDate = latestMessage.getSentDate();
+                            conversationDTO.mDate = DateUtils.getElapsedDateTime(latestMessage.getSentDate());
                             Body body = latestMessage.getBody();
                             if (body != null) {
                                 conversationDTO.mText = body.getText();

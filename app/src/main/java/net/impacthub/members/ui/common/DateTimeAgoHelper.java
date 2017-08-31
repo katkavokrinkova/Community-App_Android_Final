@@ -55,7 +55,7 @@ public class DateTimeAgoHelper implements Runnable {
                 simpleDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
                 String formattedDate = simpleDateFormat.format(date);
                 mPostDate.setText(formattedDate);
-                return ;
+                return;
             }
 
             long elapsedMonths = dateTimeDifference / Format.MONTH.getDateTime();
@@ -66,7 +66,7 @@ public class DateTimeAgoHelper implements Runnable {
                 simpleDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
                 String formattedDate = simpleDateFormat.format(date);
                 mPostDate.setText(formattedDate);
-                return ;
+                return;
             }
 
             long elapsedWeeks = dateTimeDifference / Format.WEEK.getDateTime();
@@ -77,28 +77,28 @@ public class DateTimeAgoHelper implements Runnable {
                 String formattedDate = simpleDateFormat.format(date);
                 mPostDate.setText(formattedDate);
 //                mPostDate.setText(elapsedWeeks + formatDuration(" week", elapsedWeeks) +" ago");
-                return ;
+                return;
             }
 
             long elapsedDays = dateTimeDifference / Format.DAY.getDateTime();
             dateTimeDifference = dateTimeDifference % Format.DAY.getDateTime();
             if (elapsedDays > 0) {
-                mPostDate.setText(elapsedDays + formatDuration(" day", elapsedDays) +" ago");
-                return ;
+                mPostDate.setText(elapsedDays + formatDuration(" day", elapsedDays) + " ago");
+                return;
             }
 
             long elapsedHours = dateTimeDifference / Format.HOUR.getDateTime();
             dateTimeDifference = dateTimeDifference % Format.HOUR.getDateTime();
             if (elapsedHours > 0) {
-                mPostDate.setText(elapsedHours + formatDuration(" hour", elapsedHours) +" ago");
-                return ;
+                mPostDate.setText(elapsedHours + formatDuration(" hour", elapsedHours) + " ago");
+                return;
             }
 
             long elapsedMinutes = dateTimeDifference / Format.MINUTE.getDateTime();
             dateTimeDifference = dateTimeDifference % Format.MINUTE.getDateTime();
             if (elapsedMinutes > 0) {
-                mPostDate.setText(elapsedMinutes + formatDuration(" min", elapsedMinutes) +" ago");
-                return ;
+                mPostDate.setText(elapsedMinutes + formatDuration(" min", elapsedMinutes) + " ago");
+                return;
             }
 
             long elapsedSeconds = dateTimeDifference / Format.SECOND.getDateTime();
@@ -111,14 +111,16 @@ public class DateTimeAgoHelper implements Runnable {
     }
 
     private String formatDuration(String duration, long value) {
-        return value > 1 ? duration+"s" : duration;
+        return value > 1 ? duration + "s" : duration;
     }
 
     public enum Format {
-
-        YEAR(Format.YEARS_MILLI), MONTH(Format.MONTHS_MILLI),
-        WEEK(Format.WEEKS_MILLI), DAY(Format.DAYS_MILLI),
-        HOUR(Format.HOURS_MILLI), MINUTE(Format.MINUTES_MILLI),
+        DAY(Format.DAYS_MILLI),
+        YEAR(Format.YEARS_MILLI),
+        MONTH(Format.MONTHS_MILLI),
+        WEEK(Format.WEEKS_MILLI),
+        MINUTE(Format.MINUTES_MILLI),
+        HOUR(Format.HOURS_MILLI),
         SECOND(Format.SECONDS_MILLI);
 
         private static final long SECONDS_MILLI = 1000;

@@ -21,7 +21,6 @@ import android.widget.TextView;
 import net.impacthub.members.R;
 import net.impacthub.members.model.vo.notifications.NotificationVO;
 import net.impacthub.members.ui.base.BaseListAdapter;
-import net.impacthub.members.ui.common.DateTimeAgoHelper;
 import net.impacthub.members.ui.common.ImageLoaderHelper;
 import net.impacthub.members.ui.common.RecyclerViewHolder;
 import net.impacthub.members.ui.widgets.CircleImageView;
@@ -69,7 +68,7 @@ class NotificationListAdapter extends BaseListAdapter<NotificationListAdapter.Vi
         protected void bindViewsWith(NotificationVO item) {
             Context context = profileImage.getContext();
             notificationMessage.setText(item.mMessage);
-            new DateTimeAgoHelper(elapsedTime, item.mCreatedDate);
+            elapsedTime.setText(item.mCreatedDate);
             ImageLoaderHelper.loadImage(context, item.mNotificationType.getIcon(), notificationIcon);
             ImageLoaderHelper.loadImage(context, buildUrl(item.mProfilePicUrl), profileImage);
         }

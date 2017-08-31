@@ -11,6 +11,8 @@
 
 package net.impacthub.members.utilities;
 
+import net.impacthub.members.ui.common.TimeFormatType;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -63,5 +65,67 @@ public final class DateUtils {
         SimpleDateFormat dateFormat = new SimpleDateFormat(format, Locale.UK);
         dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
         return dateFormat.parse(date);
+    }
+
+    public static String getElapsedDateTime(String givenDate) {
+        try {
+            Date date = DateUtils.getDate(DateUtils.ISO_8601_FORMAT_1, givenDate);
+            Date now = new Date();
+            long dateTimeDifference = now.getTime() - date.getTime();
+            long yearTime = TimeFormatType.YEAR.getDateTime();
+            long elapsedYears = dateTimeDifference / yearTime;
+            dateTimeDifference = dateTimeDifference % yearTime;
+            if (elapsedYears > 0) {
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DateUtils.DAY_MONTH_YEAR_FORMAT, Locale.UK);
+                simpleDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+                return simpleDateFormat.format(date);
+            }
+
+            long monthTime = TimeFormatType.MONTH.getDateTime();
+            long elapsedMonths = dateTimeDifference / monthTime;
+            dateTimeDifference = dateTimeDifference % monthTime;
+            if (elapsedMonths > 0) {
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DateUtils.DAY_MONTH_YEAR_FORMAT, Locale.UK);
+                simpleDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+                return simpleDateFormat.format(date);
+            }
+
+            long weekTime = TimeFormatType.WEEK.getDateTime();
+            long elapsedWeeks = dateTimeDifference / weekTime;
+            dateTimeDifference = dateTimeDifference % weekTime;
+            if (elapsedWeeks > 0) {
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DateUtils.DAY_MONTH_YEAR_FORMAT, Locale.UK);
+                simpleDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+                return simpleDateFormat.format(date);
+            }
+
+            long dayTime = TimeFormatType.DAY.getDateTime();
+            long elapsedDays = dateTimeDifference / dayTime;
+            dateTimeDifference = dateTimeDifference % dayTime;
+            if (elapsedDays > 0) {
+                return elapsedDays + formatDuration(" day", elapsedDays) + " ago";
+            }
+
+            long hourTime = TimeFormatType.HOUR.getDateTime();
+            long elapsedHours = dateTimeDifference / hourTime;
+            dateTimeDifference = dateTimeDifference % hourTime;
+            if (elapsedHours > 0) {
+                return elapsedHours + formatDuration(" hour", elapsedHours) + " ago";
+            }
+
+            long minuteTime = TimeFormatType.MINUTE.getDateTime();
+            long elapsedMinutes = dateTimeDifference / minuteTime;
+
+            if (elapsedMinutes > 0) {
+                return elapsedMinutes + formatDuration(" min", elapsedMinutes) + " ago";
+            }
+            return "just now";
+        } catch (ParseException e) {
+            return givenDate;
+        }
+    }
+
+    private static String formatDuration(String duration, long value) {
+        return value > 1 ? duration + "s" : duration;
     }
 }

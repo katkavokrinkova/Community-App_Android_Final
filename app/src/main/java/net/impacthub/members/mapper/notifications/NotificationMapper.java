@@ -15,6 +15,7 @@ import net.impacthub.members.model.vo.notifications.NotificationVO;
 import net.impacthub.members.model.vo.notifications.NotificationType;
 import net.impacthub.members.model.features.notifications.NotificationResponse;
 import net.impacthub.members.model.features.notifications.Records;
+import net.impacthub.members.utilities.DateUtils;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -42,7 +43,7 @@ public class NotificationMapper {
                         notificationDTO.mRecipientUserId = record.getFromUserId__c();
                         notificationDTO.mDisplayName = record.getName();
                         notificationDTO.mProfilePicUrl = record.getProfilePicURL__c();
-                        notificationDTO.mCreatedDate = record.getCreatedDate();
+                        notificationDTO.mCreatedDate = DateUtils.getElapsedDateTime(record.getCreatedDate());
                         notificationDTO.mNotificationType = NotificationType.fromString(record.getType__c());
                         notificationDTOList.add(notificationDTO);
                     }
