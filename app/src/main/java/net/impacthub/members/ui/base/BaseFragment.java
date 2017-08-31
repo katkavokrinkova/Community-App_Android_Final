@@ -1,6 +1,7 @@
 package net.impacthub.members.ui.base;
 
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.annotation.ColorRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -50,12 +51,17 @@ public abstract class BaseFragment<P extends UiPresenter<? extends UiContract>> 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View parent = inflater.inflate(R.layout.fragment_container, container, false);
-        FrameLayout contentContainer = (FrameLayout) parent.findViewById(R.id.content_container);
+        View rootView = inflater.inflate(R.layout.fragment_container, container, false);
+        FrameLayout contentContainer = (FrameLayout) rootView.findViewById(R.id.content_container);
         contentContainer.removeAllViews();
         inflater.inflate(getContentView(), contentContainer, true);
-        mBinder = ButterKnife.bind(this, parent);
-        return parent;
+        mBinder = ButterKnife.bind(this, rootView);
+        bindView(rootView);
+        return rootView;
+    }
+
+    @CallSuper
+    protected void bindView(View rootView) {
     }
 
     @Override

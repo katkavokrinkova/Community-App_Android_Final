@@ -1,5 +1,6 @@
 package net.impacthub.members.ui.features.home.members;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -37,6 +38,7 @@ import net.impacthub.members.ui.features.home.groups.binders.GroupsViewBinder;
 import net.impacthub.members.ui.features.home.members.binders.MemberInfoListAdapter;
 import net.impacthub.members.ui.features.home.projects.ProjectDetailFragment;
 import net.impacthub.members.ui.features.home.projects.binders.ProjectsViewBinder;
+import net.impacthub.members.ui.modal.ModalActivity;
 
 import java.util.List;
 
@@ -247,13 +249,24 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
                 connectView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        showToast("Connecting Member...");
+                        Intent intent = new Intent(getActivity(), ModalActivity.class);
+                        intent.putExtra(ModalActivity.MODAL_TYPE_CONNECT, true);
+                        intent.putExtra(ModalActivity.EXTRA_CONTACT_ID, mContactIDValue);
+                        startActivityForResult(intent, 1122);
                     }
                 });
                 mMemberStatusContainer.addView(connectView);
                 break;
         }
 //        showToast(statusType.getStatusText());
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1122) {
+            showToast("Refreshing...");
+        }
     }
 
     @Override

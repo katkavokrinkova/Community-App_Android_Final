@@ -2,7 +2,6 @@ package net.impacthub.members.ui.features.home;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -47,12 +46,12 @@ public class HomeFragment extends BaseChildFragment implements OnListItemClickLi
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void bindView(View rootView) {
+        super.bindView(rootView);
         setUpToolbar(R.string.home, Color.WHITE);
 
         FragmentActivity activity = getActivity();
-        RecyclerView homeMenuList = (RecyclerView) view.findViewById(R.id.list_items);
+        RecyclerView homeMenuList = (RecyclerView) rootView.findViewById(R.id.list_items);
         homeMenuList.setHasFixedSize(true);
         homeMenuList.addItemDecoration(new LinearItemsMarginDecorator(activity.getResources().getDimensionPixelSize(R.dimen.default_home_item_gap_margin)));
         homeMenuList.setLayoutManager(new LinearLayoutManager(activity));
