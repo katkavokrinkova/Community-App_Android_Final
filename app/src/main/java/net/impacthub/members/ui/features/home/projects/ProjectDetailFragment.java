@@ -36,11 +36,12 @@ import net.impacthub.members.ui.binder.ViewBinder;
 import net.impacthub.members.ui.common.AppPagerAdapter;
 import net.impacthub.members.ui.common.ImageLoaderHelper;
 import net.impacthub.members.ui.delegate.TabsDelegate;
+import net.impacthub.members.ui.features.home.chatter.ChatterCommentFragment;
 import net.impacthub.members.ui.features.home.jobs.JobDetailFragment;
 import net.impacthub.members.ui.features.home.jobs.binders.JobsViewBinder;
 import net.impacthub.members.ui.features.home.members.MemberDetailFragment;
 import net.impacthub.members.ui.features.home.members.binders.MembersViewBinder;
-import net.impacthub.members.ui.features.home.projects.binders.ChatterViewBinder;
+import net.impacthub.members.ui.features.home.chatter.binder.ChatterViewBinder;
 import net.impacthub.members.ui.features.home.projects.binders.ObjectivesViewBinder;
 
 import java.util.List;
@@ -137,11 +138,10 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
             public void onItemClick(int viewId, ChatterVO model) {
                 switch (viewId) {
                     case R.id.member_image:
-                        showToast("Opening member profile...");
-                        //addChildFragment(MemberDetailFragment.newInstance(model), "FRAG_MEMBER_DETAIL");
+                        getPresenter().getMemberBy(model.mUserId);
                         break;
                     case R.id.comment_indicator:
-                        showToast("Opening Comments");
+                        addChildFragment(ChatterCommentFragment.newInstance(model.mComments), "FRAG_CHATTER_COMMENTS");
                         break;
                     case R.id.like_indicator:
                         showToast("Liking post");
@@ -198,5 +198,10 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
     public void onLoadObjectives(List<ListItemType> listItemTypes) {
         listItemTypes.add(0, new SimpleItem<String>("GOALS", 0));
         mViewBinder2.bindView(listItemTypes);
+    }
+
+    @Override
+    public void onLoadMember(MemberVO memberVO) {
+        addChildFragment(MemberDetailFragment.newInstance(memberVO), "FRAG_MEMBER_DETAIL");
     }
 }

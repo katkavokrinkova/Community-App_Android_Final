@@ -28,6 +28,7 @@ import net.impacthub.members.presenter.rx.AbstractBigFunction;
 import net.impacthub.members.presenter.rx.AbstractFunction;
 import net.impacthub.members.usecase.features.contacts.DMGetContactsUseCase;
 import net.impacthub.members.usecase.features.groups.ChatterFeedUseCase;
+import net.impacthub.members.usecase.features.members.GetMemberByUserIdUseCase;
 import net.impacthub.members.usecase.features.profile.ProfileUseCase;
 import net.impacthub.members.usecase.features.projects.ProjectJobsUseCase;
 import net.impacthub.members.usecase.features.projects.ProjectMembersUseCase;
@@ -137,6 +138,23 @@ public class ProjectDetailUiPresenter extends UiPresenter<ProjectDetailUiContrac
             @Override
             public void onError(@NonNull Throwable e) {
                 getUi().onError(e);
+            }
+        });
+    }
+
+    public void getMemberBy(String id) {
+        getUi().onShowProgressBar(true);
+        subscribeWith(new GetMemberByUserIdUseCase(id).getUseCase(), new DisposableSingleObserver<MemberVO>() {
+            @Override
+            public void onSuccess(@NonNull MemberVO memberVO) {
+                getUi().onLoadMember(memberVO);
+                getUi().onShowProgressBar(false);
+            }
+
+            @Override
+            public void onError(@NonNull Throwable e) {
+                getUi().onError(e);
+                getUi().onShowProgressBar(false);
             }
         });
     }

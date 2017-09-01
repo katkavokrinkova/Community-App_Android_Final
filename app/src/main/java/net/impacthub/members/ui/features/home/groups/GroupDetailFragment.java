@@ -26,6 +26,7 @@ import net.impacthub.members.presenter.features.groups.ChatterFeedUiContract;
 import net.impacthub.members.ui.base.BaseChildFragment;
 import net.impacthub.members.ui.common.ImageLoaderHelper;
 import net.impacthub.members.ui.common.LinearItemsMarginDecorator;
+import net.impacthub.members.ui.features.home.chatter.ChatterFeedListAdapter;
 
 import java.util.List;
 

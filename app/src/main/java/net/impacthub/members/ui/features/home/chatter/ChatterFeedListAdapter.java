@@ -9,7 +9,7 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.ui.features.home.groups;
+package net.impacthub.members.ui.features.home.chatter;
 
 import android.content.Context;
 import android.view.LayoutInflater;

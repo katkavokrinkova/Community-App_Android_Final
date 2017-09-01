@@ -11,21 +11,21 @@
 
 package net.impacthub.members.model.vo.chatter;
 
+import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * @author Filippo Ash
  * @version 1.0
- * @date 8/17/2017.
+ * @date 9/1/2017.
  */
 
-public class ChatterVO {
+public class CommentVO implements Serializable {
 
-    public CommentVO mComments;
-    public String mUserId;
-    public String mImageURL;
-    public String mDisplayName;
-    public String mDate;
-    public String mComment;
-    public int mCommentCount;
-    public int mLikeCount;
-    public boolean mIsLikedByMe;
+    private final List<ChatComment> mComments = new LinkedList<>();
+
+    public List<ChatComment> getComments() {
+        return mComments;
+    }
 }

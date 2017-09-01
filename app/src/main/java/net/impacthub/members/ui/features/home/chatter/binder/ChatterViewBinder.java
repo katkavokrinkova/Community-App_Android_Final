@@ -9,7 +9,7 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.ui.features.home.projects.binders;
+package net.impacthub.members.ui.features.home.chatter.binder;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -22,7 +22,7 @@ import net.impacthub.members.model.callback.OnListItemClickListener;
 import net.impacthub.members.model.vo.chatter.ChatterVO;
 import net.impacthub.members.ui.binder.ViewBinder;
 import net.impacthub.members.ui.common.LinearItemsMarginDecorator;
-import net.impacthub.members.ui.features.home.groups.ChatterFeedListAdapter;
+import net.impacthub.members.ui.features.home.chatter.ChatterFeedListAdapter;
 
 import java.util.List;
 

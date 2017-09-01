@@ -14,18 +14,14 @@ package net.impacthub.members.model.vo.chatter;
 /**
  * @author Filippo Ash
  * @version 1.0
- * @date 8/17/2017.
+ * @date 9/1/2017.
  */
 
-public class ChatterVO {
+public class ChatComment {
 
-    public CommentVO mComments;
-    public String mUserId;
-    public String mImageURL;
-    public String mDisplayName;
     public String mDate;
-    public String mComment;
-    public int mCommentCount;
-    public int mLikeCount;
-    public boolean mIsLikedByMe;
+    public String mUserId;
+    public String mDisplayName;
+    public String mImageURL;
+    public String mCommentTxt;
 }
