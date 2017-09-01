@@ -9,25 +9,21 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.ui.delegate;
-
-import android.app.Activity;
-
-import net.impacthub.members.ui.base.BaseChildFragment;
+package net.impacthub.members.model.vo.conversations;
 
 /**
  * @author Filippo Ash
  * @version 1.0
- * @date 8/30/2017.
+ * @date 9/1/2017.
  */
 
-public class ContactMemberDelegate {
+public class MessageInReplyToBody {
 
-    public void connect(Activity activity) {
+    private final String body;
+    private final String inReplyTo;
 
-    }
-
-    public void contact(BaseChildFragment fragment) {
-
+    public MessageInReplyToBody(String body, String inReplyTo) {
+        this.body = body;
+        this.inReplyTo = inReplyTo;
     }
 }

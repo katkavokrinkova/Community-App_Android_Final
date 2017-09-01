@@ -14,6 +14,8 @@ package net.impacthub.members.usecase.features.conversations;
 import net.impacthub.members.model.features.conversations.Id;
 import net.impacthub.members.usecase.base.BaseUseCaseGenerator;
 
+import org.json.JSONObject;
+
 import java.util.concurrent.Callable;
 
 import io.reactivex.Single;
@@ -26,12 +28,10 @@ import io.reactivex.Single;
 
 public class SendMessageUseCase extends BaseUseCaseGenerator<Single<Id>, Id> {
 
-    private final String mMessage;
-    private final String mInReplyTo;
+    private final JSONObject mJsonObject;
 
-    public SendMessageUseCase(String message, String inReplyTo) {
-        mMessage = message;
-        mInReplyTo = inReplyTo;
+    public SendMessageUseCase(JSONObject jsonObject) {
+        mJsonObject = jsonObject;
     }
 
     @Override
@@ -39,7 +39,7 @@ public class SendMessageUseCase extends BaseUseCaseGenerator<Single<Id>, Id> {
         return Single.fromCallable(new Callable<Id>() {
             @Override
             public Id call() throws Exception {
-                return getApiCall().getResponse(getSoqlRequestFactory().createSendMessageRequest(getUserAccount().getCommunityId(), mMessage, mInReplyTo), Id.class);
+                return getApiCall().getResponse(getSoqlRequestFactory().createSendMessageWithUserIdRequest(getUserAccount().getCommunityId(), mJsonObject), Id.class);
             }
         });
     }

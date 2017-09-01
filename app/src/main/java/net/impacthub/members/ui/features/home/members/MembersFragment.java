@@ -9,6 +9,7 @@ import android.view.View;
 
 import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnListItemClickListener;
+import net.impacthub.members.model.vo.conversations.ConversationVO;
 import net.impacthub.members.model.vo.members.MemberStatusType;
 import net.impacthub.members.model.vo.members.MemberVO;
 import net.impacthub.members.presenter.features.members.MembersPresenter;
@@ -16,6 +17,7 @@ import net.impacthub.members.presenter.features.members.MembersUiContract;
 import net.impacthub.members.ui.base.BaseChildFragment;
 import net.impacthub.members.ui.common.LinearItemsMarginDecorator;
 import net.impacthub.members.ui.features.filters.FilterActivity;
+import net.impacthub.members.ui.features.messages.conversation.ConversationFragment;
 import net.impacthub.members.ui.modal.ModalActivity;
 
 import java.util.List;
@@ -125,7 +127,11 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
                         startActivityForResult(intent, 1122);
                         break;
                     case APPROVED:
-
+                        ConversationVO model = new ConversationVO();
+                        model.mDisplayName = member.mFullName;
+                        model.mImageURL = member.mProfilePicURL;
+                        model.mRecipientUserId = member.mUserId;
+                        addChildFragment(ConversationFragment.newInstance(model), "FRAG_MESSAGE_THREAD");
                         break;
                     case APPROVE_DECLINE:
                         addChildFragment(MemberDetailFragment.newInstance(member), "FRAG_MEMBER_DETAIL");

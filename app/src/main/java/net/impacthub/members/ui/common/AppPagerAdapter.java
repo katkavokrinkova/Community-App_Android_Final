@@ -63,8 +63,4 @@ public class AppPagerAdapter extends PagerAdapter {
         mBindersList.add(viewBinder);
         notifyDataSetChanged();
     }
-
-    public ViewBinder getItemAt(int position) {
-        return mBindersList.get(position);
-    }
 }

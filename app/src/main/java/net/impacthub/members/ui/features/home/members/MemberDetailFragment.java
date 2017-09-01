@@ -87,7 +87,6 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
     @BindView(R.id.button_instagram) protected ImageButton mButtonInsta;
 
     @BindView(R.id.pager) protected ViewPager mPager;
-    private AppPagerAdapter mPagerAdapter;
 
     private String mUserIDValue;
     private String mDM_ID;
@@ -103,6 +102,10 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
     private String mLinkedinLinkValue;
     private String mInstagramLinkValue;
     private String mImageURLValue;
+
+    private ViewBinder<List<ListItemType>> mViewBinder1;
+    private ViewBinder<List<ProjectVO>> mViewBinder2;
+    private ViewBinder<List<GroupVO>> mViewBinder3;
 
     public static MemberDetailFragment newInstance(MemberVO member) {
 
@@ -176,29 +179,28 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
 
         mAppBar.addOnOffsetChangedListener(mOffsetChangeListenerAdapter);
 
-        mPagerAdapter = new AppPagerAdapter(getContext());
+        AppPagerAdapter adapter = new AppPagerAdapter(getContext());
 
-        mPagerAdapter.addVieBinder(new AboutViewBinder(new MemberInfoListAdapter(LayoutInflater.from(getContext()))));
-        mPagerAdapter.addVieBinder(new ProjectsViewBinder(new OnListItemClickListener<ProjectVO>() {
+        adapter.addVieBinder(mViewBinder1 = new AboutViewBinder(new MemberInfoListAdapter(LayoutInflater.from(getContext()))));
+        adapter.addVieBinder(mViewBinder2 = new ProjectsViewBinder(new OnListItemClickListener<ProjectVO>() {
             @Override
             public void onItemClick(int viewId, ProjectVO model) {
                 addChildFragment(ProjectDetailFragment.newInstance(model), "FRAG_PROJECT_DETAIL");
             }
         }));
-        mPagerAdapter.addVieBinder(new GroupsViewBinder(new OnListItemClickListener<GroupVO>() {
+        adapter.addVieBinder(mViewBinder3 = new GroupsViewBinder(new OnListItemClickListener<GroupVO>() {
             @Override
             public void onItemClick(int viewId, GroupVO model) {
                 addChildFragment(GroupDetailFragment.newInstance(model), "FRAG_GROUP_DETAIL");
             }
         }));
 
-        mPager.setAdapter(mPagerAdapter);
-        mPager.setOffscreenPageLimit(mPagerAdapter.getCount());
+        mPager.setAdapter(adapter);
+        mPager.setOffscreenPageLimit(adapter.getCount());
 
         mDetailsTab.setupWithViewPager(mPager);
 
         new TabsDelegate().setUp(mDetailsTab, TITLES);
-
 
         setUpToolbar(mFullNameValue);
         mLocation.setText(mLocationValue);
@@ -279,8 +281,7 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
             @Override
             public void onClick(View view) {
                 ConversationVO model = new ConversationVO();
-                model.mConversationId = "";
-                model.mDisplayName = mUserIDValue;
+                model.mDisplayName = mFullNameValue;
                 model.mImageURL = mImageURLValue;
                 model.mRecipientUserId = mUserIDValue;
                 addChildFragment(ConversationFragment.newInstance(model), "FRAG_MESSAGE_THREAD");
@@ -305,32 +306,17 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
 
     @Override
     public void onLoadProjects(List<ProjectVO> projectDTOs) {
-        if (mPagerAdapter != null) {
-            ViewBinder viewBinder = mPagerAdapter.getItemAt(1);
-            if (viewBinder != null) {
-                viewBinder.bindView(projectDTOs);
-            }
-        }
+        mViewBinder2.bindView(projectDTOs);
     }
 
     @Override
     public void onLoadGroups(List<GroupVO> groupDTOs) {
-        if (mPagerAdapter != null) {
-            ViewBinder viewBinder = mPagerAdapter.getItemAt(2);
-            if (viewBinder != null) {
-                viewBinder.bindView(groupDTOs);
-            }
-        }
+        mViewBinder3.bindView(groupDTOs);
     }
 
     @Override
     public void onLoadExtraInfo(List<ListItemType> listItemTypes) {
-        if (mPagerAdapter != null) {
-            ViewBinder viewBinder = mPagerAdapter.getItemAt(0);
-            if (viewBinder != null) {
-                viewBinder.bindView(listItemTypes);
-            }
-        }
+        mViewBinder1.bindView(listItemTypes);
     }
 
     @Override

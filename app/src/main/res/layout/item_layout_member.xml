@@ -14,8 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center_vertical"
-        tools:ignore="RtlHardcoded">
+        android:gravity="center_vertical">
 
         <net.impacthub.members.ui.widgets.CircleImageView
             android:id="@+id/member_image"

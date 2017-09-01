@@ -234,6 +234,11 @@ public class SoqlRequestFactory {
                 createBodyWith("{\"read\":true}"));
     }
 
+    public RestRequest createSendMessageWithUserIdRequest(String communityId, JSONObject jsonObject) {
+        return new RestRequest(RestRequest.RestMethod.POST,
+                getPath(communityId, "users/me/", "messages?include=/id"), jsonObject);
+    }
+
     public RestRequest createSendMessageRequest(String communityId, String messageBody, String messageId) {
         return new RestRequest(RestRequest.RestMethod.POST,
                 getPath(communityId, "users/me/", "messages?include=/id"),

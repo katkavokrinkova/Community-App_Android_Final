@@ -18,12 +18,15 @@ import com.google.gson.Gson;
 import net.impacthub.members.model.features.conversations.Id;
 import net.impacthub.members.model.features.conversations.ProcessedMessages;
 import net.impacthub.members.model.features.push.PushBody;
+import net.impacthub.members.model.vo.conversations.MessageByUserIdBody;
+import net.impacthub.members.model.vo.conversations.MessageInReplyToBody;
 import net.impacthub.members.presenter.base.UiPresenter;
 import net.impacthub.members.presenter.rx.AbstractFunction;
 import net.impacthub.members.usecase.features.conversations.GetProcessedMessagesUseCase;
 import net.impacthub.members.usecase.features.conversations.SendMessageUseCase;
 import net.impacthub.members.usecase.features.push.SendPushUseCase;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import io.reactivex.Single;
@@ -58,7 +61,7 @@ public class ConversationUiPresenter extends UiPresenter<ConversationUiContract>
 
             @Override
             public void onError(@NonNull Throwable e) {
-                getUi().onError(e);
+                //getUi().onError(e);
                 getUi().onChangeStatus(false);
             }
         });
@@ -66,12 +69,20 @@ public class ConversationUiPresenter extends UiPresenter<ConversationUiContract>
 
     public void sendMessage(String conversationID, PushBody pushQuery, String message, String inReplyTo) {
 
-        if(TextUtils.isEmpty(message)) {
+        if (TextUtils.isEmpty(message)) {
             getUi().onError(new Throwable("Message should not be empty."));
             return;
         }
 
-        Single<ProcessedMessages> messagesSingle = new SendMessageUseCase(message, inReplyTo).getUseCase()
+        JSONObject jsonObject = null;
+
+        try {
+            jsonObject = new JSONObject(new Gson().toJson(new MessageInReplyToBody(message, inReplyTo)));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Single<ProcessedMessages> messagesSingle = new SendMessageUseCase(jsonObject).getUseCase()
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSuccess(new Consumer<Id>() {
                     @Override
@@ -97,6 +108,49 @@ public class ConversationUiPresenter extends UiPresenter<ConversationUiContract>
             @Override
             public void onSuccess(@NonNull ProcessedMessages processedMessages) {
                 getUi().onLoadMessages(processedMessages);
+            }
+
+            @Override
+            public void onError(@NonNull Throwable e) {
+                getUi().onError(e);
+            }
+        });
+    }
+
+    public void sendMessageByUserId(PushBody pushQuery, String message, String toUserIds) {
+
+        if (TextUtils.isEmpty(message)) {
+            getUi().onError(new Throwable("Message should not be empty."));
+            return;
+        }
+
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = new JSONObject(new Gson().toJson(new MessageByUserIdBody(message, new String[]{toUserIds})));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Single<Object> sendMessageSingle = new SendMessageUseCase(jsonObject).getUseCase()
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSuccess(new Consumer<Id>() {
+                    @Override
+                    public void accept(@NonNull Id id) throws Exception {
+                        getUi().onClearTextField();
+                    }
+                })
+                .observeOn(Schedulers.io())
+                .flatMap(new AbstractFunction<PushBody, Id, SingleSource<?>>(pushQuery) {
+                    @Override
+                    protected SingleSource<?> apply(Id response, PushBody subject) throws Exception {
+                        JSONObject jsonObject = new JSONObject(new Gson().toJson(subject));
+                        return new SendPushUseCase(jsonObject).getUseCase();
+                    }
+                });
+        subscribeWith(sendMessageSingle, new DisposableSingleObserver<Object>() {
+            @Override
+            public void onSuccess(@NonNull Object response) {
+                getUi().onDismissConversation();
             }
 
             @Override

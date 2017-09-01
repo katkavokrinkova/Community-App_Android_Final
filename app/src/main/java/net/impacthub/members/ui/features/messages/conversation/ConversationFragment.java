@@ -58,7 +58,7 @@ public class ConversationFragment extends BaseChildFragment<ConversationUiPresen
 
     private String mConversationID;
     private ConversationListAdapter mAdapter;
-    private String mInReplyTo = "";
+    private String mInReplyTo;
 
     public static ConversationFragment newInstance(ConversationVO model) {
         
@@ -98,8 +98,7 @@ public class ConversationFragment extends BaseChildFragment<ConversationUiPresen
         mAdapter = new ConversationListAdapter(getLayoutInflater(getArguments()));
         mMessageList.setAdapter(mAdapter);
 
-        ConversationUiPresenter presenter = getPresenter();
-        presenter.getMessageConversations(mConversationID);
+        getPresenter().getMessageConversations(mConversationID);
     }
 
     private void sendMessage(String message) {
@@ -109,7 +108,11 @@ public class ConversationFragment extends BaseChildFragment<ConversationUiPresen
 
         PushBody pushQuery = new PushBody(fromUserId, toUserIds, pushType, mConversationID);
 
-        getPresenter().sendMessage(mConversationID, pushQuery, message, mInReplyTo);
+        if (mInReplyTo != null && !mInReplyTo.isEmpty()) {
+            getPresenter().sendMessage(mConversationID, pushQuery, message, mInReplyTo);
+        } else {
+            getPresenter().sendMessageByUserId(pushQuery, message, toUserIds);
+        }
     }
 
     @Override
@@ -139,5 +142,10 @@ public class ConversationFragment extends BaseChildFragment<ConversationUiPresen
     @Override
     public void onClearTextField() {
         mMessageField.setText(null);
+    }
+
+    @Override
+    public void onDismissConversation() {
+        popChildFragment();
     }
 }

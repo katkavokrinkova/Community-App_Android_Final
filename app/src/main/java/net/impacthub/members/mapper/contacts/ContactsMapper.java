@@ -15,6 +15,7 @@ import net.impacthub.members.model.features.contacts.ContactsResponse;
 import net.impacthub.members.model.features.contacts.Records;
 import net.impacthub.members.model.vo.contacts.ContactsWrapper;
 import net.impacthub.members.model.vo.contacts.ContactVO;
+import net.impacthub.members.model.vo.members.MemberStatus;
 import net.impacthub.members.model.vo.members.MemberVO;
 
 import java.util.HashMap;
@@ -49,17 +50,25 @@ public class ContactsMapper {
 
                     if ("Approved".equalsIgnoreCase(status)) {
                         if (contactId.equals(contactTo__c)) {
-                            contactVO.mMember = memberVOMap.get(contactFrom__c);
+                            MemberVO memberVO = memberVOMap.get(contactFrom__c);
+                            memberVO.mMemberStatus = MemberStatus.APPROVED;
+                            contactVO.mMember = memberVO;
                         } else {
-                            contactVO.mMember = memberVOMap.get(contactTo__c);
+                            MemberVO memberVO = memberVOMap.get(contactTo__c);
+                            memberVO.mMemberStatus = MemberStatus.APPROVED;
+                            contactVO.mMember = memberVO;
                         }
                         contactsWrapper.getApprovedContacts().add(contactVO);
                     } else if ("Declined".equalsIgnoreCase(status) && contactId.equals(contactTo__c)) {
-                        contactVO.mMember = memberVOMap.get(contactFrom__c);
+                        MemberVO memberVO = memberVOMap.get(contactFrom__c);
+                        memberVO.mMemberStatus = MemberStatus.DECLINED;
+                        contactVO.mMember = memberVO;
                         contactsWrapper.getDeclinedContacts().add(contactVO);
                     } else if ("Outstanding".equalsIgnoreCase(status) && contactId.equals(contactTo__c)) {
                         contactVO.mIntroMessage = record.getIntroduction_Message__c();
-                        contactVO.mMember = memberVOMap.get(contactFrom__c);
+                        MemberVO memberVO = memberVOMap.get(contactFrom__c);
+                        memberVO.mMemberStatus = MemberStatus.OUTSTANDING;
+                        contactVO.mMember = memberVO;
                         contactsWrapper.getOutstandingContacts().add(contactVO);
                     }
                 }

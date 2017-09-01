@@ -9,22 +9,21 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.presenter.features.messages;
-
-import net.impacthub.members.model.features.conversations.ProcessedMessages;
-import net.impacthub.members.presenter.features.error.ErrorHandlerUiContract;
+package net.impacthub.members.model.vo.conversations;
 
 /**
  * @author Filippo Ash
  * @version 1.0
- * @date 8/18/2017.
+ * @date 9/1/2017.
  */
 
-public interface ConversationUiContract extends ErrorHandlerUiContract {
+public class MessageByUserIdBody {
 
-    void onLoadMessages(ProcessedMessages processedMessages);
+    private final String body;
+    private final String[] recipients;
 
-    void onClearTextField();
-
-    void onDismissConversation();
+    public MessageByUserIdBody(String body, String[] recipients) {
+        this.body = body;
+        this.recipients = recipients;
+    }
 }
