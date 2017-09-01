@@ -143,6 +143,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/item_text_top_margin"
+                                android:maxLines="1"
+                                android:ellipsize="end"
                                 android:textColor="@color/greyish_brown"
                                 android:textSize="12sp"
                                 app:typeface="fonts/gt-walsheim-light-web.ttf"
@@ -204,7 +206,7 @@
                             android:textColor="@color/greyish_brown"
                             android:textSize="12sp"
                             app:typeface="fonts/gt-walsheim-light-web.ttf"
-                            tools:text="5PM-7PM" />
+                            tools:text="18:00" />
 
                     </LinearLayout>
                 </LinearLayout>

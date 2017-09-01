@@ -59,11 +59,12 @@ public class EventDetailFragment extends BaseChildFragment<EventdetailUiPresente
     private static final String EXTRA_EVENT_DESCRIPTION = "net.impacthub.members.ui.features.home.events.EXTRA_EVENT_DESCRIPTION";
     private static final String EXTRA_EVENT_TYPE = "net.impacthub.members.ui.features.home.events.EXTRA_EVENT_TYPE";
     private static final String EXTRA_EVENT_TIME = "net.impacthub.members.ui.features.home.events.EXTRA_EVENT_TIME";
+    private static final String EXTRA_EVENT_TIME_FROM_TO = "net.impacthub.members.ui.features.home.events.EXTRA_EVENT_TIME_FROM_TO";
     private static final String EXTRA_EVENT_SUB_TYPE = "net.impacthub.members.ui.features.home.events.EXTRA_EVENT_SUB_TYPE";
     private static final String EXTRA_EVENT_DATE = "net.impacthub.members.ui.features.home.events.EXTRA_EVENT_DATE";
     private static final String EXTRA_EVENT_COUNTRY = "net.impacthub.members.ui.features.home.events.EXTRA_EVENT_COUNTRY";
     private static final String EXTRA_EVENT_CITY = "net.impacthub.members.ui.features.home.events.EXTRA_EVENT_CITY";
-    private static final String EXTRA_EVENT_ZIPCODE = "net.impacthub.members.ui.features.home.events.EXTRA_EVENT_ZIPCODE";
+    private static final String EXTRA_EVENT_ZIP_CODE = "net.impacthub.members.ui.features.home.events.EXTRA_EVENT_ZIP_CODE";
     private static final String EXTRA_EVENT_STREET = "net.impacthub.members.ui.features.home.events.EXTRA_EVENT_STREET";
     private static final String EXTRA_EVENT_REGISTERED_LINK = "net.impacthub.members.ui.features.home.events.EXTRA_EVENT_REGISTERED_LINK";
     private static final String EXTRA_EVENT_VISIBILITY_PRICE = "net.impacthub.members.ui.features.home.events.EXTRA_EVENT_VISIBILITY_PRICE";
@@ -95,11 +96,12 @@ public class EventDetailFragment extends BaseChildFragment<EventdetailUiPresente
         args.putString(EXTRA_EVENT_DESCRIPTION, model.mDescription);
         args.putString(EXTRA_EVENT_TYPE, model.mType);
         args.putString(EXTRA_EVENT_TIME, model.mTime);
+        args.putString(EXTRA_EVENT_TIME_FROM_TO, model.mTimeFromTo);
         args.putString(EXTRA_EVENT_SUB_TYPE, model.mSubType);
         args.putString(EXTRA_EVENT_DATE, model.mDate);
         args.putString(EXTRA_EVENT_COUNTRY, model.mCountry);
         args.putString(EXTRA_EVENT_CITY, model.mCity);
-        args.putString(EXTRA_EVENT_ZIPCODE, model.mZipCode);
+        args.putString(EXTRA_EVENT_ZIP_CODE, model.mZipCode);
         args.putString(EXTRA_EVENT_STREET, model.mStreet);
         args.putString(EXTRA_EVENT_REGISTERED_LINK, model.mRegisteredLink);
         args.putString(EXTRA_EVENT_VISIBILITY_PRICE, model.mVisibilityPrice);
@@ -118,9 +120,14 @@ public class EventDetailFragment extends BaseChildFragment<EventdetailUiPresente
         return R.layout.fragment_detail_event;
     }
 
-    @OnClick(R.id.done)
-    protected void onApplyClicked() {
+    @OnClick(R.id.text_event_visit_website)
+    protected void onVisitWebsiteClicked() {
         Navigator.startOtherWebActivity(getContext(), getArguments().getString(EXTRA_EVENT_REGISTERED_LINK));
+    }
+
+    @OnClick(R.id.done)
+    protected void onAttendUnattendClicked() {
+        showToast("Attending...Unattenting");
     }
 
     @Override
@@ -137,7 +144,7 @@ public class EventDetailFragment extends BaseChildFragment<EventdetailUiPresente
         mEventLocation.setText(arguments.getString(EXTRA_EVENT_CITY));
         mEventName.setText(arguments.getString(EXTRA_EVENT_SUB_TYPE));
         mEventDate.setText(arguments.getString(EXTRA_EVENT_DATE));
-        mEventTime.setText(arguments.getString(EXTRA_EVENT_TIME));
+        mEventTime.setText(arguments.getString(EXTRA_EVENT_TIME_FROM_TO));
         mEventeType.setText(arguments.getString(EXTRA_EVENT_TYPE));
         mEventPrice.setText(arguments.getString(EXTRA_EVENT_VISIBILITY_PRICE));
         mEventDescription.setText(arguments.getString(EXTRA_EVENT_DESCRIPTION));
@@ -179,7 +186,7 @@ public class EventDetailFragment extends BaseChildFragment<EventdetailUiPresente
         uiSettings.setZoomGesturesEnabled(true);
         uiSettings.setCompassEnabled(true);
 
-        String zipCode = getArguments().getString(EXTRA_EVENT_ZIPCODE);
+        String zipCode = getArguments().getString(EXTRA_EVENT_ZIP_CODE);
         String city = getArguments().getString(EXTRA_EVENT_CITY);
         String country = getArguments().getString(EXTRA_EVENT_COUNTRY);
 

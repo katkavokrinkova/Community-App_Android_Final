@@ -102,7 +102,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:orientation="horizontal"
-                    android:padding="8dp">
+                    android:padding="8dp"
+                    android:baselineAligned="false">
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -126,7 +127,7 @@
                             android:ellipsize="end"
                             android:maxLines="1"
                             android:paddingTop="2dp"
-                            android:text="London, UK"
+                            tools:text="London, UK"
                             android:textColor="@color/warm_grey_2"
                             android:textSize="12sp"
                             app:typeface="fonts/gt-walsheim-light-web.ttf" />
@@ -290,6 +291,35 @@
                             app:typeface="fonts/gt-walsheim-light-web.ttf" />
 
                     </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/item_text_top_margin"
+                        android:contentDescription="@string/locations"
+                        android:src="@mipmap/ic_desktop" />
+
+                    <net.impacthub.members.ui.widgets.TypefaceTextView
+                        android:id="@+id/text_event_visit_website"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="@dimen/item_text_top_margin"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="Visit website"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="14sp"
+                        app:typeface="fonts/gt-walsheim-light-web.ttf" />
 
                 </LinearLayout>
 

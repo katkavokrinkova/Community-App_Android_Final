@@ -25,6 +25,7 @@ public class EventVO {
     public String mCity;
     public String mDate;
     public String mTime;
+    public String mTimeFromTo;
     public String mOrganizerName;
     public String mRegisteredLink;
     public String mType;

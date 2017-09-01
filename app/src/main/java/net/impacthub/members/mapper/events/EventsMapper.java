@@ -51,9 +51,14 @@ public class EventsMapper {
                         eventDTO.mVisibilityPrice = record.getEvent_Visibility__c();
 
                         try {
-                            Date date = DateUtils.getDate(DateUtils.ISO_8601_FORMAT_1, record.getEvent_Start_DateTime__c());
-                            eventDTO.mDate = DateUtils.getStringFromDate(date, DateUtils.DAY_MONTH_YEAR_FORMAT);
-                            eventDTO.mTime = DateUtils.getStringFromDate(date, DateUtils.TIME_FORMAT_24_HOUR);
+                            Date startDate = DateUtils.getDate(DateUtils.ISO_8601_FORMAT_1, record.getEvent_Start_DateTime__c());
+                            Date endDate = DateUtils.getDate(DateUtils.ISO_8601_FORMAT_1, record.getEvent_End_DateTime__c());
+
+                            eventDTO.mDate = DateUtils.getStringFromDate(startDate, DateUtils.DAY_MONTH_YEAR_FORMAT);
+
+                            String startTime = DateUtils.getStringFromDate(startDate, DateUtils.TIME_FORMAT_24_HOUR);
+                            eventDTO.mTime = startTime;
+                            eventDTO.mTimeFromTo = startTime + " - "+  DateUtils.getStringFromDate(endDate, DateUtils.TIME_FORMAT_24_HOUR) ;
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
