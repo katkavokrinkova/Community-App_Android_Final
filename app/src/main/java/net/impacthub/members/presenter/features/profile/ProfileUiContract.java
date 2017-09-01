@@ -23,4 +23,6 @@ import net.impacthub.members.presenter.features.error.ErrorHandlerUiContract;
 public interface ProfileUiContract extends ErrorHandlerUiContract {
 
     void onLoadCurrentMemberProfile(MemberVO memberDTO);
+
+    void onStopRefreshing();
 }

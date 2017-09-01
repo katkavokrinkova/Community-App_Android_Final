@@ -2,6 +2,7 @@ package net.impacthub.members.ui.features.profile;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 
 import com.salesforce.androidsdk.app.SalesforceSDKManager;
@@ -26,6 +27,7 @@ import butterknife.OnClick;
 
 public class ProfileFragment extends BaseChildFragment<ProfilePresenter> implements ProfileUiContract {
 
+    @BindView(R.id.swipe_to_refresh_layout) protected SwipeRefreshLayout mSwipeRefresh;
     @BindView(R.id.image_profile_avatar) protected CircleImageView mImageAvatar;
     @BindView(R.id.text_full_name) protected TypefaceTextView mTextFullName;
     @BindView(R.id.text_status_update) protected TypefaceTextView mTextStatusUpdate;
@@ -60,6 +62,12 @@ public class ProfileFragment extends BaseChildFragment<ProfilePresenter> impleme
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setUpToolbar(R.string.profile);
+        mSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getPresenter().getProfile();
+            }
+        });
         mLogoutButton.setText("Logout");
         getPresenter().getProfile();
     }
@@ -75,5 +83,10 @@ public class ProfileFragment extends BaseChildFragment<ProfilePresenter> impleme
 //        } else ViewUtils.gone(mTextStatusUpdate);
         mTextLocation.setText(memberDTO.mLocation);
         ImageLoaderHelper.loadImage(getActivity() , buildUrl(memberDTO.mProfilePicURL), mImageAvatar);
+    }
+
+    @Override
+    public void onStopRefreshing() {
+        mSwipeRefresh.setRefreshing(false);
     }
 }

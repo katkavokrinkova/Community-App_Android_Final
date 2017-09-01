@@ -39,11 +39,13 @@ public class ProfilePresenter extends UiPresenter<ProfileUiContract> {
             @Override
             public void onSuccess(@NonNull MemberVO memberVO) {
                 getUi().onLoadCurrentMemberProfile(memberVO);
+                getUi().onStopRefreshing();
             }
 
             @Override
             public void onError(@NonNull Throwable e) {
                 getUi().onError(e);
+                getUi().onStopRefreshing();
             }
         });
     }
