@@ -12,10 +12,12 @@
 package net.impacthub.members.presenter.features.notifcations;
 
 import net.impacthub.members.mapper.notifications.NotificationMapper;
+import net.impacthub.members.model.vo.members.MemberVO;
 import net.impacthub.members.model.vo.notifications.NotificationVO;
 import net.impacthub.members.model.features.notifications.NotificationResponse;
 import net.impacthub.members.presenter.base.UiPresenter;
 import net.impacthub.members.usecase.base.UseCaseGenerator;
+import net.impacthub.members.usecase.features.members.GetMemberByUserIdUseCase;
 import net.impacthub.members.usecase.features.notifications.NotificationsUseCase;
 
 import java.util.List;
@@ -49,6 +51,23 @@ public class NotificationsPresenter extends UiPresenter<NotificationsUiContract>
             @Override
             public void onError(@NonNull Throwable e) {
                 getUi().onError(e);
+            }
+        });
+    }
+
+    public void getMemberBy(String id) {
+        getUi().onShowProgressBar(true);
+        subscribeWith(new GetMemberByUserIdUseCase(id).getUseCase(), new DisposableSingleObserver<MemberVO>() {
+            @Override
+            public void onSuccess(@NonNull MemberVO memberVO) {
+                getUi().onLoadMember(memberVO);
+                getUi().onShowProgressBar(false);
+            }
+
+            @Override
+            public void onError(@NonNull Throwable e) {
+                getUi().onError(e);
+                getUi().onShowProgressBar(false);
             }
         });
     }

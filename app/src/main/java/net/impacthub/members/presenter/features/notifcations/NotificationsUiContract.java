@@ -11,6 +11,7 @@
 
 package net.impacthub.members.presenter.features.notifcations;
 
+import net.impacthub.members.model.vo.members.MemberVO;
 import net.impacthub.members.model.vo.notifications.NotificationVO;
 import net.impacthub.members.presenter.features.error.ErrorHandlerUiContract;
 
@@ -25,4 +26,6 @@ import java.util.List;
 public interface NotificationsUiContract extends ErrorHandlerUiContract {
 
     void onLoadNotifications(List<NotificationVO> notificationDTOList);
+
+    void onLoadMember(MemberVO memberVO);
 }

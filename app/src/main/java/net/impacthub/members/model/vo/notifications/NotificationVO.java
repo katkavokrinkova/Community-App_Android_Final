@@ -20,6 +20,7 @@ package net.impacthub.members.model.vo.notifications;
 public class NotificationVO {
 
     public String mMessage;
+    public String mId;
     public String mConversationId;
     public String mRecipientUserId;
     public String mDisplayName;

@@ -8,10 +8,12 @@ import android.view.View;
 import net.impacthub.members.R;
 import net.impacthub.members.model.callback.OnListItemClickListener;
 import net.impacthub.members.model.vo.conversations.ConversationVO;
+import net.impacthub.members.model.vo.members.MemberVO;
 import net.impacthub.members.model.vo.notifications.NotificationVO;
 import net.impacthub.members.presenter.features.notifcations.NotificationsPresenter;
 import net.impacthub.members.presenter.features.notifcations.NotificationsUiContract;
 import net.impacthub.members.ui.base.BaseChildFragment;
+import net.impacthub.members.ui.features.home.members.MemberDetailFragment;
 import net.impacthub.members.ui.features.messages.conversation.ConversationFragment;
 
 import java.util.List;
@@ -67,6 +69,10 @@ public class NotificationFragment extends BaseChildFragment<NotificationsPresent
                         conversationVO.mImageURL = model.mProfilePicUrl;
                         addChildFragment(ConversationFragment.newInstance(conversationVO), "FRAG_MESSAGE_THREAD");
                         break;
+                    case TYPE_DM_REQUEST_APPROVED:
+                    case TYPE_DM_REQUEST_SENT:
+                        getPresenter().getMemberBy(model.mRecipientUserId);
+                        break;
                     default:
                         showToast("Opening notification... needs implementation!");
                 }
@@ -86,5 +92,10 @@ public class NotificationFragment extends BaseChildFragment<NotificationsPresent
     @Override
     public void onLoadNotifications(List<NotificationVO> notificationDTOList) {
         mAdapter.setItems(notificationDTOList);
+    }
+
+    @Override
+    public void onLoadMember(MemberVO memberVO) {
+        addChildFragment(MemberDetailFragment.newInstance(memberVO), "FRAG_MEMBER_DETAIL");
     }
 }

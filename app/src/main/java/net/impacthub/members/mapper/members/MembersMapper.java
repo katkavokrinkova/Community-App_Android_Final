@@ -58,10 +58,10 @@ public class MembersMapper {
         return memberDTOs;
     }
 
-    public MemberVO map(MembersResponse profileResponse) {
+    public MemberVO map(MembersResponse membersResponse) {
         MemberVO memberDTO = new MemberVO();
-        if (profileResponse != null) {
-            Records[] records = profileResponse.getRecords();
+        if (membersResponse != null) {
+            Records[] records = membersResponse.getRecords();
             if (records != null && records.length > 0) {
                 Records record = records[0];
                 if (record != null) {
@@ -190,41 +190,56 @@ public class MembersMapper {
             if (records != null && records.length > 0) {
                 Map<String, MemberVO> memberVOMap = mapListAsMapWithId(memberVOs);
                 memberVOMap.remove(contactId);
-
-                for (net.impacthub.members.model.features.contacts.Records record : records) {
-
-                    String contactTo__c = record.getContactTo__c();
-                    String contactFrom__c = record.getContactFrom__c();
-
-                    String status = record.getStatus__c();
-
-                    int memberStatus = MemberStatus.NOT_CONTACTED;
-
-                    if ("Approved".equalsIgnoreCase(status)) {
-                        memberStatus = MemberStatus.APPROVED;
-                    } else if ("Declined".equalsIgnoreCase(status)) {
-                        memberStatus = MemberStatus.DECLINED;
-                    } else if ("Outstanding".equalsIgnoreCase(status)) {
-                        if (contactId.equals(contactTo__c)) {
-                            memberStatus = MemberStatus.APPROVE_DECLINE_BY_ME;
-                        } else {
-                            memberStatus = MemberStatus.OUTSTANDING;
-                        }
-                    }
-
-                    if(memberVOMap.containsKey(contactTo__c)) {
-                        MemberVO memberVO = memberVOMap.get(contactTo__c);
-                        memberVO.mMemberStatus = memberStatus;
-                        memberVO.mDM_ID = record.getId();
-                    } else if(memberVOMap.containsKey(contactFrom__c)) {
-                        MemberVO memberVO = memberVOMap.get(contactFrom__c);
-                        memberVO.mMemberStatus = memberStatus;
-                        memberVO.mDM_ID = record.getId();
-                    }
-                }
+                mapMemberContact(contactId, records, memberVOMap);
                 memberVOList.addAll(memberVOMap.values());
             }
         }
         return memberVOList;
+    }
+
+    private void mapMemberContact(String contactId, net.impacthub.members.model.features.contacts.Records[] records, Map<String, MemberVO> memberVOMap) {
+        for (net.impacthub.members.model.features.contacts.Records record : records) {
+
+            String contactTo__c = record.getContactTo__c();
+            String contactFrom__c = record.getContactFrom__c();
+
+            String status = record.getStatus__c();
+
+            int memberStatus = MemberStatus.NOT_CONTACTED;
+
+            if ("Approved".equalsIgnoreCase(status)) {
+                memberStatus = MemberStatus.APPROVED;
+            } else if ("Declined".equalsIgnoreCase(status)) {
+                memberStatus = MemberStatus.DECLINED;
+            } else if ("Outstanding".equalsIgnoreCase(status)) {
+                if (contactId.equals(contactTo__c)) {
+                    memberStatus = MemberStatus.APPROVE_DECLINE_BY_ME;
+                } else {
+                    memberStatus = MemberStatus.OUTSTANDING;
+                }
+            }
+
+            if (memberVOMap.containsKey(contactTo__c)) {
+                MemberVO memberVO = memberVOMap.get(contactTo__c);
+                memberVO.mMemberStatus = memberStatus;
+                memberVO.mDM_ID = record.getId();
+            } else if (memberVOMap.containsKey(contactFrom__c)) {
+                MemberVO memberVO = memberVOMap.get(contactFrom__c);
+                memberVO.mMemberStatus = memberStatus;
+                memberVO.mDM_ID = record.getId();
+            }
+        }
+    }
+
+    public MemberVO mapMemberContact(ContactsResponse contactsResponse, MembersResponse membersResponse, String subject) {
+        MemberVO memberVO = map(membersResponse);
+        if (contactsResponse != null) {
+            Map<String, MemberVO> map = new HashMap<>();
+            String userContactId = memberVO.mContactId;
+            map.put(userContactId, memberVO);
+            mapMemberContact(subject, contactsResponse.getRecords(), map);
+            memberVO = map.get(userContactId);
+        }
+        return memberVO;
     }
 }
