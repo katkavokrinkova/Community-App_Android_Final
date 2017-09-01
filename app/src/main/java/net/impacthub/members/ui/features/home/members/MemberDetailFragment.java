@@ -164,18 +164,18 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mToolbar.inflateMenu(R.menu.menu_member_connect);
-        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.actionRequestContact:
-                        showToast("Request Contact!");
-                        return true;
-                }
-                return false;
-            }
-        });
+//        mToolbar.inflateMenu(R.menu.menu_member_connect);
+//        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+//            @Override
+//            public boolean onMenuItemClick(MenuItem item) {
+//                switch (item.getItemId()) {
+//                    case R.id.actionRequestContact:
+//                        showToast("Request Contact!");
+//                        return true;
+//                }
+//                return false;
+//            }
+//        });
 
         mAppBar.addOnOffsetChangedListener(mOffsetChangeListenerAdapter);
 
@@ -332,12 +332,12 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
     private final SimpleOffsetChangeListenerAdapter mOffsetChangeListenerAdapter = new SimpleOffsetChangeListenerAdapter(){
         @Override
         protected void onExpanded(int verticalOffset) {
-            mToolbar.getMenu().findItem(R.id.actionRequestContact).setVisible(false);
+            //mToolbar.getMenu().findItem(R.id.actionRequestContact).setVisible(false);
         }
 
         @Override
         protected void onCollapsed(int verticalOffset) {
-            mToolbar.getMenu().findItem(R.id.actionRequestContact).setVisible(true);
+            //mToolbar.getMenu().findItem(R.id.actionRequestContact).setVisible(true);
         }
     };
 }
