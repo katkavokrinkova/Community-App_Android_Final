@@ -19,8 +19,10 @@ package net.impacthub.members.model.vo.events;
 
 public class EventVO {
 
-    public String mImageURL;
+    public String mId;
     public String mName;
+    public String mImageURL;
+    public boolean mAttending;
     public String mDescription;
     public String mCity;
     public String mDate;

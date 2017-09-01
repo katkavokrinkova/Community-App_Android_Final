@@ -36,8 +36,8 @@ import net.impacthub.members.R;
 import net.impacthub.members.model.vo.events.EventVO;
 import net.impacthub.members.model.vo.location.LocationVO;
 import net.impacthub.members.navigator.Navigator;
-import net.impacthub.members.presenter.features.events.EventdetailUiContract;
-import net.impacthub.members.presenter.features.events.EventdetailUiPresenter;
+import net.impacthub.members.presenter.features.events.EventDetailUiContract;
+import net.impacthub.members.presenter.features.events.EventDetailUiPresenter;
 import net.impacthub.members.ui.base.BaseChildFragment;
 import net.impacthub.members.ui.common.AbstractOnMarkerClickListener;
 import net.impacthub.members.ui.common.ImageLoaderHelper;
@@ -51,8 +51,9 @@ import butterknife.OnClick;
  * @date 8/15/2017.
  */
 
-public class EventDetailFragment extends BaseChildFragment<EventdetailUiPresenter> implements OnMapReadyCallback, EventdetailUiContract {
+public class EventDetailFragment extends BaseChildFragment<EventDetailUiPresenter> implements OnMapReadyCallback, EventDetailUiContract {
 
+    private static final String EXTRA_EVENT_ID = "net.impacthub.members.ui.features.home.events.EXTRA_EVENT_ID";
     private static final String EXTRA_EVENT_NAME = "net.impacthub.members.ui.features.home.events.EXTRA_EVENT_NAME";
     private static final String EXTRA_EVENT_ORGANIZATION_NAME = "net.impacthub.members.ui.features.home.events.EXTRA_EVENT_ORGANIZATION_NAME";
     private static final String EXTRA_IMAGE_URL = "net.impacthub.members.ui.features.home.events.EXTRA_IMAGE_URL";
@@ -68,6 +69,7 @@ public class EventDetailFragment extends BaseChildFragment<EventdetailUiPresente
     private static final String EXTRA_EVENT_STREET = "net.impacthub.members.ui.features.home.events.EXTRA_EVENT_STREET";
     private static final String EXTRA_EVENT_REGISTERED_LINK = "net.impacthub.members.ui.features.home.events.EXTRA_EVENT_REGISTERED_LINK";
     private static final String EXTRA_EVENT_VISIBILITY_PRICE = "net.impacthub.members.ui.features.home.events.EXTRA_EVENT_VISIBILITY_PRICE";
+    private static final String EXTRA_EVENT_ATTENDING = "net.impacthub.members.ui.features.home.events.EXTRA_EVENT_ATTENDING";
 
     @BindView(R.id.scrollview_parent) protected NestedScrollView mScroll;
     @BindView(R.id.image_header) protected ImageView mHeaderImage;
@@ -83,13 +85,17 @@ public class EventDetailFragment extends BaseChildFragment<EventdetailUiPresente
     @BindView(R.id.text_event_price) protected TextView mEventPrice;
     @BindView(R.id.text_event_description) protected TextView mEventDescription;
 
-    @BindView(R.id.done) protected TextView mAttendButton;
+    @BindView(R.id.done) protected TextView mAttendUnattentEventButton;
 
     private GoogleMap mGoogleMap;
+    private String mEventId;
+    private String mWebsiteLink;
+    private boolean mAttendingEvent;
 
     public static EventDetailFragment newInstance(EventVO model) {
 
         Bundle args = new Bundle();
+        args.putString(EXTRA_EVENT_ID, model.mId);
         args.putString(EXTRA_EVENT_NAME, model.mName);
         args.putString(EXTRA_EVENT_ORGANIZATION_NAME, model.mOrganizerName);
         args.putString(EXTRA_IMAGE_URL, model.mImageURL);
@@ -105,14 +111,15 @@ public class EventDetailFragment extends BaseChildFragment<EventdetailUiPresente
         args.putString(EXTRA_EVENT_STREET, model.mStreet);
         args.putString(EXTRA_EVENT_REGISTERED_LINK, model.mRegisteredLink);
         args.putString(EXTRA_EVENT_VISIBILITY_PRICE, model.mVisibilityPrice);
+        args.putBoolean(EXTRA_EVENT_ATTENDING, model.mAttending);
         EventDetailFragment fragment = new EventDetailFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
     @Override
-    protected EventdetailUiPresenter onCreatePresenter() {
-        return new EventdetailUiPresenter(this);
+    protected EventDetailUiPresenter onCreatePresenter() {
+        return new EventDetailUiPresenter(this);
     }
 
     @Override
@@ -122,22 +129,30 @@ public class EventDetailFragment extends BaseChildFragment<EventdetailUiPresente
 
     @OnClick(R.id.text_event_visit_website)
     protected void onVisitWebsiteClicked() {
-        Navigator.startOtherWebActivity(getContext(), getArguments().getString(EXTRA_EVENT_REGISTERED_LINK));
+        Navigator.startOtherWebActivity(getContext(), mWebsiteLink);
     }
 
     @OnClick(R.id.done)
     protected void onAttendUnattendClicked() {
-        showToast("Attending...Unattenting");
+        mAttendUnattentEventButton.setClickable(false);
+        if (mAttendingEvent) {
+            getPresenter().unattendEvent(mEventId);
+        } else {
+            getPresenter().attendEvent(mEventId);
+        }
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setUpToolbar(R.string.label_events);
-        mAttendButton.setText("Attend Event");
 
         Bundle arguments = getArguments();
+        mAttendingEvent = arguments.getBoolean(EXTRA_EVENT_ATTENDING, false);
+        handleButtonLabel();
 
+        mEventId = arguments.getString(EXTRA_EVENT_ID);
+        mWebsiteLink = arguments.getString(EXTRA_EVENT_REGISTERED_LINK);
         mEventTitle.setText(arguments.getString(EXTRA_EVENT_NAME));
 
         mEventDescriptionTitle.setText("DESCRIPTION");
@@ -217,5 +232,24 @@ public class EventDetailFragment extends BaseChildFragment<EventdetailUiPresente
                 return true;
             }
         });
+    }
+
+    @Override
+    public void onSetButtonClickable() {
+        mAttendUnattentEventButton.setClickable(true);
+    }
+
+    @Override
+    public void onUpdateAttendEventButtonLabel(boolean attending) {
+        mAttendingEvent = attending;
+        handleButtonLabel();
+    }
+
+    private void handleButtonLabel() {
+        if(mAttendingEvent) {
+            mAttendUnattentEventButton.setText("Unattend Event");
+        } else {
+            mAttendUnattentEventButton.setText("Attend Event");
+        }
     }
 }

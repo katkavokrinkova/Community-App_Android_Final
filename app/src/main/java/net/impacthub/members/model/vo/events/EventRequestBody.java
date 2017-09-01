@@ -9,18 +9,21 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.presenter.features.events;
-
-import net.impacthub.members.model.vo.location.LocationVO;
-import net.impacthub.members.presenter.features.error.ErrorHandlerUiContract;
+package net.impacthub.members.model.vo.events;
 
 /**
  * @author Filippo Ash
  * @version 1.0
- * @date 8/23/2017.
+ * @date 9/1/2017.
  */
 
-public interface EventdetailUiContract extends ErrorHandlerUiContract {
+public class EventRequestBody {
 
-    void onLoadLocation(LocationVO locationVO);
+    private final String contactId;
+    private final String eventId;
+
+    public EventRequestBody(String contactId, String eventId) {
+        this.contactId = contactId;
+        this.eventId = eventId;
+    }
 }

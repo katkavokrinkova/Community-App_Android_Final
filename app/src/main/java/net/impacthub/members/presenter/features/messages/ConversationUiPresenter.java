@@ -50,19 +50,19 @@ public class ConversationUiPresenter extends UiPresenter<ConversationUiContract>
     }
 
     public void getMessageConversations(String conversationID) {
-        getUi().onChangeStatus(true);
+        getUi().onShowProgressBar(true);
         Single<ProcessedMessages> messagesSingle = new GetProcessedMessagesUseCase(conversationID).getUseCase();
         subscribeWith(messagesSingle, new DisposableSingleObserver<ProcessedMessages>() {
             @Override
             public void onSuccess(@NonNull ProcessedMessages processedMessages) {
-                getUi().onChangeStatus(false);
+                getUi().onShowProgressBar(false);
                 getUi().onLoadMessages(processedMessages);
             }
 
             @Override
             public void onError(@NonNull Throwable e) {
                 //getUi().onError(e);
-                getUi().onChangeStatus(false);
+                getUi().onShowProgressBar(false);
             }
         });
     }

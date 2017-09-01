@@ -40,7 +40,7 @@ public class JobsUiPresenter extends UiPresenter<JobsUiContract> {
     }
 
     public void getJobs() {
-        getUi().onChangeStatus(true);
+        getUi().onShowProgressBar(true);
         Single<List<JobVO>> jobsSingle = mJobsUseCase.getUseCase()
                 .map(new Function<JobsResponse, List<JobVO>>() {
                     @Override
@@ -52,13 +52,13 @@ public class JobsUiPresenter extends UiPresenter<JobsUiContract> {
             @Override
             public void onSuccess(@NonNull List<JobVO> jobVOs) {
                 getUi().onLoadJobs(jobVOs);
-                getUi().onChangeStatus(false);
+                getUi().onShowProgressBar(false);
             }
 
             @Override
             public void onError(@NonNull Throwable e) {
                 getUi().onError(e);
-                getUi().onChangeStatus(false);
+                getUi().onShowProgressBar(false);
             }
         });
     }

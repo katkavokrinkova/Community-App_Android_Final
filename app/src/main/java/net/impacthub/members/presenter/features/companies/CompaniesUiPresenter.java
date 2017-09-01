@@ -40,7 +40,7 @@ public class CompaniesUiPresenter extends UiPresenter<CompaniesUiContract> {
     }
 
     public void getCompanies() {
-        getUi().onChangeStatus(true);
+        getUi().onShowProgressBar(true);
         Single<List<CompanyVO>> companiesSingle = mCompaniesUseCase.getUseCase()
                 .map(new Function<CompaniesResponse, List<CompanyVO>>() {
                     @Override
@@ -52,13 +52,13 @@ public class CompaniesUiPresenter extends UiPresenter<CompaniesUiContract> {
             @Override
             public void onSuccess(@NonNull List<CompanyVO> companyVOs) {
                 getUi().onLoadCompanies(companyVOs);
-                getUi().onChangeStatus(false);
+                getUi().onShowProgressBar(false);
             }
 
             @Override
             public void onError(@NonNull Throwable e) {
                 getUi().onError(e);
-                getUi().onChangeStatus(false);
+                getUi().onShowProgressBar(false);
             }
         });
     }

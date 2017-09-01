@@ -40,7 +40,7 @@ public class GoalsUiPresenter extends UiPresenter<GoalsUiContract> {
     }
 
     public void getGoals() {
-        getUi().onChangeStatus(true);
+        getUi().onShowProgressBar(true);
         Single<List<GoalVO>> goalsSingle = mGoalsUseCase.getUseCase()
                 .map(new Function<GoalsResponse, List<GoalVO>>() {
                     @Override
@@ -52,13 +52,13 @@ public class GoalsUiPresenter extends UiPresenter<GoalsUiContract> {
             @Override
             public void onSuccess(@NonNull List<GoalVO> goalVOs) {
                 getUi().onLoadGoals(goalVOs);
-                getUi().onChangeStatus(false);
+                getUi().onShowProgressBar(false);
             }
 
             @Override
             public void onError(@NonNull Throwable e) {
                 getUi().onError(e);
-                getUi().onChangeStatus(false);
+                getUi().onShowProgressBar(false);
             }
         });
     }

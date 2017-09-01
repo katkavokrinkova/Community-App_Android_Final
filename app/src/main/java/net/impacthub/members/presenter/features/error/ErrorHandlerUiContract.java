@@ -10,7 +10,7 @@ import net.impacthub.members.presenter.base.UiContract;
 
 public interface ErrorHandlerUiContract extends UiContract {
 
-    void onChangeStatus(boolean showProgressBar);
+    void onShowProgressBar(boolean showProgressBar);
 
     void onError(Throwable throwable);
 }

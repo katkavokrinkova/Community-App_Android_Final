@@ -254,6 +254,18 @@ public class SoqlRequestFactory {
                 jsonObject);
     }
 
+    public RestRequest createAttendEventRequest(JSONObject jsonObject) {
+        return new RestRequest(RestRequest.RestMethod.POST,
+                "/services/apexrest/attendEvent/",
+                jsonObject);
+    }
+
+    public RestRequest createUnAttendEventRequest(JSONObject jsonObject) {
+        return new RestRequest(RestRequest.RestMethod.POST,
+                "/services/apexrest/unAttendEvent/",
+                jsonObject);
+    }
+
     public RestRequest createUpdateDMRequest(JSONObject jsonObject) {
         return new RestRequest(RestRequest.RestMethod.POST,
                 "/services/apexrest/UpdateDMRequest/",

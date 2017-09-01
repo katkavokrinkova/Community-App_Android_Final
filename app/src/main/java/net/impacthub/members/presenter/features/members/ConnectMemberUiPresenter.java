@@ -43,10 +43,10 @@ public class ConnectMemberUiPresenter extends UiPresenter<ConnectMemberUiContrac
     }
 
     public void connectMember(String contactID, String message) {
-        getUi().onChangeStatus(true);
+        getUi().onShowProgressBar(true);
         if (TextUtils.isEmpty(message)) {
             getUi().onError(new Throwable("Intro message should not be empty."));
-            getUi().onChangeStatus(false);
+            getUi().onShowProgressBar(false);
             return;
         }
 
@@ -63,14 +63,14 @@ public class ConnectMemberUiPresenter extends UiPresenter<ConnectMemberUiContrac
         subscribeWith(single, new DisposableSingleObserver<Object>() {
             @Override
             public void onSuccess(@NonNull Object o) {
-                getUi().onChangeStatus(false);
+                getUi().onShowProgressBar(false);
                 getUi().onDismissModal();
             }
 
             @Override
             public void onError(@NonNull Throwable e) {
                 getUi().onError(e);
-                getUi().onChangeStatus(false);
+                getUi().onShowProgressBar(false);
             }
         });
     }

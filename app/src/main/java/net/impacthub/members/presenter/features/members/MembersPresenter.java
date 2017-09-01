@@ -30,7 +30,7 @@ public class MembersPresenter extends UiPresenter<MembersUiContract> {
     }
 
     public void loadMembers() {
-        getUi().onChangeStatus(true);
+        getUi().onShowProgressBar(true);
 
         Single<List<MemberVO>> listSingle = new ProfileUseCase().getUseCase()
                 .flatMap(new Function<MemberVO, SingleSource<List<MemberVO>>>() {
@@ -54,13 +54,13 @@ public class MembersPresenter extends UiPresenter<MembersUiContract> {
             @Override
             public void onSuccess(@NonNull List<MemberVO> memberVOList) {
                 getUi().onLoadMembers(memberVOList);
-                getUi().onChangeStatus(false);
+                getUi().onShowProgressBar(false);
             }
 
             @Override
             public void onError(@NonNull Throwable e) {
                 getUi().onError(e);
-                getUi().onChangeStatus(false);
+                getUi().onShowProgressBar(false);
             }
         });
     }

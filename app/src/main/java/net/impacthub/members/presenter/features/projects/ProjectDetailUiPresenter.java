@@ -62,18 +62,18 @@ public class ProjectDetailUiPresenter extends UiPresenter<ProjectDetailUiContrac
                         return new ChatterMapper().map(chatterFeedResponse);
                     }
                 });
-        getUi().onChangeStatus(true);
+        getUi().onShowProgressBar(true);
         subscribeWith(chatterSingle, new DisposableSingleObserver<List<ChatterVO>>() {
             @Override
             public void onSuccess(@NonNull List<ChatterVO> chatterVOs) {
                 getUi().onLoadChatterFeed(chatterVOs);
-                getUi().onChangeStatus(false);
+                getUi().onShowProgressBar(false);
             }
 
             @Override
             public void onError(@NonNull Throwable e) {
                 getUi().onError(e);
-                getUi().onChangeStatus(false);
+                getUi().onShowProgressBar(false);
             }
         });
 

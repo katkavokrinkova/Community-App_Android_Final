@@ -52,18 +52,18 @@ public class ProjectsUiPresenter extends UiPresenter<ProjectsUiContract> {
                         return new ProjectMapper().map(projectResponse);
                     }
                 });
-        getUi().onChangeStatus(true);
+        getUi().onShowProgressBar(true);
         subscribeWith(allProjectsSingle, new DisposableSingleObserver<List<ProjectVO>>() {
             @Override
             public void onSuccess(@NonNull List<ProjectVO> projectVOs) {
                 getUi().onLoadAllProjects(projectVOs);
-                getUi().onChangeStatus(false);
+                getUi().onShowProgressBar(false);
             }
 
             @Override
             public void onError(@NonNull Throwable e) {
                 getUi().onError(e);
-                getUi().onChangeStatus(false);
+                getUi().onShowProgressBar(false);
             }
         });
 

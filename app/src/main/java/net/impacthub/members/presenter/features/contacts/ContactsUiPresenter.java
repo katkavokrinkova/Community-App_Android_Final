@@ -68,7 +68,7 @@ public class ContactsUiPresenter extends UiPresenter<ContactsUiContract> {
                         );
                     }
                 });
-        getUi().onChangeStatus(true);
+        getUi().onShowProgressBar(true);
         subscribeWith(listSingle, new DisposableSingleObserver<ContactsWrapper>() {
 
             @Override
@@ -76,13 +76,13 @@ public class ContactsUiPresenter extends UiPresenter<ContactsUiContract> {
                 getUi().onLoadApprovedContacts(contactsWrapper.getApprovedContacts());
                 getUi().onLoadOutstandingContacts(contactsWrapper.getOutstandingContacts());
                 getUi().onLoadDeclinedContacts(contactsWrapper.getDeclinedContacts());
-                getUi().onChangeStatus(false);
+                getUi().onShowProgressBar(false);
             }
 
             @Override
             public void onError(@NonNull Throwable e) {
                 getUi().onError(e);
-                getUi().onChangeStatus(false);
+                getUi().onShowProgressBar(false);
             }
         });
     }
