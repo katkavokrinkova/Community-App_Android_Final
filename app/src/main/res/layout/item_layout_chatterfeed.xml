@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="17dp">
+
+        <net.impacthub.members.ui.widgets.CircleImageView
+            android:id="@+id/member_image"
+            android:layout_width="@dimen/medium_image_thumbnail"
+            android:layout_height="@dimen/medium_image_thumbnail"
+            android:layout_marginEnd="@dimen/default_home_item_gap_margin"
+            android:contentDescription="@string/member"
+            android:src="@drawable/ic_fp_40px" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <net.impacthub.members.ui.widgets.TypefaceTextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:textColor="@color/greyish_brown"
+                android:textSize="14sp"
+                app:typeface="fonts/gt-walsheim-web.ttf"
+                tools:text="Jon J Jameson" />
+
+            <net.impacthub.members.ui.widgets.TypefaceTextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="7dp"
+                android:textColor="@color/warm_grey_2"
+                android:textSize="12sp"
+                app:typeface="fonts/gt-walsheim-light-web.ttf"
+                tools:text="4th July" />
+
+            <net.impacthub.members.ui.widgets.TypefaceTextView
+                android:id="@+id/comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/warm_grey_2"
+                android:textSize="14sp"
+                android:autoLink="all"
+                app:typeface="fonts/gt-walsheim-web.ttf"
+                tools:text="a b c d e f g a b c d e f g a b c d e f g a b c d e f g a b c d e f g a b c d e f g a b c d e f g a b c d e f g a b c d e f g " />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end">
+
+        <ImageView
+            android:id="@+id/like_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/locations"
+            android:paddingEnd="5dp"
+            android:paddingStart="5dp"
+            android:src="@drawable/like_selector" />
+
+        <net.impacthub.members.ui.widgets.TypefaceTextView
+            android:id="@+id/like_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="40dp"
+            android:textColor="@color/greyish_brown"
+            android:textSize="12sp"
+            app:typeface="fonts/gt-walsheim-web.ttf"
+            tools:text="123" />
+
+        <ImageView
+            android:id="@+id/comment_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/locations"
+            android:paddingEnd="5dp"
+            android:paddingStart="5dp"
+            android:src="@mipmap/comment_grey" />
+
+        <net.impacthub.members.ui.widgets.TypefaceTextView
+            android:id="@+id/comment_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="40dp"
+            android:textColor="@color/greyish_brown"
+            android:textSize="12sp"
+            app:typeface="fonts/gt-walsheim-web.ttf"
+            tools:text="456" />
+
+    </LinearLayout>
+
+</LinearLayout>

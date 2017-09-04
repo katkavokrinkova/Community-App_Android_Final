@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2017 Lightful. All Rights Reserved.
+  ~
+  ~ Save to the extent permitted by law, you may not use, copy, modify,
+  ~ distribute or create derivative works of this material or any part
+  ~ of it without the prior written consent of Lightful.
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar_with_back_layout" />
+
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/coordinator"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="295dp"
+            android:background="@color/colorWhite">
+
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:contentScrim="@color/colorWhite"
+                app:expandedTitleMarginEnd="64dp"
+                app:expandedTitleMarginStart="48dp"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:title="A guide to reaching your sustainable development goals">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_collapseMode="parallax">
+
+                    <ImageView
+                        android:id="@+id/image_header"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_fp_40px" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:layout_gravity="bottom"
+                        android:contentDescription="@string/member_image"
+                        android:src="@drawable/fade_to_dark_gradient" />
+
+
+                    <net.impacthub.members.ui.widgets.TypefaceTextView
+                        android:id="@+id/text_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:ellipsize="end"
+                        android:maxLines="5"
+                        android:padding="24dp"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="22sp"
+                        app:typeface="fonts/gt-walsheim-web.ttf"
+                        tools:text="A guide to reaching your sustainable development goals" />
+
+                </FrameLayout>
+
+            </android.support.design.widget.CollapsingToolbarLayout>
+
+        </android.support.design.widget.AppBarLayout>
+
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/scrollview_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="fill_vertical"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:fitsSystemWindows="true"
+            android:background="@color/colorWhite"
+            android:paddingBottom="75dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <include layout="@layout/item_layout_info_title" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    android:padding="8dp"
+                    android:baselineAligned="false">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/item_text_top_margin"
+                            android:contentDescription="@string/locations"
+                            android:src="@mipmap/location_pin" />
+
+                        <net.impacthub.members.ui.widgets.TypefaceTextView
+                            android:id="@+id/text_event_locations"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="@dimen/item_text_top_margin"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:paddingTop="2dp"
+                            tools:text="London, UK"
+                            android:textColor="@color/warm_grey_2"
+                            android:textSize="12sp"
+                            app:typeface="fonts/gt-walsheim-light-web.ttf" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/item_text_top_margin"
+                            android:src="@mipmap/member_count" />
+
+                        <net.impacthub.members.ui.widgets.TypefaceTextView
+                            android:id="@+id/text_event_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="@dimen/item_text_top_margin"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:paddingTop="2dp"
+                            android:text="London, UK"
+                            android:textColor="@color/warm_grey_2"
+                            android:textSize="12sp"
+                            app:typeface="fonts/gt-walsheim-light-web.ttf" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="8dp">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/item_text_top_margin"
+                            android:contentDescription="@string/locations"
+                            android:src="@mipmap/calendar" />
+
+                        <net.impacthub.members.ui.widgets.TypefaceTextView
+                            android:id="@+id/text_event_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="@dimen/item_text_top_margin"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:paddingTop="2dp"
+                            android:text="London, UK"
+                            android:textColor="@color/warm_grey_2"
+                            android:textSize="12sp"
+                            app:typeface="fonts/gt-walsheim-light-web.ttf" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/item_text_top_margin"
+                            android:src="@mipmap/clock" />
+
+                        <net.impacthub.members.ui.widgets.TypefaceTextView
+                            android:id="@+id/text_event_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="@dimen/item_text_top_margin"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:paddingTop="2dp"
+                            android:text="London, UK"
+                            android:textColor="@color/warm_grey_2"
+                            android:textSize="12sp"
+                            app:typeface="fonts/gt-walsheim-light-web.ttf" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="8dp">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/item_text_top_margin"
+                            android:contentDescription="@string/locations"
+                            android:src="@mipmap/bag_icon" />
+
+                        <net.impacthub.members.ui.widgets.TypefaceTextView
+                            android:id="@+id/text_event_type"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="@dimen/item_text_top_margin"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:paddingTop="2dp"
+                            android:text="London, UK"
+                            android:textColor="@color/warm_grey_2"
+                            android:textSize="12sp"
+                            app:typeface="fonts/gt-walsheim-light-web.ttf" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/item_text_top_margin"
+                            android:src="@mipmap/ticket" />
+
+                        <net.impacthub.members.ui.widgets.TypefaceTextView
+                            android:id="@+id/text_event_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="@dimen/item_text_top_margin"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:paddingTop="2dp"
+                            android:text="London, UK"
+                            android:textColor="@color/warm_grey_2"
+                            android:textSize="12sp"
+                            app:typeface="fonts/gt-walsheim-light-web.ttf" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/item_text_top_margin"
+                        android:contentDescription="@string/locations"
+                        android:src="@mipmap/ic_desktop" />
+
+                    <net.impacthub.members.ui.widgets.TypefaceTextView
+                        android:id="@+id/text_event_visit_website"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="@dimen/item_text_top_margin"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="Visit website"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="14sp"
+                        app:typeface="fonts/gt-walsheim-light-web.ttf" />
+
+                </LinearLayout>
+
+                <net.impacthub.members.ui.widgets.TypefaceTextView
+                    android:id="@+id/text_event_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:ellipsize="end"
+                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+                    android:textColor="@color/greyish_brown_2"
+                    android:textSize="14sp"
+                    app:typeface="fonts/gt-walsheim-light-web.ttf" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_margin="8dp"
+                    android:orientation="vertical">
+
+                    <fragment
+                        android:id="@+id/map"
+                        class="com.google.android.gms.maps.SupportMapFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                    <ImageView
+                        android:id="@+id/image_map_overlay"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="24dp"
+                        android:layout_marginRight="24dp"
+                        android:background="@android:color/transparent" />
+
+                </FrameLayout>
+
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+
+
+        <include layout="@layout/button_done_layout" />
+
+        <!--<android.support.design.widget.FloatingActionButton-->
+        <!--android:id="@+id/fab"-->
+        <!--android:layout_width="@dimen/default_fab_icon_size"-->
+        <!--android:layout_height="@dimen/default_fab_icon_size"-->
+        <!--android:layout_margin="@dimen/default_fab_margin"-->
+        <!--android:src="@mipmap/tab_bar_messages"-->
+        <!--android:tint="@color/colorWhite"-->
+        <!--app:backgroundTint="@color/colorPrimary"-->
+        <!--app:borderWidth="0dp"-->
+        <!--app:layout_anchor="@id/app_bar"-->
+        <!--app:layout_anchorGravity="bottom|right|end" />-->
+
+    </android.support.design.widget.CoordinatorLayout>
+
+</LinearLayout>

@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <!--<color name="colorPrimary">#3F51B5</color>-->
+    <!--<color name="colorPrimaryDark">#303F9F</color>-->
+
+    <color name="colorPrimary">#ff5353</color>
+    <color name="colorPrimaryDark">#D22F2F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="impacthub">#ff5353</color>
+    <color name="message_background">#f7f7f7</color>
+    <color name="main_background">@android:color/white</color>
+    <color name="colorBackground">#F1F2F3</color>
+    <color name="colorLightGray">#f0f0f0</color>
+    <color name="white_two">#f9f9f9</color>
+    <color name="greyish_brown">#3d3d3d</color>
+    <color name="greyish_brown_2">#444444</color>
+    <color name="warm_grey_2">#8b8b8b</color>
+    <color name="light_grey">#EBEBEB</color>
+    <color name="brownish_grey">#606060</color>
+    <color name="steel_grey">#81928e</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorBlack">#000000</color>
+    <color name="colorWhiteTwo">#f8f8f8</color>
+    <color name="colorWhiteThree">#dfdfdf</color>
+    <color name="colorWhiteFour">#f9f9f9</color>
+    <color name="colorSilver">#c9cecd</color>
+    <color name="colorDarkSlateBlue">#133b50</color>
+    <color name="colorImagePlaceHolder">#B8D9EC</color>
 </resources>

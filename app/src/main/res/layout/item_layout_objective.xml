@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2017 Lightful. All Rights Reserved.
+  ~
+  ~ Save to the extent permitted by law, you may not use, copy, modify,
+  ~ distribute or create derivative works of this material or any part
+  ~ of it without the prior written consent of Lightful.
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:minHeight="120dp"
+    android:orientation="horizontal"
+    android:paddingLeft="16dp"
+    android:paddingRight="8dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <net.impacthub.members.ui.widgets.TypefaceTextView
+            android:id="@+id/text_objective_count"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:background="@drawable/bg_circle_primary_with_gray_stroke"
+            android:gravity="center"
+            android:padding="12dp"
+            tools:text="1"
+            android:textColor="@color/colorWhite"
+            android:textSize="12sp"
+            app:typeface="fonts/gt-walsheim-medium-web.ttf" />
+
+        <View
+            android:id="@+id/line_objective_counter"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="@color/colorPrimary" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <net.impacthub.members.ui.widgets.TypefaceTextView
+            android:id="@+id/text_objective_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Objective"
+            android:textColor="@color/greyish_brown_2"
+            android:textSize="14sp"
+            app:typeface="fonts/gt-walsheim-medium-web.ttf" />
+
+        <net.impacthub.members.ui.widgets.TypefaceTextView
+            android:id="@+id/text_objective_summary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing eli Lorem ipsum dolor sit amet, consectetur adipiscing eli Lorem ipsum dolor sit amet, consectetur adipiscing eli Lorem ipsum dolor sit amet, consectetur adipiscing eli"
+            android:textColor="@color/warm_grey_2"
+            android:textSize="12sp"
+            app:typeface="fonts/gt-walsheim-light-web.ttf" />
+    </LinearLayout>
+
+</LinearLayout>

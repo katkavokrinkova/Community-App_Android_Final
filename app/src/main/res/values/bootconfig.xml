@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="remoteAccessConsumerKey">3MVG9lcxCTdG2Vbsh1Tk8y8c1rARLbre9U58T0Lu_qJbenqJX5P9YfR8GzdysuYDcA39rMU.BlkdBQd4l4pMQ</string>
+    <string name="oauthRedirectURI">impacthub://auth/success</string>
+    <string name="account_type">net.impacthub.members.login</string>
+    <string name="androidPushNotificationClientId">971350360144</string>
+    <string-array name="oauthScopes">
+        <item>api</item>
+    </string-array>
+</resources>

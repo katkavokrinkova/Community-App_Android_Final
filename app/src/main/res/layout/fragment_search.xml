@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_background"
+    android:orientation="vertical">
+
+    <net.impacthub.members.ui.widgets.TypefaceToolbar
+        android:id="@+id/toolbar"
+        style="@style/ToolbarConstraint"  />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/common_searchable_list_layout" />
+
+        <include layout="@layout/layout_top_shadow" />
+
+    </FrameLayout>
+
+</LinearLayout>

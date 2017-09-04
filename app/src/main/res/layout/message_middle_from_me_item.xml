@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/message_side_margin"
+        android:layout_marginStart="@dimen/message_side_margin"
+        android:layout_marginTop="@dimen/message_top_margin"
+        android:background="@drawable/message_bubble_from_me"
+        android:padding="@dimen/message_text_padding"
+        android:textSize="@dimen/message_text_size"
+        tools:text="Need enough text in here to wrap a line so will be typing aimlessly for several seconds until I achieve that purpose" />
+
+</RelativeLayout>

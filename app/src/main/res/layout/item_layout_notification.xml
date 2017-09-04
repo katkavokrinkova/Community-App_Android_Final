@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2017 Lightful. All Rights Reserved.
+  ~
+  ~ Save to the extent permitted by law, you may not use, copy, modify,
+  ~ distribute or create derivative works of this material or any part
+  ~ of it without the prior written consent of Lightful.
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="20dp"
+    android:foreground="?attr/selectableItemBackground"
+    android:paddingRight="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="12dp"
+        android:paddingTop="12dp">
+
+        <net.impacthub.members.ui.widgets.CircleImageView
+            android:id="@+id/image_profile_picture"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            tools:src="@mipmap/ic_launcher" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingRight="12dp"
+            android:paddingLeft="12dp">
+
+
+            <net.impacthub.members.ui.widgets.TypefaceTextView
+                android:id="@+id/text_notification_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/greyish_brown"
+                android:textSize="12sp"
+                app:typeface="fonts/gt-walsheim-light-web.ttf"
+                tools:text="Lee James liked your comment." />
+
+            <net.impacthub.members.ui.widgets.TypefaceTextView
+                android:id="@+id/text_elapsed_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/warm_grey_2"
+                android:layout_marginTop="@dimen/item_text_top_margin"
+                android:textSize="12sp"
+                app:typeface="fonts/gt-walsheim-light-web.ttf"
+                tools:text="3 min ago" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/image_notification_type"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@mipmap/tab_bar_notifications"
+            android:tint="@color/colorPrimary" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/light_grey" />
+
+</LinearLayout>
