@@ -60,8 +60,9 @@ public class GoalsFragment extends BaseChildFragment<GoalsUiPresenter> implement
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void bindView(View rootView) {
+        super.bindView(rootView);
+
         setUpToolbar(R.string.label_goals);
         mGoalsList.setHasFixedSize(true);
         mAdapter = new GoalsListAdapter(getLayoutInflater(getArguments()));

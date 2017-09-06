@@ -62,6 +62,6 @@ public class Records {
 
     @Override
     public String toString() {
-        return "Records [Name = " + Name + ", ContactTo__c = " + ContactTo__c + ", Introduction_Message__c = " + Introduction_Message__c + ", CreatedDate = " + CreatedDate + ", Id = " + Id + ", ContactFrom__c = " + ContactFrom__c + ", attributes = " + attributes + ", Status__c = " + Status__c + "]";
+        return "GroupsRecords [Name = " + Name + ", ContactTo__c = " + ContactTo__c + ", Introduction_Message__c = " + Introduction_Message__c + ", CreatedDate = " + CreatedDate + ", Id = " + Id + ", ContactFrom__c = " + ContactFrom__c + ", attributes = " + attributes + ", Status__c = " + Status__c + "]";
     }
 }

@@ -83,6 +83,6 @@ public class Records {
     @Override
     public String toString()
     {
-        return "Records [Name = "+Name+", ProfilePicURL__c = "+ProfilePicURL__c+", FromUserId__c = "+FromUserId__c+", RelatedId__c = "+RelatedId__c+", Message__c = "+Message__c+", isRead__c = "+isRead__c+", Sent__c = "+Sent__c+", CreatedDate = "+CreatedDate+", ChatterGroupId__c = "+ChatterGroupId__c+", Type__c = "+Type__c+", Id = "+Id+", attributes = "+attributes+"]";
+        return "GroupsRecords [Name = "+Name+", ProfilePicURL__c = "+ProfilePicURL__c+", FromUserId__c = "+FromUserId__c+", RelatedId__c = "+RelatedId__c+", Message__c = "+Message__c+", isRead__c = "+isRead__c+", Sent__c = "+Sent__c+", CreatedDate = "+CreatedDate+", ChatterGroupId__c = "+ChatterGroupId__c+", Type__c = "+Type__c+", Id = "+Id+", attributes = "+attributes+"]";
     }
 }

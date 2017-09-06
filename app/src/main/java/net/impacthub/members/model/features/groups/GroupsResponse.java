@@ -20,14 +20,14 @@ package net.impacthub.members.model.features.groups;
 public class GroupsResponse {
 
     private String done;
-    private Records[] records;
+    private GroupsRecords[] records;
     private String totalSize;
 
     public String getDone() {
         return done;
     }
 
-    public Records[] getRecords() {
+    public GroupsRecords[] getRecords() {
         return records;
     }
 

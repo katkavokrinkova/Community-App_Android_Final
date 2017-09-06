@@ -20,7 +20,7 @@ package net.impacthub.members.model.features.members;
 public class MembersResponse {
 
     private String done;
-    private Records[] records;
+    private MembersRecords[] records;
     private String totalSize;
 
 
@@ -28,7 +28,7 @@ public class MembersResponse {
         return done;
     }
 
-    public Records[] getRecords() {
+    public MembersRecords[] getRecords() {
         return records;
     }
 

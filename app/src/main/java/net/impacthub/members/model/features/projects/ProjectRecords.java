@@ -9,27 +9,28 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.members.model.features.groups;
+package net.impacthub.members.model.features.projects;
 
 /**
  * @author Filippo Ash
  * @version 1.0
- * @date 8/4/2017.
+ * @date 8/15/2017.
  */
 
-public class Records {
+public class ProjectRecords {
 
     private String Name;
     private String Group_Desc__c;
     private String Directory_Style__c;
     private String Related_Impact_Goal__c;
-    private String CountOfMembers__c;
+    private String CreatedById;
     private String Sector__c;
     private String ChatterGroupId__c;
-    private String ChatterGroupType__c;
     private String Id;
     private Attributes attributes;
+    private Organisation__r Organisation__r;
     private String ImageURL__c;
+    private String CountOfMembers__c;
     private String Impact_Hub_Cities__c;
 
     public String getName() {
@@ -48,8 +49,8 @@ public class Records {
         return Related_Impact_Goal__c;
     }
 
-    public String getCountOfMembers__c() {
-        return CountOfMembers__c;
+    public String getCreatedById() {
+        return CreatedById;
     }
 
     public String getSector__c() {
@@ -68,20 +69,24 @@ public class Records {
         return attributes;
     }
 
+    public net.impacthub.members.model.features.projects.Organisation__r getOrganisation__r() {
+        return Organisation__r;
+    }
+
     public String getImageURL__c() {
         return ImageURL__c;
+    }
+
+    public String getCountOfMembers__c() {
+        return CountOfMembers__c;
     }
 
     public String getImpact_Hub_Cities__c() {
         return Impact_Hub_Cities__c;
     }
 
-    public String getChatterGroupType__c() {
-        return ChatterGroupType__c;
-    }
-
     @Override
     public String toString() {
-        return "Records [Name = " + Name + ", Group_Desc__c = " + Group_Desc__c + ", Directory_Style__c = " + Directory_Style__c + ", Related_Impact_Goal__c = " + Related_Impact_Goal__c + ", CountOfMembers__c = " + CountOfMembers__c + ", Sector__c = " + Sector__c + ", ChatterGroupId__c = " + ChatterGroupId__c + ", Id = " + Id + ", attributes = " + attributes + ", ImageURL__c = " + ImageURL__c + ", Impact_Hub_Cities__c = " + Impact_Hub_Cities__c + "]";
+        return "GroupsRecords [Name = " + Name + ", Group_Desc__c = " + Group_Desc__c + ", Directory_Style__c = " + Directory_Style__c + ", Related_Impact_Goal__c = " + Related_Impact_Goal__c + ", CreatedById = " + CreatedById + ", Sector__c = " + Sector__c + ", ChatterGroupId__c = " + ChatterGroupId__c + ", Id = " + Id + ", attributes = " + attributes + ", Organisation__r = " + Organisation__r + ", ImageURL__c = " + ImageURL__c + "]";
     }
 }

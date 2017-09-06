@@ -3,7 +3,6 @@ package net.impacthub.members.ui.features.home.members;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -64,8 +63,8 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void bindView(View rootView) {
+        super.bindView(rootView);
         setUpToolbar(R.string.members);
 
         mMembersList.setHasFixedSize(true);

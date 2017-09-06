@@ -52,8 +52,9 @@ public class NotificationFragment extends BaseChildFragment<NotificationsPresent
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void bindView(View rootView) {
+        super.bindView(rootView);
+
         setUpToolbar(R.string.notifications);
         mNotificationsList.setHasFixedSize(true);
         mAdapter = new NotificationListAdapter(getLayoutInflater(getArguments()));

@@ -59,8 +59,9 @@ public class ProfileFragment extends BaseChildFragment<ProfilePresenter> impleme
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void bindView(View rootView) {
+        super.bindView(rootView);
+
         setUpToolbar(R.string.profile);
         mSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

@@ -61,8 +61,9 @@ public class JobsFragment extends BaseChildFragment<JobsUiPresenter> implements 
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void bindView(View rootView) {
+        super.bindView(rootView);
+
         setUpToolbar(R.string.jobs);
         mJobsList.setHasFixedSize(true);
         mAdapter = new JobsListAdapter(LayoutInflater.from(getContext()));

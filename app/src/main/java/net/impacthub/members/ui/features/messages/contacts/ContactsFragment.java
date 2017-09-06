@@ -73,8 +73,9 @@ public class ContactsFragment extends BaseChildFragment<ContactsUiPresenter> imp
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void bindView(View rootView) {
+        super.bindView(rootView);
+
         setUpToolbar(R.string.label_contacts);
 
         AppPagerAdapter adapter = new AppPagerAdapter(getContext());

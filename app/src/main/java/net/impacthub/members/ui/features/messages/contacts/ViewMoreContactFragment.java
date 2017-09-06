@@ -117,8 +117,9 @@ public class ViewMoreContactFragment extends BaseChildFragment<ViewMoreForContac
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void bindView(View rootView) {
+        super.bindView(rootView);
+
         setUpToolbar(mFullName);
 
         mIntroTxt.setText(mDM_IntroMessage);

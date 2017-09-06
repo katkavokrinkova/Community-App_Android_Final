@@ -143,8 +143,9 @@ public class EventDetailFragment extends BaseChildFragment<EventDetailUiPresente
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void bindView(View rootView) {
+        super.bindView(rootView);
+
         setUpToolbar(R.string.label_events);
 
         Bundle arguments = getArguments();

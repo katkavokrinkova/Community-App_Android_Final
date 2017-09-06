@@ -100,8 +100,8 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void bindView(View rootView) {
+        super.bindView(rootView);
 
         Bundle arguments = getArguments();
         String projectId = arguments.getString(EXTRA_PROJECT_ID);

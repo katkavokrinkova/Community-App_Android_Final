@@ -69,10 +69,10 @@ public class GroupsFragment extends BaseChildFragment<GroupPresenter> implements
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        setUpToolbar(R.string.label_groups);
+    protected void bindView(View rootView) {
+        super.bindView(rootView);
 
+        setUpToolbar(R.string.label_groups);
 
         AppPagerAdapter adapter = new AppPagerAdapter(getContext());
 //

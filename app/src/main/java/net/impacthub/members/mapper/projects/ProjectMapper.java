@@ -14,8 +14,8 @@ package net.impacthub.members.mapper.projects;
 import android.support.annotation.NonNull;
 
 import net.impacthub.members.model.features.projects.Organisation__r;
+import net.impacthub.members.model.features.projects.ProjectRecords;
 import net.impacthub.members.model.features.projects.ProjectResponse;
-import net.impacthub.members.model.features.projects.Records;
 import net.impacthub.members.model.pojo.ListItemType;
 import net.impacthub.members.model.pojo.SimpleItem;
 import net.impacthub.members.model.vo.projects.ProjectVO;
@@ -34,21 +34,14 @@ public class ProjectMapper {
     public List<ProjectVO> map(ProjectResponse response) {
         List<ProjectVO> projectDTOs = new LinkedList<>();
         if (response != null) {
-            Records[] records = response.getRecords();
-            if (records != null) {
-                for (Records record : records) {
-                    if (record != null) {
-                        ProjectVO projectDTO = mapProjectVO(record);
-                        projectDTOs.add(projectDTO);
-                    }
-                }
-            }
+            ProjectRecords[] records = response.getRecords();
+            projectDTOs.addAll(mapProjectsRecords(records));
         }
         return projectDTOs;
     }
 
     @NonNull
-    private ProjectVO mapProjectVO(Records record) {
+    private ProjectVO mapProjectVO(ProjectRecords record) {
         ProjectVO projectDTO = new ProjectVO();
         projectDTO.mProjectId = record.getId();
         projectDTO.mName = record.getName();
@@ -66,9 +59,9 @@ public class ProjectMapper {
     public List<ListItemType> mapAsListItemType(ProjectResponse projectResponse) {
         List<ListItemType> listItemTypes = new LinkedList<>();
         if (projectResponse != null) {
-            Records[] records = projectResponse.getRecords();
+            ProjectRecords[] records = projectResponse.getRecords();
             if (records != null) {
-                for (Records record : records) {
+                for (ProjectRecords record : records) {
                     if (record != null) {
                         ProjectVO projectDTO = mapProjectVO(record);
                         listItemTypes.add(new SimpleItem<>(projectDTO, 3));
@@ -77,5 +70,28 @@ public class ProjectMapper {
             }
         }
         return listItemTypes;
+    }
+
+    public List<ProjectVO> mapProjectsRecords(ProjectRecords[] records) {
+        List<ProjectVO> projectVOs = new LinkedList<>();
+        if (records != null) {
+            for (ProjectRecords record : records) {
+                if (record != null) {
+                    ProjectVO projectDTO = mapProjectVO(record);
+                    projectVOs.add(projectDTO);
+                }
+            }
+        }
+        return projectVOs;
+    }
+
+    public void mapProjectsRecordsAsListType(List<ListItemType> searchListItems, ProjectRecords[] projects) {
+        if (projects != null) {
+            for (ProjectRecords project : projects) {
+                if (project != null) {
+                    searchListItems.add(new SimpleItem<>(mapProjectVO(project), 2));
+                }
+            }
+        }
     }
 }

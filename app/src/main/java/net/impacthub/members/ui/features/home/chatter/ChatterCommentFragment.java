@@ -63,8 +63,9 @@ public class ChatterCommentFragment extends BaseChildFragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void bindView(View rootView) {
+        super.bindView(rootView);
+
         setUpToolbar(R.string.label_comments);
 
         CommentVO commentVO = (CommentVO) getArguments().getSerializable(EXTRA_NESTED_COMMENTS);

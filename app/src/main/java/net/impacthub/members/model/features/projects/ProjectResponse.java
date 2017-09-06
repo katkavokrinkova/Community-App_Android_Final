@@ -20,14 +20,14 @@ package net.impacthub.members.model.features.projects;
 public class ProjectResponse {
 
     private String done;
-    private Records[] records;
+    private ProjectRecords[] records;
     private String totalSize;
 
     public String getDone() {
         return done;
     }
 
-    public Records[] getRecords() {
+    public ProjectRecords[] getRecords() {
         return records;
     }
 

@@ -34,6 +34,7 @@ public abstract class BaseFragment<P extends UiPresenter<? extends UiContract>> 
     @BindView(R.id.progress_bar) protected ProgressBar mProgressBar;
 
     private P mPresenter;
+    private View mRootView;
     private Unbinder mBinder;
 
     @Override
@@ -51,26 +52,22 @@ public abstract class BaseFragment<P extends UiPresenter<? extends UiContract>> 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_container, container, false);
-        FrameLayout contentContainer = (FrameLayout) rootView.findViewById(R.id.content_container);
-        contentContainer.removeAllViews();
-        inflater.inflate(getContentView(), contentContainer, true);
-        mBinder = ButterKnife.bind(this, rootView);
-        bindView(rootView);
-        return rootView;
+        if (container != null) {
+            container.clearDisappearingChildren();
+        }
+        if (mRootView == null) {
+            mRootView = inflater.inflate(R.layout.fragment_container, container, false);
+            FrameLayout contentContainer = (FrameLayout) mRootView.findViewById(R.id.content_container);
+            contentContainer.removeAllViews();
+            inflater.inflate(getContentView(), contentContainer, true);
+            mBinder = ButterKnife.bind(this, mRootView);
+            bindView(mRootView);
+        }
+        return mRootView;
     }
 
     @CallSuper
     protected void bindView(View rootView) {
-    }
-
-    @Override
-    public void onDestroyView() {
-        if (mBinder != null) {
-            mBinder.unbind();
-            mBinder = null;
-        }
-        super.onDestroyView();
     }
 
     protected void setStatusBarColor(@ColorRes int color) {
@@ -106,7 +103,11 @@ public abstract class BaseFragment<P extends UiPresenter<? extends UiContract>> 
         if (mPresenter != null) {
             mPresenter.unregisterUi();
         }
+        if (mBinder != null) {
+            mBinder.unbind();
+        }
         mPresenter = null;
+        mBinder = null;
         super.onDestroy();
     }
 

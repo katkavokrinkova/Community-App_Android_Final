@@ -17,7 +17,7 @@ package net.impacthub.members.model.features.events;
  * @date 8/14/2017.
  */
 
-public class Records {
+public class EventRecords {
 
     private String Event_Visibility__c;
     private String Event_ZipCode__c;
@@ -152,6 +152,6 @@ public class Records {
 
     @Override
     public String toString() {
-        return "Records [Event_Visibility__c = " + Event_Visibility__c + ", Event_ZipCode__c = " + Event_ZipCode__c + ", Event_Organiser_Type__c = " + Event_Organiser_Type__c + ", Event_Country__c = " + Event_Country__c + ", Directory__c = " + Directory__c + ", Event_City__c = " + Event_City__c + ", OwnerId = " + OwnerId + ", Event_Classification__c = " + Event_Classification__c + ", LastModifiedDate = " + LastModifiedDate + ", Event_RegisterLink__c = " + Event_RegisterLink__c + ", Event_End_DateTime__c = " + Event_End_DateTime__c + ", Event_Sector__c = " + Event_Sector__c + ", Event_Start_DateTime__c = " + Event_Start_DateTime__c + ", Organiser__r = " + Organiser__r + ", Name = " + Name + ", Event_SubType__c = " + Event_SubType__c + ", Event_Street__c = " + Event_Street__c + ", Event_Type__c = " + Event_Type__c + ", Event_Quantity__c = " + Event_Quantity__c + ", Event_Discount_Code__c = " + Event_Discount_Code__c + ", CreatedDate = " + CreatedDate + ", Organiser__c = " + Organiser__c + ", Id = " + Id + ", attributes = " + attributes + ", Event_Description__c = " + Event_Description__c + "]";
+        return "GroupsRecords [Event_Visibility__c = " + Event_Visibility__c + ", Event_ZipCode__c = " + Event_ZipCode__c + ", Event_Organiser_Type__c = " + Event_Organiser_Type__c + ", Event_Country__c = " + Event_Country__c + ", Directory__c = " + Directory__c + ", Event_City__c = " + Event_City__c + ", OwnerId = " + OwnerId + ", Event_Classification__c = " + Event_Classification__c + ", LastModifiedDate = " + LastModifiedDate + ", Event_RegisterLink__c = " + Event_RegisterLink__c + ", Event_End_DateTime__c = " + Event_End_DateTime__c + ", Event_Sector__c = " + Event_Sector__c + ", Event_Start_DateTime__c = " + Event_Start_DateTime__c + ", Organiser__r = " + Organiser__r + ", Name = " + Name + ", Event_SubType__c = " + Event_SubType__c + ", Event_Street__c = " + Event_Street__c + ", Event_Type__c = " + Event_Type__c + ", Event_Quantity__c = " + Event_Quantity__c + ", Event_Discount_Code__c = " + Event_Discount_Code__c + ", CreatedDate = " + CreatedDate + ", Organiser__c = " + Organiser__c + ", Id = " + Id + ", attributes = " + attributes + ", Event_Description__c = " + Event_Description__c + "]";
     }
 }

@@ -53,8 +53,9 @@ public class MessagesFragment extends BaseChildFragment<MessagesUiPresenter> imp
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void bindView(View rootView) {
+        super.bindView(rootView);
+
         setUpToolbar(R.string.messages);
         if (mToolbar != null) {
             mToolbar.inflateMenu(R.menu.menu_message_conversation);

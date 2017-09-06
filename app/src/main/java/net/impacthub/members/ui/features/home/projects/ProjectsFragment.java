@@ -12,7 +12,6 @@
 package net.impacthub.members.ui.features.home.projects;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -69,8 +68,8 @@ public class ProjectsFragment extends BaseChildFragment<ProjectsUiPresenter> imp
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void bindView(View rootView) {
+        super.bindView(rootView);
         setUpToolbar(R.string.label_projects);
 
         AppPagerAdapter adapter = new AppPagerAdapter(getContext());

@@ -57,6 +57,6 @@ public class Records {
 
     @Override
     public String toString() {
-        return "Records [Name = " + Name + ", Summary__c = " + Summary__c + ", Active__c = " + Active__c + ", Id = " + Id + ", Description__c = " + Description__c + ", attributes = " + attributes + ", ImageURL__c = " + ImageURL__c + "]";
+        return "GroupsRecords [Name = " + Name + ", Summary__c = " + Summary__c + ", Active__c = " + Active__c + ", Id = " + Id + ", Description__c = " + Description__c + ", attributes = " + attributes + ", ImageURL__c = " + ImageURL__c + "]";
     }
 }

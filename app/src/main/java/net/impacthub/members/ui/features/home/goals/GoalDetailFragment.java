@@ -88,8 +88,8 @@ public class GoalDetailFragment extends BaseChildFragment<GoalsDetailUiPresenter
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void bindView(View rootView) {
+        super.bindView(rootView);
 
         Bundle arguments = getArguments();
 

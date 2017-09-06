@@ -161,8 +161,8 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void bindView(View rootView) {
+        super.bindView(rootView);
 
 //        mToolbar.inflateMenu(R.menu.menu_member_connect);
 //        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {

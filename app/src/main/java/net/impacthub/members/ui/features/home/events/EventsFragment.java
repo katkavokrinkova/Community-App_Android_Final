@@ -69,8 +69,9 @@ public class EventsFragment extends BaseChildFragment<EventsUiPresenter> impleme
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void bindView(View rootView) {
+        super.bindView(rootView);
+
         setUpToolbar(R.string.label_events);
 
         AppPagerAdapter adapter = new AppPagerAdapter(getContext());

@@ -17,7 +17,7 @@ package net.impacthub.members.model.features.members;
  * @date 03/08/2017.
  */
 
-public class Records {
+public class MembersRecords {
 
     private String Twitter__c;
     private String Directory_Summary__c;
@@ -112,6 +112,6 @@ public class Records {
 
     @Override
     public String toString() {
-        return "Records [Twitter__c = " + Twitter__c + ", Directory_Summary__c = " + Directory_Summary__c + ", Skills__c = " + Skills__c + ", Profession__c = " + Profession__c + ", ProfilePic__c = " + ProfilePic__c + ", Instagram__c = " + Instagram__c + ", User__c = " + User__c + ", LastName = " + LastName + ", How_Do_You_Most_Identify_with_Your_Curre__c = " + How_Do_You_Most_Identify_with_Your_Curre__c + ", Interested_SDG__c = " + Interested_SDG__c + ", Linked_In__c = " + Linked_In__c + ", Status_Update__c = " + Status_Update__c + ", FirstName = " + FirstName + ", Id = " + Id + ", attributes = " + attributes + ", Facebook__c = " + Facebook__c + ", About_Me__c = " + About_Me__c + ", Impact_Hub_Cities__c = " + Impact_Hub_Cities__c + "]";
+        return "GroupsRecords [Twitter__c = " + Twitter__c + ", Directory_Summary__c = " + Directory_Summary__c + ", Skills__c = " + Skills__c + ", Profession__c = " + Profession__c + ", ProfilePic__c = " + ProfilePic__c + ", Instagram__c = " + Instagram__c + ", User__c = " + User__c + ", LastName = " + LastName + ", How_Do_You_Most_Identify_with_Your_Curre__c = " + How_Do_You_Most_Identify_with_Your_Curre__c + ", Interested_SDG__c = " + Interested_SDG__c + ", Linked_In__c = " + Linked_In__c + ", Status_Update__c = " + Status_Update__c + ", FirstName = " + FirstName + ", Id = " + Id + ", attributes = " + attributes + ", Facebook__c = " + Facebook__c + ", About_Me__c = " + About_Me__c + ", Impact_Hub_Cities__c = " + Impact_Hub_Cities__c + "]";
     }
 }

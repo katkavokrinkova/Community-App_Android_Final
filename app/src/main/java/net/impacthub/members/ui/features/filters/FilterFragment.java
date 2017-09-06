@@ -60,11 +60,12 @@ public class FilterFragment extends BaseChildFragment<FiltersUiPresenter> implem
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+    protected void bindView(View rootView) {
+        super.bindView(rootView);
+
+        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         toolbar.setNavigationOnClickListener(mCloseFilterListener);
-        TypefaceTextView doneButton = (TypefaceTextView) view.findViewById(R.id.done);
+        TypefaceTextView doneButton = (TypefaceTextView) rootView.findViewById(R.id.done);
         doneButton.setOnClickListener(mCloseFilterListener);
         getPresenter().getFiltersList();
     }

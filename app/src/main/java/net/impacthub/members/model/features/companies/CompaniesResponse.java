@@ -20,14 +20,14 @@ package net.impacthub.members.model.features.companies;
 public class CompaniesResponse {
 
     private String done;
-    private Records[] records;
+    private CompaniesRecords[] records;
     private String totalSize;
 
     public String getDone() {
         return done;
     }
 
-    public Records[] getRecords() {
+    public CompaniesRecords[] getRecords() {
         return records;
     }
 

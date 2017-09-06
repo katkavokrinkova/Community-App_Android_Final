@@ -11,10 +11,12 @@
 
 package net.impacthub.members.mapper.events;
 
+import net.impacthub.members.model.pojo.ListItemType;
+import net.impacthub.members.model.pojo.SimpleItem;
 import net.impacthub.members.model.vo.events.EventVO;
 import net.impacthub.members.model.features.events.EventsResponse;
 import net.impacthub.members.model.features.events.Organiser__r;
-import net.impacthub.members.model.features.events.Records;
+import net.impacthub.members.model.features.events.EventRecords;
 import net.impacthub.members.model.vo.events.EventsWrapper;
 import net.impacthub.members.utilities.DateUtils;
 
@@ -36,19 +38,25 @@ public class EventsMapper {
     public List<EventVO> map(EventsResponse response, boolean attending) {
         List<EventVO> eventDTOs = new LinkedList<>();
         if (response != null) {
-            Records[] records = response.getRecords();
+            EventRecords[] records = response.getRecords();
             if (records != null) {
-                for (Records record : records) {
-                    if (record != null) {
-                        eventDTOs.add(mapEvent(record, attending));
-                    }
-                }
+                eventDTOs.addAll(mapEventRecords(attending, records));
             }
         }
         return eventDTOs;
     }
 
-    private EventVO mapEvent(Records record, boolean attending) {
+    public List<EventVO> mapEventRecords(boolean attending, EventRecords[] records) {
+        List<EventVO> eventDTOs = new LinkedList<>();
+        for (EventRecords record : records) {
+            if (record != null) {
+                eventDTOs.add(mapEvent(record, attending));
+            }
+        }
+        return eventDTOs;
+    }
+
+    private EventVO mapEvent(EventRecords record, boolean attending) {
         EventVO eventDTO = new EventVO();
         eventDTO.mId = record.getId();
         eventDTO.mName = record.getName();
@@ -91,9 +99,9 @@ public class EventsMapper {
         Map<String, Boolean> asMap = mapListAsMap(eventVOs);
         List<EventVO> allEvents = new LinkedList<>();
         if (allEventsResponse != null) {
-            Records[] records = allEventsResponse.getRecords();
+            EventRecords[] records = allEventsResponse.getRecords();
             if (records != null) {
-                for (Records record : records) {
+                for (EventRecords record : records) {
                     Boolean eventExist = asMap.get(record.getId());
                     boolean attending = eventExist != null && eventExist;
                     allEvents.add(mapEvent(record, attending));
@@ -110,5 +118,13 @@ public class EventsMapper {
             attendingEvents.put(eventVO.mId, true);
         }
         return attendingEvents;
+    }
+
+    public void mapEventsRecordsAsListType(List<ListItemType> searchListItems, EventRecords[] records) {
+        if (records != null) {
+            for (EventRecords record : records) {
+                searchListItems.add(new SimpleItem<>(mapEvent(record, false), 4));
+            }
+        }
     }
 }

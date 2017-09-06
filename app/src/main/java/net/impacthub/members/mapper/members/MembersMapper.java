@@ -16,7 +16,7 @@ import net.impacthub.members.model.features.members.Affiliation;
 import net.impacthub.members.model.features.members.Affiliations;
 import net.impacthub.members.model.features.members.MembersResponse;
 import net.impacthub.members.model.features.members.Organisation;
-import net.impacthub.members.model.features.members.Records;
+import net.impacthub.members.model.features.members.MembersRecords;
 import net.impacthub.members.model.features.members.Skill;
 import net.impacthub.members.model.features.members.Skills;
 import net.impacthub.members.model.pojo.ListItemType;
@@ -44,16 +44,8 @@ public class MembersMapper {
     public List<MemberVO> mapMembers(MembersResponse responses) {
         List<MemberVO> memberDTOs = new LinkedList<>();
         if (responses != null) {
-            Records[] records = responses.getRecords();
-            if (records != null) {
-                for (Records member : records) {
-                    if (member != null) {
-                        MemberVO memberDTO = new MemberVO();
-                        mapRecord(memberDTO, member);
-                        memberDTOs.add(memberDTO);
-                    }
-                }
-            }
+            MembersRecords[] records = responses.getRecords();
+            memberDTOs.addAll(mapMembersRecords(records));
         }
         return memberDTOs;
     }
@@ -61,18 +53,19 @@ public class MembersMapper {
     public MemberVO map(MembersResponse membersResponse) {
         MemberVO memberDTO = new MemberVO();
         if (membersResponse != null) {
-            Records[] records = membersResponse.getRecords();
+            MembersRecords[] records = membersResponse.getRecords();
             if (records != null && records.length > 0) {
-                Records record = records[0];
+                MembersRecords record = records[0];
                 if (record != null) {
-                    mapRecord(memberDTO, record);
+                    memberDTO = mapRecord(record);
                 }
             }
         }
         return memberDTO;
     }
 
-    private void mapRecord(MemberVO memberDTO, Records record) {
+    private MemberVO mapRecord(MembersRecords record) {
+        MemberVO memberDTO = new MemberVO();
         memberDTO.mContactId = record.getId();
         memberDTO.mUserId = record.getUser__c();
         memberDTO.mFirstName = record.getFirstName();
@@ -87,6 +80,7 @@ public class MembersMapper {
         memberDTO.mAboutMe = record.getAbout_Me__c();
         memberDTO.mStatusUpdate = record.getStatus_Update__c();
         memberDTO.mProfession = record.getProfession__c();
+        return memberDTO;
     }
 
     public List<ProjectVO> mapProjects(Affiliations response) {
@@ -165,9 +159,9 @@ public class MembersMapper {
     public RecipientVO mapRecipient(MembersResponse response) {
         RecipientVO recipientVO = new RecipientVO();
         if (response != null) {
-            Records[] records = response.getRecords();
+            MembersRecords[] records = response.getRecords();
             if (records != null && records.length > 0) {
-                Records record = records[0];
+                MembersRecords record = records[0];
                 recipientVO.mDisplayName = record.getFirstName();
                 recipientVO.mImageURL = record.getProfilePic__c();
             }
@@ -241,5 +235,28 @@ public class MembersMapper {
             memberVO = map.get(userContactId);
         }
         return memberVO;
+    }
+
+    public List<MemberVO> mapMembersRecords(MembersRecords[] records) {
+        List<MemberVO> memberDTOs = new LinkedList<>();
+        if (records != null) {
+            for (MembersRecords member : records) {
+                if (member != null) {
+                    MemberVO memberDTO = mapRecord(member);
+                    memberDTOs.add(memberDTO);
+                }
+            }
+        }
+        return memberDTOs;
+    }
+
+    public void mapMembersRecordsAsListType(List<ListItemType> searchListItems, MembersRecords[] records) {
+        if (records != null) {
+            for (MembersRecords member : records) {
+                if (member != null) {
+                    searchListItems.add(new SimpleItem<>(mapRecord(member), 0));
+                }
+            }
+        }
     }
 }

@@ -76,8 +76,9 @@ public class GroupDetailFragment extends BaseChildFragment<ChatterFeedPresenter>
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void bindView(View rootView) {
+        super.bindView(rootView);
+
         Bundle arguments = getArguments();
         String chatterFeedId = arguments.getString(EXTRA_CHATTER_FEED_ID);
         String groupName = arguments.getString(EXTRA_GROUP_NAME);

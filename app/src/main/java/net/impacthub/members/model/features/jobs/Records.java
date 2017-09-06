@@ -92,6 +92,6 @@ public class Records {
 
     @Override
     public String toString() {
-        return "Records [Job_Type__c = " + Job_Type__c + ", Related_Impact_Goal__c = " + Related_Impact_Goal__c + ", Company__c = " + Company__c + ", Contact__c = " + Contact__c + ", Name = " + Name + ", Applications_Close_Date__c = " + Applications_Close_Date__c + ", Job_Application_URL__c = " + Job_Application_URL__c + ", Salary__c = " + Salary2__c + ", Sector__c = " + Sector__c + ", Id = " + Id + ", attributes = " + attributes + ", Description__c = " + Description__c + ", Company__r = " + Company__r + ", Location__c = " + Location__c + "]";
+        return "GroupsRecords [Job_Type__c = " + Job_Type__c + ", Related_Impact_Goal__c = " + Related_Impact_Goal__c + ", Company__c = " + Company__c + ", Contact__c = " + Contact__c + ", Name = " + Name + ", Applications_Close_Date__c = " + Applications_Close_Date__c + ", Job_Application_URL__c = " + Job_Application_URL__c + ", Salary__c = " + Salary2__c + ", Sector__c = " + Sector__c + ", Id = " + Id + ", attributes = " + attributes + ", Description__c = " + Description__c + ", Company__r = " + Company__r + ", Location__c = " + Location__c + "]";
     }
 }

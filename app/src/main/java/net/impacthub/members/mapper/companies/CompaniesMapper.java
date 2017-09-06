@@ -11,12 +11,14 @@
 
 package net.impacthub.members.mapper.companies;
 
+import android.support.annotation.NonNull;
+
 import net.impacthub.members.model.features.companies.services.ServicesResponse;
 import net.impacthub.members.model.pojo.ListItemType;
 import net.impacthub.members.model.pojo.SimpleItem;
 import net.impacthub.members.model.vo.companies.CompanyVO;
 import net.impacthub.members.model.features.companies.CompaniesResponse;
-import net.impacthub.members.model.features.companies.Records;
+import net.impacthub.members.model.features.companies.CompaniesRecords;
 import net.impacthub.members.model.vo.companies.ServiceVO;
 
 import java.util.LinkedList;
@@ -33,32 +35,43 @@ public class CompaniesMapper {
     public List<CompanyVO> map(CompaniesResponse response) {
         List<CompanyVO> companyDTOs = new LinkedList<>();
         if (response != null) {
-            Records[] records = response.getRecords();
+            CompaniesRecords[] records = response.getRecords();
             if (records != null) {
-                for (Records record : records) {
-                    if (record != null) {
-                        CompanyVO company = new CompanyVO();
-                        company.mCompanyId = record.getId();
-                        company.mCompanyName = record.getName();
-
-                        company.mLinkFacebook = record.getFacebook__c();
-                        company.mLinkInstagram = record.getInstagram__c();
-                        company.mLinkLinkedin = record.getLinkedIn__c();
-                        company.mLinkTwitter = record.getTwitter__c();
-
-                        company.mCompanyDescription = record.getAbout_Us__c();
-                        company.mCompanyWebsite = record.getWebsite();
-                        company.mCompanySector = record.getSector_Industry__c();
-                        company.mCompanyLogo = record.getLogo_Image_Url__c();
-                        company.mCompanyBanner = record.getBanner_Image_Url__c();
-                        company.mCompanyMemberCount = record.getNumber_of_Employees__c();
-                        company.mCompanyLocation = record.getImpact_Hub_Cities__c();
-                        companyDTOs.add(company);
-                    }
-                }
+                companyDTOs.addAll(mapCompanyRecords(records));
             }
         }
         return companyDTOs;
+    }
+
+    public List<CompanyVO> mapCompanyRecords(CompaniesRecords[] records) {
+        List<CompanyVO> companyDTOs = new LinkedList<>();
+        for (CompaniesRecords record : records) {
+            if (record != null) {
+                companyDTOs.add(mapCompanyVO(record));
+            }
+        }
+        return companyDTOs;
+    }
+
+    @NonNull
+    private CompanyVO mapCompanyVO(CompaniesRecords record) {
+        CompanyVO company = new CompanyVO();
+        company.mCompanyId = record.getId();
+        company.mCompanyName = record.getName();
+
+        company.mLinkFacebook = record.getFacebook__c();
+        company.mLinkInstagram = record.getInstagram__c();
+        company.mLinkLinkedin = record.getLinkedIn__c();
+        company.mLinkTwitter = record.getTwitter__c();
+
+        company.mCompanyDescription = record.getAbout_Us__c();
+        company.mCompanyWebsite = record.getWebsite();
+        company.mCompanySector = record.getSector_Industry__c();
+        company.mCompanyLogo = record.getLogo_Image_Url__c();
+        company.mCompanyBanner = record.getBanner_Image_Url__c();
+        company.mCompanyMemberCount = record.getNumber_of_Employees__c();
+        company.mCompanyLocation = record.getImpact_Hub_Cities__c();
+        return company;
     }
 
     public List<ListItemType> mapAsListItemType(ServicesResponse response) {
@@ -75,5 +88,13 @@ public class CompaniesMapper {
             }
         }
         return listItemTypes;
+    }
+
+    public void mapCompanyRecordsAsListType(List<ListItemType> searchListItems, CompaniesRecords[] records) {
+        if (records != null) {
+            for (CompaniesRecords record : records) {
+                searchListItems.add(new SimpleItem<>(mapCompanyVO(record), 3));
+            }
+        }
     }
 }

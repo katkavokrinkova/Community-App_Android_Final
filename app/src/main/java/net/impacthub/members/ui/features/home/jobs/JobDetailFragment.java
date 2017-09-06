@@ -95,8 +95,8 @@ public class JobDetailFragment extends BaseChildFragment<JobsDetailUiPresenter> 
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void bindView(View rootView) {
+        super.bindView(rootView);
 
         Bundle arguments = getArguments();
 

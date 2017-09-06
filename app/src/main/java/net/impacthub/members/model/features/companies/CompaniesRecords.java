@@ -17,7 +17,7 @@ package net.impacthub.members.model.features.companies;
  * @date 8/4/2017.
  */
 
-public class Records {
+public class CompaniesRecords {
 
     private String Twitter__c;
     private String Website;
@@ -97,6 +97,6 @@ public class Records {
 
     @Override
     public String toString() {
-        return "Records [Twitter__c = " + Twitter__c + ", Website = " + Website + ", Logo_Image_Url__c = " + Logo_Image_Url__c + ", Instagram__c = " + Instagram__c + ", Name = " + Name + ", About_Us__c = " + About_Us__c + ", Number_of_Employees__c = " + Number_of_Employees__c + ", Banner_Image_Url__c = " + Banner_Image_Url__c + ", Id = " + Id + ", attributes = " + attributes + ", LinkedIn__c = " + LinkedIn__c + ", Sector_Industry__c = " + Sector_Industry__c + ", Facebook__c = " + Facebook__c + ", Impact_Hub_Cities__c = " + Impact_Hub_Cities__c + ", Affiliated_SDG__c = " + Affiliated_SDG__c + "]";
+        return "GroupsRecords [Twitter__c = " + Twitter__c + ", Website = " + Website + ", Logo_Image_Url__c = " + Logo_Image_Url__c + ", Instagram__c = " + Instagram__c + ", Name = " + Name + ", About_Us__c = " + About_Us__c + ", Number_of_Employees__c = " + Number_of_Employees__c + ", Banner_Image_Url__c = " + Banner_Image_Url__c + ", Id = " + Id + ", attributes = " + attributes + ", LinkedIn__c = " + LinkedIn__c + ", Sector_Industry__c = " + Sector_Industry__c + ", Facebook__c = " + Facebook__c + ", Impact_Hub_Cities__c = " + Impact_Hub_Cities__c + ", Affiliated_SDG__c = " + Affiliated_SDG__c + "]";
     }
 }

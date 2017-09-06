@@ -13,8 +13,10 @@ package net.impacthub.members.mapper.groups;
 
 import net.impacthub.members.mapper.chatter.ChatterMapper;
 import net.impacthub.members.model.features.groups.GroupsResponse;
-import net.impacthub.members.model.features.groups.Records;
+import net.impacthub.members.model.features.groups.GroupsRecords;
 import net.impacthub.members.model.features.groups.chatter.ChatterResponse;
+import net.impacthub.members.model.pojo.ListItemType;
+import net.impacthub.members.model.pojo.SimpleItem;
 import net.impacthub.members.model.vo.groups.GroupVO;
 
 import java.util.LinkedList;
@@ -32,19 +34,13 @@ public class GroupsMapper {
     public List<GroupVO> mapGroups(GroupsResponse response) {
         List<GroupVO> groups = new LinkedList<>();
         if (response != null) {
-            Records[] records = response.getRecords();
-            if (records != null) {
-                for (Records record : records) {
-                    if (record != null) {
-                        groups.add(mapGroup(record));
-                    }
-                }
-            }
+            GroupsRecords[] records = response.getRecords();
+            groups.addAll(mapGroupsRecords(records));
         }
         return groups;
     }
 
-    private GroupVO mapGroup(Records record) {
+    private GroupVO mapGroup(GroupsRecords record) {
         GroupVO group = new GroupVO();
         group.mImageURL = record.getImageURL__c();
         group.mName = record.getName();
@@ -58,10 +54,10 @@ public class GroupsMapper {
     public List<GroupVO> mapFiltered(ChatterResponse myChatterGroupResponse, GroupsResponse allGroupResponse) {
         List<GroupVO> groups = new LinkedList<>();
         if (allGroupResponse != null) {
-            Records[] records = allGroupResponse.getRecords();
+            GroupsRecords[] records = allGroupResponse.getRecords();
             if (records != null) {
                 Set<String> chatterIds = new ChatterMapper().mapChatterIdForGroups(myChatterGroupResponse);
-                for (Records record : records) {
+                for (GroupsRecords record : records) {
                     if("Public".equalsIgnoreCase(record.getChatterGroupType__c()) || chatterIds.contains(record.getChatterGroupId__c())) {
                         groups.add(mapGroup(record));
                     }
@@ -69,5 +65,27 @@ public class GroupsMapper {
             }
         }
         return groups;
+    }
+
+    public List<GroupVO> mapGroupsRecords(GroupsRecords[] records) {
+        List<GroupVO> groups = new LinkedList<>();
+        if (records != null) {
+            for (GroupsRecords record : records) {
+                if (record != null) {
+                    groups.add(mapGroup(record));
+                }
+            }
+        }
+        return groups;
+    }
+
+    public void mapGroupsRecordsAsListType(List<ListItemType> searchListItems, GroupsRecords[] records) {
+        if (records != null) {
+            for (GroupsRecords record : records) {
+                if (record != null) {
+                    searchListItems.add(new SimpleItem<>(mapGroup(record), 1));
+                }
+            }
+        }
     }
 }

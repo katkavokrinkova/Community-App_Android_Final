@@ -88,8 +88,9 @@ public class ConversationFragment extends BaseChildFragment<ConversationUiPresen
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void bindView(View rootView) {
+        super.bindView(rootView);
+
         setUpToolbar(R.string.label_conversation);
         Bundle arguments = getArguments();
         mConversationID = arguments.getString(EXTRA_CONVERSATION_ID);

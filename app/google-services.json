@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "971350360144",
+    "firebase_url": "https://impact-hub.firebaseio.com",
+    "project_id": "impact-hub",
+    "storage_bucket": "impact-hub.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:971350360144:android:0692658aa73d1585",
+        "android_client_info": {
+          "package_name": "net.impacthub.members"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "971350360144-kamp1i6j5ri996rdo92aqqseho6qe0dq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "net.impacthub.members",
+            "certificate_hash": "c6f0edaea341a410169f55f0acc4b51253e574c6"
+          }
+        },
+        {
+          "client_id": "971350360144-f42eor684rqed6t6kpvd4a914vn2nhrb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqWx9p0p8PO0hbtwYW4xH5YTvGGgKUczo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "971350360144-f42eor684rqed6t6kpvd4a914vn2nhrb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

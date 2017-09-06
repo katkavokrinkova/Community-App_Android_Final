@@ -218,6 +218,11 @@ public class SoqlRequestFactory {
                 getPath(communityId, "users/me/", "conversations"));
     }
 
+    public RestRequest createGlobalSearchRequest(JSONObject jsonObject) throws UnsupportedEncodingException {
+        return new RestRequest(RestRequest.RestMethod.POST,
+                "/services/apexrest/callGlobalSearch/", jsonObject);
+    }
+
     public RestRequest createConversationsRequest_Old(String communityId) {
         return new RestRequest(RestRequest.RestMethod.GET,
                 getPath(communityId, "users/me/", "conversations?filterGroup=Small"));

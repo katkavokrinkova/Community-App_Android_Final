@@ -59,8 +59,9 @@ public class CompaniesFragment extends BaseChildFragment<CompaniesUiPresenter> i
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void bindView(View rootView) {
+        super.bindView(rootView);
+
         setUpToolbar(R.string.companies);
         mCompanyList.setHasFixedSize(true);
         mAdapter = new CompaniesListAdapter(getLayoutInflater(getArguments()));

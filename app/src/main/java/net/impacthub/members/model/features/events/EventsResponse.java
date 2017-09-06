@@ -20,14 +20,14 @@ package net.impacthub.members.model.features.events;
 public class EventsResponse {
 
     private String done;
-    private Records[] records;
+    private EventRecords[] records;
     private int totalSize;
 
     public String getDone() {
         return done;
     }
 
-    public Records[] getRecords() {
+    public EventRecords[] getRecords() {
         return records;
     }
 

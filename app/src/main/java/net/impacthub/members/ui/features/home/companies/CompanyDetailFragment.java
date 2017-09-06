@@ -134,8 +134,8 @@ public class CompanyDetailFragment extends BaseChildFragment<CompanyDetailUiPres
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void bindView(View rootView) {
+        super.bindView(rootView);
 
         Bundle arguments = getArguments();
 
