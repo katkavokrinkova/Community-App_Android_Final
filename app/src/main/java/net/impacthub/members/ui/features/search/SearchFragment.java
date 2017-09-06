@@ -2,11 +2,14 @@ package net.impacthub.members.ui.features.search;
 
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.impacthub.members.R;
@@ -43,6 +46,7 @@ public class SearchFragment  extends BaseChildFragment<SearchUiPresenter> implem
 
     @BindView(R.id.list_items) protected RecyclerView mSearchResultList;
     @BindView(R.id.text_global_search_term) protected EditText mSearchField;
+    @BindView(R.id.button_clear) protected ImageView mClearBtn;
 
     private SearchResultListAdapter mAdapter;
 
@@ -55,9 +59,9 @@ public class SearchFragment  extends BaseChildFragment<SearchUiPresenter> implem
         return fragment;
     }
 
-    @OnClick(R.id.button_search)
-    protected void onSearchButtonClicked() {
-        search(mSearchField.getText().toString());
+    @OnClick(R.id.button_clear)
+    protected void onClearButtonClicked() {
+        mSearchField.setText(null);
     }
 
     @Override
@@ -75,13 +79,34 @@ public class SearchFragment  extends BaseChildFragment<SearchUiPresenter> implem
         super.bindView(rootView);
         setUpToolbar(R.string.search);
 
-        mSearchResultList.setHasFixedSize(true);
+        //mSearchResultList.setHasFixedSize(true);
         int offset = getResources().getDimensionPixelOffset(R.dimen.default_content_normal_gap);
         mSearchResultList.addItemDecoration(new LinearItemsMarginDecorator(offset));
         mAdapter = new SearchResultListAdapter(LayoutInflater.from(getContext()));
         mAdapter.setItemClickListener(this);
         mSearchResultList.setAdapter(mAdapter);
 
+        mSearchField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String typedQuery = editable.toString();
+                if(typedQuery.isEmpty()) {
+                    mClearBtn.setVisibility(View.GONE);
+                } else {
+                    mClearBtn.setVisibility(View.VISIBLE);
+                }
+            }
+        });
         mSearchField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
