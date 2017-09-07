@@ -5,12 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
 import android.util.Pair;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -18,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.impacthub.members.R;
+import net.impacthub.members.model.callback.OnCollapsingToolbarOffsetChangeListener;
 import net.impacthub.members.model.callback.OnListItemClickListener;
 import net.impacthub.members.model.pojo.ListItemType;
 import net.impacthub.members.model.vo.conversations.ConversationVO;
@@ -53,7 +53,7 @@ import butterknife.BindView;
  * @date 03/08/2017.
  */
 
-public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresenter> implements MemberDetailUiContract {
+public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresenter> implements MemberDetailUiContract, OnCollapsingToolbarOffsetChangeListener {
 
     private static final String TAG = MemberDetailFragment.class.getSimpleName();
 
@@ -75,6 +75,7 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
     public static final String EXTRA_MEMBER_PROFESSION = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_PROFESSION";
 
     @BindView(R.id.app_bar_layout) protected AppBarLayout mAppBar;
+    @BindView(R.id.collapse_toolbar_member_detail) protected CollapsingToolbarLayout mCollapsingToolbarLayout;
     @BindView(R.id.tabs) protected TabLayout mDetailsTab;
     @BindView(R.id.image_detail) protected ImageView mImageDetail;
     @BindView(R.id.container_connect) protected FrameLayout mMemberStatusContainer;
@@ -106,6 +107,8 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
     private ViewBinder<List<ListItemType>> mViewBinder1;
     private ViewBinder<List<ProjectVO>> mViewBinder2;
     private ViewBinder<List<GroupVO>> mViewBinder3;
+
+    private SimpleOffsetChangeListenerAdapter mOffsetChangeListenerAdapter;
 
     public static MemberDetailFragment newInstance(MemberVO member) {
 
@@ -176,6 +179,9 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
 //                return false;
 //            }
 //        });
+
+        mOffsetChangeListenerAdapter = new SimpleOffsetChangeListenerAdapter(mToolbar);
+        mOffsetChangeListenerAdapter.setOffsetChangeListener(this);
 
         mAppBar.addOnOffsetChangedListener(mOffsetChangeListenerAdapter);
 
@@ -329,15 +335,38 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
         mMemberStatusContainer.removeAllViews();
     }
 
-    private final SimpleOffsetChangeListenerAdapter mOffsetChangeListenerAdapter = new SimpleOffsetChangeListenerAdapter(){
-        @Override
-        protected void onExpanded(int verticalOffset) {
-            //mToolbar.getMenu().findItem(R.id.actionRequestContact).setVisible(false);
+    @Override
+    public void onExpanded(int verticalOffset) {
+        //showToast("Expanded");
+        mToolbar.getMenu().clear();
+    }
+
+    @Override
+    public void onCollapsed(int verticalOffset) {
+//        showToast("Collapsed");
+        MemberStatusType statusType = MemberStatusType.fromStatus(mMemberStatus);
+        switch (statusType) {
+            case APPROVED:
+                mToolbar.inflateMenu(R.menu.menu_member_contact);
+                break;
+            case APPROVE_DECLINE:
+                mToolbar.inflateMenu(R.menu.menu_member_approve_decline);
+                break;
+            case NOT_CONTACTED:
+                mToolbar.inflateMenu(R.menu.menu_member_connect);
+                break;
         }
 
-        @Override
-        protected void onCollapsed(int verticalOffset) {
-            //mToolbar.getMenu().findItem(R.id.actionRequestContact).setVisible(true);
-        }
-    };
+//        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+//            @Override
+//            public boolean onMenuItemClick(MenuItem item) {
+//                switch (item.getItemId()) {
+//                    case R.id.actionRequestContact:
+//                        showToast("Request Contact!");
+//                        return true;
+//                }
+//                return false;
+//            }
+//        });
+    }
 }
