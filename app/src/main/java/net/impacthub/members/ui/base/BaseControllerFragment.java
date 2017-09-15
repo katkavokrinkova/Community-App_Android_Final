@@ -44,7 +44,8 @@ public abstract class BaseControllerFragment extends Fragment implements OnBackL
         super.onActivityCreated(savedInstanceState);
 
         getChildFragmentManager().beginTransaction()
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
+                //.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.fragment_container, mCurrentFragment)
                 .commit();
     }

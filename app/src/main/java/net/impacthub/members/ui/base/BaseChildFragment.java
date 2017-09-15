@@ -1,7 +1,9 @@
 package net.impacthub.members.ui.base;
 
+import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.ColorInt;
+import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -25,14 +27,22 @@ import static net.impacthub.members.application.salesforce.SalesforceModuleDepen
 
 public abstract class BaseChildFragment<P extends UiPresenter<? extends UiContract>> extends BaseFragment<P> {
 
+    private FragmentManager mChildFragmentManager;
     private boolean mIsFirstLaunch = true;
     private final UserAccount mUserAccount = userAccountProvider();
+
     protected final View.OnClickListener mBackListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             popChildFragment();
         }
     };
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mChildFragmentManager = getParentFragment().getChildFragmentManager();
+    }
 
     protected UserAccount getUserAccount() {
         return mUserAccount;
@@ -44,6 +54,7 @@ public abstract class BaseChildFragment<P extends UiPresenter<? extends UiContra
         }
         return url;
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -88,13 +99,16 @@ public abstract class BaseChildFragment<P extends UiPresenter<? extends UiContra
     }
 
     protected void addChildFragment(Fragment fragment, String tag) {
-        getParentFragment().getChildFragmentManager().beginTransaction()
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+        if (mChildFragmentManager != null) {
+            mChildFragmentManager.beginTransaction()
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
+//                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
 //                .setCustomAnimations(R.anim.trans_left_in, R.anim.trans_left_out, R.anim.trans_right_in, R.anim.trans_right_out)
-//                .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
-                .replace(R.id.fragment_container, fragment, tag)
-                .addToBackStack(null)
-                .commit();
+//                    .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
+                    .replace(R.id.fragment_container, fragment, tag)
+                    .addToBackStack(null)
+                    .commit();
+        }
     }
 
     protected boolean popChildFragment() {

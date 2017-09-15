@@ -4,7 +4,8 @@
     <!--<color name="colorPrimaryDark">#303F9F</color>-->
 
     <color name="colorPrimary">#ff5353</color>
-    <color name="colorPrimaryDark">#D22F2F</color>
+    <color name="colorPrimaryDark">#822B26</color>
+    <!--<color name="colorPrimaryDark">#D22F2F</color>-->
     <color name="colorAccent">#FF4081</color>
     <color name="impacthub">#ff5353</color>
     <color name="message_background">#f7f7f7</color>
