@@ -74,15 +74,26 @@
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
 
+                            <android.support.v7.widget.CardView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_margin="4dp"
+                                android:padding="3dp"
+                                app:cardPreventCornerOverlap="false"
+                                app:cardUseCompatPadding="false"
+                                app:cardCornerRadius="48dp"
+                                app:cardElevation="6dp">
+
                             <net.impacthub.members.ui.widgets.CircleImageView
                                 android:id="@+id/image_detail"
                                 android:layout_width="96dp"
                                 android:layout_height="96dp"
-                                android:layout_margin="4dp"
                                 android:contentDescription="@string/member_image"
                                 android:scaleType="centerCrop"
                                 tools:src="@drawable/ic_fp_40px" />
 
+                            </android.support.v7.widget.CardView>
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"

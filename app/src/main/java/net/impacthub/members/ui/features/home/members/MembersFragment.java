@@ -3,6 +3,7 @@ package net.impacthub.members.ui.features.home.members;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -33,6 +34,7 @@ import butterknife.OnClick;
 public class MembersFragment extends BaseChildFragment<MembersPresenter> implements MembersUiContract, OnListItemClickListener<MemberVO> {
 
     public static final String KEY_LIST_STATE = "list_state";
+
     @BindView(R.id.list_items) protected RecyclerView mMembersList;
 
     private MembersListAdapter mAdapter;
@@ -79,29 +81,29 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
         mAdapter = new MembersListAdapter(getActivity().getLayoutInflater());
         mAdapter.setItemClickListener(this);
         mMembersList.setAdapter(mAdapter);
-        getPresenter().loadMembers();
+        //getPresenter().loadMembers();
 
-//        if (mState != null) {
-//            mMembersList.getLayoutManager().onRestoreInstanceState(mState);
-//        } else {
-//            getPresenter().loadMembers();
-//        }
+        if (mState != null) {
+            mMembersList.getLayoutManager().onRestoreInstanceState(mState);
+        } else {
+            getPresenter().loadMembers();
+        }
     }
 
-//    @Override
-//    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-//        if (savedInstanceState != null) {
-//            mState = savedInstanceState.getParcelable(KEY_LIST_STATE);
-//        }
-//        super.onViewStateRestored(savedInstanceState);
-//    }
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            mState = savedInstanceState.getParcelable(KEY_LIST_STATE);
+        }
+        super.onViewStateRestored(savedInstanceState);
+    }
 
-//    @Override
-//    public void onSaveInstanceState(Bundle outState) {
-//        mState = mMembersList.getLayoutManager().onSaveInstanceState();
-//        outState.putParcelable(KEY_LIST_STATE, mState);
-//        super.onSaveInstanceState(outState);
-//    }
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        mState = mMembersList.getLayoutManager().onSaveInstanceState();
+        outState.putParcelable(KEY_LIST_STATE, mState);
+        super.onSaveInstanceState(outState);
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
