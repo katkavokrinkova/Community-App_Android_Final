@@ -88,7 +88,7 @@ public class ContactsFragment extends BaseChildFragment<ContactsUiPresenter> imp
                         showToast("Opening Conversation");
                         break;
                     case R.id.button_decline_contact:
-                        getPresenter().declineContact(model.mDM_Id);
+                        getPresenter().declineContact(model.mMember.mDM_ID);
                         break;
                     default:
                         addChildFragment(MemberDetailFragment.newInstance(model.mMember), "FRAG_MEMBER_DETAIL");
@@ -103,12 +103,12 @@ public class ContactsFragment extends BaseChildFragment<ContactsUiPresenter> imp
                 switch (viewId) {
                     case R.id.button_accept_contact:
                         if (member != null) {
-                            getPresenter().updateContactRequest(model.mDM_Id, member.mUserId, "Approved");
+                            getPresenter().updateContactRequest(model.mMember.mDM_ID, member.mUserId, "Approved");
                         }
                         break;
                     case R.id.button_reject_contact:
                         if (member != null) {
-                            getPresenter().updateContactRequest(model.mDM_Id, member.mUserId, "Declined");
+                            getPresenter().updateContactRequest(model.mMember.mDM_ID, member.mUserId, "Declined");
                         }
                         break;
                     case R.id.button_view_more:
@@ -123,7 +123,7 @@ public class ContactsFragment extends BaseChildFragment<ContactsUiPresenter> imp
             public void onItemClick(int viewId, ContactVO model) {
                 MemberVO member = model.mMember;
                 if (member != null) {
-                    getPresenter().updateContactRequest(model.mDM_Id, member.mUserId, "Approved");
+                    getPresenter().updateContactRequest(model.mMember.mDM_ID, member.mUserId, "Approved");
                 }
             }
         }));

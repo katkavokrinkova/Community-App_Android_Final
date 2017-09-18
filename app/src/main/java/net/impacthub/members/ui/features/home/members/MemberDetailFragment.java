@@ -183,8 +183,6 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
         mOffsetChangeListenerAdapter = new SimpleOffsetChangeListenerAdapter(mToolbar);
         mOffsetChangeListenerAdapter.setOffsetChangeListener(this);
 
-        mAppBar.addOnOffsetChangedListener(mOffsetChangeListenerAdapter);
-
         AppPagerAdapter adapter = new AppPagerAdapter(getContext());
 
         adapter.addVieBinder(mViewBinder1 = new AboutViewBinder(new MemberInfoListAdapter(LayoutInflater.from(getContext()))));
@@ -294,6 +292,12 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
             }
         });
         mMemberStatusContainer.addView(contactView);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mAppBar.addOnOffsetChangedListener(mOffsetChangeListenerAdapter);
     }
 
     @Override

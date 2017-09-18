@@ -24,7 +24,7 @@ public class Company {
     private String Logo_Image_Url__c;
     private String Instagram__c;
     private String Name;
-    private String About_Us__c;
+    private String Company_About_Us__c;
     private String Number_of_Employees__c;
     private String Banner_Image_Url__c;
     private Attributes attributes;
@@ -55,7 +55,7 @@ public class Company {
     }
 
     public String getAbout_Us__c() {
-        return About_Us__c;
+        return Company_About_Us__c;
     }
 
     public String getNumber_of_Employees__c() {
@@ -92,6 +92,6 @@ public class Company {
 
     @Override
     public String toString() {
-        return "Company [Twitter__c = " + Twitter__c + ", Website = " + Website + ", Logo_Image_Url__c = " + Logo_Image_Url__c + ", Instagram__c = " + Instagram__c + ", Name = " + Name + ", About_Us__c = " + About_Us__c + ", Number_of_Employees__c = " + Number_of_Employees__c + ", Banner_Image_Url__c = " + Banner_Image_Url__c + ", attributes = " + attributes + ", Company_Summary__c = " + Company_Summary__c + ", Sector_Industry__c = " + Sector_Industry__c + ", Facebook__c = " + Facebook__c + ", LinkedIn__c = " + LinkedIn__c + ", Impact_Hub_Cities__c = " + Impact_Hub_Cities__c + "]";
+        return "Company [Twitter__c = " + Twitter__c + ", Website = " + Website + ", Logo_Image_Url__c = " + Logo_Image_Url__c + ", Instagram__c = " + Instagram__c + ", Name = " + Name + ", About_Us__c = " + Company_About_Us__c + ", Number_of_Employees__c = " + Number_of_Employees__c + ", Banner_Image_Url__c = " + Banner_Image_Url__c + ", attributes = " + attributes + ", Company_Summary__c = " + Company_Summary__c + ", Sector_Industry__c = " + Sector_Industry__c + ", Facebook__c = " + Facebook__c + ", LinkedIn__c = " + LinkedIn__c + ", Impact_Hub_Cities__c = " + Impact_Hub_Cities__c + "]";
     }
 }

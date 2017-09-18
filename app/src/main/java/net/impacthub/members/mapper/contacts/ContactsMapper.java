@@ -45,29 +45,34 @@ public class ContactsMapper {
                     String status = record.getStatus__c();
 
                     ContactVO contactVO = new ContactVO();
-                    contactVO.mDM_Id = record.getId();
                     contactVO.mCreatedDate = record.getCreatedDate();
 
                     if ("Approved".equalsIgnoreCase(status)) {
-                        if (contactId.equals(contactTo__c)) {
-                            MemberVO memberVO = memberVOMap.get(contactFrom__c);
-                            memberVO.mMemberStatus = MemberStatus.APPROVED;
-                            contactVO.mMember = memberVO;
-                        } else {
+
+                        if (memberVOMap.containsKey(contactTo__c)) {
                             MemberVO memberVO = memberVOMap.get(contactTo__c);
                             memberVO.mMemberStatus = MemberStatus.APPROVED;
+                            memberVO.mDM_ID = record.getId();
                             contactVO.mMember = memberVO;
+                            contactsWrapper.getApprovedContacts().add(contactVO);
+                        } else if (memberVOMap.containsKey(contactFrom__c)) {
+                            MemberVO memberVO = memberVOMap.get(contactFrom__c);
+                            memberVO.mMemberStatus = MemberStatus.APPROVED;
+                            memberVO.mDM_ID = record.getId();
+                            contactVO.mMember = memberVO;
+                            contactsWrapper.getApprovedContacts().add(contactVO);
                         }
-                        contactsWrapper.getApprovedContacts().add(contactVO);
                     } else if ("Declined".equalsIgnoreCase(status) && contactId.equals(contactTo__c)) {
                         MemberVO memberVO = memberVOMap.get(contactFrom__c);
                         memberVO.mMemberStatus = MemberStatus.DECLINED;
+                        memberVO.mDM_ID = record.getId();
                         contactVO.mMember = memberVO;
                         contactsWrapper.getDeclinedContacts().add(contactVO);
                     } else if ("Outstanding".equalsIgnoreCase(status) && contactId.equals(contactTo__c)) {
                         contactVO.mIntroMessage = record.getIntroduction_Message__c();
                         MemberVO memberVO = memberVOMap.get(contactFrom__c);
                         memberVO.mMemberStatus = MemberStatus.OUTSTANDING;
+                        memberVO.mDM_ID = record.getId();
                         contactVO.mMember = memberVO;
                         contactsWrapper.getOutstandingContacts().add(contactVO);
                     }

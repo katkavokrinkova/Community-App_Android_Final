@@ -68,12 +68,12 @@ public class ViewMoreContactFragment extends BaseChildFragment<ViewMoreForContac
         Bundle args = new Bundle();
 
         if (contactVO != null) {
-            args.putString(EXTRA_DM_ID, contactVO.mDM_Id);
             args.putString(EXTRA_DM_INTRO_MESSAGE, contactVO.mIntroMessage);
             args.putString(EXTRA_DM_CREATED_DATE, contactVO.mCreatedDate);
 
             MemberVO member = contactVO.mMember;
             if (member != null) {
+                args.putString(EXTRA_DM_ID, member.mDM_ID);
                 args.putString(EXTRA_MEMBER_ID, member.mUserId);
                 args.putString(EXTRA_MEMBER_FULL_NAME, member.mFullName);
                 args.putString(EXTRA_MEMBER_PROFILE_PIC_URL, member.mProfilePicURL);

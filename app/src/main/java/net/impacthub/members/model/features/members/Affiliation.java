@@ -17,7 +17,7 @@ public class Affiliation {
     @SerializedName("ImageURL__c")
     @Expose
     private String imageUrl;
-    @SerializedName("Group_Desc__c")
+    @SerializedName("Group_Descr__c")
     @Expose
     private String groupDesc;
     @SerializedName("Impact_Hub_Cities__c")

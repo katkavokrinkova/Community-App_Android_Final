@@ -31,7 +31,7 @@ public class SoqlRequestFactory {
     //User__c is the user ID
     //id is the contact ID
     private static final String CONTACT = "id, firstname,lastname, ProfilePic__c, Profession__c, Impact_Hub_Cities__c," +
-            " User__c,Skills__c, About_Me__c,Status_Update__c,Directory_Summary__c, Interested_SDG__c," +
+            " User__c,Skills__c, AboutMe__c,Status_Update__c,Directory_Summary__c, Interested_SDG__c," +
             "How_Do_You_Most_Identify_with_Your_Curre__c,Twitter__c,Instagram__c,Facebook__c,Linked_In__c";
 
     private static final String PROFILE = "SELECT " + CONTACT + " FROM Contact WHERE User__c = '%s'";
@@ -47,7 +47,7 @@ public class SoqlRequestFactory {
                     + "where (Grouping__c = 'City' or Grouping__c = 'Sector') and active__c = true";
 
     private static final String memberDetailQuery =
-            "select id, name, CountOfMembers__c, ImageURL__c, Group_Desc__c, Impact_Hub_Cities__c, "
+            "select id, name, CountOfMembers__c, ImageURL__c, Group_Descr__c, Impact_Hub_Cities__c, "
                     + "ChatterGroupId__c, Organisation__r.Name, Organisation__c, Directory_Style__c "
                     + "from Directory__c where (Directory_Style__c ='Project' or Directory_Style__c = 'Group') "
                     + "and id in (select DirectoryID__c from Directory_Member__c where ContactID__c ='%s')";
@@ -61,12 +61,12 @@ public class SoqlRequestFactory {
 
     private static final String COMPANIES = "SELECT id, name, Number_of_Employees__c, Impact_Hub_Cities__c, Sector_Industry__c," +
             " Logo_Image_Url__c, Banner_Image_Url__c,Affiliated_SDG__c, Twitter__c, Instagram__c, Facebook__c, LinkedIn__c," +
-            " Website, About_Us__c FROM account where id IN (SELECT accountid FROM contact WHERE user__c != null)";
+            " Website, Company_About_Us__c FROM account where id IN (SELECT accountid FROM contact WHERE user__c != null)";
 
     private static final String COMPANY_SERVICE_COLUMNS = "id, name, Service_Description__c FROM Company_Service__c";
     private static final String COMPANY_SERVICES = "SELECT " + COMPANY_SERVICE_COLUMNS + "  WHERE Company__r.id ='%s'";
 
-    private static final String GROUP = "id, name, CountOfMembers__c, ImageURL__c, Group_Desc__c,Related_Impact_Goal__c, Impact_Hub_Cities__c, ChatterGroupType__c, ChatterGroupId__c, Directory_Style__c,Sector__c";
+    private static final String GROUP = "id, name, CountOfMembers__c, ImageURL__c, Group_Descr__c,Related_Impact_Goal__c, Impact_Hub_Cities__c, ChatterGroupType__c, ChatterGroupId__c, Directory_Style__c,Sector__c";
     private static final String ALL_GROUPS = "SELECT "+ GROUP + " FROM Directory__c WHERE Directory_Style__c = 'Group'";
     private static final String YOUR_GROUPS = "SELECT "+ GROUP + " FROM Directory__c " +
             "WHERE Directory_Style__c = 'Group' AND id IN (SELECT DirectoryID__c FROM Directory_Member__c WHERE ContactID__c ='%s')";
@@ -75,7 +75,7 @@ public class SoqlRequestFactory {
 
     private static final String GOALS = "select id, name,  Active__c, ImageURL__c, Summary__c, Description__c from Taxonomy__c where Grouping__c ='SDG'";
 
-    private static final String JOB_COLUMNS = "id, name, Description__c, Salary2__c, Job_Type__c, Sector__c,Contact__c, Location__c, Applications_Close_Date__c,Related_Impact_Goal__c,Company__c,Company__r.name,Company__r.Number_of_Employees__c, Company__r.Impact_Hub_Cities__c,Company__r.Company_Summary__c, Company__r.Sector_Industry__c, Company__r.Logo_Image_Url__c, Company__r.Banner_Image_Url__c, Company__r.Twitter__c, Company__r.Instagram__c, Company__r.Facebook__c, Company__r.LinkedIn__c, Company__r.Website, Company__r.About_Us__c,Job_Application_URL__c";
+    private static final String JOB_COLUMNS = "id, name, Description__c, Salary2__c, Job_Type__c, Sector__c,Contact__c, Location__c, Applications_Close_Date__c,Related_Impact_Goal__c,Company__c,Company__r.name,Company__r.Number_of_Employees__c, Company__r.Impact_Hub_Cities__c,Company__r.Company_Summary__c, Company__r.Sector_Industry__c, Company__r.Logo_Image_Url__c, Company__r.Banner_Image_Url__c, Company__r.Twitter__c, Company__r.Instagram__c, Company__r.Facebook__c, Company__r.LinkedIn__c, Company__r.Website, Company__r.Company_About_Us__c,Job_Application_URL__c";
 
     private static final String JOBS = "SELECT " + JOB_COLUMNS + " FROM Job__c WHERE Applications_Close_Date__c >= %s";
 
@@ -85,7 +85,7 @@ public class SoqlRequestFactory {
     private static final String EVENTS_YOU_MANAGE = "SELECT " + EVENTS_COLUMNS + " where Organiser__c = '%s' and Event_End_DateTime__c >= %s ORDER BY Event_Start_DateTime__c ASC";
     private static final String YOUR_EVENTS = "SELECT " + EVENTS_COLUMNS + " where id in (SELECT Event__c FROM Event_Attendance__c where Registered__c = true and Contact__c = '%s') and Event_End_DateTime__c >= %s ORDER BY Event_Start_DateTime__c ASC";
 
-    private static final String PROJECT = "id,CreatedById, name,Related_Impact_Goal__c,ChatterGroupId__c ,Group_Desc__c, ImageURL__c, CountOfMembers__c, Impact_Hub_Cities__c, Directory_Style__c,Sector__c, Organisation__r.id, Organisation__r.Number_of_Employees__c, Organisation__r.Impact_Hub_Cities__c, Organisation__r.name";
+    private static final String PROJECT = "id,CreatedById, name,Related_Impact_Goal__c,ChatterGroupId__c ,Group_Descr__c, ImageURL__c, CountOfMembers__c, Impact_Hub_Cities__c, Directory_Style__c,Sector__c, Organisation__r.id, Organisation__r.Number_of_Employees__c, Organisation__r.Impact_Hub_Cities__c, Organisation__r.name";
 
     private static final String ALL_PROJECTS = "SELECT " + PROJECT + " FROM Directory__c WHERE Directory_Style__c = 'Project'";
     private static final String PROJECTS_YOU_MANAGE = "SELECT " + PROJECT + " FROM Directory__c WHERE Directory_Style__c = 'Project'";

@@ -21,7 +21,6 @@ import net.impacthub.members.model.vo.members.MemberVO;
 
 public class ContactVO {
 
-    public String mDM_Id;
     public String mIntroMessage;
     public String mCreatedDate;
     public MemberVO mMember;

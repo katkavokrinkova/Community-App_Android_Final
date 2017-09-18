@@ -20,7 +20,7 @@ package net.impacthub.members.model.features.projects;
 public class ProjectRecords {
 
     private String Name;
-    private String Group_Desc__c;
+    private String Group_Descr__c;
     private String Directory_Style__c;
     private String Related_Impact_Goal__c;
     private String CreatedById;
@@ -38,7 +38,7 @@ public class ProjectRecords {
     }
 
     public String getGroup_Desc__c() {
-        return Group_Desc__c;
+        return Group_Descr__c;
     }
 
     public String getDirectory_Style__c() {
@@ -87,6 +87,6 @@ public class ProjectRecords {
 
     @Override
     public String toString() {
-        return "GroupsRecords [Name = " + Name + ", Group_Desc__c = " + Group_Desc__c + ", Directory_Style__c = " + Directory_Style__c + ", Related_Impact_Goal__c = " + Related_Impact_Goal__c + ", CreatedById = " + CreatedById + ", Sector__c = " + Sector__c + ", ChatterGroupId__c = " + ChatterGroupId__c + ", Id = " + Id + ", attributes = " + attributes + ", Organisation__r = " + Organisation__r + ", ImageURL__c = " + ImageURL__c + "]";
+        return "GroupsRecords [Name = " + Name + ", Group_Desc__c = " + Group_Descr__c + ", Directory_Style__c = " + Directory_Style__c + ", Related_Impact_Goal__c = " + Related_Impact_Goal__c + ", CreatedById = " + CreatedById + ", Sector__c = " + Sector__c + ", ChatterGroupId__c = " + ChatterGroupId__c + ", Id = " + Id + ", attributes = " + attributes + ", Organisation__r = " + Organisation__r + ", ImageURL__c = " + ImageURL__c + "]";
     }
 }

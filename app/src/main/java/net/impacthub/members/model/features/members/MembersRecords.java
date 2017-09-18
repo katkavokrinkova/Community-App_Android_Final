@@ -35,7 +35,7 @@ public class MembersRecords {
     private String Id;
     private Attributes attributes;
     private String Facebook__c;
-    private String About_Me__c;
+    private String AboutMe__c;
     private String Impact_Hub_Cities__c;
 
     public String getTwitter__c() {
@@ -103,7 +103,7 @@ public class MembersRecords {
     }
 
     public String getAbout_Me__c() {
-        return About_Me__c;
+        return AboutMe__c;
     }
 
     public String getImpact_Hub_Cities__c() {
@@ -112,6 +112,6 @@ public class MembersRecords {
 
     @Override
     public String toString() {
-        return "GroupsRecords [Twitter__c = " + Twitter__c + ", Directory_Summary__c = " + Directory_Summary__c + ", Skills__c = " + Skills__c + ", Profession__c = " + Profession__c + ", ProfilePic__c = " + ProfilePic__c + ", Instagram__c = " + Instagram__c + ", User__c = " + User__c + ", LastName = " + LastName + ", How_Do_You_Most_Identify_with_Your_Curre__c = " + How_Do_You_Most_Identify_with_Your_Curre__c + ", Interested_SDG__c = " + Interested_SDG__c + ", Linked_In__c = " + Linked_In__c + ", Status_Update__c = " + Status_Update__c + ", FirstName = " + FirstName + ", Id = " + Id + ", attributes = " + attributes + ", Facebook__c = " + Facebook__c + ", About_Me__c = " + About_Me__c + ", Impact_Hub_Cities__c = " + Impact_Hub_Cities__c + "]";
+        return "GroupsRecords [Twitter__c = " + Twitter__c + ", Directory_Summary__c = " + Directory_Summary__c + ", Skills__c = " + Skills__c + ", Profession__c = " + Profession__c + ", ProfilePic__c = " + ProfilePic__c + ", Instagram__c = " + Instagram__c + ", User__c = " + User__c + ", LastName = " + LastName + ", How_Do_You_Most_Identify_with_Your_Curre__c = " + How_Do_You_Most_Identify_with_Your_Curre__c + ", Interested_SDG__c = " + Interested_SDG__c + ", Linked_In__c = " + Linked_In__c + ", Status_Update__c = " + Status_Update__c + ", FirstName = " + FirstName + ", Id = " + Id + ", attributes = " + attributes + ", Facebook__c = " + Facebook__c + ", About_Me__c = " + AboutMe__c + ", Impact_Hub_Cities__c = " + Impact_Hub_Cities__c + "]";
     }
 }

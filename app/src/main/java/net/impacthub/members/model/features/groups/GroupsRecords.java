@@ -20,7 +20,7 @@ package net.impacthub.members.model.features.groups;
 public class GroupsRecords {
 
     private String Name;
-    private String Group_Desc__c;
+    private String Group_Descr__c;
     private String Directory_Style__c;
     private String Related_Impact_Goal__c;
     private String CountOfMembers__c;
@@ -37,7 +37,7 @@ public class GroupsRecords {
     }
 
     public String getGroup_Desc__c() {
-        return Group_Desc__c;
+        return Group_Descr__c;
     }
 
     public String getDirectory_Style__c() {
@@ -82,6 +82,6 @@ public class GroupsRecords {
 
     @Override
     public String toString() {
-        return "GroupsRecords [Name = " + Name + ", Group_Desc__c = " + Group_Desc__c + ", Directory_Style__c = " + Directory_Style__c + ", Related_Impact_Goal__c = " + Related_Impact_Goal__c + ", CountOfMembers__c = " + CountOfMembers__c + ", Sector__c = " + Sector__c + ", ChatterGroupId__c = " + ChatterGroupId__c + ", Id = " + Id + ", attributes = " + attributes + ", ImageURL__c = " + ImageURL__c + ", Impact_Hub_Cities__c = " + Impact_Hub_Cities__c + "]";
+        return "GroupsRecords [Name = " + Name + ", Group_Desc__c = " + Group_Descr__c + ", Directory_Style__c = " + Directory_Style__c + ", Related_Impact_Goal__c = " + Related_Impact_Goal__c + ", CountOfMembers__c = " + CountOfMembers__c + ", Sector__c = " + Sector__c + ", ChatterGroupId__c = " + ChatterGroupId__c + ", Id = " + Id + ", attributes = " + attributes + ", ImageURL__c = " + ImageURL__c + ", Impact_Hub_Cities__c = " + Impact_Hub_Cities__c + "]";
     }
 }
