@@ -101,8 +101,8 @@ public abstract class BaseChildFragment<P extends UiPresenter<? extends UiContra
     protected void addChildFragment(Fragment fragment, String tag) {
         if (mChildFragmentManager != null) {
             mChildFragmentManager.beginTransaction()
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
-//                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+//                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
+                .setTransition(FragmentTransaction.TRANSIT_NONE)
 //                .setCustomAnimations(R.anim.trans_left_in, R.anim.trans_left_out, R.anim.trans_right_in, R.anim.trans_right_out)
 //                    .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
                     .replace(R.id.fragment_container, fragment, tag)
