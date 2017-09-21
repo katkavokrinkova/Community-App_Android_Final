@@ -56,8 +56,7 @@ public class MemberDetailUiPresenter extends UiPresenter<MemberDetailUiContract>
                     @Override
                     protected List<ListItemType> apply(Skills response, String subject) throws Exception {
                         List<ListItemType> listItemTypes = new MembersMapper().mapAsListItemType(response);
-                        listItemTypes.add(0, new SimpleItem<String>("My Skills", 0));
-                        listItemTypes.add(0, new SimpleItem<String>("About", 0));
+                        listItemTypes.add(0, new SimpleItem<String>("About Me", 0));
                         listItemTypes.add(1, new SimpleItem<String>(subject, 1));
                         return listItemTypes;
                     }

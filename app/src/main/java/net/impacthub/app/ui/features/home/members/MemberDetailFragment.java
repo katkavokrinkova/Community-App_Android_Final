@@ -267,7 +267,6 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
             case NOT_CONTACTED:
                 mMemberStatusContainer.removeAllViews();
                 TextView connectView = (TextView) LayoutInflater.from(getContext()).inflate(R.layout.item_layout_connect_member, mMemberStatusContainer, false);
-                connectView.setText("Connect " + mFullNameValue);
                 connectView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

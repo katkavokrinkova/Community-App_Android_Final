@@ -12,6 +12,7 @@
 package net.impacthub.app.mapper.members;
 
 import net.impacthub.app.model.features.contacts.ContactsResponse;
+import net.impacthub.app.model.features.contacts.Records;
 import net.impacthub.app.model.features.members.Affiliation;
 import net.impacthub.app.model.features.members.Affiliations;
 import net.impacthub.app.model.features.members.MembersResponse;
@@ -142,7 +143,11 @@ public class MembersMapper {
         if (skills != null) {
             List<Skill> skillList = skills.getSkills();
             if (skillList != null) {
-                for (int i = 0; i < skillList.size(); i++) {
+                int size = skillList.size();
+                if (size > 0) {
+                    itemTypes.add(new SimpleItem<String>("My Skills", 0));
+                }
+                for (int i = 0; i < size; i++) {
                     Skill skill = skillList.get(i);
                     if (skill != null) {
                         SkillsVO skillsDTO = new SkillsVO();
@@ -178,17 +183,15 @@ public class MembersMapper {
     }
 
     public List<MemberVO> mapMembersList(List<MemberVO> memberVOs, ContactsResponse contactsResponse, String contactId) {
-        List<MemberVO> memberVOList = new LinkedList<>();
+        Map<String, MemberVO> memberVOMap = mapListAsMapWithId(memberVOs);
+        memberVOMap.remove(contactId);
         if (contactsResponse != null) {
             net.impacthub.app.model.features.contacts.Records[] records = contactsResponse.getRecords();
             if (records != null && records.length > 0) {
-                Map<String, MemberVO> memberVOMap = mapListAsMapWithId(memberVOs);
-                memberVOMap.remove(contactId);
                 mapMemberContact(contactId, records, memberVOMap);
-                memberVOList.addAll(memberVOMap.values());
             }
         }
-        return memberVOList;
+        return new LinkedList<>(memberVOMap.values());
     }
 
     private void mapMemberContact(String contactId, net.impacthub.app.model.features.contacts.Records[] records, Map<String, MemberVO> memberVOMap) {
@@ -237,7 +240,7 @@ public class MembersMapper {
         return memberVO;
     }
 
-    public List<MemberVO> mapMembersRecords(MembersRecords[] records) {
+    private List<MemberVO> mapMembersRecords(MembersRecords[] records) {
         List<MemberVO> memberDTOs = new LinkedList<>();
         if (records != null) {
             for (MembersRecords member : records) {

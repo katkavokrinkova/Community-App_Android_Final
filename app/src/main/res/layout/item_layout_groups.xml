@@ -36,6 +36,8 @@
                 android:id="@+id/image_group"
                 android:layout_width="110dp"
                 android:layout_height="110dp"
+                android:scaleType="centerCrop"
+                android:layout_gravity="center_vertical"
                 app:riv_corner_radius="8dp" />
 
             <LinearLayout
