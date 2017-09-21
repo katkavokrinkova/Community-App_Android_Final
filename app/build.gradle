@@ -12,10 +12,33 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
+
+    signingConfigs {
+        release {
+            storeFile file("../config/signing/release_key.jks")
+            storePassword "change-me"
+            keyAlias "change-me"
+            keyPassword "change-me"
+        }
+    }
+
     buildTypes {
         release {
-            minifyEnabled false
+            debuggable = false
+            signingConfig signingConfigs.release
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    productFlavors {
+        sandbox {
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            applicationId 'sandbox.net.impacthub.app'
+        }
+        production {
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            applicationId 'net.impacthub.app'
         }
     }
 }
