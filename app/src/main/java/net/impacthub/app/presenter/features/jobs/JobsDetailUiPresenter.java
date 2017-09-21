@@ -37,8 +37,8 @@ public class JobsDetailUiPresenter extends UiPresenter<JobsDetailUiContract> {
         super(uiContract);
     }
 
-    public void getProjects(String jobId) {
-        Single<List<ListItemType>> jobProjectsSingle = new JobProjectsUseCase(jobId).getUseCase()
+    public void getProjects(String jobId, String jobLocation, String jobAccountId, String jobCompanyC) {
+        Single<List<ListItemType>> jobProjectsSingle = new JobProjectsUseCase(jobId, jobLocation, jobAccountId, jobCompanyC).getUseCase()
                 .map(new Function<ProjectResponse, List<ListItemType>>() {
                     @Override
                     public List<ListItemType> apply(@NonNull ProjectResponse projectResponse) throws Exception {

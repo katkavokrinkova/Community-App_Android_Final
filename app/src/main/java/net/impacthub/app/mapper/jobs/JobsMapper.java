@@ -11,6 +11,7 @@
 
 package net.impacthub.app.mapper.jobs;
 
+import net.impacthub.app.model.features.jobs.Contact__r;
 import net.impacthub.app.model.vo.jobs.JobVO;
 import net.impacthub.app.model.features.jobs.Company;
 import net.impacthub.app.model.features.jobs.JobsResponse;
@@ -37,10 +38,17 @@ public class JobsMapper {
                         JobVO job = new JobVO();
                         job.mJobId = record.getId();
                         job.mName = record.getName();
+                        job.mCompanyC = record.getCompany__c();
                         job.mJobType = record.getJob_Type__c();
                         job.mLocation = record.getLocation__c();
                         job.mDescription = record.getDescription__c();
                         job.mSalary = record.getSalary__c();
+
+                        Contact__r contact__r = record.getContact__r();
+                        if (contact__r != null) {
+                            job.mAccountId = contact__r.getAccountId();
+                        }
+
                         Company company = record.getCompany__r();
                         if (company != null) {
                             job.mCompanyName = company.getName();

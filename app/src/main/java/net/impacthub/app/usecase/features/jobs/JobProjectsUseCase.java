@@ -27,9 +27,15 @@ import io.reactivex.Single;
 public class JobProjectsUseCase extends BaseUseCaseGenerator<Single<ProjectResponse>, ProjectResponse> {
 
     private final String mJobId;
+    private final String mJobLocation;
+    private final String mJobAccountId;
+    private final String mJobCompanyC;
 
-    public JobProjectsUseCase(String jobId) {
+    public JobProjectsUseCase(String jobId, String jobLocation, String jobAccountId, String jobCompanyC) {
         mJobId = jobId;
+        mJobLocation = jobLocation;
+        mJobAccountId = jobAccountId;
+        mJobCompanyC = jobCompanyC;
     }
 
     @Override
@@ -37,7 +43,7 @@ public class JobProjectsUseCase extends BaseUseCaseGenerator<Single<ProjectRespo
         return Single.fromCallable(new Callable<ProjectResponse>() {
             @Override
             public ProjectResponse call() throws Exception {
-                return getApiCall().getResponse(getSoqlRequestFactory().createJobProjectsRequest(mJobId), ProjectResponse.class);
+                return getApiCall().getResponse(getSoqlRequestFactory().createJobRelatedProjectsRequest(mJobId, mJobLocation, mJobAccountId, mJobCompanyC), ProjectResponse.class);
             }
         });
     }

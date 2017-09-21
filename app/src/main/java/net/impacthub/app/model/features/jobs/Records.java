@@ -33,6 +33,7 @@ public class Records {
     private String Description__c;
     private Company Company__r;
     private String Location__c;
+    private Contact__r Contact__r;
 
     public String getJob_Type__c() {
         return Job_Type__c;
@@ -84,6 +85,14 @@ public class Records {
 
     public Company getCompany__r() {
         return Company__r;
+    }
+
+    public Contact__r getContact__r() {
+        return Contact__r;
+    }
+
+    public String getSalary2__c() {
+        return Salary2__c;
     }
 
     public String getLocation__c() {

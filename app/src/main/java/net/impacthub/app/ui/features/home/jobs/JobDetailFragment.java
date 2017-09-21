@@ -53,6 +53,8 @@ public class JobDetailFragment extends BaseChildFragment<JobsDetailUiPresenter> 
     public static final String EXTRA_JOB_MEMBER_SALARY = "net.impacthub.members.ui.features.home.jobs.EXTRA_JOB_MEMBER_SALARY";
     public static final String EXTRA_JOB_MEMBER_DESCRIPTION = "net.impacthub.members.ui.features.home.jobs.EXTRA_JOB_MEMBER_DESCRIPTION";
     public static final String EXTRA_JOB_WEBSITE = "net.impacthub.members.ui.features.home.jobs.EXTRA_JOB_WEBSITE";
+    public static final String EXTRA_JOB_ACCOUNT_ID = "net.impacthub.members.ui.features.home.jobs.EXTRA_JOB_ACCOUNT_ID";
+    public static final String EXTRA_JOB_COMPANY_C = "net.impacthub.members.ui.features.home.jobs.EXTRA_JOB_COMPANY_C";
 
     @BindView(R.id.image_detail) protected ImageView mImageDetail;
     @BindView(R.id.list_items) protected RecyclerView mJobDetailList;
@@ -72,6 +74,8 @@ public class JobDetailFragment extends BaseChildFragment<JobsDetailUiPresenter> 
         args.putString(EXTRA_JOB_MEMBER_SALARY, jobDTO.mSalary);
         args.putString(EXTRA_JOB_MEMBER_DESCRIPTION, jobDTO.mDescription);
         args.putString(EXTRA_JOB_WEBSITE, jobDTO.mWebsite);
+        args.putString(EXTRA_JOB_ACCOUNT_ID, jobDTO.mAccountId);
+        args.putString(EXTRA_JOB_COMPANY_C, jobDTO.mCompanyC);
 
         JobDetailFragment fragment = new JobDetailFragment();
         fragment.setArguments(args);
@@ -104,6 +108,8 @@ public class JobDetailFragment extends BaseChildFragment<JobsDetailUiPresenter> 
         String jobImage = arguments.getString(EXTRA_JOB_IMAGE_URL);
 
         String jobLocation = arguments.getString(EXTRA_JOB_LOCATION);
+        String jobAccountId = arguments.getString(EXTRA_JOB_ACCOUNT_ID);
+        String jobCompanyC = arguments.getString(EXTRA_JOB_COMPANY_C);
         String jobMemberCount = arguments.getString(EXTRA_JOB_MEMBER_COUNT);
         String jobSalary = arguments.getString(EXTRA_JOB_MEMBER_SALARY);
         String jobDescription = arguments.getString(EXTRA_JOB_MEMBER_DESCRIPTION);
@@ -131,7 +137,7 @@ public class JobDetailFragment extends BaseChildFragment<JobsDetailUiPresenter> 
 
         ImageLoaderHelper.loadImage(getContext(), buildUrl(jobImage), mImageDetail);
 
-        getPresenter().getProjects(jobId);
+        getPresenter().getProjects(jobId, jobLocation, jobAccountId, jobCompanyC);
     }
 
     @Override

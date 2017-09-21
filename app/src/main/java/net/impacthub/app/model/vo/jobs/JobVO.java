@@ -30,4 +30,6 @@ public class JobVO {
     public String mMemberCount;
     public String mBannerImageURL;
     public String mWebsite;
+    public String mCompanyC;
+    public String mAccountId;
 }

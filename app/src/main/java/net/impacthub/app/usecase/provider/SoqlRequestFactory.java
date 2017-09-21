@@ -75,7 +75,11 @@ public class SoqlRequestFactory {
 
     private static final String GOALS = "select id, name,  Active__c, ImageURL__c, Summary__c, Description__c from Taxonomy__c where Grouping__c ='SDG'";
 
-    private static final String JOB_COLUMNS = "id, name, Description__c, Salary2__c, Job_Type__c, Sector__c,Contact__c, Location__c, Applications_Close_Date__c,Related_Impact_Goal__c,Company__c,Company__r.name,Company__r.Number_of_Employees__c, Company__r.Impact_Hub_Cities__c,Company__r.Company_Summary__c, Company__r.Sector_Industry__c, Company__r.Logo_Image_Url__c, Company__r.Banner_Image_Url__c, Company__r.Twitter__c, Company__r.Instagram__c, Company__r.Facebook__c, Company__r.LinkedIn__c, Company__r.Website, Company__r.Company_About_Us__c,Job_Application_URL__c";
+    private static final String JOB_COLUMNS = "id, name, Description__c, Salary2__c, Job_Type__c, Sector__c,Contact__c, Contact__r.AccountId, " +
+            " Location__c, Applications_Close_Date__c,Related_Impact_Goal__c,Company__c,Company__r.name,Company__r.Number_of_Employees__c," +
+            " Company__r.Impact_Hub_Cities__c,Company__r.Company_Summary__c, Company__r.Sector_Industry__c, Company__r.Logo_Image_Url__c," +
+            " Company__r.Banner_Image_Url__c, Company__r.Twitter__c, Company__r.Instagram__c, Company__r.Facebook__c, Company__r.LinkedIn__c," +
+            " Company__r.Website, Company__r.Company_About_Us__c,Job_Application_URL__c";
 
     private static final String JOBS = "SELECT " + JOB_COLUMNS + " FROM Job__c WHERE Applications_Close_Date__c >= %s";
 
@@ -92,7 +96,14 @@ public class SoqlRequestFactory {
     private static final String YOUR_PROJECTS = "SELECT " + PROJECT + " FROM Directory__c WHERE Directory_Style__c = 'Project' AND id IN (select DirectoryID__c FROM Directory_Member__c WHERE ContactID__c ='%s')";
     private static final String PROJECT_MEMBER = "SELECT " + CONTACT + " FROM Contact WHERE id IN (SELECT contactID__c FROM Directory_Member__c WHERE DirectoryID__c='%s')";
     private static final String PROJECT_JOBS = "SELECT " + JOB_COLUMNS + " FROM Job__c WHERE Project__r.id='%s'";
-    private static final String JOB_PROJECT = "SELECT " + PROJECT + " FROM Directory__c WHERE Organisation__c in (SELECT Company__c FROM Job__c WHERE id ='%s')";
+
+    private static final String RELATED_PROJECTS = "SELECT Name, Contact__c, Description__c, Company__r.name ,Company__r.id, Project__c,Job_Application_URL__c," +
+            " maxSalary__c, minSalary__c, Salary2__c, Sector__c, Job_Type__c, Contact__r.AccountId, " +
+            "Location__c FROM Job__c WHERE id != '%s' and (Location__c = '%s'" +
+            " or Contact__r.AccountId = '%s'" +
+            " or (Company__c  != null and  Company__c = '%s'))";
+
+    private static final String JOB_RELATED_PROJECT = "SELECT " + PROJECT + " FROM Directory__c WHERE Organisation__c in (SELECT Company__c FROM Job__c WHERE id ='%s')";
 
     private static final String COMPANY_PROJECT = "SELECT " + PROJECT + " FROM Directory__c WHERE Directory_Style__c ='Project' AND Organisation__c ='%s'";
     private static final String COMPANY_MEMBER = "SELECT " + CONTACT + " FROM Contact WHERE User__c != NULL AND accountid='%s'";
@@ -160,8 +171,8 @@ public class SoqlRequestFactory {
         return mRestRequestFactory.getForQuery(String.format(PROJECT_JOBS, projectId));
     }
 
-    public RestRequest createJobProjectsRequest(String jobId) throws UnsupportedEncodingException {
-        return mRestRequestFactory.getForQuery(String.format(JOB_PROJECT, jobId));
+    public RestRequest createJobRelatedProjectsRequest(String jobId, String jobLocation, String accountId, String jobCompany) throws UnsupportedEncodingException {
+        return mRestRequestFactory.getForQuery(String.format(RELATED_PROJECTS, jobId, jobLocation, accountId, jobCompany));
     }
 
     public RestRequest createJobsRequest(int skip, int top, String date) throws UnsupportedEncodingException {
