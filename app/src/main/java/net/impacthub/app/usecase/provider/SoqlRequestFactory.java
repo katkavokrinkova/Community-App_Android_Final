@@ -23,6 +23,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Locale;
 
 import static net.impacthub.app.application.salesforce.SalesforceModuleDependency.restRequestFactoryProvider;
 
@@ -100,8 +101,7 @@ public class SoqlRequestFactory {
     private static final String RELATED_PROJECTS = "SELECT Name, Contact__c, Description__c, Company__r.name ,Company__r.id, Project__c,Job_Application_URL__c," +
             " maxSalary__c, minSalary__c, Salary2__c, Sector__c, Job_Type__c, Contact__r.AccountId, " +
             "Location__c FROM Job__c WHERE id != '%s' and (Location__c = '%s'" +
-            " or Contact__r.AccountId = '%s'" +
-            " or (Company__c  != null and  Company__c = '%s'))";
+            " or Contact__r.AccountId = '%s'";
 
     private static final String JOB_RELATED_PROJECT = "SELECT " + PROJECT + " FROM Directory__c WHERE Organisation__c in (SELECT Company__c FROM Job__c WHERE id ='%s')";
 
@@ -172,7 +172,11 @@ public class SoqlRequestFactory {
     }
 
     public RestRequest createJobRelatedProjectsRequest(String jobId, String jobLocation, String accountId, String jobCompany) throws UnsupportedEncodingException {
-        return mRestRequestFactory.getForQuery(String.format(RELATED_PROJECTS, jobId, jobLocation, accountId, jobCompany));
+        String query = String.format(RELATED_PROJECTS, jobId, jobLocation, accountId);
+        if (jobCompany != null) {
+            query += String.format(Locale.UK, " or Company__c = '%s'", jobCompany);
+        }
+        return mRestRequestFactory.getForQuery(String.format("%s)", query));
     }
 
     public RestRequest createJobsRequest(int skip, int top, String date) throws UnsupportedEncodingException {
