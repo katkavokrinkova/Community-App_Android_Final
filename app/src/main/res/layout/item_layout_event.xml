@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <net.impacthub.members.ui.widgets.RoundedImageView
+        <net.impacthub.app.ui.widgets.RoundedImageView
             android:id="@+id/image_banner"
             android:layout_width="match_parent"
             android:layout_height="220dp"
@@ -66,7 +66,7 @@
                         android:layout_marginStart="8dp"
                         android:orientation="vertical">
 
-                        <net.impacthub.members.ui.widgets.TypefaceTextView
+                        <net.impacthub.app.ui.widgets.TypefaceTextView
                             android:id="@+id/date"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -77,7 +77,7 @@
                             android:textSize="12sp"
                             app:typeface="fonts/gt-walsheim-light-web.ttf" />
 
-                        <net.impacthub.members.ui.widgets.TypefaceTextView
+                        <net.impacthub.app.ui.widgets.TypefaceTextView
                             android:id="@+id/text_event_date"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -127,7 +127,7 @@
                             android:layout_marginStart="8dp"
                             android:orientation="vertical">
 
-                            <net.impacthub.members.ui.widgets.TypefaceTextView
+                            <net.impacthub.app.ui.widgets.TypefaceTextView
                                 android:id="@+id/location"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -138,7 +138,7 @@
                                 android:textSize="12sp"
                                 app:typeface="fonts/gt-walsheim-light-web.ttf" />
 
-                            <net.impacthub.members.ui.widgets.TypefaceTextView
+                            <net.impacthub.app.ui.widgets.TypefaceTextView
                                 android:id="@+id/text_event_city"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -187,7 +187,7 @@
                         android:layout_marginStart="8dp"
                         android:orientation="vertical">
 
-                        <net.impacthub.members.ui.widgets.TypefaceTextView
+                        <net.impacthub.app.ui.widgets.TypefaceTextView
                             android:id="@+id/clock"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -198,7 +198,7 @@
                             android:textSize="12sp"
                             app:typeface="fonts/gt-walsheim-light-web.ttf" />
 
-                        <net.impacthub.members.ui.widgets.TypefaceTextView
+                        <net.impacthub.app.ui.widgets.TypefaceTextView
                             android:id="@+id/text_event_time"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -217,7 +217,7 @@
 
     </LinearLayout>
 
-    <net.impacthub.members.ui.widgets.TypefaceTextView
+    <net.impacthub.app.ui.widgets.TypefaceTextView
         android:id="@+id/text_event_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

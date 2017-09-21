@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <net.impacthub.members.ui.widgets.TypefaceToolbar
+    <net.impacthub.app.ui.widgets.TypefaceToolbar
         android:id="@+id/toolbar"
         style="@style/ToolbarConstraint" />
 
@@ -18,7 +18,7 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <net.impacthub.members.ui.widgets.SendEditText
+        <net.impacthub.app.ui.widgets.SendEditText
             android:id="@+id/text_global_search_term"
             android:layout_width="0dp"
             android:layout_height="48dp"

@@ -24,7 +24,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <net.impacthub.members.ui.widgets.TypefaceTextView
+        <net.impacthub.app.ui.widgets.TypefaceTextView
             android:id="@+id/text_objective_count"
             android:layout_width="72dp"
             android:layout_height="72dp"
@@ -51,7 +51,7 @@
         android:orientation="vertical"
         android:padding="24dp">
 
-        <net.impacthub.members.ui.widgets.TypefaceTextView
+        <net.impacthub.app.ui.widgets.TypefaceTextView
             android:id="@+id/text_objective_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -60,7 +60,7 @@
             android:textSize="14sp"
             app:typeface="fonts/gt-walsheim-medium-web.ttf" />
 
-        <net.impacthub.members.ui.widgets.TypefaceTextView
+        <net.impacthub.app.ui.widgets.TypefaceTextView
             android:id="@+id/text_objective_summary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

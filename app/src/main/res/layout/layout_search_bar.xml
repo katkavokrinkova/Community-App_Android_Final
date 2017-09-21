@@ -23,7 +23,7 @@
     app:layout_scrollFlags="scroll|enterAlways"
     tools:showIn="@layout/common_searchable_list_layout">
 
-    <net.impacthub.members.ui.widgets.TypefaceEditText
+    <net.impacthub.app.ui.widgets.TypefaceEditText
         android:id="@+id/search_text"
         android:layout_width="0dp"
         android:layout_height="64dp"

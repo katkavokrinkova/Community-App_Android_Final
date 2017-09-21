@@ -85,7 +85,7 @@
                                 app:cardCornerRadius="48dp"
                                 app:cardElevation="6dp">
 
-                            <net.impacthub.members.ui.widgets.CircleImageView
+                            <net.impacthub.app.ui.widgets.CircleImageView
                                 android:id="@+id/image_detail"
                                 android:layout_width="96dp"
                                 android:layout_height="96dp"
@@ -146,7 +146,7 @@
 
                                 </LinearLayout>
 
-                                <net.impacthub.members.ui.widgets.TypefaceTextView
+                                <net.impacthub.app.ui.widgets.TypefaceTextView
                                     android:id="@+id/button_website"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -172,7 +172,7 @@
                             android:orientation="vertical">
 
 
-                            <net.impacthub.members.ui.widgets.TypefaceTextView
+                            <net.impacthub.app.ui.widgets.TypefaceTextView
                                 android:id="@+id/text_company_sector"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -196,7 +196,7 @@
                                     android:contentDescription="@string/locations"
                                     android:src="@mipmap/location_pin" />
 
-                                <net.impacthub.members.ui.widgets.TypefaceTextView
+                                <net.impacthub.app.ui.widgets.TypefaceTextView
                                     android:id="@+id/locations"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"

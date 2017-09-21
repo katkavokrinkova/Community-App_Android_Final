@@ -12,7 +12,7 @@
         android:layout_weight="1"
         android:background="@color/colorLightGray">
 
-        <net.impacthub.members.ui.widgets.ExtendedViewPager
+        <net.impacthub.app.ui.widgets.ExtendedViewPager
             android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

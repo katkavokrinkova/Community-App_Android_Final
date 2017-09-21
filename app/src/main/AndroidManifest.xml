@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="net.impacthub.members">
+    package="net.impacthub.app">
 
 
     <application
-        android:name=".application.ImpactHubApplication"
+        android:name="net.impacthub.app.application.ImpactHubApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.splash.SplashActivity"
+            android:name="net.impacthub.app.ui.splash.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,14 +21,14 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.controllers.MainTabsActivity"
+        <activity android:name="net.impacthub.app.ui.controllers.MainTabsActivity"
             android:launchMode="singleTop"/>
-        <activity android:name=".ui.features.filters.FilterActivity" />
-        <activity android:name=".ui.modal.ModalActivity" />
+        <activity android:name="net.impacthub.app.ui.features.filters.FilterActivity" />
+        <activity android:name="net.impacthub.app.ui.modal.ModalActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAU6V2CFR44XMBhjPeY97a7XzOwLqYRQwE" />
+            android:value="@string/google_map_api_key" />
 
     </application>
 

@@ -19,7 +19,7 @@
     android:gravity="center"
     android:orientation="horizontal">
 
-    <net.impacthub.members.ui.widgets.TypefaceTextView
+    <net.impacthub.app.ui.widgets.TypefaceTextView
         android:id="@+id/button_decline_member"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
         android:textSize="12sp"
         app:typeface="fonts/gt-walsheim-web.ttf" />
 
-    <net.impacthub.members.ui.widgets.TypefaceTextView
+    <net.impacthub.app.ui.widgets.TypefaceTextView
         android:id="@+id/button_approve_member"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

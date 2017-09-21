@@ -35,7 +35,7 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <net.impacthub.members.ui.widgets.TypefaceTextView
+            <net.impacthub.app.ui.widgets.TypefaceTextView
                 android:id="@+id/text_job_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -47,7 +47,7 @@
                 app:typeface="fonts/gt-walsheim-light-web.ttf"
                 tools:text="A guide to reaching your sustainable development goals" />
 
-            <net.impacthub.members.ui.widgets.TypefaceTextView
+            <net.impacthub.app.ui.widgets.TypefaceTextView
                 android:id="@+id/text_job_company"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -87,7 +87,7 @@
             app:cardPreventCornerOverlap="false"
             app:cardUseCompatPadding="false">
 
-            <net.impacthub.members.ui.widgets.RoundedImageView
+            <net.impacthub.app.ui.widgets.RoundedImageView
                 android:id="@+id/image_job_logo"
                 android:layout_width="110dp"
                 android:layout_height="110dp"

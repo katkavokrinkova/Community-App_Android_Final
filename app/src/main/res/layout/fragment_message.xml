@@ -16,7 +16,7 @@
     android:background="@color/message_background"
     android:orientation="vertical">
 
-    <net.impacthub.members.ui.widgets.TypefaceToolbar
+    <net.impacthub.app.ui.widgets.TypefaceToolbar
         android:id="@+id/toolbar"
         style="@style/ToolbarConstraint.WithBack"
         app:contentInsetStart="0dp"
@@ -46,7 +46,7 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <net.impacthub.members.ui.widgets.TypefaceEditText
+        <net.impacthub.app.ui.widgets.TypefaceEditText
             android:id="@+id/message_entry"
             android:layout_width="0dp"
             android:layout_height="56dp"

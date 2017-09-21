@@ -16,7 +16,7 @@
         android:orientation="horizontal"
         android:gravity="center_vertical">
 
-        <net.impacthub.members.ui.widgets.CircleImageView
+        <net.impacthub.app.ui.widgets.CircleImageView
             android:id="@+id/member_image"
             android:layout_width="@dimen/large_image_thumbnail"
             android:layout_height="@dimen/large_image_thumbnail"
@@ -34,7 +34,7 @@
             android:paddingRight="12dp"
             android:orientation="vertical">
 
-            <net.impacthub.members.ui.widgets.TypefaceTextView
+            <net.impacthub.app.ui.widgets.TypefaceTextView
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
                 app:typeface="fonts/gt-walsheim-light-web.ttf"
                 tools:text="Jon J Jameson" />
 
-            <net.impacthub.members.ui.widgets.TypefaceTextView
+            <net.impacthub.app.ui.widgets.TypefaceTextView
                 android:id="@+id/profession"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -68,7 +68,7 @@
                     android:contentDescription="@string/locations"
                     android:src="@mipmap/location_pin" />
 
-                <net.impacthub.members.ui.widgets.TypefaceTextView
+                <net.impacthub.app.ui.widgets.TypefaceTextView
                     android:id="@+id/locations"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

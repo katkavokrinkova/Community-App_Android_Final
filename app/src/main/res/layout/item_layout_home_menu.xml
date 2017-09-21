@@ -29,7 +29,7 @@
             android:tint="@color/colorWhite"
             tools:src="@mipmap/ic_launcher" />
 
-        <net.impacthub.members.ui.widgets.TypefaceTextView
+        <net.impacthub.app.ui.widgets.TypefaceTextView
             android:id="@+id/text_menu_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
