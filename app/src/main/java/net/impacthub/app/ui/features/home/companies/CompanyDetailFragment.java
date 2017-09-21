@@ -42,6 +42,7 @@ import net.impacthub.app.ui.features.home.members.MemberDetailFragment;
 import net.impacthub.app.ui.common.binders.AboutViewBinder;
 import net.impacthub.app.ui.features.home.members.binders.MembersViewBinder;
 import net.impacthub.app.ui.features.home.projects.ProjectDetailFragment;
+import net.impacthub.app.ui.features.home.projects.ProjectsLisAdapter;
 import net.impacthub.app.ui.features.home.projects.binders.ProjectsViewBinder;
 
 import java.util.LinkedList;
@@ -177,12 +178,15 @@ public class CompanyDetailFragment extends BaseChildFragment<CompanyDetailUiPres
         typeList.add(new SimpleItem<AboutCompanyVO>(aboutCompanyVO, 1));
         listAdapter.setItems(typeList);
         adapter.addVieBinder(mViewBinder1 = new AboutViewBinder(listAdapter));
-        adapter.addVieBinder(mViewBinder2 = new ProjectsViewBinder(new OnListItemClickListener<ProjectVO>() {
+
+        ProjectsLisAdapter lisAdapter = new ProjectsLisAdapter(getLayoutInflater(getArguments()));
+        lisAdapter.setItemClickListener(new OnListItemClickListener<ProjectVO>() {
             @Override
             public void onItemClick(int viewId, ProjectVO model) {
                 addChildFragment(ProjectDetailFragment.newInstance(model), "FRAG_PROJECT_DETAIL");
             }
-        }));
+        });
+        adapter.addVieBinder(mViewBinder2 = new ProjectsViewBinder(lisAdapter));
         adapter.addVieBinder(mViewBinder3 = new MembersViewBinder(new OnListItemClickListener<MemberVO>() {
             @Override
             public void onItemClick(int viewId, MemberVO model) {

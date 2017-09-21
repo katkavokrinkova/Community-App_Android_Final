@@ -23,7 +23,6 @@ import android.widget.TextView;
 import net.impacthub.app.R;
 import net.impacthub.app.model.callback.OnListItemClickListener;
 import net.impacthub.app.model.pojo.ListItemType;
-import net.impacthub.app.model.pojo.SimpleItem;
 import net.impacthub.app.model.vo.chatter.ChatterVO;
 import net.impacthub.app.model.vo.jobs.JobVO;
 import net.impacthub.app.model.vo.members.MemberVO;
@@ -36,11 +35,11 @@ import net.impacthub.app.ui.common.AppPagerAdapter;
 import net.impacthub.app.ui.common.ImageLoaderHelper;
 import net.impacthub.app.ui.delegate.TabsDelegate;
 import net.impacthub.app.ui.features.home.chatter.ChatterCommentFragment;
+import net.impacthub.app.ui.features.home.chatter.binder.ChatterViewBinder;
 import net.impacthub.app.ui.features.home.jobs.JobDetailFragment;
 import net.impacthub.app.ui.features.home.jobs.binders.JobsViewBinder;
 import net.impacthub.app.ui.features.home.members.MemberDetailFragment;
 import net.impacthub.app.ui.features.home.members.binders.MembersViewBinder;
-import net.impacthub.app.ui.features.home.chatter.binder.ChatterViewBinder;
 import net.impacthub.app.ui.features.home.projects.binders.ObjectivesViewBinder;
 
 import java.util.List;
@@ -195,7 +194,6 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
 
     @Override
     public void onLoadObjectives(List<ListItemType> listItemTypes) {
-        listItemTypes.add(0, new SimpleItem<String>("GOALS", 0));
         mViewBinder2.bindView(listItemTypes);
     }
 

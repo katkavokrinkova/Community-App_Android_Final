@@ -50,15 +50,18 @@ public class ObjectivesMapper {
             Records[] records = response.getRecords();
             if (records != null) {
                 int length = records.length;
+                if (length > 0) {
+                    listItems.add(new SimpleItem<>("GOALS", 0));
+                }
                 for (int i = 0; i < length; i++) {
                     Records record = records[i];
                     if (record != null) {
                         ObjectiveVO objectiveDTO = new ObjectiveVO();
                         objectiveDTO.mTitle = record.getGoal__c();
                         objectiveDTO.mSummary = record.getGoal_Summary__c();
-                        objectiveDTO.mCount = (i+ 1);
-                        objectiveDTO.mHideLastTimeLine = ((i+1) == length);
-                        listItems.add(new SimpleItem<ObjectiveVO>(objectiveDTO, 1));
+                        objectiveDTO.mCount = (i + 1);
+                        objectiveDTO.mHideLastTimeLine = ((i + 1) == length);
+                        listItems.add(new SimpleItem<>(objectiveDTO, 1));
                     }
                 }
             }

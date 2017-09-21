@@ -75,9 +75,17 @@ public class GroupsFragment extends BaseChildFragment<GroupPresenter> implements
 
         AppPagerAdapter adapter = new AppPagerAdapter(getContext());
 //
-        adapter.addVieBinder(mViewBinder1 = new GroupsViewBinder(this));
-        adapter.addVieBinder(mViewBinder2 = new GroupsViewBinder(this));
-        adapter.addVieBinder(mViewBinder3 = new GroupsViewBinder(this));
+
+        GroupsListAdapter listAdapter1 = new GroupsListAdapter(getLayoutInflater(getArguments()));
+        listAdapter1.setItemClickListener(this);
+        GroupsListAdapter listAdapter2 = new GroupsListAdapter(getLayoutInflater(getArguments()));
+        listAdapter2.setItemClickListener(this);
+        GroupsListAdapter listAdapter3 = new GroupsListAdapter(getLayoutInflater(getArguments()));
+        listAdapter3.setItemClickListener(this);
+
+        adapter.addVieBinder(mViewBinder1 = new GroupsViewBinder(listAdapter1));
+        adapter.addVieBinder(mViewBinder2 = new GroupsViewBinder(listAdapter2));
+        adapter.addVieBinder(mViewBinder3 = new GroupsViewBinder(listAdapter3));
 //
         mGroupsPages.setAdapter(adapter);
         mGroupsPages.setOffscreenPageLimit(adapter.getCount());

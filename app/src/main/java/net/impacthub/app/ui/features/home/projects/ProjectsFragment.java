@@ -74,9 +74,15 @@ public class ProjectsFragment extends BaseChildFragment<ProjectsUiPresenter> imp
 
         AppPagerAdapter adapter = new AppPagerAdapter(getContext());
 //
-        adapter.addVieBinder(mViewBinder1 = new ProjectsViewBinder(this));
-        adapter.addVieBinder(mViewBinder2 = new ProjectsViewBinder(this));
-        adapter.addVieBinder(mViewBinder3 = new ProjectsViewBinder(this));
+        ProjectsLisAdapter lisAdapter1 = new ProjectsLisAdapter(getLayoutInflater(getArguments()));
+        lisAdapter1.setItemClickListener(this);
+        ProjectsLisAdapter lisAdapter2 = new ProjectsLisAdapter(getLayoutInflater(getArguments()));
+        lisAdapter2.setItemClickListener(this);
+        ProjectsLisAdapter lisAdapter3 = new ProjectsLisAdapter(getLayoutInflater(getArguments()));
+        lisAdapter3.setItemClickListener(this);
+        adapter.addVieBinder(mViewBinder1 = new ProjectsViewBinder(lisAdapter1));
+        adapter.addVieBinder(mViewBinder2 = new ProjectsViewBinder(lisAdapter2));
+        adapter.addVieBinder(mViewBinder3 = new ProjectsViewBinder(lisAdapter3));
 //
         mProjectPages.setAdapter(adapter);
         mProjectPages.setOffscreenPageLimit(adapter.getCount());

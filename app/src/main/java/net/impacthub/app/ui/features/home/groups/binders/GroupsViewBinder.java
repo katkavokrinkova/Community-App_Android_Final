@@ -18,7 +18,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import net.impacthub.app.R;
-import net.impacthub.app.model.callback.OnListItemClickListener;
 import net.impacthub.app.model.vo.groups.GroupVO;
 import net.impacthub.app.ui.binder.ViewBinder;
 import net.impacthub.app.ui.common.LinearItemsMarginDecorator;
@@ -34,11 +33,10 @@ import java.util.List;
 
 public class GroupsViewBinder implements ViewBinder<List<GroupVO>> {
 
-    private GroupsListAdapter mAdapter;
-    private final OnListItemClickListener<GroupVO> mItemClickListener;
+    private final GroupsListAdapter mAdapter;
 
-    public GroupsViewBinder(OnListItemClickListener<GroupVO> itemClickListener) {
-        mItemClickListener = itemClickListener;
+    public GroupsViewBinder(GroupsListAdapter adapter) {
+        mAdapter = adapter;
     }
 
     @Override
@@ -46,14 +44,11 @@ public class GroupsViewBinder implements ViewBinder<List<GroupVO>> {
         LayoutInflater inflater = LayoutInflater.from(context);
         RecyclerView recyclerView = (RecyclerView) inflater.inflate(R.layout.common_list_layout, new LinearLayout(context), false);
         recyclerView.setHasFixedSize(true);
-        mAdapter = new GroupsListAdapter(inflater);
-        mAdapter.setItemClickListener(mItemClickListener);
         int offset = context.getResources().getDimensionPixelOffset(R.dimen.default_content_normal_gap);
         recyclerView.addItemDecoration(new LinearItemsMarginDecorator(offset));
         recyclerView.setAdapter(mAdapter);
         return recyclerView;
     }
-
 
     @Override
     public void bindView(List<GroupVO> model) {

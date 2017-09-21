@@ -32,6 +32,7 @@ import net.impacthub.app.ui.common.ImageLoaderHelper;
 import net.impacthub.app.ui.delegate.TabsDelegate;
 import net.impacthub.app.ui.features.home.goals.binders.AboutViewBinder;
 import net.impacthub.app.ui.features.home.groups.GroupDetailFragment;
+import net.impacthub.app.ui.features.home.groups.GroupsListAdapter;
 import net.impacthub.app.ui.features.home.groups.binders.GroupsViewBinder;
 import net.impacthub.app.ui.features.home.members.MemberDetailFragment;
 import net.impacthub.app.ui.features.home.members.binders.MembersViewBinder;
@@ -104,12 +105,15 @@ public class GoalDetailFragment extends BaseChildFragment<GoalsDetailUiPresenter
         AppPagerAdapter adapter = new AppPagerAdapter(getContext());
 
         adapter.addVieBinder(new AboutViewBinder(goalName, goalDescription));
-        adapter.addVieBinder(mViewBinder2 = new GroupsViewBinder(new OnListItemClickListener<GroupVO>() {
+
+        GroupsListAdapter listAdapter = new GroupsListAdapter(getLayoutInflater(getArguments()));
+        listAdapter.setItemClickListener(new OnListItemClickListener<GroupVO>() {
             @Override
             public void onItemClick(int viewId, GroupVO model) {
                 addChildFragment(GroupDetailFragment.newInstance(model), "FRAG_GROUP_DETAIL");
             }
-        }));
+        });
+        adapter.addVieBinder(mViewBinder2 = new GroupsViewBinder(listAdapter));
         adapter.addVieBinder(mViewBinder3 = new MembersViewBinder(new OnListItemClickListener<MemberVO>() {
             @Override
             public void onItemClick(int viewId, MemberVO model) {

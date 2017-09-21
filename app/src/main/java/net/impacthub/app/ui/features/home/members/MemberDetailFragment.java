@@ -36,9 +36,11 @@ import net.impacthub.app.ui.common.binders.AboutViewBinder;
 import net.impacthub.app.ui.delegate.DetailScreenDelegate;
 import net.impacthub.app.ui.delegate.TabsDelegate;
 import net.impacthub.app.ui.features.home.groups.GroupDetailFragment;
+import net.impacthub.app.ui.features.home.groups.GroupsListAdapter;
 import net.impacthub.app.ui.features.home.groups.binders.GroupsViewBinder;
 import net.impacthub.app.ui.features.home.members.binders.MemberInfoListAdapter;
 import net.impacthub.app.ui.features.home.projects.ProjectDetailFragment;
+import net.impacthub.app.ui.features.home.projects.ProjectsLisAdapter;
 import net.impacthub.app.ui.features.home.projects.binders.ProjectsViewBinder;
 import net.impacthub.app.ui.features.messages.conversation.ConversationFragment;
 import net.impacthub.app.ui.modal.ModalActivity;
@@ -186,18 +188,26 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
         AppPagerAdapter adapter = new AppPagerAdapter(getContext());
 
         adapter.addVieBinder(mViewBinder1 = new AboutViewBinder(new MemberInfoListAdapter(LayoutInflater.from(getContext()))));
-        adapter.addVieBinder(mViewBinder2 = new ProjectsViewBinder(new OnListItemClickListener<ProjectVO>() {
+
+        ProjectsLisAdapter lisAdapter = new ProjectsLisAdapter(getLayoutInflater(getArguments()));
+        lisAdapter.setItemClickListener(new OnListItemClickListener<ProjectVO>() {
             @Override
             public void onItemClick(int viewId, ProjectVO model) {
                 addChildFragment(ProjectDetailFragment.newInstance(model), "FRAG_PROJECT_DETAIL");
             }
-        }));
-        adapter.addVieBinder(mViewBinder3 = new GroupsViewBinder(new OnListItemClickListener<GroupVO>() {
+        });
+
+        adapter.addVieBinder(mViewBinder2 = new ProjectsViewBinder(lisAdapter));
+
+
+        GroupsListAdapter groupsListAdapter = new GroupsListAdapter(getLayoutInflater(getArguments()));
+        groupsListAdapter.setItemClickListener(new OnListItemClickListener<GroupVO>() {
             @Override
             public void onItemClick(int viewId, GroupVO model) {
                 addChildFragment(GroupDetailFragment.newInstance(model), "FRAG_GROUP_DETAIL");
             }
-        }));
+        });
+        adapter.addVieBinder(mViewBinder3 = new GroupsViewBinder(groupsListAdapter));
 
         mPager.setAdapter(adapter);
         mPager.setOffscreenPageLimit(adapter.getCount());
