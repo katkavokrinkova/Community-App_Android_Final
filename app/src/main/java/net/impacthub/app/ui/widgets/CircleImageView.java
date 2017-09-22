@@ -108,6 +108,9 @@ public class CircleImageView extends AppCompatImageView {
             setup();
             mSetupPending = false;
         }
+
+//        mBitmapPaint.setShadowLayer(100,0,0, Color.BLUE);
+//        setLayerType(LAYER_TYPE_SOFTWARE, mBitmapPaint);
     }
 
     @Override
