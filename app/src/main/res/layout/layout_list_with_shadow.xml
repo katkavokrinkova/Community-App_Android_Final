@@ -1,4 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--
   ~ Copyright (c) 2017 Lightful. All Rights Reserved.
   ~
   ~ Save to the extent permitted by law, you may not use, copy, modify,
@@ -9,15 +12,15 @@
   ~ all copies or substantial portions of the Software.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <include layout="@layout/toolbar_with_back_layout" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list_items"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical" />
 
-    <include layout="@layout/layout_search_bar_view" />
-
-    <include layout="@layout/layout_list_with_shadow" />
-
-</LinearLayout>
+    <include layout="@layout/layout_top_shadow" />
+</FrameLayout>

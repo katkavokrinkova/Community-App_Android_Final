@@ -16,15 +16,6 @@
 
     <include layout="@layout/toolbar_with_back_layout" />
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:fitsSystemWindows="true">
-
-        <include layout="@layout/common_list_layout" />
-
-        <include layout="@layout/layout_top_shadow" />
-    </FrameLayout>
+    <include layout="@layout/layout_list_with_shadow" />
 
 </LinearLayout>

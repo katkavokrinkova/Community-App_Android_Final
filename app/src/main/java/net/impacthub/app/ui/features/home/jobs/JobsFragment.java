@@ -11,7 +11,9 @@
 
 package net.impacthub.app.ui.features.home.jobs;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,7 +58,7 @@ public class JobsFragment extends BaseChildFragment<JobsUiPresenter> implements 
 
     @Override
     protected int getContentView() {
-        return R.layout.fragment_searchable_list;
+        return R.layout.fragment_list_with_fixed_searchbar;
     }
 
     @Override
@@ -65,10 +67,12 @@ public class JobsFragment extends BaseChildFragment<JobsUiPresenter> implements 
 
         setUpToolbar(R.string.jobs);
         mJobsList.setHasFixedSize(true);
-        mAdapter = new JobsListAdapter(LayoutInflater.from(getContext()));
+        Context context = getContext();
+        mAdapter = new JobsListAdapter(LayoutInflater.from(context));
         mAdapter.setItemClickListener(this);
         int offset = getResources().getDimensionPixelOffset(R.dimen.default_content_normal_gap);
-        mJobsList.addItemDecoration(new LinearItemsMarginDecorator(offset, offset, 0 ,offset));
+        mJobsList.setLayoutManager(new LinearLayoutManager(context));
+        mJobsList.addItemDecoration(new LinearItemsMarginDecorator(offset));
         mJobsList.setAdapter(mAdapter);
 
         getPresenter().getJobs();

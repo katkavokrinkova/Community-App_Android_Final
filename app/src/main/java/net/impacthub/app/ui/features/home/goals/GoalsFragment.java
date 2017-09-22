@@ -11,8 +11,11 @@
 
 package net.impacthub.app.ui.features.home.goals;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import net.impacthub.app.R;
@@ -64,9 +67,11 @@ public class GoalsFragment extends BaseChildFragment<GoalsUiPresenter> implement
 
         setUpToolbar(R.string.label_goals);
         mGoalsList.setHasFixedSize(true);
-        mAdapter = new GoalsListAdapter(getLayoutInflater(getArguments()));
+        Context context = getContext();
+        mAdapter = new GoalsListAdapter(LayoutInflater.from(context));
         mAdapter.setItemClickListener(this);
         int offset = getResources().getDimensionPixelOffset(R.dimen.default_content_normal_gap);
+        mGoalsList.setLayoutManager(new LinearLayoutManager(context));
         mGoalsList.addItemDecoration(new LinearItemsMarginDecorator(offset));
         mGoalsList.setAdapter(mAdapter);
 
