@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -52,7 +53,7 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
 
     @Override
     protected int getContentView() {
-        return R.layout.fragment_searchable_list;
+        return R.layout.fragment_list_with_fixed_searchbar;
     }
 
     @Override
@@ -74,7 +75,7 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
         int offset = getResources().getDimensionPixelOffset(R.dimen.default_content_normal_gap);
 
         FragmentActivity activity = getActivity();
-        mMembersList.addItemDecoration(new LinearItemsMarginDecorator(offset, offset, 0, offset));
+        mMembersList.addItemDecoration(new LinearItemsMarginDecorator(offset));
 
 //        if (mAdapter == null) {
 //            mAdapter = new MembersListAdapter(getActivity().getLayoutInflater());
@@ -83,6 +84,7 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
 //        }
         mAdapter = new MembersListAdapter(activity.getLayoutInflater());
         mAdapter.setItemClickListener(this);
+        mMembersList.setLayoutManager(new LinearLayoutManager(activity));
         mMembersList.setAdapter(mAdapter);
         //getPresenter().loadMembers();
 

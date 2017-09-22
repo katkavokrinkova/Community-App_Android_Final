@@ -12,18 +12,16 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/search_bubble"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
+        android:background="@color/colorWhite"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <net.impacthub.app.ui.widgets.SendEditText
             android:id="@+id/text_global_search_term"
             android:layout_width="0dp"
-            android:layout_height="48dp"
+            android:layout_height="56dp"
             android:layout_weight="1"
-            android:background="@android:color/transparent"
+            android:background="@drawable/search_bubble"
             android:gravity="center_vertical"
             android:hint="@string/search"
             android:paddingEnd="30dp"

@@ -17,22 +17,19 @@
 
     <include layout="@layout/toolbar_with_back_layout" />
 
-    <RelativeLayout
+    <include layout="@layout/layout_search_bar_view" />
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <include layout="@layout/layout_search_bar" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/list_items"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/layout_search_bar"
-            android:fitsSystemWindows="true"
-            app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+            android:scrollbars="vertical" />
 
         <include layout="@layout/layout_top_shadow" />
-
-    </RelativeLayout>
+    </FrameLayout>
 
 </LinearLayout>

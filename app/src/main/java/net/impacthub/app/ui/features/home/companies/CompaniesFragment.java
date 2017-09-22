@@ -12,6 +12,7 @@
 package net.impacthub.app.ui.features.home.companies;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -54,7 +55,7 @@ public class CompaniesFragment extends BaseChildFragment<CompaniesUiPresenter> i
 
     @Override
     protected int getContentView() {
-        return R.layout.fragment_searchable_list;
+        return R.layout.fragment_list_with_fixed_searchbar;
     }
 
     @Override
@@ -66,7 +67,8 @@ public class CompaniesFragment extends BaseChildFragment<CompaniesUiPresenter> i
         mAdapter = new CompaniesListAdapter(getLayoutInflater(getArguments()));
         mAdapter.setItemClickListener(this);
         int offset = getResources().getDimensionPixelOffset(R.dimen.default_content_normal_gap);
-        mCompanyList.addItemDecoration(new LinearItemsMarginDecorator(offset, offset, 0 ,offset));
+        mCompanyList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mCompanyList.addItemDecoration(new LinearItemsMarginDecorator(offset));
         mCompanyList.setAdapter(mAdapter);
 
         getPresenter().getCompanies();
