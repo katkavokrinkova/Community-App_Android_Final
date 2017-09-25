@@ -89,7 +89,7 @@ public class GroupsFragment extends BaseChildFragment<GroupPresenter> implements
         adapter.addVieBinder(mViewBinder1 = new GroupsViewBinder(mListAdapter1));
         adapter.addVieBinder(mViewBinder2 = new GroupsViewBinder(mListAdapter2));
         adapter.addVieBinder(mViewBinder3 = new GroupsViewBinder(mListAdapter3));
-        
+
         mGroupsPages.setAdapter(adapter);
         mGroupsPages.setOffscreenPageLimit(adapter.getCount());
         mGroupsTab.setTabMode(TabLayout.MODE_SCROLLABLE);
