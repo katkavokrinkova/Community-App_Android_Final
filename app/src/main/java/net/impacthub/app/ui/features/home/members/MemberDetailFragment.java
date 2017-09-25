@@ -8,8 +8,10 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 import android.util.Pair;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -20,6 +22,7 @@ import net.impacthub.app.R;
 import net.impacthub.app.model.callback.OnCollapsingToolbarOffsetChangeListener;
 import net.impacthub.app.model.callback.OnListItemClickListener;
 import net.impacthub.app.model.pojo.ListItemType;
+import net.impacthub.app.model.pojo.Refreshable;
 import net.impacthub.app.model.vo.conversations.ConversationVO;
 import net.impacthub.app.model.vo.groups.GroupVO;
 import net.impacthub.app.model.vo.members.MemberStatusType;
@@ -32,6 +35,7 @@ import net.impacthub.app.ui.binder.ViewBinder;
 import net.impacthub.app.ui.common.AppPagerAdapter;
 import net.impacthub.app.ui.common.ImageLoaderHelper;
 import net.impacthub.app.ui.common.SimpleOffsetChangeListenerAdapter;
+import net.impacthub.app.ui.common.UIRefreshManager;
 import net.impacthub.app.ui.common.binders.AboutViewBinder;
 import net.impacthub.app.ui.delegate.DetailScreenDelegate;
 import net.impacthub.app.ui.features.home.groups.GroupDetailFragment;
@@ -365,6 +369,22 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
                 break;
             case NOT_CONTACTED:
                 mToolbar.inflateMenu(R.menu.menu_member_connect);
+                mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.actionRequestContact:
+                                List<Refreshable> refreshables = UIRefreshManager.getInstance().getRefreshables(UIRefreshManager.REFRESH_ID_MEMBERS_LIST);
+                                if (refreshables != null) {
+                                    for (Refreshable refreshable : refreshables) {
+                                        refreshable.onRefresh();
+                                    }
+                                }
+                                return true;
+                        }
+                        return false;
+                    }
+                });
                 break;
         }
 

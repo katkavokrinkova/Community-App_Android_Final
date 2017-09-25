@@ -11,6 +11,7 @@ import android.view.View;
 
 import net.impacthub.app.R;
 import net.impacthub.app.model.callback.OnListItemClickListener;
+import net.impacthub.app.model.pojo.Refreshable;
 import net.impacthub.app.model.vo.conversations.ConversationVO;
 import net.impacthub.app.model.vo.members.MemberStatusType;
 import net.impacthub.app.model.vo.members.MemberVO;
@@ -18,6 +19,7 @@ import net.impacthub.app.presenter.features.members.MembersPresenter;
 import net.impacthub.app.presenter.features.members.MembersUiContract;
 import net.impacthub.app.ui.base.BaseChildFragment;
 import net.impacthub.app.ui.common.LinearItemsMarginDecorator;
+import net.impacthub.app.ui.common.UIRefreshManager;
 import net.impacthub.app.ui.features.filters.FilterActivity;
 import net.impacthub.app.ui.features.messages.conversation.ConversationFragment;
 import net.impacthub.app.ui.modal.ModalActivity;
@@ -34,7 +36,7 @@ import butterknife.OnClick;
  * @date 8/1/2017.
  */
 
-public class MembersFragment extends BaseChildFragment<MembersPresenter> implements MembersUiContract, OnListItemClickListener<MemberVO> {
+public class MembersFragment extends BaseChildFragment<MembersPresenter> implements MembersUiContract, OnListItemClickListener<MemberVO>,Refreshable {
 
     public static final String KEY_LIST_STATE = "list_state";
 
@@ -165,5 +167,22 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
     @Override
     public void onLoadMembers(List<MemberVO> memberDTOs) {
         mAdapter.setItems(memberDTOs);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        UIRefreshManager.getInstance().addRefreshable(UIRefreshManager.REFRESH_ID_MEMBERS_LIST, this);
+    }
+
+    @Override
+    public void onDestroy() {
+        UIRefreshManager.getInstance().removeRefreshable(UIRefreshManager.REFRESH_ID_MEMBERS_LIST, this);
+        super.onDestroy();
+    }
+
+    @Override
+    public void onRefresh() {
+        showToast("Refreshing...");
     }
 }
