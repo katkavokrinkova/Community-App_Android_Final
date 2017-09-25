@@ -288,7 +288,6 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
     private void setUpConnectMemberButton() {
         mMemberStatusContainer.removeAllViews();
         TextView contactView = (TextView) LayoutInflater.from(getContext()).inflate(R.layout.item_layout_contact_member, mMemberStatusContainer, false);
-        contactView.setText("Contact " + mFullNameValue);
         contactView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

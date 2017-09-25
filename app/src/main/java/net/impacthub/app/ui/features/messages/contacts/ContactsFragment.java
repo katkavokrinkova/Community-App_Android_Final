@@ -19,6 +19,7 @@ import android.view.View;
 import net.impacthub.app.R;
 import net.impacthub.app.model.callback.OnListItemClickListener;
 import net.impacthub.app.model.vo.contacts.ContactVO;
+import net.impacthub.app.model.vo.conversations.ConversationVO;
 import net.impacthub.app.model.vo.members.MemberVO;
 import net.impacthub.app.presenter.features.contacts.ContactsUiContract;
 import net.impacthub.app.presenter.features.contacts.ContactsUiPresenter;
@@ -29,6 +30,7 @@ import net.impacthub.app.ui.features.home.members.MemberDetailFragment;
 import net.impacthub.app.ui.features.messages.contacts.binders.ContactsApprovedViewBinder;
 import net.impacthub.app.ui.features.messages.contacts.binders.ContactsPendingViewBinder;
 import net.impacthub.app.ui.features.messages.contacts.binders.ContactsRejectedViewBinder;
+import net.impacthub.app.ui.features.messages.conversation.ConversationFragment;
 
 import java.util.List;
 
@@ -81,15 +83,20 @@ public class ContactsFragment extends BaseChildFragment<ContactsUiPresenter> imp
         adapter.addVieBinder(mViewBinder1 = new ContactsApprovedViewBinder(new OnListItemClickListener<ContactVO>() {
             @Override
             public void onItemClick(int viewId, ContactVO model) {
+                MemberVO memberVO = model.mMember;
                 switch (viewId) {
                     case R.id.button_message_contact:
-                        showToast("Opening Conversation");
+                        ConversationVO conversationVO = new ConversationVO();
+                        conversationVO.mDisplayName = memberVO.mFullName;
+                        conversationVO.mImageURL = memberVO.mProfilePicURL;
+                        conversationVO.mRecipientUserId = memberVO.mUserId;
+                        addChildFragment(ConversationFragment.newInstance(conversationVO), "FRAG_MESSAGE_THREAD");
                         break;
                     case R.id.button_decline_contact:
-                        getPresenter().declineContact(model.mMember.mDM_ID);
+                        getPresenter().declineContact(memberVO.mDM_ID);
                         break;
                     default:
-                        addChildFragment(MemberDetailFragment.newInstance(model.mMember), "FRAG_MEMBER_DETAIL");
+                        addChildFragment(MemberDetailFragment.newInstance(memberVO), "FRAG_MEMBER_DETAIL");
                 }
             }
         }));
