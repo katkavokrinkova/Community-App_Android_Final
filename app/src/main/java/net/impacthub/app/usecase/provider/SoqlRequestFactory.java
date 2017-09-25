@@ -36,7 +36,7 @@ public class SoqlRequestFactory {
             "How_Do_You_Most_Identify_with_Your_Curre__c,Twitter__c,Instagram__c,Facebook__c,Linked_In__c";
 
     private static final String PROFILE = "SELECT " + CONTACT + " FROM Contact WHERE User__c = '%s'";
-    private static final String ALL_MEMBERS_PROFILE = "SELECT " + CONTACT + " FROM Contact where User__c != null";
+    private static final String ALL_MEMBERS_PROFILE = "SELECT " + CONTACT + " FROM Contact where User__c != null and User__r.isactive = true";
 
 //    private static final String memberListQuery =
 //            "select id, firstname, lastname, ProfilePic__c, Profession__c, Impact_Hub_Cities__c,"
@@ -62,7 +62,7 @@ public class SoqlRequestFactory {
 
     private static final String COMPANIES = "SELECT id, name, Number_of_Employees__c, Impact_Hub_Cities__c, Sector_Industry__c," +
             " Logo_Image_Url__c, Banner_Image_Url__c,Affiliated_SDG__c, Twitter__c, Instagram__c, Facebook__c, LinkedIn__c," +
-            " Website, Company_About_Us__c FROM account where id IN (SELECT accountid FROM contact WHERE user__c != null)";
+            " Website, Company_About_Us__c FROM account where id IN (SELECT accountid FROM contact WHERE user__c != null and User__r.isactive = true)";
 
     private static final String COMPANY_SERVICE_COLUMNS = "id, name, Service_Description__c FROM Company_Service__c";
     private static final String COMPANY_SERVICES = "SELECT " + COMPANY_SERVICE_COLUMNS + "  WHERE Company__r.id ='%s'";
@@ -106,7 +106,7 @@ public class SoqlRequestFactory {
     private static final String JOB_RELATED_PROJECT = "SELECT " + PROJECT + " FROM Directory__c WHERE Organisation__c in (SELECT Company__c FROM Job__c WHERE id ='%s')";
 
     private static final String COMPANY_PROJECT = "SELECT " + PROJECT + " FROM Directory__c WHERE Directory_Style__c ='Project' AND Organisation__c ='%s'";
-    private static final String COMPANY_MEMBER = "SELECT " + CONTACT + " FROM Contact WHERE User__c != NULL AND accountid='%s'";
+    private static final String COMPANY_MEMBER = "SELECT " + CONTACT + " FROM Contact WHERE User__c != NULL and User__r.isactive = true AND accountid='%s'";
 
     private static final String OBJECTIVES = "SELECT Directory__c,Goal_Summary__c,Goal__c,Id,Name FROM Directory_Goal__c WHERE Directory__c='%s'";
 
