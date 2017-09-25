@@ -16,7 +16,7 @@
 
     <include layout="@layout/toolbar_with_back_layout" />
 
-    <include layout="@layout/layout_search_bar_view" />
+    <include layout="@layout/layout_search_bar_with_filter" />
 
     <include layout="@layout/layout_list_with_shadow" />
 

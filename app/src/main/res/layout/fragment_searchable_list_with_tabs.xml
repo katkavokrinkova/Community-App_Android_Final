@@ -47,7 +47,7 @@
                     app:tabIndicatorColor="@color/colorPrimary"
                     app:tabIndicatorHeight="1dp" />
 
-                <include layout="@layout/layout_search_bar" />
+                <include layout="@layout/layout_search_bar_with_filter" />
 
             </LinearLayout>
 

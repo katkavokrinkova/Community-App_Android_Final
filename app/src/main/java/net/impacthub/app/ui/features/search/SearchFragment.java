@@ -2,15 +2,8 @@ package net.impacthub.app.ui.features.search;
 
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import net.impacthub.app.R;
 import net.impacthub.app.model.callback.OnListItemClickListener;
@@ -29,12 +22,11 @@ import net.impacthub.app.ui.features.home.events.EventDetailFragment;
 import net.impacthub.app.ui.features.home.groups.GroupDetailFragment;
 import net.impacthub.app.ui.features.home.members.MemberDetailFragment;
 import net.impacthub.app.ui.features.home.projects.ProjectDetailFragment;
-import net.impacthub.app.utilities.KeyboardUtils;
+import net.impacthub.app.ui.widgets.UISearchView;
 
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
 /**
  * @author Filippo Ash
@@ -42,11 +34,10 @@ import butterknife.OnClick;
  * @date 8/1/2017.
  */
 
-public class SearchFragment  extends BaseChildFragment<SearchUiPresenter> implements SearchUiContract, OnListItemClickListener<ListItemType> {
+public class SearchFragment extends BaseChildFragment<SearchUiPresenter> implements SearchUiContract, OnListItemClickListener<ListItemType> {
 
     @BindView(R.id.list_items) protected RecyclerView mSearchResultList;
-    @BindView(R.id.text_global_search_term) protected EditText mSearchField;
-    @BindView(R.id.button_clear) protected ImageView mClearBtn;
+    @BindView(R.id.search_from_list) protected UISearchView mSearchField;
 
     private SearchResultListAdapter mAdapter;
 
@@ -57,11 +48,6 @@ public class SearchFragment  extends BaseChildFragment<SearchUiPresenter> implem
         SearchFragment fragment = new SearchFragment();
         fragment.setArguments(args);
         return fragment;
-    }
-
-    @OnClick(R.id.button_clear)
-    protected void onClearButtonClicked() {
-        mSearchField.setText(null);
     }
 
     @Override
@@ -86,41 +72,20 @@ public class SearchFragment  extends BaseChildFragment<SearchUiPresenter> implem
         mAdapter.setItemClickListener(this);
         mSearchResultList.setAdapter(mAdapter);
 
-        mSearchField.addTextChangedListener(new TextWatcher() {
+        mSearchField.setSearchActionListener(new UISearchView.OnSearchActionListener() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+            public void onSearch(String searchValue) {
+                search(searchValue);
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                String typedQuery = editable.toString();
-                if(typedQuery.isEmpty()) {
-                    mClearBtn.setVisibility(View.GONE);
-                } else {
-                    mClearBtn.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-        mSearchField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-                boolean searchPressed = actionId == EditorInfo.IME_ACTION_SEND;
-                if(searchPressed) {
-                    search(mSearchField.getText().toString());
-                }
-                return searchPressed;
+            public void onTextChanged(String query) {
+                showToast(query);
             }
         });
     }
 
     private void search(String searchTerm) {
-        KeyboardUtils.hideNativeKeyboard(getActivity(), mSearchField);
         getPresenter().search(searchTerm);
     }
 

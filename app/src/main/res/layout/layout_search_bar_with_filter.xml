@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ Copyright (c) 2017 Lightful. All Rights Reserved.
   ~
   ~ Save to the extent permitted by law, you may not use, copy, modify,
@@ -9,31 +10,23 @@
   ~ all copies or substantial portions of the Software.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout_search_bar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/colorWhite"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:background="@color/colorWhite">
+    app:layout_scrollFlags="scroll|enterAlways"
+    tools:showIn="@layout/common_searchable_list_layout">
 
-    <net.impacthub.app.ui.widgets.SendEditText
-        android:id="@+id/text_search_term"
+    <net.impacthub.app.ui.widgets.UISearchView
+        android:id="@+id/search_from_list"
         android:layout_width="0dp"
-        android:layout_height="56dp"
         android:layout_weight="1"
-        android:background="@drawable/search_bubble"
-        android:drawableEnd="@mipmap/search"
-        android:gravity="center_vertical"
-        android:hint="@string/search"
-        android:imeOptions="actionSend"
-        android:paddingEnd="30dp"
-        android:paddingStart="30dp"
-        android:textColor="@color/brownish_grey"
-        android:textSize="16sp"
-        app:typeface="fonts/gt-walsheim-light-web.ttf" />
+        android:layout_height="wrap_content" />
 
     <FrameLayout
         android:layout_width="wrap_content"

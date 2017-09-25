@@ -11,7 +11,6 @@
 
 package net.impacthub.app.utilities;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -31,11 +30,11 @@ public final class KeyboardUtils {
     /**
      * This method is used to hide native android soft keyboard
      *
-     * @param activity the activity
+     * @param context the context
      * @param view     the actual view
      */
-    public static void hideNativeKeyboard(Activity activity, View view) {
-        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+    public static void hideNativeKeyboard(Context context, View view) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm != null) {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
