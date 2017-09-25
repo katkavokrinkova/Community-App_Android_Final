@@ -111,7 +111,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:padding="8dp"
-                android:text="Decline"
+                android:text="Disconnect"
                 android:textColor="@color/colorPrimary"
                 android:textSize="14sp"
                 app:typeface="fonts/gt-walsheim-light-web.ttf" />
