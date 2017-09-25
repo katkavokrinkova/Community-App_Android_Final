@@ -50,6 +50,7 @@ public class GroupPresenter extends UiPresenter<GroupUiContract> {
 
     public void getGroups() {
 
+        getUi().onShowProgressBar(true);
         Single<List<GroupVO>> listSingle = Single.zip(
                 mMyGroupsUseCase.getUseCase(),
                 mAllGroupsUseCase.getUseCase(), new BiFunction<ChatterResponse, GroupsResponse, List<GroupVO>>() {
@@ -62,11 +63,13 @@ public class GroupPresenter extends UiPresenter<GroupUiContract> {
 
             @Override
             public void onSuccess(@NonNull List<GroupVO> groupVOs) {
+                getUi().onShowProgressBar(false);
                 getUi().onLoadAllGroups(groupVOs);
             }
 
             @Override
             public void onError(@NonNull Throwable e) {
+                getUi().onShowProgressBar(false);
                 getUi().onError(e);
             }
         });
