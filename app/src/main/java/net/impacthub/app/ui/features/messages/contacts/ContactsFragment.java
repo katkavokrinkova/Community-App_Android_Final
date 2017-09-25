@@ -14,6 +14,7 @@ package net.impacthub.app.ui.features.messages.contacts;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import net.impacthub.app.R;
@@ -27,10 +28,14 @@ import net.impacthub.app.ui.base.BaseChildFragment;
 import net.impacthub.app.ui.binder.ViewBinder;
 import net.impacthub.app.ui.common.AppPagerAdapter;
 import net.impacthub.app.ui.features.home.members.MemberDetailFragment;
+import net.impacthub.app.ui.features.messages.contacts.binders.ActiveContactsListAdapter;
 import net.impacthub.app.ui.features.messages.contacts.binders.ContactsApprovedViewBinder;
 import net.impacthub.app.ui.features.messages.contacts.binders.ContactsPendingViewBinder;
 import net.impacthub.app.ui.features.messages.contacts.binders.ContactsRejectedViewBinder;
+import net.impacthub.app.ui.features.messages.contacts.binders.PendingContactsListAdapter;
+import net.impacthub.app.ui.features.messages.contacts.binders.RejectedContactsListAdapter;
 import net.impacthub.app.ui.features.messages.conversation.ConversationFragment;
+import net.impacthub.app.ui.widgets.UISearchView;
 
 import java.util.List;
 
@@ -48,10 +53,15 @@ public class ContactsFragment extends BaseChildFragment<ContactsUiPresenter> imp
 
     @BindView(R.id.tabs) protected TabLayout mContactsTab;
     @BindView(R.id.pager) protected ViewPager mContactPages;
+    @BindView(R.id.search_from_list) protected UISearchView mSearchView;
 
     private ViewBinder<List<ContactVO>> mViewBinder1;
     private ViewBinder<List<ContactVO>> mViewBinder2;
     private ViewBinder<List<ContactVO>> mViewBinder3;
+
+    private ActiveContactsListAdapter mListAdapter1;
+    private PendingContactsListAdapter mListAdapter2;
+    private RejectedContactsListAdapter mListAdapter3;
 
     public static ContactsFragment newInstance() {
 
@@ -80,7 +90,9 @@ public class ContactsFragment extends BaseChildFragment<ContactsUiPresenter> imp
 
         AppPagerAdapter adapter = new AppPagerAdapter(getContext(), TITLES);
 
-        adapter.addVieBinder(mViewBinder1 = new ContactsApprovedViewBinder(new OnListItemClickListener<ContactVO>() {
+        LayoutInflater layoutInflater = getLayoutInflater(getArguments());
+        mListAdapter1 = new ActiveContactsListAdapter(layoutInflater);
+        mListAdapter1.setItemClickListener(new OnListItemClickListener<ContactVO>() {
             @Override
             public void onItemClick(int viewId, ContactVO model) {
                 MemberVO memberVO = model.mMember;
@@ -99,9 +111,13 @@ public class ContactsFragment extends BaseChildFragment<ContactsUiPresenter> imp
                         addChildFragment(MemberDetailFragment.newInstance(memberVO), "FRAG_MEMBER_DETAIL");
                 }
             }
-        }));
+        });
 
-        adapter.addVieBinder(mViewBinder2 = new ContactsPendingViewBinder(new OnListItemClickListener<ContactVO>() {
+
+        adapter.addVieBinder(mViewBinder1 = new ContactsApprovedViewBinder(mListAdapter1));
+
+        mListAdapter2 = new PendingContactsListAdapter(layoutInflater);
+        mListAdapter2.setItemClickListener(new OnListItemClickListener<ContactVO>() {
             @Override
             public void onItemClick(int viewId, ContactVO model) {
                 MemberVO member = model.mMember;
@@ -121,9 +137,13 @@ public class ContactsFragment extends BaseChildFragment<ContactsUiPresenter> imp
                         addChildFragment(ViewMoreContactFragment.newInstance(model), "FRAG_VIEW_MORE_CONTACT");
                 }
             }
-        }));
+        });
 
-        adapter.addVieBinder(mViewBinder3 = new ContactsRejectedViewBinder(new OnListItemClickListener<ContactVO>() {
+        adapter.addVieBinder(mViewBinder2 = new ContactsPendingViewBinder(mListAdapter2));
+
+
+        mListAdapter3 = new RejectedContactsListAdapter(layoutInflater);
+        mListAdapter3.setItemClickListener(new OnListItemClickListener<ContactVO>() {
             @Override
             public void onItemClick(int viewId, ContactVO model) {
                 MemberVO member = model.mMember;
@@ -131,14 +151,27 @@ public class ContactsFragment extends BaseChildFragment<ContactsUiPresenter> imp
                     getPresenter().updateContactRequest(model.mMember.mDM_ID, member.mUserId, "Approved");
                 }
             }
-        }));
+        });
+
+        adapter.addVieBinder(mViewBinder3 = new ContactsRejectedViewBinder(mListAdapter3));
 
         mContactPages.setAdapter(adapter);
         mContactPages.setOffscreenPageLimit(adapter.getCount());
         mContactsTab.setupWithViewPager(mContactPages);
 
-        //new TabsDelegate().setUp(mContactsTab, TITLES);
+        mSearchView.setSearchActionListener(new UISearchView.OnSearchActionListener() {
+            @Override
+            public void onSearch(String searchValue) {
 
+            }
+
+            @Override
+            public void onTextChanged(String query) {
+                mListAdapter1.filter(query);
+                mListAdapter2.filter(query);
+                mListAdapter3.filter(query);
+            }
+        });
         getPresenter().getContacts();
     }
 

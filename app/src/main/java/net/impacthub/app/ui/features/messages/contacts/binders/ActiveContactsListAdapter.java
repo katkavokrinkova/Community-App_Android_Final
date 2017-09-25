@@ -33,7 +33,7 @@ import net.impacthub.app.ui.widgets.CircleImageView;
 
 public class ActiveContactsListAdapter extends BaseListAdapter<ActiveContactsListAdapter.ActiveContactViewHolder, ContactVO> {
 
-    protected ActiveContactsListAdapter(LayoutInflater inflater) {
+    public ActiveContactsListAdapter(LayoutInflater inflater) {
         super(inflater);
     }
 

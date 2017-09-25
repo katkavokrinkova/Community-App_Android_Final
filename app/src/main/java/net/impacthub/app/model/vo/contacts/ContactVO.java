@@ -13,6 +13,7 @@ package net.impacthub.app.model.vo.contacts;
 
 import net.impacthub.app.model.pojo.Filterable;
 import net.impacthub.app.model.vo.members.MemberVO;
+import net.impacthub.app.utilities.TextUtils;
 
 /**
  * @author Filippo Ash
@@ -28,6 +29,6 @@ public class ContactVO implements Filterable {
 
     @Override
     public boolean isFilterable(String query) {
-        return false;
+        return TextUtils.contains(query, mIntroMessage) || mMember.isFilterable(query);
     }
 }

@@ -33,7 +33,7 @@ import net.impacthub.app.ui.widgets.CircleImageView;
 
 public class PendingContactsListAdapter extends BaseListAdapter<PendingContactsListAdapter.PendingContactViewHolder, ContactVO> {
 
-    protected PendingContactsListAdapter(LayoutInflater inflater) {
+    public PendingContactsListAdapter(LayoutInflater inflater) {
         super(inflater);
     }
 

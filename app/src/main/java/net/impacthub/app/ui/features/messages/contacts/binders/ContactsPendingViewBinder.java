@@ -18,7 +18,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import net.impacthub.app.R;
-import net.impacthub.app.model.callback.OnListItemClickListener;
 import net.impacthub.app.model.vo.contacts.ContactVO;
 import net.impacthub.app.ui.binder.ViewBinder;
 import net.impacthub.app.ui.common.LinearItemsMarginDecorator;
@@ -33,11 +32,10 @@ import java.util.List;
 
 public class ContactsPendingViewBinder implements ViewBinder<List<ContactVO>> {
 
-    private final OnListItemClickListener<ContactVO> mListener;
-    private PendingContactsListAdapter mAdapter;
+    private final PendingContactsListAdapter mAdapter;
 
-    public ContactsPendingViewBinder(OnListItemClickListener<ContactVO> listener) {
-        mListener = listener;
+    public ContactsPendingViewBinder(PendingContactsListAdapter adapter) {
+        mAdapter = adapter;
     }
 
     @Override
@@ -47,8 +45,6 @@ public class ContactsPendingViewBinder implements ViewBinder<List<ContactVO>> {
         recyclerView.setHasFixedSize(true);
         int offset = context.getResources().getDimensionPixelOffset(R.dimen.default_content_normal_gap);
         recyclerView.addItemDecoration(new LinearItemsMarginDecorator(offset));
-        mAdapter = new PendingContactsListAdapter(inflater);
-        mAdapter.setItemClickListener(mListener);
         recyclerView.setAdapter(mAdapter);
         return recyclerView;
     }

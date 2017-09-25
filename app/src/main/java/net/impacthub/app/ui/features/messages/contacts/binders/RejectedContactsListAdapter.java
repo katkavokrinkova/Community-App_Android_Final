@@ -33,7 +33,7 @@ import net.impacthub.app.ui.widgets.CircleImageView;
 
 public class RejectedContactsListAdapter extends BaseListAdapter<RejectedContactsListAdapter.RejectedMemberViewHolder, ContactVO> {
 
-    protected RejectedContactsListAdapter(LayoutInflater inflater) {
+    public RejectedContactsListAdapter(LayoutInflater inflater) {
         super(inflater);
     }
 
