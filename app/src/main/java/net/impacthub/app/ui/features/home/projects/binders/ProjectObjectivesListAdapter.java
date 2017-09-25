@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import net.impacthub.app.R;
+import net.impacthub.app.model.pojo.FilterableString;
 import net.impacthub.app.model.pojo.ListItemType;
 import net.impacthub.app.model.vo.objectives.ObjectiveVO;
 import net.impacthub.app.ui.base.BaseListAdapter;
@@ -58,7 +59,8 @@ class ProjectObjectivesListAdapter extends BaseListAdapter<RecyclerView.ViewHold
         Object model = getItem(position).getModel();
         switch (getItemViewType(position)) {
             case 0:
-                ((TitleViewHolder) holder).bindViewsWith((String) model);
+                FilterableString title = (FilterableString) model;
+                ((TitleViewHolder) holder).bindViewsWith(title.getValue());
                 break;
             case 1:
                 ((ObjectiveViewHolder) holder).bindViewsWith((ObjectiveVO) model);

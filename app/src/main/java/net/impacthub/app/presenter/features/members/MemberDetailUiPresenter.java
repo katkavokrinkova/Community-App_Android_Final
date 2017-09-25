@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import net.impacthub.app.mapper.members.MembersMapper;
 import net.impacthub.app.model.features.members.Affiliations;
 import net.impacthub.app.model.features.members.Skills;
+import net.impacthub.app.model.pojo.FilterableString;
 import net.impacthub.app.model.pojo.ListItemType;
 import net.impacthub.app.model.pojo.SimpleItem;
 import net.impacthub.app.model.vo.contacts.UpdateContactBody;
@@ -56,8 +57,8 @@ public class MemberDetailUiPresenter extends UiPresenter<MemberDetailUiContract>
                     @Override
                     protected List<ListItemType> apply(Skills response, String subject) throws Exception {
                         List<ListItemType> listItemTypes = new MembersMapper().mapAsListItemType(response);
-                        listItemTypes.add(0, new SimpleItem<String>("About Me", 0));
-                        listItemTypes.add(1, new SimpleItem<String>(subject, 1));
+                        listItemTypes.add(0, new SimpleItem<>(new FilterableString("About Me"), 0));
+                        listItemTypes.add(1, new SimpleItem<>(new FilterableString(subject), 1));
                         return listItemTypes;
                     }
                 });

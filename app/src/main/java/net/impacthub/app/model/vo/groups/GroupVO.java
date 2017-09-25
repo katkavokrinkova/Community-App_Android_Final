@@ -11,13 +11,15 @@
 
 package net.impacthub.app.model.vo.groups;
 
+import net.impacthub.app.model.pojo.Filterable;
+
 /**
  * @author Filippo Ash
  * @version 1.0
  * @date 8/4/2017.
  */
 
-public class GroupVO {
+public class GroupVO implements Filterable {
 
     public String mName;
     public String mGroupDescription;
@@ -25,4 +27,9 @@ public class GroupVO {
     public String mCities;
     public String mMemberCount;
     public String mChatterGroupId;
+
+    @Override
+    public boolean isFilterable(String query) {
+        return false;
+    }
 }

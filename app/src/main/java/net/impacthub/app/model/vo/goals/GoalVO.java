@@ -11,16 +11,23 @@
 
 package net.impacthub.app.model.vo.goals;
 
+import net.impacthub.app.model.pojo.Filterable;
+
 /**
  * @author Filippo Ash
  * @version 1.0
  * @date 8/9/2017.
  */
 
-public class GoalVO {
+public class GoalVO implements Filterable {
 
     public String mImageURL;
     public String mName;
     public String mSummary;
     public String mDescription;
+
+    @Override
+    public boolean isFilterable(String query) {
+        return false;
+    }
 }

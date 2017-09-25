@@ -17,7 +17,7 @@ package net.impacthub.app.model.pojo;
  * @date 8/22/2017.
  */
 
-public class SimpleItem<M> implements ListItemType<M> {
+public class SimpleItem<M extends Filterable> implements ListItemType<M> {
 
     private final M mModel;
     private final int mViewType;
@@ -35,5 +35,10 @@ public class SimpleItem<M> implements ListItemType<M> {
     @Override
     public int getItemType() {
         return mViewType;
+    }
+
+    @Override
+    public boolean isFilterable(String query) {
+        return mModel.isFilterable(query);
     }
 }

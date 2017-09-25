@@ -21,6 +21,7 @@ import net.impacthub.app.ui.common.LinearItemsMarginDecorator;
 import net.impacthub.app.ui.features.filters.FilterActivity;
 import net.impacthub.app.ui.features.messages.conversation.ConversationFragment;
 import net.impacthub.app.ui.modal.ModalActivity;
+import net.impacthub.app.ui.widgets.UISearchView;
 
 import java.util.List;
 
@@ -38,6 +39,7 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
     public static final String KEY_LIST_STATE = "list_state";
 
     @BindView(R.id.list_items) protected RecyclerView mMembersList;
+    @BindView(R.id.search_from_list) protected UISearchView mSearchView;
 
     private MembersListAdapter mAdapter;
     private Parcelable mState;
@@ -93,6 +95,17 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
         } else {
             getPresenter().loadMembers();
         }
+
+        mSearchView.setSearchActionListener(new UISearchView.OnSearchActionListener() {
+            @Override
+            public void onSearch(String searchValue) {
+            }
+
+            @Override
+            public void onTextChanged(String query) {
+                mAdapter.filter(query);
+            }
+        });
     }
 
     @Override

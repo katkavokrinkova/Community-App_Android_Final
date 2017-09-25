@@ -11,13 +11,15 @@
 
 package net.impacthub.app.model.vo.chatter;
 
+import net.impacthub.app.model.pojo.Filterable;
+
 /**
  * @author Filippo Ash
  * @version 1.0
  * @date 8/17/2017.
  */
 
-public class ChatterVO {
+public class ChatterVO implements Filterable {
 
     public CommentVO mComments;
     public String mUserId;
@@ -28,4 +30,9 @@ public class ChatterVO {
     public int mCommentCount;
     public int mLikeCount;
     public boolean mIsLikedByMe;
+
+    @Override
+    public boolean isFilterable(String query) {
+        return false;
+    }
 }

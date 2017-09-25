@@ -20,6 +20,7 @@ import net.impacthub.app.model.features.members.Organisation;
 import net.impacthub.app.model.features.members.MembersRecords;
 import net.impacthub.app.model.features.members.Skill;
 import net.impacthub.app.model.features.members.Skills;
+import net.impacthub.app.model.pojo.FilterableString;
 import net.impacthub.app.model.pojo.ListItemType;
 import net.impacthub.app.model.pojo.SimpleItem;
 import net.impacthub.app.model.vo.conversations.RecipientVO;
@@ -145,7 +146,7 @@ public class MembersMapper {
             if (skillList != null) {
                 int size = skillList.size();
                 if (size > 0) {
-                    itemTypes.add(new SimpleItem<String>("My Skills", 0));
+                    itemTypes.add(new SimpleItem<FilterableString>(new FilterableString("My Skills"), 0));
                 }
                 for (int i = 0; i < size; i++) {
                     Skill skill = skillList.get(i);

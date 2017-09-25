@@ -13,6 +13,7 @@ package net.impacthub.app.presenter.features.jobs;
 
 import net.impacthub.app.mapper.projects.ProjectMapper;
 import net.impacthub.app.model.features.projects.ProjectResponse;
+import net.impacthub.app.model.pojo.FilterableString;
 import net.impacthub.app.model.pojo.ListItemType;
 import net.impacthub.app.model.pojo.SimpleItem;
 import net.impacthub.app.presenter.base.UiPresenter;
@@ -44,7 +45,7 @@ public class JobsDetailUiPresenter extends UiPresenter<JobsDetailUiContract> {
                     public List<ListItemType> apply(@NonNull ProjectResponse projectResponse) throws Exception {
                         List<ListItemType> itemTypes = new ProjectMapper().mapAsListItemType(projectResponse);
                         if (itemTypes != null && !itemTypes.isEmpty()) {
-                            itemTypes.add(0, new SimpleItem<String>("RELATED JOBS", 0));
+                            itemTypes.add(0, new SimpleItem<>(new FilterableString("RELATED JOBS"), 0));
                         }
                         return itemTypes;
                     }

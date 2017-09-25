@@ -9,22 +9,25 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.app.model.vo.objectives;
-
-import net.impacthub.app.model.pojo.Filterable;
+package net.impacthub.app.model.pojo;
 
 /**
  * @author Filippo Ash
  * @version 1.0
- * @date 8/16/2017.
+ * @date 9/25/2017.
  */
 
-public class ObjectiveVO implements Filterable {
+public class FilterableString implements Filterable {
 
-    public String mTitle;
-    public String mSummary;
-    public int mCount;
-    public boolean mHideLastTimeLine;
+    private final String mValue;
+
+    public FilterableString(String value) {
+        mValue = value;
+    }
+
+    public String getValue() {
+        return mValue;
+    }
 
     @Override
     public boolean isFilterable(String query) {

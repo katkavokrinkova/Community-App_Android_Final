@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import net.impacthub.app.R;
+import net.impacthub.app.model.pojo.FilterableString;
 import net.impacthub.app.model.pojo.ListItemType;
 import net.impacthub.app.model.vo.members.SkillsVO;
 import net.impacthub.app.ui.base.BaseListAdapter;
@@ -62,12 +63,12 @@ public class MemberInfoListAdapter extends BaseListAdapter<RecyclerView.ViewHold
         Object model = getItem(position).getModel();
         switch (getItemViewType(position)) {
             case 0:
-                String titleItem = (String) model;
-                ((TitleViewHolder) holder).bindViewsWith(titleItem);
+                FilterableString titleItem = (FilterableString) model;
+                ((TitleViewHolder) holder).bindViewsWith(titleItem.getValue());
                 break;
             case 1:
-                String descriptionItem = (String) model;
-                ((AboutDescriptionViewHolder) holder).bindViewsWith(descriptionItem);
+                FilterableString descriptionItem = (FilterableString) model;
+                ((AboutDescriptionViewHolder) holder).bindViewsWith(descriptionItem.getValue());
                 break;
             case 2:
                 SkillsVO skillItem = (SkillsVO) model;

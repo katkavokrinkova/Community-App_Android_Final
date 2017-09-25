@@ -3,9 +3,11 @@ package net.impacthub.app.model.features.filters;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import net.impacthub.app.model.pojo.Filterable;
+
 import java.io.Serializable;
 
-public class Filter implements Serializable {
+public class Filter implements Serializable, Filterable {
 
     @SerializedName("Name")
     @Expose
@@ -37,5 +39,10 @@ public class Filter implements Serializable {
 
     public void setSelected(boolean selected) {
         this.selected = selected;
+    }
+
+    @Override
+    public boolean isFilterable(String query) {
+        return false;
     }
 }

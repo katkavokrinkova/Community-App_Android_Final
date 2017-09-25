@@ -2,13 +2,15 @@ package net.impacthub.app.model.home;
 
 import android.support.annotation.DrawableRes;
 
+import net.impacthub.app.model.pojo.Filterable;
+
 /**
  * @author Filippo Ash
  * @version 1.0
  * @date 7/24/2017.
  */
 
-public class HomeMenuItem {
+public class HomeMenuItem implements Filterable {
 
     @DrawableRes private final int mHomeMenuIconRes;
     private final String mHomeMenuTitle;
@@ -30,5 +32,10 @@ public class HomeMenuItem {
 
     public int getPosition() {
         return mPosition;
+    }
+
+    @Override
+    public boolean isFilterable(String query) {
+        return false;
     }
 }

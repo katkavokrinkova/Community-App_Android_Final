@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import net.impacthub.app.R;
 import net.impacthub.app.model.callback.OnListItemClickListener;
+import net.impacthub.app.model.pojo.FilterableString;
 import net.impacthub.app.model.pojo.ListItemType;
 import net.impacthub.app.model.pojo.SimpleItem;
 import net.impacthub.app.model.vo.jobs.JobDescriptionVO;
@@ -118,9 +119,9 @@ public class JobDetailFragment extends BaseChildFragment<JobsDetailUiPresenter> 
         mApplyButton.setText("Apply for this job");
 
         List<ListItemType> listItemTypes = new LinkedList<>();
-        listItemTypes.add(new SimpleItem<String>("JOBS DESCRIPTION", 0));
+        listItemTypes.add(new SimpleItem<>(new FilterableString("JOBS DESCRIPTION"), 0));
         listItemTypes.add(new SimpleItem<JobDescriptionVO>(new JobDescriptionVO(jobLocation, jobMemberCount, jobSalary), 1));
-        listItemTypes.add(new SimpleItem<String>(jobDescription, 2));
+        listItemTypes.add(new SimpleItem<>(new FilterableString(jobDescription), 2));
 
         mAdapter = new JobDetailListAdapter(getLayoutInflater(getArguments()));
         mAdapter.setItemClickListener(new OnListItemClickListener<ListItemType>() {

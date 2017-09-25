@@ -17,6 +17,7 @@ import net.impacthub.app.mapper.projects.ProjectMapper;
 import net.impacthub.app.model.features.companies.services.ServicesResponse;
 import net.impacthub.app.model.features.contacts.ContactsResponse;
 import net.impacthub.app.model.features.projects.ProjectResponse;
+import net.impacthub.app.model.pojo.FilterableString;
 import net.impacthub.app.model.pojo.ListItemType;
 import net.impacthub.app.model.pojo.SimpleItem;
 import net.impacthub.app.model.vo.members.MemberVO;
@@ -54,7 +55,7 @@ public class CompanyDetailUiPresenter extends UiPresenter<CompanyDetailUiContrac
                     @Override
                     public void onSuccess(@NonNull ServicesResponse response) {
                         List<ListItemType> listItemTypes = new CompaniesMapper().mapAsListItemType(response);
-                        listItemTypes.add(0, new SimpleItem<String>("Our Services", 0));
+                        listItemTypes.add(0, new SimpleItem<>(new FilterableString("Our Services"), 0));
                         getUi().onLoadCompanyServices(listItemTypes);
                     }
 

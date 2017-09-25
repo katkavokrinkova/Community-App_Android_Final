@@ -13,6 +13,7 @@ package net.impacthub.app.mapper.objectives;
 
 import net.impacthub.app.model.features.objectives.ObjectivesResponse;
 import net.impacthub.app.model.features.objectives.Records;
+import net.impacthub.app.model.pojo.FilterableString;
 import net.impacthub.app.model.pojo.ListItemType;
 import net.impacthub.app.model.pojo.SimpleItem;
 import net.impacthub.app.model.vo.objectives.ObjectiveVO;
@@ -51,7 +52,7 @@ public class ObjectivesMapper {
             if (records != null) {
                 int length = records.length;
                 if (length > 0) {
-                    listItems.add(new SimpleItem<>("GOALS", 0));
+                    listItems.add(new SimpleItem<>(new FilterableString("GOALS"), 0));
                 }
                 for (int i = 0; i < length; i++) {
                     Records record = records[i];

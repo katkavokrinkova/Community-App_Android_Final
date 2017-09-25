@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import net.impacthub.app.R;
 import net.impacthub.app.model.callback.OnListItemClickListener;
+import net.impacthub.app.model.pojo.FilterableString;
 import net.impacthub.app.model.pojo.ListItemType;
 import net.impacthub.app.model.pojo.SimpleItem;
 import net.impacthub.app.model.vo.companies.AboutCompanyVO;
@@ -173,8 +174,8 @@ public class CompanyDetailFragment extends BaseChildFragment<CompanyDetailUiPres
         aboutCompanyVO.mLocation = companyLocation;
         aboutCompanyVO.mMembersCount = arguments.getString(EXTRA_COMPANY_MEMBER_COUNT);
         aboutCompanyVO.mDescription = arguments.getString(EXTRA_COMPANY_DESCRIPTION);
-        typeList.add(new SimpleItem<String>("ABOUT", 0));
-        typeList.add(new SimpleItem<AboutCompanyVO>(aboutCompanyVO, 1));
+        typeList.add(new SimpleItem<>(new FilterableString("ABOUT"), 0));
+        typeList.add(new SimpleItem<>(aboutCompanyVO, 1));
         listAdapter.setItems(typeList);
         adapter.addVieBinder(mViewBinder1 = new AboutViewBinder(listAdapter));
 

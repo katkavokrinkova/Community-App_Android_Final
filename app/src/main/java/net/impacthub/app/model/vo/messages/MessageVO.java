@@ -11,13 +11,15 @@
 
 package net.impacthub.app.model.vo.messages;
 
+import net.impacthub.app.model.pojo.Filterable;
+
 /**
  * @author Filippo Ash
  * @version 1.0
  * @date 8/9/2017.
  */
 
-public class MessageVO {
+public class MessageVO implements Filterable {
 
     public String mConversationId;
     public String mDisplayName;
@@ -26,4 +28,9 @@ public class MessageVO {
     public String mText;
     public String mDate;
     public Boolean mIsRead;
+
+    @Override
+    public boolean isFilterable(String query) {
+        return false;
+    }
 }

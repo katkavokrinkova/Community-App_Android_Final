@@ -22,7 +22,7 @@
         android:layout_height="56dp"
         android:background="@drawable/search_bubble"
         android:gravity="center_vertical"
-        android:hint="@string/search"
+        android:hint="@string/search_hint"
         android:imeOptions="actionSend"
         android:paddingEnd="30dp"
         android:paddingStart="30dp"

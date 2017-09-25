@@ -11,7 +11,9 @@
 
 package net.impacthub.app.model.features.conversations;
 
-public class MessageItem {
+import net.impacthub.app.model.pojo.Filterable;
+
+public class MessageItem implements Filterable {
 
     private String senderId;
     private String senderImageUrl;
@@ -29,6 +31,11 @@ public class MessageItem {
         isMessageRichText = builder.isMessageRichText;
         sendDate = builder.sendDate;
         messageType = builder.messageType;
+    }
+
+    @Override
+    public boolean isFilterable(String query) {
+        return false;
     }
 
     public static final class Builder {

@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import net.impacthub.app.R;
+import net.impacthub.app.model.pojo.FilterableString;
 import net.impacthub.app.model.pojo.ListItemType;
 import net.impacthub.app.model.vo.companies.AboutCompanyVO;
 import net.impacthub.app.model.vo.companies.ServiceVO;
@@ -70,8 +71,8 @@ public class CompanyInfoListAdapter extends BaseListAdapter<RecyclerView.ViewHol
         Object model = getItem(position).getModel();
         switch (getItemViewType(position)) {
             case 0:
-                String titleItem = (String) model;
-                ((TitleViewHolder) holder).bindViewsWith(titleItem);
+                FilterableString titleItem = (FilterableString) model;
+                ((TitleViewHolder) holder).bindViewsWith(titleItem.getValue());
                 break;
             case 1:
                 ((AboutTopDetailViewHolder) holder).bindViewsWith((AboutCompanyVO) model);

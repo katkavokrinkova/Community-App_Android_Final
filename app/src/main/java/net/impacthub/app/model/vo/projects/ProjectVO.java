@@ -11,13 +11,15 @@
 
 package net.impacthub.app.model.vo.projects;
 
+import net.impacthub.app.model.pojo.Filterable;
+
 /**
  * @author Filippo Ash
  * @version 1.0
  * @date 8/10/2017.
  */
 
-public class ProjectVO {
+public class ProjectVO implements Filterable {
 
     public String mProjectId;
     public String mName;
@@ -26,4 +28,9 @@ public class ProjectVO {
     public String mLocation;
     public String mImageURL;
     public String mChatterGroupId;
+
+    @Override
+    public boolean isFilterable(String query) {
+        return false;
+    }
 }

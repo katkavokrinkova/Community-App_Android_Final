@@ -11,14 +11,21 @@
 
 package net.impacthub.app.model.vo.companies;
 
+import net.impacthub.app.model.pojo.Filterable;
+
 /**
  * @author Filippo Ash
  * @version 1.0
  * @date 8/24/2017.
  */
 
-public class ServiceVO {
+public class ServiceVO implements Filterable {
 
     public String mTitle;
     public String mDescription;
+
+    @Override
+    public boolean isFilterable(String query) {
+        return false;
+    }
 }

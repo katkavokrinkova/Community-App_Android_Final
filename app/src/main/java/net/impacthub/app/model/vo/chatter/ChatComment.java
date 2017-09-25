@@ -11,17 +11,24 @@
 
 package net.impacthub.app.model.vo.chatter;
 
+import net.impacthub.app.model.pojo.Filterable;
+
 /**
  * @author Filippo Ash
  * @version 1.0
  * @date 9/1/2017.
  */
 
-public class ChatComment {
+public class ChatComment implements Filterable {
 
     public String mDate;
     public String mUserId;
     public String mDisplayName;
     public String mImageURL;
     public String mCommentTxt;
+
+    @Override
+    public boolean isFilterable(String query) {
+        return false;
+    }
 }

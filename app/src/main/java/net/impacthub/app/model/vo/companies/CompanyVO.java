@@ -11,13 +11,15 @@
 
 package net.impacthub.app.model.vo.companies;
 
+import net.impacthub.app.model.pojo.Filterable;
+
 /**
  * @author Filippo Ash
  * @version 1.0
  * @date 8/4/2017.
  */
 
-public class CompanyVO {
+public class CompanyVO implements Filterable {
 
     public String mCompanyId;
     public String mCompanyName;
@@ -34,4 +36,9 @@ public class CompanyVO {
     public String mCompanyMemberCount;
     public String mCompanyLocation;
     public String mCompanyWebsite;
+
+    @Override
+    public boolean isFilterable(String query) {
+        return false;
+    }
 }

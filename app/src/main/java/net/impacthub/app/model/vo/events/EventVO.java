@@ -11,13 +11,15 @@
 
 package net.impacthub.app.model.vo.events;
 
+import net.impacthub.app.model.pojo.Filterable;
+
 /**
  * @author Filippo Ash
  * @version 1.0
  * @date 8/14/2017.
  */
 
-public class EventVO {
+public class EventVO implements Filterable {
 
     public String mId;
     public String mName;
@@ -36,4 +38,9 @@ public class EventVO {
     public String mZipCode;
     public String mStreet;
     public String mCountry;
+
+    @Override
+    public boolean isFilterable(String query) {
+        return false;
+    }
 }

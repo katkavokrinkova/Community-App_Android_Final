@@ -11,13 +11,15 @@
 
 package net.impacthub.app.model.vo.jobs;
 
+import net.impacthub.app.model.pojo.Filterable;
+
 /**
  * @author Filippo Ash
  * @version 1.0
  * @date 8/9/2017.
  */
 
-public class JobVO {
+public class JobVO implements Filterable {
 
     public String mJobId;
     public String mName;
@@ -32,4 +34,9 @@ public class JobVO {
     public String mWebsite;
     public String mCompanyC;
     public String mAccountId;
+
+    @Override
+    public boolean isFilterable(String query) {
+        return false;
+    }
 }

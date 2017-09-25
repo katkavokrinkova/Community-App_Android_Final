@@ -17,7 +17,7 @@ package net.impacthub.app.model.pojo;
  * @date 8/22/2017.
  */
 
-public interface ListItemType<M> {
+public interface ListItemType<M extends Filterable> extends Filterable {
 
     M getModel();
 

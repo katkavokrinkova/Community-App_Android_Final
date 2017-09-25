@@ -11,6 +11,7 @@
 
 package net.impacthub.app.model.vo.contacts;
 
+import net.impacthub.app.model.pojo.Filterable;
 import net.impacthub.app.model.vo.members.MemberVO;
 
 /**
@@ -19,9 +20,14 @@ import net.impacthub.app.model.vo.members.MemberVO;
  * @date 8/22/2017.
  */
 
-public class ContactVO {
+public class ContactVO implements Filterable {
 
     public String mIntroMessage;
     public String mCreatedDate;
     public MemberVO mMember;
+
+    @Override
+    public boolean isFilterable(String query) {
+        return false;
+    }
 }

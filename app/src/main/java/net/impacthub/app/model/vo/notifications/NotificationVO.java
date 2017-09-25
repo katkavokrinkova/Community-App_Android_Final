@@ -11,13 +11,15 @@
 
 package net.impacthub.app.model.vo.notifications;
 
+import net.impacthub.app.model.pojo.Filterable;
+
 /**
  * @author Filippo Ash
  * @version 1.0
  * @date 8/4/2017.
  */
 
-public class NotificationVO {
+public class NotificationVO implements Filterable {
 
     public String mMessage;
     public String mId;
@@ -27,4 +29,9 @@ public class NotificationVO {
     public String mProfilePicUrl;
     public String mCreatedDate;
     public NotificationType mNotificationType;
+
+    @Override
+    public boolean isFilterable(String query) {
+        return false;
+    }
 }

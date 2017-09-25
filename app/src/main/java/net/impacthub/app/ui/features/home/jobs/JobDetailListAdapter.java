@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.impacthub.app.R;
+import net.impacthub.app.model.pojo.FilterableString;
 import net.impacthub.app.model.pojo.ListItemType;
 import net.impacthub.app.model.vo.jobs.JobDescriptionVO;
 import net.impacthub.app.model.vo.projects.ProjectVO;
@@ -68,16 +69,16 @@ public class JobDetailListAdapter extends BaseListAdapter<RecyclerView.ViewHolde
         Object model = getItem(position).getModel();
         switch (getItemViewType(position)) {
             case 0:
-                String title = (String) model;
-                ((TitleViewHolder) holder).bindViewsWith(title);
+                FilterableString title = (FilterableString) model;
+                ((TitleViewHolder) holder).bindViewsWith(title.getValue());
                 break;
             case 1:
                 JobDescriptionVO descriptionVO = (JobDescriptionVO) model;
                 ((TopDescriptionViewHolder) holder).bindViewsWith(descriptionVO);
                 break;
             case 2:
-                String description = (String) model;
-                ((DescriptionViewHolder) holder).bindViewsWith(description);
+                FilterableString description = (FilterableString) model;
+                ((DescriptionViewHolder) holder).bindViewsWith(description.getValue());
                 break;
             case 3:
                 ProjectVO projectVO = (ProjectVO) model;

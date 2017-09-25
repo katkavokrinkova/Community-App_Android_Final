@@ -11,13 +11,15 @@
 
 package net.impacthub.app.model.vo.members;
 
+import net.impacthub.app.model.pojo.Filterable;
+
 /**
  * @author Filippo Ash
  * @version 1.0
  * @date 8/16/2017.
  */
 
-public class MemberVO {
+public class MemberVO implements Filterable {
 
     @MemberStatus
     public int mMemberStatus = MemberStatus.NOT_CONTACTED;
@@ -37,4 +39,9 @@ public class MemberVO {
     public String mAboutMe;
     public String mProfession;
     public String mStatusUpdate;
+
+    @Override
+    public boolean isFilterable(String query) {
+        return mFullName.toLowerCase().contains(query) || mProfession.toLowerCase().contains(query);
+    }
 }
