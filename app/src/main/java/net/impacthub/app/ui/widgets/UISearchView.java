@@ -114,6 +114,7 @@ public class UISearchView extends FrameLayout {
             @Override
             public void onClick(View view) {
                 mSearchField.setText(null);
+                KeyboardUtils.hideNativeKeyboard(getContext(), mSearchField);
             }
         });
     }
