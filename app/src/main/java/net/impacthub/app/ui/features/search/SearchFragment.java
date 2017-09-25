@@ -80,7 +80,7 @@ public class SearchFragment extends BaseChildFragment<SearchUiPresenter> impleme
 
             @Override
             public void onTextChanged(String query) {
-                showToast(query);
+                mAdapter.filter(query);
             }
         });
     }

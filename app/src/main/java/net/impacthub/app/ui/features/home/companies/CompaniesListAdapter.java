@@ -32,7 +32,7 @@ import net.impacthub.app.ui.common.RecyclerViewHolder;
 
 class CompaniesListAdapter extends BaseListAdapter<CompaniesListAdapter.ViewHolder, CompanyVO> {
 
-    protected CompaniesListAdapter(LayoutInflater inflater) {
+    CompaniesListAdapter(LayoutInflater inflater) {
         super(inflater);
     }
 

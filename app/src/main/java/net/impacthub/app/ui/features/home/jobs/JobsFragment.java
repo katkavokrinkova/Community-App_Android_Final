@@ -25,6 +25,7 @@ import net.impacthub.app.presenter.features.jobs.JobsUiPresenter;
 import net.impacthub.app.presenter.features.jobs.JobsUiContract;
 import net.impacthub.app.ui.base.BaseChildFragment;
 import net.impacthub.app.ui.common.LinearItemsMarginDecorator;
+import net.impacthub.app.ui.widgets.UISearchView;
 
 import java.util.List;
 
@@ -39,6 +40,7 @@ import butterknife.BindView;
 public class JobsFragment extends BaseChildFragment<JobsUiPresenter> implements OnListItemClickListener<JobVO>,JobsUiContract {
 
     @BindView(R.id.list_items) protected RecyclerView mJobsList;
+    @BindView(R.id.search_from_list) protected UISearchView mSearchView;
 
     private JobsListAdapter mAdapter;
 
@@ -76,6 +78,18 @@ public class JobsFragment extends BaseChildFragment<JobsUiPresenter> implements 
         mJobsList.setAdapter(mAdapter);
 
         getPresenter().getJobs();
+
+        mSearchView.setSearchActionListener(new UISearchView.OnSearchActionListener() {
+            @Override
+            public void onSearch(String searchValue) {
+
+            }
+
+            @Override
+            public void onTextChanged(String query) {
+                mAdapter.filter(query);
+            }
+        });
     }
 
     @Override

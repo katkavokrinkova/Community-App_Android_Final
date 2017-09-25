@@ -18,7 +18,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import net.impacthub.app.R;
-import net.impacthub.app.model.callback.OnListItemClickListener;
 import net.impacthub.app.model.vo.events.EventVO;
 import net.impacthub.app.ui.binder.ViewBinder;
 import net.impacthub.app.ui.common.LinearItemsMarginDecorator;
@@ -34,11 +33,10 @@ import java.util.List;
 
 public class EventsViewBinder implements ViewBinder<List<EventVO>> {
 
-    private final OnListItemClickListener<EventVO> mItemClickListener;
-    private EventsLisAdapter mAdapter;
+    private final EventsLisAdapter mAdapter;
 
-    public EventsViewBinder(OnListItemClickListener<EventVO> itemClickListener) {
-        mItemClickListener = itemClickListener;
+    public EventsViewBinder(EventsLisAdapter adapter) {
+        mAdapter = adapter;
     }
 
     @Override
@@ -46,8 +44,6 @@ public class EventsViewBinder implements ViewBinder<List<EventVO>> {
         LayoutInflater inflater = LayoutInflater.from(context);
         RecyclerView recyclerView = (RecyclerView) inflater.inflate(R.layout.common_list_layout, new LinearLayout(context), false);
         recyclerView.setHasFixedSize(true);
-        mAdapter = new EventsLisAdapter(inflater);
-        mAdapter.setItemClickListener(mItemClickListener);
         int offset = context.getResources().getDimensionPixelOffset(R.dimen.default_content_normal_gap);
         recyclerView.addItemDecoration(new LinearItemsMarginDecorator(offset));
         recyclerView.setAdapter(mAdapter);

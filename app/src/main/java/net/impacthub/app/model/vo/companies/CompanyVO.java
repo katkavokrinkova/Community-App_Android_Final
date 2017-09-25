@@ -12,6 +12,7 @@
 package net.impacthub.app.model.vo.companies;
 
 import net.impacthub.app.model.pojo.Filterable;
+import net.impacthub.app.utilities.TextUtils;
 
 /**
  * @author Filippo Ash
@@ -39,6 +40,6 @@ public class CompanyVO implements Filterable {
 
     @Override
     public boolean isFilterable(String query) {
-        return false;
+        return TextUtils.contains(query, mCompanyName, mCompanySector, mCompanyLocation);
     }
 }

@@ -25,6 +25,7 @@ import net.impacthub.app.ui.base.BaseChildFragment;
 import net.impacthub.app.ui.binder.ViewBinder;
 import net.impacthub.app.ui.common.AppPagerAdapter;
 import net.impacthub.app.ui.features.home.groups.binders.GroupsViewBinder;
+import net.impacthub.app.ui.widgets.UISearchView;
 
 import java.util.List;
 
@@ -42,10 +43,13 @@ public class GroupsFragment extends BaseChildFragment<GroupPresenter> implements
 
     @BindView(R.id.tabs) protected TabLayout mGroupsTab;
     @BindView(R.id.pager) protected ViewPager mGroupsPages;
+    @BindView(R.id.search_from_list) protected UISearchView mSearchView;
 
     private ViewBinder<List<GroupVO>> mViewBinder1;
     private ViewBinder<List<GroupVO>> mViewBinder2;
     private ViewBinder<List<GroupVO>> mViewBinder3;
+
+    private GroupsListAdapter mListAdapter1, mListAdapter2, mListAdapter3;
 
     public static GroupsFragment newInstance() {
 
@@ -75,25 +79,37 @@ public class GroupsFragment extends BaseChildFragment<GroupPresenter> implements
         AppPagerAdapter adapter = new AppPagerAdapter(getContext(), TITLES);
 //
 
-        GroupsListAdapter listAdapter1 = new GroupsListAdapter(getLayoutInflater(getArguments()));
-        listAdapter1.setItemClickListener(this);
-        GroupsListAdapter listAdapter2 = new GroupsListAdapter(getLayoutInflater(getArguments()));
-        listAdapter2.setItemClickListener(this);
-        GroupsListAdapter listAdapter3 = new GroupsListAdapter(getLayoutInflater(getArguments()));
-        listAdapter3.setItemClickListener(this);
+        mListAdapter1 = new GroupsListAdapter(getLayoutInflater(getArguments()));
+        mListAdapter1.setItemClickListener(this);
+        mListAdapter2 = new GroupsListAdapter(getLayoutInflater(getArguments()));
+        mListAdapter2.setItemClickListener(this);
+        mListAdapter3 = new GroupsListAdapter(getLayoutInflater(getArguments()));
+        mListAdapter3.setItemClickListener(this);
 
-        adapter.addVieBinder(mViewBinder1 = new GroupsViewBinder(listAdapter1));
-        adapter.addVieBinder(mViewBinder2 = new GroupsViewBinder(listAdapter2));
-        adapter.addVieBinder(mViewBinder3 = new GroupsViewBinder(listAdapter3));
-//
+        adapter.addVieBinder(mViewBinder1 = new GroupsViewBinder(mListAdapter1));
+        adapter.addVieBinder(mViewBinder2 = new GroupsViewBinder(mListAdapter2));
+        adapter.addVieBinder(mViewBinder3 = new GroupsViewBinder(mListAdapter3));
+        
         mGroupsPages.setAdapter(adapter);
         mGroupsPages.setOffscreenPageLimit(adapter.getCount());
         mGroupsTab.setTabMode(TabLayout.MODE_SCROLLABLE);
         mGroupsTab.setupWithViewPager(mGroupsPages);
 
-//        new TabsDelegate().setUp(mGroupsTab, TITLES);
-
         getPresenter().getGroups();
+
+        mSearchView.setSearchActionListener(new UISearchView.OnSearchActionListener() {
+            @Override
+            public void onSearch(String searchValue) {
+
+            }
+
+            @Override
+            public void onTextChanged(String query) {
+                mListAdapter1.filter(query);
+                mListAdapter2.filter(query);
+                mListAdapter3.filter(query);
+            }
+        });
     }
 
     @Override

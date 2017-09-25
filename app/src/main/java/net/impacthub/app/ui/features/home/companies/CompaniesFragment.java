@@ -23,6 +23,7 @@ import net.impacthub.app.presenter.features.companies.CompaniesUiContract;
 import net.impacthub.app.presenter.features.companies.CompaniesUiPresenter;
 import net.impacthub.app.ui.base.BaseChildFragment;
 import net.impacthub.app.ui.common.LinearItemsMarginDecorator;
+import net.impacthub.app.ui.widgets.UISearchView;
 
 import java.util.List;
 
@@ -37,6 +38,8 @@ import butterknife.BindView;
 public class CompaniesFragment extends BaseChildFragment<CompaniesUiPresenter> implements CompaniesUiContract, OnListItemClickListener<CompanyVO> {
 
     @BindView(R.id.list_items) protected RecyclerView mCompanyList;
+    @BindView(R.id.search_from_list) protected UISearchView mSearchView;
+
     private CompaniesListAdapter mAdapter;
 
     public static CompaniesFragment newInstance() {
@@ -72,6 +75,18 @@ public class CompaniesFragment extends BaseChildFragment<CompaniesUiPresenter> i
         mCompanyList.setAdapter(mAdapter);
 
         getPresenter().getCompanies();
+
+        mSearchView.setSearchActionListener(new UISearchView.OnSearchActionListener() {
+            @Override
+            public void onSearch(String searchValue) {
+                showToast("Already filtered");
+            }
+
+            @Override
+            public void onTextChanged(String query) {
+                mAdapter.filter(query);
+            }
+        });
     }
 
     @Override

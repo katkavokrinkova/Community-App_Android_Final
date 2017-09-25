@@ -14,6 +14,7 @@ package net.impacthub.app.ui.features.home.events;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import net.impacthub.app.R;
@@ -25,6 +26,7 @@ import net.impacthub.app.ui.base.BaseChildFragment;
 import net.impacthub.app.ui.binder.ViewBinder;
 import net.impacthub.app.ui.common.AppPagerAdapter;
 import net.impacthub.app.ui.features.home.events.binders.EventsViewBinder;
+import net.impacthub.app.ui.widgets.UISearchView;
 
 import java.util.List;
 
@@ -42,10 +44,13 @@ public class EventsFragment extends BaseChildFragment<EventsUiPresenter> impleme
 
     @BindView(R.id.tabs) protected TabLayout mEventsTab;
     @BindView(R.id.pager) protected ViewPager mEventsPager;
+    @BindView(R.id.search_from_list) protected UISearchView mSearchView;
 
     private ViewBinder<List<EventVO>> mViewBinder1;
     private ViewBinder<List<EventVO>> mViewBinder2;
     private ViewBinder<List<EventVO>> mViewBinder3;
+
+    private EventsLisAdapter mLisAdapter1, mLisAdapter2, mLisAdapter3;
 
     public static EventsFragment newInstance() {
 
@@ -73,10 +78,17 @@ public class EventsFragment extends BaseChildFragment<EventsUiPresenter> impleme
         setUpToolbar(R.string.label_events);
 
         AppPagerAdapter adapter = new AppPagerAdapter(getContext(), TITLES);
+        LayoutInflater layoutInflater = getLayoutInflater(getArguments());
+        mLisAdapter1 = new EventsLisAdapter(layoutInflater);
+        mLisAdapter1.setItemClickListener(this);
+        mLisAdapter2 = new EventsLisAdapter(layoutInflater);
+        mLisAdapter2.setItemClickListener(this);
+        mLisAdapter3 = new EventsLisAdapter(layoutInflater);
+        mLisAdapter3.setItemClickListener(this);
 
-        adapter.addVieBinder(mViewBinder1 = new EventsViewBinder(this));
-        adapter.addVieBinder(mViewBinder2 = new EventsViewBinder(this));
-        adapter.addVieBinder(mViewBinder3 = new EventsViewBinder(this));
+        adapter.addVieBinder(mViewBinder1 = new EventsViewBinder(mLisAdapter1));
+        adapter.addVieBinder(mViewBinder2 = new EventsViewBinder(mLisAdapter2));
+        adapter.addVieBinder(mViewBinder3 = new EventsViewBinder(mLisAdapter2));
 
         mEventsPager.setAdapter(adapter);
         mEventsPager.setOffscreenPageLimit(adapter.getCount());
@@ -85,6 +97,20 @@ public class EventsFragment extends BaseChildFragment<EventsUiPresenter> impleme
         //new TabsDelegate().setUp(mEventsTab, TITLES);
 
         getPresenter().getEvents();
+
+        mSearchView.setSearchActionListener(new UISearchView.OnSearchActionListener() {
+            @Override
+            public void onSearch(String searchValue) {
+
+            }
+
+            @Override
+            public void onTextChanged(String query) {
+                mLisAdapter1.filter(query);
+                mLisAdapter2.filter(query);
+                mLisAdapter3.filter(query);
+            }
+        });
     }
 
     @Override

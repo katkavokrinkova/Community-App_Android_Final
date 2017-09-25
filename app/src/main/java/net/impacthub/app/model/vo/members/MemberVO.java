@@ -12,6 +12,7 @@
 package net.impacthub.app.model.vo.members;
 
 import net.impacthub.app.model.pojo.Filterable;
+import net.impacthub.app.utilities.TextUtils;
 
 /**
  * @author Filippo Ash
@@ -42,6 +43,6 @@ public class MemberVO implements Filterable {
 
     @Override
     public boolean isFilterable(String query) {
-        return mFullName.toLowerCase().contains(query) || mProfession.toLowerCase().contains(query);
+        return TextUtils.contains(query, mFullName, mProfession);
     }
 }

@@ -25,6 +25,7 @@ import net.impacthub.app.ui.base.BaseChildFragment;
 import net.impacthub.app.ui.binder.ViewBinder;
 import net.impacthub.app.ui.common.AppPagerAdapter;
 import net.impacthub.app.ui.features.home.projects.binders.ProjectsViewBinder;
+import net.impacthub.app.ui.widgets.UISearchView;
 
 import java.util.List;
 
@@ -42,10 +43,13 @@ public class ProjectsFragment extends BaseChildFragment<ProjectsUiPresenter> imp
 
     @BindView(R.id.tabs) protected TabLayout mProjectsTab;
     @BindView(R.id.pager) protected ViewPager mProjectPages;
+    @BindView(R.id.search_from_list) protected UISearchView mSearchView;
 
     private ViewBinder<List<ProjectVO>> mViewBinder1;
     private ViewBinder<List<ProjectVO>> mViewBinder2;
     private ViewBinder<List<ProjectVO>> mViewBinder3;
+
+    private ProjectsLisAdapter mLisAdapter1, mLisAdapter2, mLisAdapter3;
 
     public static ProjectsFragment newInstance() {
         
@@ -73,15 +77,15 @@ public class ProjectsFragment extends BaseChildFragment<ProjectsUiPresenter> imp
 
         AppPagerAdapter adapter = new AppPagerAdapter(getContext(), TITLES);
 //
-        ProjectsLisAdapter lisAdapter1 = new ProjectsLisAdapter(getLayoutInflater(getArguments()));
-        lisAdapter1.setItemClickListener(this);
-        ProjectsLisAdapter lisAdapter2 = new ProjectsLisAdapter(getLayoutInflater(getArguments()));
-        lisAdapter2.setItemClickListener(this);
-        ProjectsLisAdapter lisAdapter3 = new ProjectsLisAdapter(getLayoutInflater(getArguments()));
-        lisAdapter3.setItemClickListener(this);
-        adapter.addVieBinder(mViewBinder1 = new ProjectsViewBinder(lisAdapter1));
-        adapter.addVieBinder(mViewBinder2 = new ProjectsViewBinder(lisAdapter2));
-        adapter.addVieBinder(mViewBinder3 = new ProjectsViewBinder(lisAdapter3));
+        mLisAdapter1 = new ProjectsLisAdapter(getLayoutInflater(getArguments()));
+        mLisAdapter1.setItemClickListener(this);
+        mLisAdapter2 = new ProjectsLisAdapter(getLayoutInflater(getArguments()));
+        mLisAdapter2.setItemClickListener(this);
+        mLisAdapter3 = new ProjectsLisAdapter(getLayoutInflater(getArguments()));
+        mLisAdapter3.setItemClickListener(this);
+        adapter.addVieBinder(mViewBinder1 = new ProjectsViewBinder(mLisAdapter1));
+        adapter.addVieBinder(mViewBinder2 = new ProjectsViewBinder(mLisAdapter2));
+        adapter.addVieBinder(mViewBinder3 = new ProjectsViewBinder(mLisAdapter3));
 //
         mProjectPages.setAdapter(adapter);
         mProjectPages.setOffscreenPageLimit(adapter.getCount());
@@ -91,6 +95,20 @@ public class ProjectsFragment extends BaseChildFragment<ProjectsUiPresenter> imp
 //        new TabsDelegate().setUp(mProjectsTab, TITLES);
 
         getPresenter().getProjects();
+
+        mSearchView.setSearchActionListener(new UISearchView.OnSearchActionListener() {
+            @Override
+            public void onSearch(String searchValue) {
+
+            }
+
+            @Override
+            public void onTextChanged(String query) {
+                mLisAdapter1.filter(query);
+                mLisAdapter2.filter(query);
+                mLisAdapter3.filter(query);
+            }
+        });
     }
 
     @Override
