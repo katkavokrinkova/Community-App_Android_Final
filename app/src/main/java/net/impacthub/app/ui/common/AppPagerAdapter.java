@@ -31,10 +31,12 @@ import java.util.List;
 public class AppPagerAdapter extends PagerAdapter {
 
     private final List<ViewBinder> mBindersList = new LinkedList<>();
+    private final String[] mTitles;
     private final Context mContext;
 
-    public AppPagerAdapter(@NonNull Context context) {
+    public AppPagerAdapter(@NonNull Context context, String[] titles) {
         mContext = context;
+        mTitles = titles;
     }
 
     @Override
@@ -62,5 +64,10 @@ public class AppPagerAdapter extends PagerAdapter {
     public void addVieBinder(ViewBinder viewBinder) {
         mBindersList.add(viewBinder);
         notifyDataSetChanged();
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return mTitles[position];
     }
 }

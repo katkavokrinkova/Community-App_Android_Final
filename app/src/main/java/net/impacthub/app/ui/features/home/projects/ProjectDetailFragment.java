@@ -33,7 +33,6 @@ import net.impacthub.app.ui.base.BaseChildFragment;
 import net.impacthub.app.ui.binder.ViewBinder;
 import net.impacthub.app.ui.common.AppPagerAdapter;
 import net.impacthub.app.ui.common.ImageLoaderHelper;
-import net.impacthub.app.ui.delegate.TabsDelegate;
 import net.impacthub.app.ui.features.home.chatter.ChatterCommentFragment;
 import net.impacthub.app.ui.features.home.chatter.binder.ChatterViewBinder;
 import net.impacthub.app.ui.features.home.jobs.JobDetailFragment;
@@ -129,7 +128,7 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
 
         ImageLoaderHelper.loadImage(getContext(), buildUrl(projectImageURL), mImageDetail);
 
-        AppPagerAdapter adapter = new AppPagerAdapter(getContext());
+        AppPagerAdapter adapter = new AppPagerAdapter(getContext(), TITLES);
 
         mViewBinder1 = new ChatterViewBinder(new OnListItemClickListener<ChatterVO>() {
             @Override
@@ -172,7 +171,7 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
 
         mProjectTab.setupWithViewPager(mProjectPages);
 
-        new TabsDelegate().setUp(mProjectTab, TITLES);
+//        new TabsDelegate().setUp(mProjectTab, TITLES);
 
         getPresenter().loadDetails(feedId, projectId);
     }

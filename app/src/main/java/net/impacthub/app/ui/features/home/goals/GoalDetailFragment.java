@@ -29,7 +29,6 @@ import net.impacthub.app.ui.base.BaseChildFragment;
 import net.impacthub.app.ui.binder.ViewBinder;
 import net.impacthub.app.ui.common.AppPagerAdapter;
 import net.impacthub.app.ui.common.ImageLoaderHelper;
-import net.impacthub.app.ui.delegate.TabsDelegate;
 import net.impacthub.app.ui.features.home.goals.binders.AboutViewBinder;
 import net.impacthub.app.ui.features.home.groups.GroupDetailFragment;
 import net.impacthub.app.ui.features.home.groups.GroupsListAdapter;
@@ -102,7 +101,7 @@ public class GoalDetailFragment extends BaseChildFragment<GoalsDetailUiPresenter
 
         ImageLoaderHelper.loadImage(getContext(), buildUrl(imageURL), mImageDetail);
 
-        AppPagerAdapter adapter = new AppPagerAdapter(getContext());
+        AppPagerAdapter adapter = new AppPagerAdapter(getContext(), TITLES);
 
         adapter.addVieBinder(new AboutViewBinder(goalName, goalDescription));
 
@@ -129,7 +128,7 @@ public class GoalDetailFragment extends BaseChildFragment<GoalsDetailUiPresenter
 
         mGoalTab.setupWithViewPager(mGoalPages);
 
-        new TabsDelegate().setUp(mGoalTab, TITLES);
+//        new TabsDelegate().setUp(mGoalTab, TITLES);
 
         getPresenter().loadDetails(goalName);
     }

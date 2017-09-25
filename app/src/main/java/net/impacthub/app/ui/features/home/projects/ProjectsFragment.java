@@ -24,7 +24,6 @@ import net.impacthub.app.presenter.features.projects.ProjectsUiPresenter;
 import net.impacthub.app.ui.base.BaseChildFragment;
 import net.impacthub.app.ui.binder.ViewBinder;
 import net.impacthub.app.ui.common.AppPagerAdapter;
-import net.impacthub.app.ui.delegate.TabsDelegate;
 import net.impacthub.app.ui.features.home.projects.binders.ProjectsViewBinder;
 
 import java.util.List;
@@ -72,7 +71,7 @@ public class ProjectsFragment extends BaseChildFragment<ProjectsUiPresenter> imp
         super.bindView(rootView);
         setUpToolbar(R.string.label_projects);
 
-        AppPagerAdapter adapter = new AppPagerAdapter(getContext());
+        AppPagerAdapter adapter = new AppPagerAdapter(getContext(), TITLES);
 //
         ProjectsLisAdapter lisAdapter1 = new ProjectsLisAdapter(getLayoutInflater(getArguments()));
         lisAdapter1.setItemClickListener(this);
@@ -86,9 +85,10 @@ public class ProjectsFragment extends BaseChildFragment<ProjectsUiPresenter> imp
 //
         mProjectPages.setAdapter(adapter);
         mProjectPages.setOffscreenPageLimit(adapter.getCount());
+        mProjectsTab.setTabMode(TabLayout.MODE_SCROLLABLE);
         mProjectsTab.setupWithViewPager(mProjectPages);
 
-        new TabsDelegate().setUp(mProjectsTab, TITLES);
+//        new TabsDelegate().setUp(mProjectsTab, TITLES);
 
         getPresenter().getProjects();
     }

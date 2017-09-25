@@ -34,7 +34,6 @@ import net.impacthub.app.ui.common.ImageLoaderHelper;
 import net.impacthub.app.ui.common.SimpleOffsetChangeListenerAdapter;
 import net.impacthub.app.ui.common.binders.AboutViewBinder;
 import net.impacthub.app.ui.delegate.DetailScreenDelegate;
-import net.impacthub.app.ui.delegate.TabsDelegate;
 import net.impacthub.app.ui.features.home.groups.GroupDetailFragment;
 import net.impacthub.app.ui.features.home.groups.GroupsListAdapter;
 import net.impacthub.app.ui.features.home.groups.binders.GroupsViewBinder;
@@ -185,11 +184,13 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
         mOffsetChangeListenerAdapter = new SimpleOffsetChangeListenerAdapter(mToolbar);
         mOffsetChangeListenerAdapter.setOffsetChangeListener(this);
 
-        AppPagerAdapter adapter = new AppPagerAdapter(getContext());
+        AppPagerAdapter adapter = new AppPagerAdapter(getContext(), TITLES);
 
         adapter.addVieBinder(mViewBinder1 = new AboutViewBinder(new MemberInfoListAdapter(LayoutInflater.from(getContext()))));
 
-        ProjectsLisAdapter lisAdapter = new ProjectsLisAdapter(getLayoutInflater(getArguments()));
+        LayoutInflater layoutInflater = getLayoutInflater(getArguments());
+
+        ProjectsLisAdapter lisAdapter = new ProjectsLisAdapter(layoutInflater);
         lisAdapter.setItemClickListener(new OnListItemClickListener<ProjectVO>() {
             @Override
             public void onItemClick(int viewId, ProjectVO model) {
@@ -200,7 +201,7 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
         adapter.addVieBinder(mViewBinder2 = new ProjectsViewBinder(lisAdapter));
 
 
-        GroupsListAdapter groupsListAdapter = new GroupsListAdapter(getLayoutInflater(getArguments()));
+        GroupsListAdapter groupsListAdapter = new GroupsListAdapter(layoutInflater);
         groupsListAdapter.setItemClickListener(new OnListItemClickListener<GroupVO>() {
             @Override
             public void onItemClick(int viewId, GroupVO model) {
@@ -213,8 +214,6 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
         mPager.setOffscreenPageLimit(adapter.getCount());
 
         mDetailsTab.setupWithViewPager(mPager);
-
-        new TabsDelegate().setUp(mDetailsTab, TITLES);
 
         setUpToolbar(mFullNameValue);
         mLocation.setText(mLocationValue);

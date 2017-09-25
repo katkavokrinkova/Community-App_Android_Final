@@ -37,7 +37,6 @@ import net.impacthub.app.ui.binder.ViewBinder;
 import net.impacthub.app.ui.common.AppPagerAdapter;
 import net.impacthub.app.ui.common.ImageLoaderHelper;
 import net.impacthub.app.ui.delegate.DetailScreenDelegate;
-import net.impacthub.app.ui.delegate.TabsDelegate;
 import net.impacthub.app.ui.features.home.members.MemberDetailFragment;
 import net.impacthub.app.ui.common.binders.AboutViewBinder;
 import net.impacthub.app.ui.features.home.members.binders.MembersViewBinder;
@@ -166,7 +165,7 @@ public class CompanyDetailFragment extends BaseChildFragment<CompanyDetailUiPres
 
         new DetailScreenDelegate().handleButtons(twitterPair, facebookPair, linkedinPair, instagramPair);
 
-        AppPagerAdapter adapter = new AppPagerAdapter(context);
+        AppPagerAdapter adapter = new AppPagerAdapter(context, TITLES);
         CompanyInfoListAdapter listAdapter = new CompanyInfoListAdapter(getLayoutInflater(getArguments()));
 
         List<ListItemType> typeList = new LinkedList<>();
@@ -199,7 +198,7 @@ public class CompanyDetailFragment extends BaseChildFragment<CompanyDetailUiPres
 
         mCompanyTab.setupWithViewPager(mCompanyPages);
 
-        new TabsDelegate().setUp(mCompanyTab, TITLES);
+//        new TabsDelegate().setUp(mCompanyTab, TITLES);
 
         getPresenter().loadDetails(companyId);
     }

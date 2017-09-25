@@ -24,7 +24,6 @@ import net.impacthub.app.presenter.features.groups.GroupUiContract;
 import net.impacthub.app.ui.base.BaseChildFragment;
 import net.impacthub.app.ui.binder.ViewBinder;
 import net.impacthub.app.ui.common.AppPagerAdapter;
-import net.impacthub.app.ui.delegate.TabsDelegate;
 import net.impacthub.app.ui.features.home.groups.binders.GroupsViewBinder;
 
 import java.util.List;
@@ -73,7 +72,7 @@ public class GroupsFragment extends BaseChildFragment<GroupPresenter> implements
 
         setUpToolbar(R.string.label_groups);
 
-        AppPagerAdapter adapter = new AppPagerAdapter(getContext());
+        AppPagerAdapter adapter = new AppPagerAdapter(getContext(), TITLES);
 //
 
         GroupsListAdapter listAdapter1 = new GroupsListAdapter(getLayoutInflater(getArguments()));
@@ -89,9 +88,10 @@ public class GroupsFragment extends BaseChildFragment<GroupPresenter> implements
 //
         mGroupsPages.setAdapter(adapter);
         mGroupsPages.setOffscreenPageLimit(adapter.getCount());
+        mGroupsTab.setTabMode(TabLayout.MODE_SCROLLABLE);
         mGroupsTab.setupWithViewPager(mGroupsPages);
 
-        new TabsDelegate().setUp(mGroupsTab, TITLES);
+//        new TabsDelegate().setUp(mGroupsTab, TITLES);
 
         getPresenter().getGroups();
     }

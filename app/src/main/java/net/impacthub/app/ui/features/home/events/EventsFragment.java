@@ -24,7 +24,6 @@ import net.impacthub.app.presenter.features.events.EventsUiPresenter;
 import net.impacthub.app.ui.base.BaseChildFragment;
 import net.impacthub.app.ui.binder.ViewBinder;
 import net.impacthub.app.ui.common.AppPagerAdapter;
-import net.impacthub.app.ui.delegate.TabsDelegate;
 import net.impacthub.app.ui.features.home.events.binders.EventsViewBinder;
 
 import java.util.List;
@@ -73,7 +72,7 @@ public class EventsFragment extends BaseChildFragment<EventsUiPresenter> impleme
 
         setUpToolbar(R.string.label_events);
 
-        AppPagerAdapter adapter = new AppPagerAdapter(getContext());
+        AppPagerAdapter adapter = new AppPagerAdapter(getContext(), TITLES);
 
         adapter.addVieBinder(mViewBinder1 = new EventsViewBinder(this));
         adapter.addVieBinder(mViewBinder2 = new EventsViewBinder(this));
@@ -83,7 +82,7 @@ public class EventsFragment extends BaseChildFragment<EventsUiPresenter> impleme
         mEventsPager.setOffscreenPageLimit(adapter.getCount());
         mEventsTab.setupWithViewPager(mEventsPager);
 
-        new TabsDelegate().setUp(mEventsTab, TITLES);
+        //new TabsDelegate().setUp(mEventsTab, TITLES);
 
         getPresenter().getEvents();
     }

@@ -25,7 +25,6 @@ import net.impacthub.app.presenter.features.contacts.ContactsUiPresenter;
 import net.impacthub.app.ui.base.BaseChildFragment;
 import net.impacthub.app.ui.binder.ViewBinder;
 import net.impacthub.app.ui.common.AppPagerAdapter;
-import net.impacthub.app.ui.delegate.TabsDelegate;
 import net.impacthub.app.ui.features.home.members.MemberDetailFragment;
 import net.impacthub.app.ui.features.messages.contacts.binders.ContactsApprovedViewBinder;
 import net.impacthub.app.ui.features.messages.contacts.binders.ContactsPendingViewBinder;
@@ -77,7 +76,7 @@ public class ContactsFragment extends BaseChildFragment<ContactsUiPresenter> imp
 
         setUpToolbar(R.string.label_contacts);
 
-        AppPagerAdapter adapter = new AppPagerAdapter(getContext());
+        AppPagerAdapter adapter = new AppPagerAdapter(getContext(), TITLES);
 
         adapter.addVieBinder(mViewBinder1 = new ContactsApprovedViewBinder(new OnListItemClickListener<ContactVO>() {
             @Override
@@ -131,7 +130,7 @@ public class ContactsFragment extends BaseChildFragment<ContactsUiPresenter> imp
         mContactPages.setOffscreenPageLimit(adapter.getCount());
         mContactsTab.setupWithViewPager(mContactPages);
 
-        new TabsDelegate().setUp(mContactsTab, TITLES);
+        //new TabsDelegate().setUp(mContactsTab, TITLES);
 
         getPresenter().getContacts();
     }
