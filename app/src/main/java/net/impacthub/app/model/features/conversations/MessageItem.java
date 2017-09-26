@@ -11,9 +11,13 @@
 
 package net.impacthub.app.model.features.conversations;
 
-import net.impacthub.app.model.pojo.Filterable;
+import net.impacthub.app.model.pojo.Searchable;
+import net.impacthub.app.utilities.TextUtils;
 
-public class MessageItem implements Filterable {
+import java.util.List;
+import java.util.Map;
+
+public class MessageItem implements Searchable {
 
     private String senderId;
     private String senderImageUrl;
@@ -34,7 +38,7 @@ public class MessageItem implements Filterable {
     }
 
     @Override
-    public boolean isFilterable(String query) {
+    public boolean isSearchable(String query) {
         return false;
     }
 
@@ -120,5 +124,10 @@ public class MessageItem implements Filterable {
 
     public void setMessageType(MessageType messageType) {
         this.messageType = messageType;
+    }
+
+    @Override
+    public boolean isFilterable(Map<String, List<String>> filters) {
+        return TextUtils.contains(filters);
     }
 }

@@ -2,7 +2,10 @@ package net.impacthub.app.model.home;
 
 import android.support.annotation.DrawableRes;
 
-import net.impacthub.app.model.pojo.Filterable;
+import net.impacthub.app.model.pojo.Searchable;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Filippo Ash
@@ -10,7 +13,7 @@ import net.impacthub.app.model.pojo.Filterable;
  * @date 7/24/2017.
  */
 
-public class HomeMenuItem implements Filterable {
+public class HomeMenuItem implements Searchable {
 
     @DrawableRes private final int mHomeMenuIconRes;
     private final String mHomeMenuTitle;
@@ -35,7 +38,12 @@ public class HomeMenuItem implements Filterable {
     }
 
     @Override
-    public boolean isFilterable(String query) {
+    public boolean isSearchable(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean isFilterable(Map<String, List<String>> filters) {
         return false;
     }
 }

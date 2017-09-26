@@ -24,6 +24,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class FilterData implements Serializable {
 
+    public final static String KEY_FILTER_CITY = "city";
+    public final static String KEY_FILTER_SECTOR = "sector";
+
     private final Map<String, List<String>> mFilters = new ConcurrentHashMap<>();
 
     public synchronized Map<String, List<String>> getFilters() {

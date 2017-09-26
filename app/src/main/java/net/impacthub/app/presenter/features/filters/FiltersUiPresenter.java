@@ -10,6 +10,9 @@ import java.util.List;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.observers.DisposableSingleObserver;
 
+import static net.impacthub.app.model.vo.filters.FilterData.KEY_FILTER_CITY;
+import static net.impacthub.app.model.vo.filters.FilterData.KEY_FILTER_SECTOR;
+
 /**
  * @author Filippo Ash
  * @version 1.0
@@ -23,9 +26,9 @@ public class FiltersUiPresenter extends UiPresenter<FiltersUiContract> {
     }
 
     public void getFiltersByName(String filterName) {
-        if(FilterVO.KEY_FILTER_CITY.equalsIgnoreCase(filterName)) {
+        if(KEY_FILTER_CITY.equalsIgnoreCase(filterName)) {
             fetchCityFilters();
-        } else if(FilterVO.KEY_FILTER_SECTOR.equalsIgnoreCase(filterName)) {
+        } else if(KEY_FILTER_SECTOR.equalsIgnoreCase(filterName)) {
             fetchSectorsFilters();
         }
     }
@@ -35,7 +38,7 @@ public class FiltersUiPresenter extends UiPresenter<FiltersUiContract> {
 
             @Override
             public void onSuccess(@NonNull List<FilterVO> filterVOs) {
-                getUi().onLoadFilters(FilterVO.KEY_FILTER_SECTOR, filterVOs);
+                getUi().onLoadFilters(KEY_FILTER_SECTOR, filterVOs);
             }
 
             @Override
@@ -50,7 +53,7 @@ public class FiltersUiPresenter extends UiPresenter<FiltersUiContract> {
 
             @Override
             public void onSuccess(@NonNull List<FilterVO> filterVOs) {
-                getUi().onLoadFilters(FilterVO.KEY_FILTER_CITY, filterVOs);
+                getUi().onLoadFilters(KEY_FILTER_CITY, filterVOs);
             }
 
             @Override

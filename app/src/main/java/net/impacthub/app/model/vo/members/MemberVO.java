@@ -11,8 +11,11 @@
 
 package net.impacthub.app.model.vo.members;
 
-import net.impacthub.app.model.pojo.Filterable;
+import net.impacthub.app.model.pojo.Searchable;
 import net.impacthub.app.utilities.TextUtils;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Filippo Ash
@@ -20,7 +23,7 @@ import net.impacthub.app.utilities.TextUtils;
  * @date 8/16/2017.
  */
 
-public class MemberVO implements Filterable {
+public class MemberVO implements Searchable {
 
     @MemberStatus
     public int mMemberStatus = MemberStatus.NOT_CONTACTED;
@@ -42,7 +45,12 @@ public class MemberVO implements Filterable {
     public String mStatusUpdate;
 
     @Override
-    public boolean isFilterable(String query) {
+    public boolean isSearchable(String query) {
         return TextUtils.contains(query, mFullName, mProfession);
+    }
+
+    @Override
+    public boolean isFilterable(Map<String, List<String>> filters) {
+        return TextUtils.contains(filters);
     }
 }

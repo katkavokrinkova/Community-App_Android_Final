@@ -11,7 +11,11 @@
 
 package net.impacthub.app.model.vo.chatter;
 
-import net.impacthub.app.model.pojo.Filterable;
+import net.impacthub.app.model.pojo.Searchable;
+import net.impacthub.app.utilities.TextUtils;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Filippo Ash
@@ -19,7 +23,7 @@ import net.impacthub.app.model.pojo.Filterable;
  * @date 8/17/2017.
  */
 
-public class ChatterVO implements Filterable {
+public class ChatterVO implements Searchable {
 
     public CommentVO mComments;
     public String mUserId;
@@ -32,7 +36,12 @@ public class ChatterVO implements Filterable {
     public boolean mIsLikedByMe;
 
     @Override
-    public boolean isFilterable(String query) {
+    public boolean isSearchable(String query) {
         return false;
+    }
+
+    @Override
+    public boolean isFilterable(Map<String, List<String>> filters) {
+        return TextUtils.contains(filters);
     }
 }

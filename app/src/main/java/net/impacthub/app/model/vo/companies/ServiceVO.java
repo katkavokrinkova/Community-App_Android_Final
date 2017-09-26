@@ -11,7 +11,10 @@
 
 package net.impacthub.app.model.vo.companies;
 
-import net.impacthub.app.model.pojo.Filterable;
+import net.impacthub.app.model.pojo.Searchable;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Filippo Ash
@@ -19,13 +22,18 @@ import net.impacthub.app.model.pojo.Filterable;
  * @date 8/24/2017.
  */
 
-public class ServiceVO implements Filterable {
+public class ServiceVO implements Searchable {
 
     public String mTitle;
     public String mDescription;
 
     @Override
-    public boolean isFilterable(String query) {
+    public boolean isSearchable(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean isFilterable(Map<String, List<String>> filters) {
         return false;
     }
 }

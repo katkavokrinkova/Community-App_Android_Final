@@ -11,7 +11,10 @@
 
 package net.impacthub.app.model.vo.notifications;
 
-import net.impacthub.app.model.pojo.Filterable;
+import net.impacthub.app.model.pojo.Searchable;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Filippo Ash
@@ -19,7 +22,7 @@ import net.impacthub.app.model.pojo.Filterable;
  * @date 8/4/2017.
  */
 
-public class NotificationVO implements Filterable {
+public class NotificationVO implements Searchable {
 
     public String mMessage;
     public String mId;
@@ -31,7 +34,12 @@ public class NotificationVO implements Filterable {
     public NotificationType mNotificationType;
 
     @Override
-    public boolean isFilterable(String query) {
+    public boolean isSearchable(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean isFilterable(Map<String, List<String>> filters) {
         return false;
     }
 }

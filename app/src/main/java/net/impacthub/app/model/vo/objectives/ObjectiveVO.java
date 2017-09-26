@@ -11,7 +11,10 @@
 
 package net.impacthub.app.model.vo.objectives;
 
-import net.impacthub.app.model.pojo.Filterable;
+import net.impacthub.app.model.pojo.Searchable;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Filippo Ash
@@ -19,7 +22,7 @@ import net.impacthub.app.model.pojo.Filterable;
  * @date 8/16/2017.
  */
 
-public class ObjectiveVO implements Filterable {
+public class ObjectiveVO implements Searchable {
 
     public String mTitle;
     public String mSummary;
@@ -27,7 +30,12 @@ public class ObjectiveVO implements Filterable {
     public boolean mHideLastTimeLine;
 
     @Override
-    public boolean isFilterable(String query) {
+    public boolean isSearchable(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean isFilterable(Map<String, List<String>> filters) {
         return false;
     }
 }

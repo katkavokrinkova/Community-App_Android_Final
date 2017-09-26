@@ -11,13 +11,16 @@
 
 package net.impacthub.app.model.pojo;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * @author Filippo Ash
  * @version 1.0
  * @date 8/22/2017.
  */
 
-public class SimpleItem<M extends Filterable> implements ListItemType<M> {
+public class SimpleItem<M extends Searchable> implements ListItemType<M> {
 
     private final M mModel;
     private final int mViewType;
@@ -38,7 +41,12 @@ public class SimpleItem<M extends Filterable> implements ListItemType<M> {
     }
 
     @Override
-    public boolean isFilterable(String query) {
-        return mModel.isFilterable(query);
+    public boolean isSearchable(String query) {
+        return mModel.isSearchable(query);
+    }
+
+    @Override
+    public boolean isFilterable(Map<String, List<String>> filters) {
+        return false;
     }
 }

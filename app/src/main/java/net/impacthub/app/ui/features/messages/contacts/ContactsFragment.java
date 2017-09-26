@@ -167,9 +167,9 @@ public class ContactsFragment extends BaseChildFragment<ContactsUiPresenter> imp
 
             @Override
             public void onTextChanged(String query) {
-                mListAdapter1.filter(query);
-                mListAdapter2.filter(query);
-                mListAdapter3.filter(query);
+                mListAdapter1.filterSearch(query);
+                mListAdapter2.filterSearch(query);
+                mListAdapter3.filterSearch(query);
             }
         });
         getPresenter().getContacts();

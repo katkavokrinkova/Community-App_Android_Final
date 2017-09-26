@@ -22,6 +22,7 @@ import net.impacthub.app.usecase.features.profile.ProfileUseCase;
 import net.impacthub.app.usecase.features.projects.AllProjectsUseCase;
 import net.impacthub.app.usecase.features.projects.YourProjectsUseCase;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -102,12 +103,16 @@ public class ProjectsUiPresenter extends UiPresenter<ProjectsUiContract> {
             if (filters != null) {
                 for (Map.Entry<String, List<String>> entry : filters.entrySet()) {
                     List<String> value = entry.getValue();
-                    atLeastOneFilterChecked = !value.isEmpty() | atLeastOneFilterChecked;
+                    atLeastOneFilterChecked = !value.isEmpty();
+                    if(atLeastOneFilterChecked) break;
                 }
             }
-        }
-        if(atLeastOneFilterChecked) {
-            getUi().onShowTick();
+            if(atLeastOneFilterChecked) {
+                getUi().onShowTick();
+            } else {
+                getUi().onHideTick();
+            }
+            getUi().onApplyFilters(filters);
         } else {
             getUi().onHideTick();
         }

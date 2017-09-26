@@ -105,7 +105,7 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
 
             @Override
             public void onTextChanged(String query) {
-                mAdapter.filter(query);
+                mAdapter.filterSearch(query);
             }
         });
     }

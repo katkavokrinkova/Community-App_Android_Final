@@ -11,8 +11,12 @@
 
 package net.impacthub.app.model.vo.projects;
 
-import net.impacthub.app.model.pojo.Filterable;
+import net.impacthub.app.model.pojo.Searchable;
+import net.impacthub.app.model.vo.filters.FilterData;
 import net.impacthub.app.utilities.TextUtils;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Filippo Ash
@@ -20,7 +24,7 @@ import net.impacthub.app.utilities.TextUtils;
  * @date 8/10/2017.
  */
 
-public class ProjectVO implements Filterable {
+public class ProjectVO implements Searchable {
 
     public String mProjectId;
     public String mName;
@@ -33,7 +37,14 @@ public class ProjectVO implements Filterable {
     public String mCity;
 
     @Override
-    public boolean isFilterable(String query) {
+    public boolean isSearchable(String query) {
         return TextUtils.contains(query, mName, mOrganizationName, mLocation);
+    }
+
+    @Override
+    public boolean isFilterable(Map<String, List<String>> filters) {
+        List<String> cityFilters = filters.get(FilterData.KEY_FILTER_CITY);
+        List<String> sectorsFilters = filters.get(FilterData.KEY_FILTER_SECTOR);
+        return TextUtils.contains(mCity, cityFilters) | TextUtils.contains(mSector, sectorsFilters);
     }
 }

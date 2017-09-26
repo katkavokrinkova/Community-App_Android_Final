@@ -11,10 +11,11 @@
 
 package net.impacthub.app.model.vo.filters;
 
-import net.impacthub.app.model.pojo.Filterable;
+import net.impacthub.app.model.pojo.Searchable;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Filippo Ash
@@ -22,7 +23,7 @@ import java.util.List;
  * @date 9/26/2017.
  */
 
-public class FilterBarVO implements Filterable {
+public class FilterBarVO implements Searchable {
 
     private final String mFilterName;
     private final List<String> mSelectedFilters = new LinkedList<>();
@@ -45,7 +46,12 @@ public class FilterBarVO implements Filterable {
     }
 
     @Override
-    public boolean isFilterable(String query) {
+    public boolean isSearchable(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean isFilterable(Map<String, List<String>> filters) {
         return false;
     }
 }

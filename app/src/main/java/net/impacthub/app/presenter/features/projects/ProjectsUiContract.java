@@ -15,6 +15,7 @@ import net.impacthub.app.model.vo.projects.ProjectVO;
 import net.impacthub.app.presenter.features.error.ErrorHandlerUiContract;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Filippo Ash
@@ -31,4 +32,6 @@ public interface ProjectsUiContract extends ErrorHandlerUiContract {
     void onShowTick();
 
     void onHideTick();
+
+    void onApplyFilters(Map<String, List<String>> filters);
 }

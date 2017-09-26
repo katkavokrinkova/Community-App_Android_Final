@@ -7,10 +7,11 @@ import android.view.LayoutInflater;
 import com.salesforce.androidsdk.accounts.UserAccount;
 
 import net.impacthub.app.model.callback.OnListItemClickListener;
-import net.impacthub.app.model.pojo.Filterable;
+import net.impacthub.app.model.pojo.Searchable;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import static net.impacthub.app.application.salesforce.SalesforceModuleDependency.userAccountProvider;
 
@@ -20,13 +21,15 @@ import static net.impacthub.app.application.salesforce.SalesforceModuleDependenc
  * @date 8/1/2017.
  */
 
-public abstract class BaseListAdapter<VH extends RecyclerView.ViewHolder, DTO extends Filterable> extends RecyclerView.Adapter<VH> {
+public abstract class BaseListAdapter<VH extends RecyclerView.ViewHolder, DTO extends Searchable> extends RecyclerView.Adapter<VH> {
 
     private final UserAccount mUserAccount = userAccountProvider();
     private final List<DTO> mAllItems = new LinkedList<>();
     private final List<DTO> mFilteredItems = new LinkedList<>();
     private final LayoutInflater mLayoutInflater;
     protected OnListItemClickListener<DTO> mItemClickListener;
+
+    private String mLastFilterQuery;
 
     protected BaseListAdapter(LayoutInflater inflater) {
         mLayoutInflater = inflater;
@@ -84,16 +87,27 @@ public abstract class BaseListAdapter<VH extends RecyclerView.ViewHolder, DTO ex
         return mFilteredItems.get(index);
     }
 
-    public void filter(String filterQuery) {
+    public void filterSearch(String filterQuery) {
+        mLastFilterQuery = filterQuery;
         mFilteredItems.clear();
         if(filterQuery.isEmpty()){
             mFilteredItems.addAll(mAllItems);
         } else{
             filterQuery = filterQuery.toLowerCase();
             for (DTO dto : mAllItems) {
-                if(dto.isFilterable(filterQuery)) {
+                if(dto.isSearchable(filterQuery)) {
                     mFilteredItems.add(dto);
                 }
+            }
+        }
+        notifyDataSetChanged();
+    }
+
+    public void applyFilters(Map<String, List<String>> filters) {
+        mFilteredItems.clear();
+        for (DTO dto : mAllItems) {
+            if(dto.isSearchable(mLastFilterQuery) || dto.isFilterable(filters)) {
+                mFilteredItems.add(dto);
             }
         }
         notifyDataSetChanged();

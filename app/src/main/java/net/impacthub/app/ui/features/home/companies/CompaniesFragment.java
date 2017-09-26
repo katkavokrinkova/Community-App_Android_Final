@@ -84,7 +84,7 @@ public class CompaniesFragment extends BaseChildFragment<CompaniesUiPresenter> i
 
             @Override
             public void onTextChanged(String query) {
-                mAdapter.filter(query);
+                mAdapter.filterSearch(query);
             }
         });
     }

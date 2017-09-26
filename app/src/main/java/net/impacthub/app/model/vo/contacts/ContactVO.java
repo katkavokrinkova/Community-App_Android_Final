@@ -11,9 +11,12 @@
 
 package net.impacthub.app.model.vo.contacts;
 
-import net.impacthub.app.model.pojo.Filterable;
+import net.impacthub.app.model.pojo.Searchable;
 import net.impacthub.app.model.vo.members.MemberVO;
 import net.impacthub.app.utilities.TextUtils;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Filippo Ash
@@ -21,14 +24,19 @@ import net.impacthub.app.utilities.TextUtils;
  * @date 8/22/2017.
  */
 
-public class ContactVO implements Filterable {
+public class ContactVO implements Searchable {
 
     public String mIntroMessage;
     public String mCreatedDate;
     public MemberVO mMember;
 
     @Override
-    public boolean isFilterable(String query) {
-        return TextUtils.contains(query, mIntroMessage) || mMember.isFilterable(query);
+    public boolean isSearchable(String query) {
+        return TextUtils.contains(query, mIntroMessage) || mMember.isSearchable(query);
+    }
+
+    @Override
+    public boolean isFilterable(Map<String, List<String>> filters) {
+        return TextUtils.contains(filters);
     }
 }

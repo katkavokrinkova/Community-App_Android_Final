@@ -11,13 +11,18 @@
 
 package net.impacthub.app.model.pojo;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * @author Filippo Ash
  * @version 1.0
  * @date 9/25/2017.
  */
 
-public interface Filterable {
+public interface Searchable {
 
-    boolean isFilterable(String query);
+    boolean isSearchable(String query);
+
+    boolean isFilterable(Map<String, List<String>> filters);
 }

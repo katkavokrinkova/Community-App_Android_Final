@@ -106,9 +106,9 @@ public class EventsFragment extends BaseChildFragment<EventsUiPresenter> impleme
 
             @Override
             public void onTextChanged(String query) {
-                mLisAdapter1.filter(query);
-                mLisAdapter2.filter(query);
-                mLisAdapter3.filter(query);
+                mLisAdapter1.filterSearch(query);
+                mLisAdapter2.filterSearch(query);
+                mLisAdapter3.filterSearch(query);
             }
         });
     }

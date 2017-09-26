@@ -33,8 +33,8 @@ import net.impacthub.app.ui.widgets.UISearchView;
 import net.impacthub.app.utilities.ViewUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -112,8 +112,6 @@ public class ProjectsFragment extends BaseChildFragment<ProjectsUiPresenter> imp
         mProjectsTab.setTabMode(TabLayout.MODE_SCROLLABLE);
         mProjectsTab.setupWithViewPager(mProjectPages);
 
-//        new TabsDelegate().setUp(mProjectsTab, TITLES);
-
         getPresenter().getProjects();
 
         mSearchView.setSearchActionListener(new UISearchView.OnSearchActionListener() {
@@ -124,15 +122,15 @@ public class ProjectsFragment extends BaseChildFragment<ProjectsUiPresenter> imp
 
             @Override
             public void onTextChanged(String query) {
-                mLisAdapter1.filter(query);
-                mLisAdapter2.filter(query);
-                mLisAdapter3.filter(query);
+                mLisAdapter1.filterSearch(query);
+                mLisAdapter2.filterSearch(query);
+                mLisAdapter3.filterSearch(query);
             }
         });
 
         mFilterData = new FilterData();
-        mFilterData.getFilters().put("city", new ArrayList<String>());
-        mFilterData.getFilters().put("sector", new ArrayList<String>());
+        mFilterData.getFilters().put(FilterData.KEY_FILTER_CITY, new ArrayList<String>());
+        mFilterData.getFilters().put(FilterData.KEY_FILTER_SECTOR, new ArrayList<String>());
     }
 
     @Override
@@ -167,5 +165,12 @@ public class ProjectsFragment extends BaseChildFragment<ProjectsUiPresenter> imp
     @Override
     public void onHideTick() {
         ViewUtils.gone(mFilterTick);
+    }
+
+    @Override
+    public void onApplyFilters(Map<String, List<String>> filters) {
+        mLisAdapter1.applyFilters(filters);
+        mLisAdapter2.applyFilters(filters);
+        mLisAdapter3.applyFilters(filters);
     }
 }

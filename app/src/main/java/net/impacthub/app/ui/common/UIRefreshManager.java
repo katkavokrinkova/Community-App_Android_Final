@@ -33,9 +33,10 @@ import java.util.concurrent.ConcurrentHashMap;
 public class UIRefreshManager {
 
     public final static int REFRESH_ID_MEMBERS_LIST = 0x000;
+    public final static int REFRESH_ID_FILTERS_BAr = 0x001;
 
     @Retention(RetentionPolicy.RUNTIME)
-    @IntDef({REFRESH_ID_MEMBERS_LIST})
+    @IntDef({REFRESH_ID_MEMBERS_LIST, REFRESH_ID_FILTERS_BAr})
     @interface RefreshableIdentifier {
     }
 

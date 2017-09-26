@@ -11,7 +11,10 @@
 
 package net.impacthub.app.model.vo.jobs;
 
-import net.impacthub.app.model.pojo.Filterable;
+import net.impacthub.app.model.pojo.Searchable;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Filippo Ash
@@ -19,7 +22,7 @@ import net.impacthub.app.model.pojo.Filterable;
  * @date 8/22/2017.
  */
 
-public class JobDescriptionVO implements Filterable {
+public class JobDescriptionVO implements Searchable {
 
     public String mJobLocation;
     public String mJobMemberCount;
@@ -32,7 +35,12 @@ public class JobDescriptionVO implements Filterable {
     }
 
     @Override
-    public boolean isFilterable(String query) {
+    public boolean isSearchable(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean isFilterable(Map<String, List<String>> filters) {
         return false;
     }
 }

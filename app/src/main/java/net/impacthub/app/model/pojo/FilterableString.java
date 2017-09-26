@@ -11,13 +11,16 @@
 
 package net.impacthub.app.model.pojo;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * @author Filippo Ash
  * @version 1.0
  * @date 9/25/2017.
  */
 
-public class FilterableString implements Filterable {
+public class FilterableString implements Searchable {
 
     private final String mValue;
 
@@ -30,7 +33,12 @@ public class FilterableString implements Filterable {
     }
 
     @Override
-    public boolean isFilterable(String query) {
+    public boolean isSearchable(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean isFilterable(Map<String, List<String>> filters) {
         return false;
     }
 }

@@ -87,7 +87,7 @@ public class JobsFragment extends BaseChildFragment<JobsUiPresenter> implements 
 
             @Override
             public void onTextChanged(String query) {
-                mAdapter.filter(query);
+                mAdapter.filterSearch(query);
             }
         });
     }
