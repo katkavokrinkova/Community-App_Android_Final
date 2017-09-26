@@ -13,6 +13,7 @@ package net.impacthub.app.presenter.features.projects;
 
 import net.impacthub.app.mapper.projects.ProjectMapper;
 import net.impacthub.app.model.features.projects.ProjectResponse;
+import net.impacthub.app.model.vo.filters.FilterData;
 import net.impacthub.app.model.vo.members.MemberVO;
 import net.impacthub.app.model.vo.projects.ProjectVO;
 import net.impacthub.app.presenter.base.UiPresenter;
@@ -22,6 +23,7 @@ import net.impacthub.app.usecase.features.projects.AllProjectsUseCase;
 import net.impacthub.app.usecase.features.projects.YourProjectsUseCase;
 
 import java.util.List;
+import java.util.Map;
 
 import io.reactivex.Single;
 import io.reactivex.SingleSource;
@@ -91,6 +93,23 @@ public class ProjectsUiPresenter extends UiPresenter<ProjectsUiContract> {
                 getUi().onError(e);
             }
         });
+    }
 
+    public void handleFilters(FilterData filterData) {
+        boolean atLeastOneFilterChecked = false;
+        if (filterData != null) {
+            Map<String, List<String>> filters = filterData.getFilters();
+            if (filters != null) {
+                for (Map.Entry<String, List<String>> entry : filters.entrySet()) {
+                    List<String> value = entry.getValue();
+                    atLeastOneFilterChecked = !value.isEmpty() | atLeastOneFilterChecked;
+                }
+            }
+        }
+        if(atLeastOneFilterChecked) {
+            getUi().onShowTick();
+        } else {
+            getUi().onHideTick();
+        }
     }
 }

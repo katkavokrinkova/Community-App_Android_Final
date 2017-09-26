@@ -46,7 +46,7 @@ public class EventsMapper {
         return eventDTOs;
     }
 
-    public List<EventVO> mapEventRecords(boolean attending, EventRecords[] records) {
+    private List<EventVO> mapEventRecords(boolean attending, EventRecords[] records) {
         List<EventVO> eventDTOs = new LinkedList<>();
         for (EventRecords record : records) {
             if (record != null) {
@@ -71,6 +71,7 @@ public class EventsMapper {
         eventDTO.mSubType = record.getEvent_SubType__c();
         eventDTO.mVisibilityPrice = record.getEvent_Visibility__c();
         eventDTO.mAttending = attending;
+        eventDTO.mSector = record.getEvent_Sector__c();
 
         try {
             Date startDate = DateUtils.getDate(DateUtils.ISO_8601_FORMAT_1, record.getEvent_Start_DateTime__c());

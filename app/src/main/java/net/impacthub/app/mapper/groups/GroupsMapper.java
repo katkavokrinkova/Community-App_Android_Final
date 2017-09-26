@@ -48,6 +48,7 @@ public class GroupsMapper {
         group.mCities = record.getImpact_Hub_Cities__c();
         group.mMemberCount = record.getCountOfMembers__c();
         group.mChatterGroupId = record.getChatterGroupId__c();
+        group.mSector = record.getSector__c();
         return group;
     }
 
@@ -67,7 +68,7 @@ public class GroupsMapper {
         return groups;
     }
 
-    public List<GroupVO> mapGroupsRecords(GroupsRecords[] records) {
+    private List<GroupVO> mapGroupsRecords(GroupsRecords[] records) {
         List<GroupVO> groups = new LinkedList<>();
         if (records != null) {
             for (GroupsRecords record : records) {

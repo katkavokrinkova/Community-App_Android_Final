@@ -39,6 +39,7 @@ public class EventVO implements Filterable {
     public String mZipCode;
     public String mStreet;
     public String mCountry;
+    public String mSector;
 
     @Override
     public boolean isFilterable(String query) {

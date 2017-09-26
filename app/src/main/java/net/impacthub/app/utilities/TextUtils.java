@@ -11,6 +11,9 @@
 
 package net.impacthub.app.utilities;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * @author Filippo Ash
  * @version 1.0
@@ -32,5 +35,22 @@ public final class TextUtils {
             }
         }
         return atLeastOne;
+    }
+
+    public static String arraysAsString(List<String> selectedFilters) {
+        int size = selectedFilters.size();
+        String filterDisplay = "";
+        if (size == 0) {
+            filterDisplay = "All";
+        }
+        for (int i = 0; i < size; i++) {
+            String filter = selectedFilters.get(i);
+            if(i == (size -1)) {
+                filterDisplay += filter;
+            } else {
+                filterDisplay += filter +", ";
+            }
+        }
+        return filterDisplay;
     }
 }

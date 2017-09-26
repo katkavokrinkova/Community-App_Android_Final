@@ -35,6 +35,7 @@ public class JobVO implements Filterable {
     public String mWebsite;
     public String mCompanyC;
     public String mAccountId;
+    public String mSector;
 
     @Override
     public boolean isFilterable(String query) {

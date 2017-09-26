@@ -1,11 +1,12 @@
 package net.impacthub.app.presenter.features.filters;
 
-import net.impacthub.app.model.features.filters.SeparatedFilters;
+import net.impacthub.app.model.vo.filters.FilterVO;
 import net.impacthub.app.presenter.base.UiPresenter;
-import net.impacthub.app.usecase.base.UseCaseGenerator;
-import net.impacthub.app.usecase.features.filters.FiltersUseCase;
+import net.impacthub.app.usecase.features.filters.CitiesFilterUseCase;
+import net.impacthub.app.usecase.features.filters.SectorFilterUsecase;
 
-import io.reactivex.Single;
+import java.util.List;
+
 import io.reactivex.annotations.NonNull;
 import io.reactivex.observers.DisposableSingleObserver;
 
@@ -17,17 +18,24 @@ import io.reactivex.observers.DisposableSingleObserver;
 
 public class FiltersUiPresenter extends UiPresenter<FiltersUiContract> {
 
-    private final UseCaseGenerator<Single<SeparatedFilters>> mObservableGenerator = new FiltersUseCase();
-
     public FiltersUiPresenter(FiltersUiContract uiContract) {
         super(uiContract);
     }
 
-    public void getFiltersList() {
-        subscribeWith(mObservableGenerator.getUseCase(), new DisposableSingleObserver<SeparatedFilters>() {
+    public void getFiltersByName(String filterName) {
+        if(FilterVO.KEY_FILTER_CITY.equalsIgnoreCase(filterName)) {
+            fetchCityFilters();
+        } else if(FilterVO.KEY_FILTER_SECTOR.equalsIgnoreCase(filterName)) {
+            fetchSectorsFilters();
+        }
+    }
+
+    private void fetchSectorsFilters() {
+        subscribeWith(new SectorFilterUsecase().getUseCase(), new DisposableSingleObserver<List<FilterVO>>() {
+
             @Override
-            public void onSuccess(@NonNull SeparatedFilters separatedFilters) {
-                getUi().onLoadFilters(separatedFilters);
+            public void onSuccess(@NonNull List<FilterVO> filterVOs) {
+                getUi().onLoadFilters(FilterVO.KEY_FILTER_SECTOR, filterVOs);
             }
 
             @Override
@@ -35,5 +43,31 @@ public class FiltersUiPresenter extends UiPresenter<FiltersUiContract> {
                 getUi().onError(e);
             }
         });
+    }
+
+    private void fetchCityFilters() {
+        subscribeWith(new CitiesFilterUseCase().getUseCase(), new DisposableSingleObserver<List<FilterVO>>() {
+
+            @Override
+            public void onSuccess(@NonNull List<FilterVO> filterVOs) {
+                getUi().onLoadFilters(FilterVO.KEY_FILTER_CITY, filterVOs);
+            }
+
+            @Override
+            public void onError(@NonNull Throwable e) {
+                getUi().onError(e);
+            }
+        });
+    }
+
+    public void loadFilters(List<FilterVO> filterVOs, List<String> selectedFilters, String filterName) {
+        if (filterVOs != null) {
+            for (FilterVO filterVO : filterVOs) {
+                filterVO.setSelected(selectedFilters.contains(filterVO.getName()));
+            }
+            getUi().onLoadFilterList(filterName, filterVOs);
+        } else {
+            getUi().onError(new Throwable("No filters for selected filter!"));
+        }
     }
 }

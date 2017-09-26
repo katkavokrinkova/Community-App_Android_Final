@@ -16,8 +16,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import net.impacthub.app.R;
+import net.impacthub.app.model.callback.OnListItemClickListener;
+import net.impacthub.app.model.vo.filters.FilterData;
+import net.impacthub.app.model.vo.filters.FilterDataDispatcher;
 import net.impacthub.app.model.vo.filters.FilterVO;
+import net.impacthub.app.model.vo.filters.FiltersWrapper;
 import net.impacthub.app.ui.base.BaseChildFragment;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -30,13 +36,14 @@ import butterknife.OnClick;
 
 public class FilterListFragment extends BaseChildFragment {
 
-    public static final String EXTRA_FILTERS = "EXTRA_FILTERS";
+    public static final String EXTRA_FILTERS = "net.impacthub.app.ui.features.filters.EXTRA_FILTERS";
 
     @BindView(R.id.filter_items) protected RecyclerView mFilterItems;
 
-    private FiltersAdapter mAdapter;
+    private FiltersListAdapter mAdapter;
+    private String mFilterName;
 
-    public static FilterListFragment newInstance(FilterVO filters) {
+    public static FilterListFragment newInstance(FiltersWrapper filters) {
 
         Bundle args = new Bundle();
         args.putSerializable(EXTRA_FILTERS, filters);
@@ -53,6 +60,10 @@ public class FilterListFragment extends BaseChildFragment {
     @OnClick(R.id.button_clear)
     protected void onClearSelections() {
         mAdapter.clearFilters();
+        List<String> filters = getFilterData().getFilters().get(mFilterName);
+        if (filters != null) {
+            filters.clear();
+        }
     }
 
     @Override
@@ -61,11 +72,34 @@ public class FilterListFragment extends BaseChildFragment {
 
         setUpToolbar(R.string.filter);
 
-        FilterVO filters = (FilterVO) getArguments().getSerializable(EXTRA_FILTERS);
+        FiltersWrapper filters = (FiltersWrapper) getArguments().getSerializable(EXTRA_FILTERS);
 
         mFilterItems.setHasFixedSize(true);
-        mAdapter = new FiltersAdapter(getLayoutInflater(getArguments()));
-        mAdapter.setItems(filters.getFilters());
+        mAdapter = new FiltersListAdapter(getLayoutInflater(getArguments()));
+        mAdapter.setItemClickListener(new OnListItemClickListener<FilterVO>() {
+            @Override
+            public void onItemClick(int viewId, FilterVO model) {
+                List<String> filters = getFilterData().getFilters().get(mFilterName);
+                if (filters != null) {
+                    String name = model.getName();
+                    if (model.isSelected() && !filters.contains(name)) {
+                        filters.add(name);
+                    } else if (!model.isSelected()) {
+                        filters.remove(name);
+                    }
+                }
+            }
+        });
+        if (filters != null) {
+            mFilterName = filters.getFilterName();
+            mAdapter.setItems(filters.getFilterVOs());
+        }
+
         mFilterItems.setAdapter(mAdapter);
+    }
+
+    private FilterData getFilterData() {
+        FilterDataDispatcher dataDispatcher = (FilterDataDispatcher) getActivity();
+        return dataDispatcher.getFilterData();
     }
 }

@@ -28,6 +28,7 @@ public class GroupVO implements Filterable {
     public String mCities;
     public String mMemberCount;
     public String mChatterGroupId;
+    public String mSector;
 
     @Override
     public boolean isFilterable(String query) {

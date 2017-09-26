@@ -53,6 +53,8 @@ public class ProjectMapper {
         projectDTO.mMemberCount = record.getCountOfMembers__c();
         projectDTO.mLocation = record.getImpact_Hub_Cities__c();
         projectDTO.mImageURL = record.getImageURL__c();
+        projectDTO.mSector = record.getSector__c();
+        projectDTO.mCity = record.getImpact_Hub_Cities__c();
         return projectDTO;
     }
 
@@ -72,7 +74,7 @@ public class ProjectMapper {
         return listItemTypes;
     }
 
-    public List<ProjectVO> mapProjectsRecords(ProjectRecords[] records) {
+    private List<ProjectVO> mapProjectsRecords(ProjectRecords[] records) {
         List<ProjectVO> projectVOs = new LinkedList<>();
         if (records != null) {
             for (ProjectRecords record : records) {

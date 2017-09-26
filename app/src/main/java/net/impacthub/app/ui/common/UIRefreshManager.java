@@ -36,7 +36,7 @@ public class UIRefreshManager {
 
     @Retention(RetentionPolicy.RUNTIME)
     @IntDef({REFRESH_ID_MEMBERS_LIST})
-    public @interface RefreshableIdentifier {
+    @interface RefreshableIdentifier {
     }
 
     private final Map<Integer, List<Refreshable>> mRefreshablesMap = new ConcurrentHashMap<>();

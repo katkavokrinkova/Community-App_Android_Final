@@ -43,9 +43,13 @@ public class SoqlRequestFactory {
 //                    + "User__c, Skills__c, About_Me__c, Twitter__c, Instagram__c, Facebook__c, Linked_In__c "
 //                    + "FROM Contact where User__c != null";
 
-    private static final String filterCriteriaQuery =
+    private static final String CITY_FILTER =
             "select name, Grouping__c, Id from taxonomy__c "
-                    + "where (Grouping__c = 'City' or Grouping__c = 'Sector') and active__c = true";
+                    + "where (Grouping__c = 'City') and active__c = true";
+
+    private static final String SECTOR_FILTER =
+            "select name, Grouping__c, Id from taxonomy__c "
+                    + "where (Grouping__c = 'Sector') and active__c = true";
 
     private static final String memberDetailQuery =
             "select id, name, CountOfMembers__c, ImageURL__c, Group_Descr__c, Impact_Hub_Cities__c, "
@@ -123,8 +127,16 @@ public class SoqlRequestFactory {
         return mRestRequestFactory.getForQuery(ALL_MEMBERS_PROFILE);
     }
 
-    public RestRequest createFilterCriteriaRequest() throws UnsupportedEncodingException {
-        return mRestRequestFactory.getForQuery(filterCriteriaQuery);
+//    public RestRequest createFilterCriteriaRequest() throws UnsupportedEncodingException {
+//        return mRestRequestFactory.getForQuery(filterCriteriaQuery);
+//    }
+
+    public RestRequest createCityFilterCriteriaRequest() throws UnsupportedEncodingException {
+        return mRestRequestFactory.getForQuery(CITY_FILTER);
+    }
+
+    public RestRequest createSectorFilterCriteriaRequest() throws UnsupportedEncodingException {
+        return mRestRequestFactory.getForQuery(SECTOR_FILTER);
     }
 
     public RestRequest createNotificationsRequest(String userId) throws UnsupportedEncodingException {

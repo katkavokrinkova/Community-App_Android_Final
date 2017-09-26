@@ -29,6 +29,8 @@ public class ProjectVO implements Filterable {
     public String mLocation;
     public String mImageURL;
     public String mChatterGroupId;
+    public String mSector;
+    public String mCity;
 
     @Override
     public boolean isFilterable(String query) {

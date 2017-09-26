@@ -19,7 +19,7 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import net.impacthub.app.R;
-import net.impacthub.app.model.features.filters.Filter;
+import net.impacthub.app.model.vo.filters.FilterVO;
 import net.impacthub.app.ui.base.BaseListAdapter;
 import net.impacthub.app.ui.common.RecyclerViewHolder;
 
@@ -29,9 +29,9 @@ import net.impacthub.app.ui.common.RecyclerViewHolder;
  * @date 8/21/2017.
  */
 
-public class FiltersAdapter extends BaseListAdapter<FiltersAdapter.FilterViewHolder, Filter> {
+class FiltersListAdapter extends BaseListAdapter<FiltersListAdapter.FilterViewHolder, FilterVO> {
 
-    protected FiltersAdapter(LayoutInflater inflater) {
+    FiltersListAdapter(LayoutInflater inflater) {
         super(inflater);
     }
 
@@ -52,7 +52,7 @@ public class FiltersAdapter extends BaseListAdapter<FiltersAdapter.FilterViewHol
         notifyDataSetChanged();
     }
 
-    class FilterViewHolder extends RecyclerViewHolder<Filter> implements View.OnClickListener {
+    class FilterViewHolder extends RecyclerViewHolder<FilterVO> implements View.OnClickListener {
 
         final TextView filterLabel;
         final CheckBox filterCheckbox;
@@ -71,7 +71,7 @@ public class FiltersAdapter extends BaseListAdapter<FiltersAdapter.FilterViewHol
         }
 
         @Override
-        protected void bindViewsWith(Filter itemData) {
+        protected void bindViewsWith(FilterVO itemData) {
             filterLabel.setText(itemData.getName());
             filterCheckbox.setChecked(itemData.isSelected());
         }
@@ -79,9 +79,12 @@ public class FiltersAdapter extends BaseListAdapter<FiltersAdapter.FilterViewHol
         @Override
         public void onClick(View view) {
             int position = getAdapterPosition();
-            Filter filter = getItem(position);
+            FilterVO filter = getItem(position);
             filter.setSelected(!filter.isSelected());
             notifyItemChanged(position);
+            if (mItemClickListener != null) {
+                mItemClickListener.onItemClick(view.getId(), filter);
+            }
         }
     }
 }

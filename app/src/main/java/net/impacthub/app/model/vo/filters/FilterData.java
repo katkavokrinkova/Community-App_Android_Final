@@ -9,26 +9,24 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.app.presenter.features.projects;
+package net.impacthub.app.model.vo.filters;
 
-import net.impacthub.app.model.vo.projects.ProjectVO;
-import net.impacthub.app.presenter.features.error.ErrorHandlerUiContract;
-
+import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author Filippo Ash
  * @version 1.0
- * @date 8/15/2017.
+ * @date 9/26/2017.
  */
 
-public interface ProjectsUiContract extends ErrorHandlerUiContract {
+public class FilterData implements Serializable {
 
-    void onLoadAllProjects(List<ProjectVO> projectDTOs);
+    private final Map<String, List<String>> mFilters = new ConcurrentHashMap<>();
 
-    void onLoadYourProjects(List<ProjectVO> projectDTOs);
-
-    void onShowTick();
-
-    void onHideTick();
+    public synchronized Map<String, List<String>> getFilters() {
+        return mFilters;
+    }
 }

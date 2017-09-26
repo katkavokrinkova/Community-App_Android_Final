@@ -11,29 +11,51 @@
 
 package net.impacthub.app.model.vo.filters;
 
-import android.support.annotation.NonNull;
-
-import net.impacthub.app.model.features.filters.Filter;
-
-import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.List;
+import net.impacthub.app.model.pojo.Filterable;
 
 /**
  * @author Filippo Ash
  * @version 1.0
- * @date 8/21/2017.
+ * @date 9/26/2017.
  */
 
-public class FilterVO implements Serializable {
+public class FilterVO implements Filterable {
 
-    private List<Filter> filters = new LinkedList<>();
+    public final static String KEY_FILTER_CITY = "city";
+    public final static String KEY_FILTER_SECTOR = "sector";
 
-    public FilterVO(@NonNull List<Filter> filters) {
-        this.filters = filters;
+    private final String name, grouping, id;
+
+    private boolean selected;
+
+    public FilterVO(String name, String grouping, String id) {
+        this.name = name;
+        this.grouping = grouping;
+        this.id = id;
     }
 
-    public List<Filter> getFilters() {
-        return filters;
+    public String getName() {
+        return name;
+    }
+
+    public String getGrouping() {
+        return grouping;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
+    @Override
+    public boolean isFilterable(String query) {
+        return false;
     }
 }

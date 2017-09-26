@@ -11,25 +11,35 @@
 
 package net.impacthub.app.ui.features.home.projects;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.ImageView;
 
 import net.impacthub.app.R;
 import net.impacthub.app.model.callback.OnListItemClickListener;
+import net.impacthub.app.model.vo.filters.FilterData;
 import net.impacthub.app.model.vo.projects.ProjectVO;
 import net.impacthub.app.presenter.features.projects.ProjectsUiContract;
 import net.impacthub.app.presenter.features.projects.ProjectsUiPresenter;
 import net.impacthub.app.ui.base.BaseChildFragment;
 import net.impacthub.app.ui.binder.ViewBinder;
 import net.impacthub.app.ui.common.AppPagerAdapter;
+import net.impacthub.app.ui.features.filters.FilterActivity;
 import net.impacthub.app.ui.features.home.projects.binders.ProjectsViewBinder;
 import net.impacthub.app.ui.widgets.UISearchView;
+import net.impacthub.app.utilities.ViewUtils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
+
+import static net.impacthub.app.ui.features.filters.FilterActivity.EXTRA_FILTER_DATA;
 
 /**
  * @author Filippo Ash
@@ -44,6 +54,9 @@ public class ProjectsFragment extends BaseChildFragment<ProjectsUiPresenter> imp
     @BindView(R.id.tabs) protected TabLayout mProjectsTab;
     @BindView(R.id.pager) protected ViewPager mProjectPages;
     @BindView(R.id.search_from_list) protected UISearchView mSearchView;
+    @BindView(R.id.filter_tick) protected ImageView mFilterTick;
+
+    private FilterData mFilterData;
 
     private ViewBinder<List<ProjectVO>> mViewBinder1;
     private ViewBinder<List<ProjectVO>> mViewBinder2;
@@ -68,6 +81,13 @@ public class ProjectsFragment extends BaseChildFragment<ProjectsUiPresenter> imp
     @Override
     protected int getContentView() {
         return R.layout.fragment_searchable_list_with_tabs;
+    }
+
+    @OnClick(R.id.filter_button)
+    protected void onFilterClick() {
+        Intent intent = new Intent(getActivity(), FilterActivity.class);
+        intent.putExtra(EXTRA_FILTER_DATA, mFilterData);
+        startActivityForResult(intent, FilterActivity.FILTER_REQUEST_CODE);
     }
 
     @Override
@@ -109,6 +129,19 @@ public class ProjectsFragment extends BaseChildFragment<ProjectsUiPresenter> imp
                 mLisAdapter3.filter(query);
             }
         });
+
+        mFilterData = new FilterData();
+        mFilterData.getFilters().put("city", new ArrayList<String>());
+        mFilterData.getFilters().put("sector", new ArrayList<String>());
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == FilterActivity.FILTER_REQUEST_CODE) {
+            mFilterData = (FilterData) data.getSerializableExtra(EXTRA_FILTER_DATA);
+            getPresenter().handleFilters(mFilterData);
+        }
     }
 
     @Override
@@ -124,5 +157,15 @@ public class ProjectsFragment extends BaseChildFragment<ProjectsUiPresenter> imp
     @Override
     public void onLoadYourProjects(List<ProjectVO> projectDTOs) {
         mViewBinder3.bindView(projectDTOs);
+    }
+
+    @Override
+    public void onShowTick() {
+        ViewUtils.visible(mFilterTick);
+    }
+
+    @Override
+    public void onHideTick() {
+        ViewUtils.gone(mFilterTick);
     }
 }

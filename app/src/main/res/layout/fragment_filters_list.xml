@@ -28,8 +28,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:background="@null"
-            android:textAllCaps="false"
+            android:foreground="?attr/selectableItemBackground"
             android:text="@string/clear"
+            android:textAllCaps="false"
             android:textColor="@color/impacthub"
             android:textSize="14sp"
             app:typeface="fonts/gt-walsheim-light-web.ttf" />
