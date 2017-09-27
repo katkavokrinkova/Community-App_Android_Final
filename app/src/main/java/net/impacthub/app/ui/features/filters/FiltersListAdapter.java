@@ -64,7 +64,11 @@ class FiltersListAdapter extends BaseListAdapter<FiltersListAdapter.FilterViewHo
             filterCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
-                    getItem(getAdapterPosition()).setSelected(checked);
+                    FilterVO filter = getItem(getAdapterPosition());
+                    filter.setSelected(checked);
+                    if (mItemClickListener != null) {
+                        mItemClickListener.onItemClick(-1, filter);
+                    }
                 }
             });
             itemView.setOnClickListener(this);

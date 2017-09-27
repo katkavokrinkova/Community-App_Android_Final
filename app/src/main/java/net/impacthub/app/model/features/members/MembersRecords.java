@@ -39,6 +39,11 @@ public class MembersRecords {
     private String Facebook__c;
     private String AboutMe__c;
     private String Impact_Hub_Cities__c;
+    private Hubs__r Hubs__r;
+
+    public Hubs__r getHubs__r() {
+        return Hubs__r;
+    }
 
     public String getTwitter__c() {
         return Twitter__c;

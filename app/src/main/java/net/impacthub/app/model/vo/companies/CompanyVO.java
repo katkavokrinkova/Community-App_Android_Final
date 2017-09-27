@@ -50,8 +50,8 @@ public class CompanyVO implements Searchable {
 
     @Override
     public boolean isFilterable(Map<String, List<String>> filters) {
-        List<String> hubFilters = filters.get(FilterData.KEY_FILTER_HUB);
+        List<String> hubFilters = filters.get(FilterData.KEY_FILTER_CITY);
         List<String> sectorsFilters = filters.get(FilterData.KEY_FILTER_SECTOR);
-        return TextUtils.contains(mHub, hubFilters) | TextUtils.contains(mCompanySector, sectorsFilters);
+        return TextUtils.contains(mCompanyLocation, hubFilters) | TextUtils.contains(mCompanySector, sectorsFilters);
     }
 }

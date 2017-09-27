@@ -45,7 +45,7 @@ public class MemberVO implements Searchable {
     public String mProfession;
     public String mStatusUpdate;
     public String mSector;
-    public String mHub;
+    public String mHubCities;
 
     @Override
     public boolean isSearchable(String query) {
@@ -56,6 +56,6 @@ public class MemberVO implements Searchable {
     public boolean isFilterable(Map<String, List<String>> filters) {
         List<String> hubFilters = filters.get(FilterData.KEY_FILTER_HUB);
         List<String> sectorsFilters = filters.get(FilterData.KEY_FILTER_SECTOR);
-        return TextUtils.contains(mHub, hubFilters) | TextUtils.contains(mSector, sectorsFilters);
+        return TextUtils.contains(mLocation, hubFilters) | TextUtils.contains(mSector, sectorsFilters);
     }
 }

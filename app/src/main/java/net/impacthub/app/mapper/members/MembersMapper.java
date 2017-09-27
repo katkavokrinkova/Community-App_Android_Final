@@ -12,9 +12,10 @@
 package net.impacthub.app.mapper.members;
 
 import net.impacthub.app.model.features.contacts.ContactsResponse;
-import net.impacthub.app.model.features.contacts.Records;
 import net.impacthub.app.model.features.members.Affiliation;
 import net.impacthub.app.model.features.members.Affiliations;
+import net.impacthub.app.model.features.members.HubRecords;
+import net.impacthub.app.model.features.members.Hubs__r;
 import net.impacthub.app.model.features.members.MembersResponse;
 import net.impacthub.app.model.features.members.Organisation;
 import net.impacthub.app.model.features.members.MembersRecords;
@@ -78,11 +79,28 @@ public class MembersMapper {
         memberDTO.mLinkFacebook = record.getFacebook__c();
         memberDTO.mLinkTwitter = record.getTwitter__c();
         memberDTO.mLinkLinkedin = record.getLinked_In__c();
-        memberDTO.mLocation = record.getImpact_Hub_Cities__c();
+        memberDTO.mHubCities = record.getImpact_Hub_Cities__c();
         memberDTO.mAboutMe = record.getAboutMe__c();
         memberDTO.mStatusUpdate = record.getStatus_Update__c();
         memberDTO.mProfession = record.getProfession__c();
         memberDTO.mSector = record.getSector__c();
+
+        Hubs__r hubs__r = record.getHubs__r();
+        if (hubs__r != null) {
+            HubRecords[] records = hubs__r.getRecords();
+            if (records != null) {
+                String hubs = "";
+                int length = records.length;
+                for (int i = 0; i < length; i++) {
+                    hubs += records[i].getHub_Name__c();
+                    if (i < (length - 1)) {
+                        hubs += ";";
+                    }
+                }
+                memberDTO.mLocation = hubs;
+            }
+        }
+
         return memberDTO;
     }
 

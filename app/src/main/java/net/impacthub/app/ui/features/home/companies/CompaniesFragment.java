@@ -108,7 +108,7 @@ public class CompaniesFragment extends BaseChildFragment<CompaniesUiPresenter> i
         });
 
         mFilterData = new FilterData();
-        mFilterData.getFilters().put(FilterData.KEY_FILTER_HUB, new ArrayList<String>());
+        mFilterData.getFilters().put(FilterData.KEY_FILTER_CITY, new ArrayList<String>());
         mFilterData.getFilters().put(FilterData.KEY_FILTER_SECTOR, new ArrayList<String>());
     }
 
