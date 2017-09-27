@@ -8,12 +8,11 @@ import com.salesforce.androidsdk.accounts.UserAccount;
 
 import net.impacthub.app.model.callback.OnListItemClickListener;
 import net.impacthub.app.model.pojo.Searchable;
+import net.impacthub.app.ui.common.UserAccountDelegate;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
-import static net.impacthub.app.application.salesforce.SalesforceModuleDependency.userAccountProvider;
 
 /**
  * @author Filippo Ash
@@ -23,7 +22,6 @@ import static net.impacthub.app.application.salesforce.SalesforceModuleDependenc
 
 public abstract class BaseListAdapter<VH extends RecyclerView.ViewHolder, DTO extends Searchable> extends RecyclerView.Adapter<VH> {
 
-    private final UserAccount mUserAccount = userAccountProvider();
     private final List<DTO> mAllItems = new LinkedList<>();
     private final List<DTO> mFilteredItems = new LinkedList<>();
     private final LayoutInflater mLayoutInflater;
@@ -45,11 +43,12 @@ public abstract class BaseListAdapter<VH extends RecyclerView.ViewHolder, DTO ex
         mItemClickListener = itemClickListener;
     }
 
+    protected UserAccount getUserAccount() {
+        return UserAccountDelegate.getAccountManager();
+    }
+
     protected String buildUrl(String url) {
-        if (mUserAccount != null) {
-            return url + "?oauth_token=" + mUserAccount.getAuthToken();
-        }
-        return url;
+        return UserAccountDelegate.buildUrl(url);
     }
 
     public void setItems(List<DTO> items) {

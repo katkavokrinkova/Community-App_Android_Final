@@ -15,9 +15,8 @@ import com.salesforce.androidsdk.accounts.UserAccount;
 import net.impacthub.app.R;
 import net.impacthub.app.presenter.base.UiContract;
 import net.impacthub.app.presenter.base.UiPresenter;
+import net.impacthub.app.ui.common.UserAccountDelegate;
 import net.impacthub.app.utilities.KeyboardUtils;
-
-import static net.impacthub.app.application.salesforce.SalesforceModuleDependency.userAccountProvider;
 
 /**
  * @author Filippo Ash
@@ -29,7 +28,6 @@ public abstract class BaseChildFragment<P extends UiPresenter<? extends UiContra
 
     private FragmentManager mChildFragmentManager;
     private boolean mIsFirstLaunch = true;
-    private final UserAccount mUserAccount = userAccountProvider();
 
     protected final View.OnClickListener mBackListener = new View.OnClickListener() {
         @Override
@@ -45,14 +43,11 @@ public abstract class BaseChildFragment<P extends UiPresenter<? extends UiContra
     }
 
     protected UserAccount getUserAccount() {
-        return mUserAccount;
+        return UserAccountDelegate.getAccountManager();
     }
 
     protected String buildUrl(String url) {
-        if (mUserAccount != null) {
-            return url + "?oauth_token=" + mUserAccount.getAuthToken();
-        }
-        return url;
+        return UserAccountDelegate.buildUrl(url);
     }
 
     @Override

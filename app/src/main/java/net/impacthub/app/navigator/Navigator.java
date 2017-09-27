@@ -26,6 +26,9 @@ public class Navigator {
         if (linkURL == null || linkURL.isEmpty()) {
             return;
         }
+        if(!linkURL.startsWith("http")) {
+            linkURL = "http://" + linkURL;
+        }
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(linkURL));
         context.startActivity(intent);
     }
