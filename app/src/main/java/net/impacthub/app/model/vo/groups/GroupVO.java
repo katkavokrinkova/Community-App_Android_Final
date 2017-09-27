@@ -12,6 +12,7 @@
 package net.impacthub.app.model.vo.groups;
 
 import net.impacthub.app.model.pojo.Searchable;
+import net.impacthub.app.model.vo.filters.FilterData;
 import net.impacthub.app.utilities.TextUtils;
 
 import java.util.List;
@@ -37,9 +38,10 @@ public class GroupVO implements Searchable {
     public boolean isSearchable(String query) {
         return TextUtils.contains(query, mName, mCities, mGroupDescription);
     }
-
     @Override
     public boolean isFilterable(Map<String, List<String>> filters) {
-        return false;
+        List<String> cityFilters = filters.get(FilterData.KEY_FILTER_CITY);
+        List<String> sectorsFilters = filters.get(FilterData.KEY_FILTER_SECTOR);
+        return TextUtils.contains(mCities, cityFilters) | TextUtils.contains(mSector, sectorsFilters);
     }
 }

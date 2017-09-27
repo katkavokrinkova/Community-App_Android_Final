@@ -158,19 +158,18 @@ public class ProjectsFragment extends BaseChildFragment<ProjectsUiPresenter> imp
     }
 
     @Override
-    public void onShowTick() {
+    public void onShowTick(Map<String, List<String>> filters) {
         ViewUtils.visible(mFilterTick);
+        mLisAdapter1.applyFilters(filters);
+        mLisAdapter2.applyFilters(filters);
+        mLisAdapter3.applyFilters(filters);
     }
 
     @Override
     public void onHideTick() {
         ViewUtils.gone(mFilterTick);
-    }
-
-    @Override
-    public void onApplyFilters(Map<String, List<String>> filters) {
-        mLisAdapter1.applyFilters(filters);
-        mLisAdapter2.applyFilters(filters);
-        mLisAdapter3.applyFilters(filters);
+        mLisAdapter1.resetFilters();
+        mLisAdapter2.resetFilters();
+        mLisAdapter3.resetFilters();
     }
 }

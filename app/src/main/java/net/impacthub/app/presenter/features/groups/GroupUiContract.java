@@ -15,6 +15,7 @@ import net.impacthub.app.model.vo.groups.GroupVO;
 import net.impacthub.app.presenter.features.error.ErrorHandlerUiContract;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Filippo Ash
@@ -27,4 +28,8 @@ public interface GroupUiContract extends ErrorHandlerUiContract {
     void onLoadAllGroups(List<GroupVO> groupList);
 
     void onLoadYourGroups(List<GroupVO> groupList);
+
+    void onShowTick(Map<String, List<String>> filters);
+
+    void onHideTick();
 }

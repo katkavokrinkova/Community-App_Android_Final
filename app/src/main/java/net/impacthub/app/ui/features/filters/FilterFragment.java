@@ -79,12 +79,15 @@ public class FilterFragment extends BaseChildFragment<FiltersUiPresenter> implem
 
         List<FilterBarVO> filterBarVOs = new LinkedList<>();
 
-        for (Map.Entry<String, List<String>> entry : getFilterData().getFilters().entrySet()) {
-            String filterName = entry.getKey();
-            FilterBarVO filterBarVO = new FilterBarVO(filterName);
-            filterBarVO.setSelectedFilters(entry.getValue());
-            filterBarVOs.add(filterBarVO);
-            getPresenter().getFiltersByName(filterName);
+        Map<String, List<String>> filters = getFilterData().getFilters();
+        if (filters != null) {
+            for (Map.Entry<String, List<String>> entry : filters.entrySet()) {
+                String filterName = entry.getKey();
+                FilterBarVO filterBarVO = new FilterBarVO(filterName);
+                filterBarVO.setSelectedFilters(entry.getValue());
+                filterBarVOs.add(filterBarVO);
+                getPresenter().getFiltersByName(filterName);
+            }
         }
 
         mFilterList.setHasFixedSize(true);

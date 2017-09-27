@@ -34,9 +34,10 @@ public class UIRefreshManager {
 
     public final static int REFRESH_ID_MEMBERS_LIST = 0x000;
     public final static int REFRESH_ID_FILTERS_BAr = 0x001;
+    public final static int REFRESH_ID_EVENTS = 0x002;
 
     @Retention(RetentionPolicy.RUNTIME)
-    @IntDef({REFRESH_ID_MEMBERS_LIST, REFRESH_ID_FILTERS_BAr})
+    @IntDef({REFRESH_ID_MEMBERS_LIST, REFRESH_ID_FILTERS_BAr, REFRESH_ID_EVENTS})
     @interface RefreshableIdentifier {
     }
 

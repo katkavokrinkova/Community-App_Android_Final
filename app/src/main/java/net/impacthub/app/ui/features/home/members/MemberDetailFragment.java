@@ -172,19 +172,6 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
     protected void bindView(View rootView) {
         super.bindView(rootView);
 
-//        mToolbar.inflateMenu(R.menu.menu_member_connect);
-//        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-//            @Override
-//            public boolean onMenuItemClick(MenuItem item) {
-//                switch (item.getItemId()) {
-//                    case R.id.actionRequestContact:
-//                        showToast("Request Contact!");
-//                        return true;
-//                }
-//                return false;
-//            }
-//        });
-
         mOffsetChangeListenerAdapter = new SimpleOffsetChangeListenerAdapter(mToolbar);
         mOffsetChangeListenerAdapter.setOffsetChangeListener(this);
 
@@ -250,13 +237,13 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
                 approveDeclineView.findViewById(R.id.button_approve_member).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        getPresenter().updateContactRequest(mDM_ID, mUserIDValue, "Approved", 0);
+                        approveMember();
                     }
                 });
                 approveDeclineView.findViewById(R.id.button_decline_member).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        getPresenter().updateContactRequest(mDM_ID, mUserIDValue, "Declined", 1);
+                        declineMember();
                     }
                 });
                 mMemberStatusContainer.addView(approveDeclineView);
@@ -273,15 +260,20 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
                 connectView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(getActivity(), ModalActivity.class);
-                        intent.putExtra(ModalActivity.MODAL_TYPE_CONNECT, true);
-                        intent.putExtra(ModalActivity.EXTRA_CONTACT_ID, mContactIDValue);
-                        startActivityForResult(intent, 1122);
+                        connectMember();
                     }
                 });
                 mMemberStatusContainer.addView(connectView);
                 break;
         }
+    }
+
+    private void declineMember() {
+        getPresenter().updateContactRequest(mDM_ID, mUserIDValue, "Declined", 1);
+    }
+
+    private void approveMember() {
+        getPresenter().updateContactRequest(mDM_ID, mUserIDValue, "Approved", 0);
     }
 
     private void setUpOutstandingView() {
@@ -295,14 +287,18 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
         contactView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ConversationVO model = new ConversationVO();
-                model.mDisplayName = mFullNameValue;
-                model.mImageURL = mImageURLValue;
-                model.mRecipientUserId = mUserIDValue;
-                addChildFragment(ConversationFragment.newInstance(model), "FRAG_MESSAGE_THREAD");
+                contactMember();
             }
         });
         mMemberStatusContainer.addView(contactView);
+    }
+
+    private void contactMember() {
+        ConversationVO model = new ConversationVO();
+        model.mDisplayName = mFullNameValue;
+        model.mImageURL = mImageURLValue;
+        model.mRecipientUserId = mUserIDValue;
+        addChildFragment(ConversationFragment.newInstance(model), "FRAG_MESSAGE_THREAD");
     }
 
     @Override
@@ -343,11 +339,22 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
     @Override
     public void onMemberApproved() {
         setUpConnectMemberButton();
+        reLoadMembersList();
+    }
+
+    private void reLoadMembersList() {
+        List<Refreshable> refreshables = UIRefreshManager.getInstance().getRefreshables(UIRefreshManager.REFRESH_ID_MEMBERS_LIST);
+        if (refreshables != null) {
+            for (Refreshable refreshable : refreshables) {
+                refreshable.onRefresh();
+            }
+        }
     }
 
     @Override
     public void onMemberDeclined() {
         mMemberStatusContainer.removeAllViews();
+        reLoadMembersList();
     }
 
     @Override
@@ -363,9 +370,34 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
         switch (statusType) {
             case APPROVED:
                 mToolbar.inflateMenu(R.menu.menu_member_contact);
+                mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.actionContactMember:
+                                contactMember();
+                                return true;
+                        }
+                        return false;
+                    }
+                });
                 break;
             case APPROVE_DECLINE:
                 mToolbar.inflateMenu(R.menu.menu_member_approve_decline);
+                mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.actionApproveContact:
+                                contactMember();
+                                return true;
+                            case R.id.actionDeclineContact:
+                                contactMember();
+                                return true;
+                        }
+                        return false;
+                    }
+                });
                 break;
             case NOT_CONTACTED:
                 mToolbar.inflateMenu(R.menu.menu_member_connect);
@@ -374,12 +406,7 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.actionRequestContact:
-                                List<Refreshable> refreshables = UIRefreshManager.getInstance().getRefreshables(UIRefreshManager.REFRESH_ID_MEMBERS_LIST);
-                                if (refreshables != null) {
-                                    for (Refreshable refreshable : refreshables) {
-                                        refreshable.onRefresh();
-                                    }
-                                }
+                                connectMember();
                                 return true;
                         }
                         return false;
@@ -387,17 +414,12 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
                 });
                 break;
         }
+    }
 
-//        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-//            @Override
-//            public boolean onMenuItemClick(MenuItem item) {
-//                switch (item.getItemId()) {
-//                    case R.id.actionRequestContact:
-//                        showToast("Request Contact!");
-//                        return true;
-//                }
-//                return false;
-//            }
-//        });
+    private void connectMember() {
+        Intent intent = new Intent(getActivity(), ModalActivity.class);
+        intent.putExtra(ModalActivity.MODAL_TYPE_CONNECT, true);
+        intent.putExtra(ModalActivity.EXTRA_CONTACT_ID, mContactIDValue);
+        startActivityForResult(intent, 1122);
     }
 }

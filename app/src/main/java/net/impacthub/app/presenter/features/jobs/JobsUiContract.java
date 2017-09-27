@@ -15,6 +15,7 @@ import net.impacthub.app.model.vo.jobs.JobVO;
 import net.impacthub.app.presenter.features.error.ErrorHandlerUiContract;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Filippo Ash
@@ -25,4 +26,8 @@ import java.util.List;
 public interface JobsUiContract extends ErrorHandlerUiContract {
 
     void onLoadJobs(List<JobVO> jobs);
+
+    void onShowTick(Map<String, List<String>> filters);
+
+    void onHideTick();
 }

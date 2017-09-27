@@ -29,9 +29,7 @@ public interface ProjectsUiContract extends ErrorHandlerUiContract {
 
     void onLoadYourProjects(List<ProjectVO> projectDTOs);
 
-    void onShowTick();
+    void onShowTick(Map<String, List<String>> filters);
 
     void onHideTick();
-
-    void onApplyFilters(Map<String, List<String>> filters);
 }

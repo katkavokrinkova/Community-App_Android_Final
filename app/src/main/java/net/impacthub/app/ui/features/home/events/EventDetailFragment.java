@@ -32,6 +32,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import net.impacthub.app.R;
+import net.impacthub.app.model.pojo.Refreshable;
 import net.impacthub.app.model.vo.events.EventVO;
 import net.impacthub.app.model.vo.location.LocationVO;
 import net.impacthub.app.navigator.Navigator;
@@ -40,6 +41,9 @@ import net.impacthub.app.presenter.features.events.EventDetailUiPresenter;
 import net.impacthub.app.ui.base.BaseChildFragment;
 import net.impacthub.app.ui.common.AbstractOnMarkerClickListener;
 import net.impacthub.app.ui.common.ImageLoaderHelper;
+import net.impacthub.app.ui.common.UIRefreshManager;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -243,6 +247,12 @@ public class EventDetailFragment extends BaseChildFragment<EventDetailUiPresente
     public void onUpdateAttendEventButtonLabel(boolean attending) {
         mAttendingEvent = attending;
         handleButtonLabel();
+        List<Refreshable> refreshables = UIRefreshManager.getInstance().getRefreshables(UIRefreshManager.REFRESH_ID_EVENTS);
+        if (refreshables != null) {
+            for (Refreshable refreshable : refreshables) {
+                refreshable.onRefresh();
+            }
+        }
     }
 
     private void handleButtonLabel() {

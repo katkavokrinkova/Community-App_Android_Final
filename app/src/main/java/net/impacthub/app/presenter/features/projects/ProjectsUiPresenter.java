@@ -108,11 +108,10 @@ public class ProjectsUiPresenter extends UiPresenter<ProjectsUiContract> {
                 }
             }
             if(atLeastOneFilterChecked) {
-                getUi().onShowTick();
+                getUi().onShowTick(filters);
             } else {
                 getUi().onHideTick();
             }
-            getUi().onApplyFilters(filters);
         } else {
             getUi().onHideTick();
         }

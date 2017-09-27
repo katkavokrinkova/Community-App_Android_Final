@@ -29,7 +29,9 @@ public abstract class BaseListAdapter<VH extends RecyclerView.ViewHolder, DTO ex
     private final LayoutInflater mLayoutInflater;
     protected OnListItemClickListener<DTO> mItemClickListener;
 
-    private String mLastFilterQuery;
+    private String mLastFilterQuery = "";
+    private boolean mHasFilters;
+    private Map<String, List<String>> mFilters;
 
     protected BaseListAdapter(LayoutInflater inflater) {
         mLayoutInflater = inflater;
@@ -90,7 +92,9 @@ public abstract class BaseListAdapter<VH extends RecyclerView.ViewHolder, DTO ex
     public void filterSearch(String filterQuery) {
         mLastFilterQuery = filterQuery;
         mFilteredItems.clear();
-        if(filterQuery.isEmpty()){
+        if(mHasFilters) {
+            applyFilters(mFilters);
+        } else if(filterQuery.isEmpty()){
             mFilteredItems.addAll(mAllItems);
         } else{
             filterQuery = filterQuery.toLowerCase();
@@ -104,12 +108,19 @@ public abstract class BaseListAdapter<VH extends RecyclerView.ViewHolder, DTO ex
     }
 
     public void applyFilters(Map<String, List<String>> filters) {
+        mFilters = filters;
+        mHasFilters = true;
         mFilteredItems.clear();
         for (DTO dto : mAllItems) {
-            if(dto.isSearchable(mLastFilterQuery) || dto.isFilterable(filters)) {
+            if(dto.isFilterable(filters) && dto.isSearchable(mLastFilterQuery)) {
                 mFilteredItems.add(dto);
             }
         }
         notifyDataSetChanged();
+    }
+
+    public void resetFilters() {
+        mHasFilters = false;
+        filterSearch(mLastFilterQuery);
     }
 }

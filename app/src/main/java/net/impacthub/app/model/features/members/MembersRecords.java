@@ -27,6 +27,8 @@ public class MembersRecords {
     private String Instagram__c;
     private String User__c;
     private String LastName;
+    private String Name;
+    private String Sector__c;
     private String How_Do_You_Most_Identify_with_Your_Curre__c;
     private String Interested_SDG__c;
     private String Linked_In__c;
@@ -102,12 +104,20 @@ public class MembersRecords {
         return Facebook__c;
     }
 
-    public String getAbout_Me__c() {
+    public String getImpact_Hub_Cities__c() {
+        return Impact_Hub_Cities__c;
+    }
+
+    public String getAboutMe__c() {
         return AboutMe__c;
     }
 
-    public String getImpact_Hub_Cities__c() {
-        return Impact_Hub_Cities__c;
+    public String getName() {
+        return Name;
+    }
+
+    public String getSector__c() {
+        return Sector__c;
     }
 
     @Override

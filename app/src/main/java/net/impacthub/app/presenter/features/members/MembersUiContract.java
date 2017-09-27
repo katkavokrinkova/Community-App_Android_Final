@@ -4,6 +4,7 @@ import net.impacthub.app.model.vo.members.MemberVO;
 import net.impacthub.app.presenter.features.error.ErrorHandlerUiContract;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Filippo Ash
@@ -14,4 +15,8 @@ import java.util.List;
 public interface MembersUiContract extends ErrorHandlerUiContract {
 
     void onLoadMembers(List<MemberVO> memberDTOs);
+
+    void onShowTick(Map<String, List<String>> filters);
+
+    void onHideTick();
 }

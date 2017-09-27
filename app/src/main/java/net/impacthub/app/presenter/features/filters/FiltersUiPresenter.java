@@ -3,6 +3,7 @@ package net.impacthub.app.presenter.features.filters;
 import net.impacthub.app.model.vo.filters.FilterVO;
 import net.impacthub.app.presenter.base.UiPresenter;
 import net.impacthub.app.usecase.features.filters.CitiesFilterUseCase;
+import net.impacthub.app.usecase.features.filters.HubFilterUsecase;
 import net.impacthub.app.usecase.features.filters.SectorFilterUsecase;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.observers.DisposableSingleObserver;
 
 import static net.impacthub.app.model.vo.filters.FilterData.KEY_FILTER_CITY;
+import static net.impacthub.app.model.vo.filters.FilterData.KEY_FILTER_HUB;
 import static net.impacthub.app.model.vo.filters.FilterData.KEY_FILTER_SECTOR;
 
 /**
@@ -30,7 +32,24 @@ public class FiltersUiPresenter extends UiPresenter<FiltersUiContract> {
             fetchCityFilters();
         } else if(KEY_FILTER_SECTOR.equalsIgnoreCase(filterName)) {
             fetchSectorsFilters();
+        } else if(KEY_FILTER_HUB.equalsIgnoreCase(filterName)) {
+            fetchHubFilters();
         }
+    }
+
+    private void fetchHubFilters() {
+        subscribeWith(new HubFilterUsecase().getUseCase(), new DisposableSingleObserver<List<FilterVO>>() {
+
+            @Override
+            public void onSuccess(@NonNull List<FilterVO> filterVOs) {
+                getUi().onLoadFilters(KEY_FILTER_HUB, filterVOs);
+            }
+
+            @Override
+            public void onError(@NonNull Throwable e) {
+                getUi().onError(e);
+            }
+        });
     }
 
     private void fetchSectorsFilters() {

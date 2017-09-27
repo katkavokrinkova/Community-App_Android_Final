@@ -11,8 +11,6 @@
 
 package net.impacthub.app.utilities;
 
-import net.impacthub.app.model.vo.filters.FilterData;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -41,20 +39,16 @@ public final class TextUtils {
     }
 
     private static boolean isContained(String query, String value) {
-        return query != null && value != null && value.toLowerCase().contains(query.toLowerCase());
+        return query != null && value != null && query.isEmpty() | value.toLowerCase().contains(query.toLowerCase());
     }
 
-    public static boolean contains(String query, List<String> filters) {
+    public static boolean contains(String value, List<String> filters) {
         boolean atLeastOne = false;
-        if (query != null && filters != null) {
-            if (filters.isEmpty()) {
-                atLeastOne = true;
-            } else {
-                for (int i = 0, selectedFiltersSize = filters.size(); i < selectedFiltersSize; i++) {
-                    if (isContained(filters.get(i), query)) {
-                        atLeastOne = true;
-                        break;
-                    }
+        if (value != null && filters != null) {
+            for (int i = 0, selectedFiltersSize = filters.size(); i < selectedFiltersSize; i++) {
+                if (isContained(filters.get(i), value)) {
+                    atLeastOne = true;
+                    break;
                 }
             }
         }

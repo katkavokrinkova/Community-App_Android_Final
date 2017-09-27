@@ -31,7 +31,7 @@ public class SoqlRequestFactory {
 
     //User__c is the user ID
     //id is the contact ID
-    private static final String CONTACT = "id, firstname,lastname, ProfilePic__c, Profession__c, Impact_Hub_Cities__c," +
+    private static final String CONTACT = "id, firstname,lastname, ProfilePic__c, Profession__c, Impact_Hub_Cities__c, Name, Sector__c," +
             " User__c,Skills__c, AboutMe__c,Status_Update__c,Directory_Summary__c, Interested_SDG__c," +
             "How_Do_You_Most_Identify_with_Your_Curre__c,Twitter__c,Instagram__c,Facebook__c,Linked_In__c";
 
@@ -42,6 +42,10 @@ public class SoqlRequestFactory {
 //            "select id, firstname, lastname, ProfilePic__c, Profession__c, Impact_Hub_Cities__c,"
 //                    + "User__c, Skills__c, About_Me__c, Twitter__c, Instagram__c, Facebook__c, Linked_In__c "
 //                    + "FROM Contact where User__c != null";
+
+
+    private static final String HUB_FILTER =
+            "SELECT Id,Name,RecordTypeId FROM Account where RecordTypeId in (SELECT Id FROM RecordType WHERE SobjectType = 'Account' AND Name = 'Hub' AND IsActive = true)";
 
     private static final String CITY_FILTER =
             "select name, Grouping__c, Id from taxonomy__c "
@@ -130,6 +134,10 @@ public class SoqlRequestFactory {
 //    public RestRequest createFilterCriteriaRequest() throws UnsupportedEncodingException {
 //        return mRestRequestFactory.getForQuery(filterCriteriaQuery);
 //    }
+
+    public RestRequest createHubFilterCriteriaRequest() throws UnsupportedEncodingException {
+        return mRestRequestFactory.getForQuery(HUB_FILTER);
+    }
 
     public RestRequest createCityFilterCriteriaRequest() throws UnsupportedEncodingException {
         return mRestRequestFactory.getForQuery(CITY_FILTER);

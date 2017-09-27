@@ -8,11 +8,13 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 
 import net.impacthub.app.R;
 import net.impacthub.app.model.callback.OnListItemClickListener;
 import net.impacthub.app.model.pojo.Refreshable;
 import net.impacthub.app.model.vo.conversations.ConversationVO;
+import net.impacthub.app.model.vo.filters.FilterData;
 import net.impacthub.app.model.vo.members.MemberStatusType;
 import net.impacthub.app.model.vo.members.MemberVO;
 import net.impacthub.app.presenter.features.members.MembersPresenter;
@@ -24,11 +26,16 @@ import net.impacthub.app.ui.features.filters.FilterActivity;
 import net.impacthub.app.ui.features.messages.conversation.ConversationFragment;
 import net.impacthub.app.ui.modal.ModalActivity;
 import net.impacthub.app.ui.widgets.UISearchView;
+import net.impacthub.app.utilities.ViewUtils;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static net.impacthub.app.ui.features.filters.FilterActivity.EXTRA_FILTER_DATA;
 
 /**
  * @author Filippo Ash
@@ -42,9 +49,12 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
 
     @BindView(R.id.list_items) protected RecyclerView mMembersList;
     @BindView(R.id.search_from_list) protected UISearchView mSearchView;
+    @BindView(R.id.filter_tick) protected ImageView mFilterTick;
 
     private MembersListAdapter mAdapter;
     private Parcelable mState;
+
+    private FilterData mFilterData;
 
     public static MembersFragment newInstance() {
 
@@ -67,7 +77,9 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
 
     @OnClick(R.id.filter_button)
     protected void onFilterClick() {
-        startActivityForResult(new Intent(getActivity(), FilterActivity.class), 1234);
+        Intent intent = new Intent(getActivity(), FilterActivity.class);
+        intent.putExtra(EXTRA_FILTER_DATA, mFilterData);
+        startActivityForResult(intent, FilterActivity.FILTER_REQUEST_CODE);
     }
 
     @Override
@@ -108,6 +120,21 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
                 mAdapter.filterSearch(query);
             }
         });
+
+        mFilterData = new FilterData();
+        mFilterData.getFilters().put(FilterData.KEY_FILTER_HUB, new ArrayList<String>());
+        mFilterData.getFilters().put(FilterData.KEY_FILTER_SECTOR, new ArrayList<String>());
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == FilterActivity.FILTER_REQUEST_CODE) {
+            mFilterData = (FilterData) data.getSerializableExtra(EXTRA_FILTER_DATA);
+            getPresenter().handleFilters(mFilterData);
+        } else {
+            getPresenter().loadMembers();
+        }
     }
 
     @Override
@@ -123,16 +150,6 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
         mState = mMembersList.getLayoutManager().onSaveInstanceState();
         outState.putParcelable(KEY_LIST_STATE, mState);
         super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 1234) {
-        showToast("Back from filters...");
-        } else {
-            getPresenter().loadMembers();
-        }
     }
 
     @Override
@@ -183,6 +200,18 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
 
     @Override
     public void onRefresh() {
-        showToast("Refreshing...");
+        getPresenter().loadMembers();
+    }
+
+    @Override
+    public void onShowTick(Map<String, List<String>> filters) {
+        ViewUtils.visible(mFilterTick);
+        mAdapter.applyFilters(filters);
+    }
+
+    @Override
+    public void onHideTick() {
+        ViewUtils.gone(mFilterTick);
+        mAdapter.resetFilters();
     }
 }

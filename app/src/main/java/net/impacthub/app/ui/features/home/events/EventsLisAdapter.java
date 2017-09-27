@@ -32,7 +32,7 @@ import net.impacthub.app.ui.common.RecyclerViewHolder;
 
 public class EventsLisAdapter extends BaseListAdapter<EventsLisAdapter.EventViewHolder, EventVO> {
 
-    public EventsLisAdapter(LayoutInflater inflater) {
+    EventsLisAdapter(LayoutInflater inflater) {
         super(inflater);
     }
 

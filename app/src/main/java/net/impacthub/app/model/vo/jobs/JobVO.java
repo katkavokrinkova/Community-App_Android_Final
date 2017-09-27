@@ -12,6 +12,7 @@
 package net.impacthub.app.model.vo.jobs;
 
 import net.impacthub.app.model.pojo.Searchable;
+import net.impacthub.app.model.vo.filters.FilterData;
 import net.impacthub.app.utilities.TextUtils;
 
 import java.util.List;
@@ -44,9 +45,9 @@ public class JobVO implements Searchable {
     public boolean isSearchable(String query) {
         return TextUtils.contains(query, mName, mCompanyName, mLocation, mCompanyC, mJobType);
     }
-
     @Override
     public boolean isFilterable(Map<String, List<String>> filters) {
-        return false;
+        List<String> sectorsFilters = filters.get(FilterData.KEY_FILTER_SECTOR);
+        return TextUtils.contains(mSector, sectorsFilters);
     }
 }

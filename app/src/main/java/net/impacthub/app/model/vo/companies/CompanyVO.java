@@ -12,6 +12,7 @@
 package net.impacthub.app.model.vo.companies;
 
 import net.impacthub.app.model.pojo.Searchable;
+import net.impacthub.app.model.vo.filters.FilterData;
 import net.impacthub.app.utilities.TextUtils;
 
 import java.util.List;
@@ -40,14 +41,17 @@ public class CompanyVO implements Searchable {
     public String mCompanyMemberCount;
     public String mCompanyLocation;
     public String mCompanyWebsite;
+    public String mHub;
 
     @Override
     public boolean isSearchable(String query) {
-        return TextUtils.contains(query, mCompanyName, mCompanySector, mCompanyLocation);
+        return TextUtils.contains(query, mCompanyName, mCompanyLocation, mCompanyWebsite, mCompanyDescription);
     }
 
     @Override
     public boolean isFilterable(Map<String, List<String>> filters) {
-        return TextUtils.contains(filters);
+        List<String> hubFilters = filters.get(FilterData.KEY_FILTER_HUB);
+        List<String> sectorsFilters = filters.get(FilterData.KEY_FILTER_SECTOR);
+        return TextUtils.contains(mHub, hubFilters) | TextUtils.contains(mCompanySector, sectorsFilters);
     }
 }

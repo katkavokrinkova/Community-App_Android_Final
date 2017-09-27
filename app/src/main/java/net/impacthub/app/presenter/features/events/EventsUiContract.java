@@ -15,6 +15,7 @@ import net.impacthub.app.model.vo.events.EventVO;
 import net.impacthub.app.presenter.features.error.ErrorHandlerUiContract;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Filippo Ash
@@ -29,4 +30,8 @@ public interface EventsUiContract extends ErrorHandlerUiContract {
     void onLoadEventsAttending(List<EventVO> eventDTOs);
 
     void onLoadEventsHosting(List<EventVO> eventDTOs);
+
+    void onShowTick(Map<String, List<String>> filters);
+
+    void onHideTick();
 }

@@ -12,6 +12,7 @@
 package net.impacthub.app.model.vo.members;
 
 import net.impacthub.app.model.pojo.Searchable;
+import net.impacthub.app.model.vo.filters.FilterData;
 import net.impacthub.app.utilities.TextUtils;
 
 import java.util.List;
@@ -43,6 +44,8 @@ public class MemberVO implements Searchable {
     public String mAboutMe;
     public String mProfession;
     public String mStatusUpdate;
+    public String mSector;
+    public String mHub;
 
     @Override
     public boolean isSearchable(String query) {
@@ -51,6 +54,8 @@ public class MemberVO implements Searchable {
 
     @Override
     public boolean isFilterable(Map<String, List<String>> filters) {
-        return TextUtils.contains(filters);
+        List<String> hubFilters = filters.get(FilterData.KEY_FILTER_HUB);
+        List<String> sectorsFilters = filters.get(FilterData.KEY_FILTER_SECTOR);
+        return TextUtils.contains(mHub, hubFilters) | TextUtils.contains(mSector, sectorsFilters);
     }
 }

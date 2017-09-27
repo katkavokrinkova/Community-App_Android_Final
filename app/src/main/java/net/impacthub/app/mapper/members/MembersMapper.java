@@ -79,9 +79,10 @@ public class MembersMapper {
         memberDTO.mLinkTwitter = record.getTwitter__c();
         memberDTO.mLinkLinkedin = record.getLinked_In__c();
         memberDTO.mLocation = record.getImpact_Hub_Cities__c();
-        memberDTO.mAboutMe = record.getAbout_Me__c();
+        memberDTO.mAboutMe = record.getAboutMe__c();
         memberDTO.mStatusUpdate = record.getStatus_Update__c();
         memberDTO.mProfession = record.getProfession__c();
+        memberDTO.mSector = record.getSector__c();
         return memberDTO;
     }
 

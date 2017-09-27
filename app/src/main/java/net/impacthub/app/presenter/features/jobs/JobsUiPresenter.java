@@ -12,6 +12,7 @@
 package net.impacthub.app.presenter.features.jobs;
 
 import net.impacthub.app.mapper.jobs.JobsMapper;
+import net.impacthub.app.model.vo.filters.FilterData;
 import net.impacthub.app.model.vo.jobs.JobVO;
 import net.impacthub.app.model.features.jobs.JobsResponse;
 import net.impacthub.app.presenter.base.UiPresenter;
@@ -19,6 +20,7 @@ import net.impacthub.app.usecase.base.UseCaseGenerator;
 import net.impacthub.app.usecase.features.jobs.JobsUseCase;
 
 import java.util.List;
+import java.util.Map;
 
 import io.reactivex.Single;
 import io.reactivex.annotations.NonNull;
@@ -61,5 +63,26 @@ public class JobsUiPresenter extends UiPresenter<JobsUiContract> {
                 getUi().onShowProgressBar(false);
             }
         });
+    }
+
+    public void handleFilters(FilterData filterData) {
+        boolean atLeastOneFilterChecked = false;
+        if (filterData != null) {
+            Map<String, List<String>> filters = filterData.getFilters();
+            if (filters != null) {
+                for (Map.Entry<String, List<String>> entry : filters.entrySet()) {
+                    List<String> value = entry.getValue();
+                    atLeastOneFilterChecked = !value.isEmpty();
+                    if(atLeastOneFilterChecked) break;
+                }
+            }
+            if(atLeastOneFilterChecked) {
+                getUi().onShowTick(filters);
+            } else {
+                getUi().onHideTick();
+            }
+        } else {
+            getUi().onHideTick();
+        }
     }
 }
