@@ -25,6 +25,7 @@ import net.impacthub.app.model.pojo.ListItemType;
 import net.impacthub.app.model.pojo.Refreshable;
 import net.impacthub.app.model.vo.conversations.ConversationVO;
 import net.impacthub.app.model.vo.groups.GroupVO;
+import net.impacthub.app.model.vo.members.MemberStatus;
 import net.impacthub.app.model.vo.members.MemberStatusType;
 import net.impacthub.app.model.vo.members.MemberVO;
 import net.impacthub.app.model.vo.projects.ProjectVO;
@@ -191,7 +192,6 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
 
         adapter.addVieBinder(mViewBinder2 = new ProjectsViewBinder(lisAdapter));
 
-
         GroupsListAdapter groupsListAdapter = new GroupsListAdapter(layoutInflater);
         groupsListAdapter.setItemClickListener(new OnListItemClickListener<GroupVO>() {
             @Override
@@ -311,7 +311,9 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1122 && resultCode == Activity.RESULT_OK) {
+            mMemberStatus = MemberStatus.OUTSTANDING;
             setUpOutstandingView();
+            reLoadMembersList();
         }
     }
 
@@ -338,11 +340,13 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
 
     @Override
     public void onMemberApproved() {
+        mMemberStatus = MemberStatus.APPROVED;
         setUpConnectMemberButton();
         reLoadMembersList();
     }
 
     private void reLoadMembersList() {
+        handleMemberStatusToolbarMenu();
         List<Refreshable> refreshables = UIRefreshManager.getInstance().getRefreshables(UIRefreshManager.REFRESH_ID_MEMBERS_LIST);
         if (refreshables != null) {
             for (Refreshable refreshable : refreshables) {
@@ -353,6 +357,7 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
 
     @Override
     public void onMemberDeclined() {
+        mMemberStatus = MemberStatus.DECLINED;
         mMemberStatusContainer.removeAllViews();
         reLoadMembersList();
     }
@@ -366,6 +371,11 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
     @Override
     public void onCollapsed(int verticalOffset) {
 //        showToast("Collapsed");
+        handleMemberStatusToolbarMenu();
+    }
+
+    private void handleMemberStatusToolbarMenu() {
+        mToolbar.getMenu().clear();
         MemberStatusType statusType = MemberStatusType.fromStatus(mMemberStatus);
         switch (statusType) {
             case APPROVED:
@@ -389,10 +399,10 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.actionApproveContact:
-                                contactMember();
+                                approveMember();
                                 return true;
                             case R.id.actionDeclineContact:
-                                contactMember();
+                                declineMember();
                                 return true;
                         }
                         return false;
