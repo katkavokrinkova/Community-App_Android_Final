@@ -1,5 +1,6 @@
 package net.impacthub.app.ui.features.home.members;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -129,10 +130,10 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == FilterActivity.FILTER_REQUEST_CODE) {
+        if(requestCode == FilterActivity.FILTER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             mFilterData = (FilterData) data.getSerializableExtra(EXTRA_FILTER_DATA);
             getPresenter().handleFilters(mFilterData);
-        } else {
+        } else if(requestCode == 1122 && resultCode == Activity.RESULT_OK) {
             getPresenter().loadMembers();
         }
     }

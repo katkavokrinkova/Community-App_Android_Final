@@ -20,6 +20,7 @@ import net.impacthub.app.ui.base.BaseActivity;
 import net.impacthub.app.ui.features.home.members.ConnectMemberFragment;
 import net.impacthub.app.ui.widgets.TypefaceToolbar;
 import net.impacthub.app.utilities.DrawableUtils;
+import net.impacthub.app.utilities.KeyboardUtils;
 
 /**
  * @author Filippo Ash
@@ -49,6 +50,7 @@ public class ModalActivity extends BaseActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                KeyboardUtils.hideNativeKeyboard(getApplicationContext(), view);
                 finish();
             }
         });
