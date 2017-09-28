@@ -29,7 +29,7 @@
         android:fitsSystemWindows="true"
         app:elevation="0dp">
 
-        <include layout="@layout/layout_search_bar" />
+        <include layout="@layout/layout_search_bar_with_filter" />
 
     </android.support.design.widget.AppBarLayout>
 

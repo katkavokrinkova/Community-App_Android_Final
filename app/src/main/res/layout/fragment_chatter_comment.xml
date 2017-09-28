@@ -25,7 +25,7 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <net.impacthub.members.ui.widgets.TypefaceEditText
+        <net.impacthub.app.ui.widgets.TypefaceEditText
             android:id="@+id/text_comment_entry"
             android:layout_width="0dp"
             android:layout_height="56dp"

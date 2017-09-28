@@ -20,7 +20,7 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/fab">
 
-        <net.impacthub.members.ui.widgets.TypefaceEditText
+        <net.impacthub.app.ui.widgets.TypefaceEditText
             android:id="@+id/text_introduction_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

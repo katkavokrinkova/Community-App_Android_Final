@@ -74,14 +74,22 @@
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
 
-                            <net.impacthub.members.ui.widgets.CircleImageView
-                                android:id="@+id/image_detail"
-                                android:layout_width="96dp"
-                                android:layout_height="96dp"
+                            <FrameLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
                                 android:layout_margin="4dp"
-                                android:contentDescription="@string/member_image"
-                                android:scaleType="centerCrop"
-                                tools:src="@drawable/ic_fp_40px" />
+                                android:background="@drawable/bg_circular_shadow">
+
+                                <net.impacthub.app.ui.widgets.CircleImageView
+                                    android:id="@+id/image_detail"
+                                    android:layout_width="96dp"
+                                    android:layout_height="96dp"
+                                    android:contentDescription="@string/member_image"
+                                    android:scaleType="centerCrop"
+                                    tools:src="@drawable/ic_fp_40px" />
+
+                            </FrameLayout>
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -135,7 +143,7 @@
 
                                 </LinearLayout>
 
-                                <net.impacthub.members.ui.widgets.TypefaceTextView
+                                <net.impacthub.app.ui.widgets.TypefaceTextView
                                     android:id="@+id/button_website"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -161,7 +169,7 @@
                             android:orientation="vertical">
 
 
-                            <net.impacthub.members.ui.widgets.TypefaceTextView
+                            <net.impacthub.app.ui.widgets.TypefaceTextView
                                 android:id="@+id/text_company_sector"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -185,7 +193,7 @@
                                     android:contentDescription="@string/locations"
                                     android:src="@mipmap/location_pin" />
 
-                                <net.impacthub.members.ui.widgets.TypefaceTextView
+                                <net.impacthub.app.ui.widgets.TypefaceTextView
                                     android:id="@+id/locations"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -209,14 +217,7 @@
 
             </android.support.design.widget.CollapsingToolbarLayout>
 
-            <android.support.design.widget.TabLayout
-                android:id="@+id/tabs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:tabGravity="fill"
-                app:tabIndicatorColor="@color/colorPrimary"
-                app:tabIndicatorHeight="1dp"
-                app:tabMode="fixed" />
+            <include layout="@layout/layout_tabs" />
 
         </android.support.design.widget.AppBarLayout>
 

@@ -19,7 +19,7 @@
     android:paddingRight="16dp"
     android:paddingTop="16dp">
 
-    <net.impacthub.members.ui.widgets.TypefaceTextView
+    <net.impacthub.app.ui.widgets.TypefaceTextView
         android:id="@+id/text_info_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

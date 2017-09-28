@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2017 Lightful. All Rights Reserved.
+  ~
+  ~ Save to the extent permitted by law, you may not use, copy, modify,
+  ~ distribute or create derivative works of this material or any part
+  ~ of it without the prior written consent of Lightful.
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/actionDeclineContact"
+        android:icon="@mipmap/ic_decline_contact"
+        android:showAsAction="always"
+        android:title="Decline Contact"
+        android:orderInCategory="100"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/actionApproveContact"
+        android:icon="@mipmap/ic_accept_contact"
+        android:showAsAction="always"
+        android:title="Approve Contact"
+        android:orderInCategory="200"
+        app:showAsAction="always" />
+</menu>

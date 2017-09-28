@@ -2,6 +2,7 @@
     <string name="app_name">Impact Hub</string>
     <string name="home">Home</string>
     <string name="search">Search</string>
+    <string name="search_hint">Search...</string>
     <string name="notifications">Notifications</string>
     <string name="profile">My Profile</string>
     <string name="projects">Projects</string>

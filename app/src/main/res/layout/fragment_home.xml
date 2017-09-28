@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <net.impacthub.members.ui.widgets.TypefaceToolbar
+    <net.impacthub.app.ui.widgets.TypefaceToolbar
         android:id="@+id/toolbar"
         style="@style/ToolbarConstraint"
         android:background="@color/colorPrimary"

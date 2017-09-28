@@ -24,7 +24,7 @@
         android:orientation="horizontal"
         android:padding="20dp">
 
-        <net.impacthub.members.ui.widgets.TypefaceTextView
+        <net.impacthub.app.ui.widgets.TypefaceTextView
             android:id="@+id/text_filter_label"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

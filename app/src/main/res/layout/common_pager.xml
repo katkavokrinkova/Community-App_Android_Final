@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <net.impacthub.members.ui.widgets.TypefaceToolbar
+            <net.impacthub.app.ui.widgets.TypefaceToolbar
                 android:id="@+id/toolbar"
                 style="@style/ToolbarConstraint.WithBack"
                 android:layout_width="match_parent"
@@ -35,7 +35,7 @@
                 android:background="@android:color/white"
                 app:title="@string/members" />
 
-            <net.impacthub.members.ui.widgets.TypefaceTabLayout
+            <net.impacthub.app.ui.widgets.TypefaceTabLayout
                 android:id="@+id/group_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

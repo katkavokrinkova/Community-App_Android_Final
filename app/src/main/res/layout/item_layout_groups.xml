@@ -32,10 +32,12 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <net.impacthub.members.ui.widgets.RoundedImageView
+            <net.impacthub.app.ui.widgets.RoundedImageView
                 android:id="@+id/image_group"
                 android:layout_width="110dp"
                 android:layout_height="110dp"
+                android:scaleType="centerCrop"
+                android:layout_gravity="center_vertical"
                 app:riv_corner_radius="8dp" />
 
             <LinearLayout
@@ -44,7 +46,7 @@
                 android:layout_marginLeft="16dp"
                 android:orientation="vertical">
 
-                <net.impacthub.members.ui.widgets.TypefaceTextView
+                <net.impacthub.app.ui.widgets.TypefaceTextView
                     android:id="@+id/text_group_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

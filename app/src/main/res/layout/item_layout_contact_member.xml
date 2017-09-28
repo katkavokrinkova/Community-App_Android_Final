@@ -10,7 +10,7 @@
   ~ all copies or substantial portions of the Software.
   -->
 
-<net.impacthub.members.ui.widgets.TypefaceTextView xmlns:android="http://schemas.android.com/apk/res/android"
+<net.impacthub.app.ui.widgets.TypefaceTextView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/button_contact_member"
     android:layout_width="match_parent"
@@ -20,7 +20,7 @@
     android:gravity="center"
     android:maxLines="1"
     android:padding="12dp"
-    android:text="Contact"
+    android:text="Send Message"
     android:textColor="@android:color/white"
     android:textSize="14sp"
     app:typeface="fonts/gt-walsheim-web.ttf" />

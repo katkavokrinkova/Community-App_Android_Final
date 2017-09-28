@@ -18,23 +18,24 @@
     android:orientation="vertical"
     tools:ignore="RtlSymmetry">
 
-    <net.impacthub.members.ui.widgets.TypefaceToolbar
+    <net.impacthub.app.ui.widgets.TypefaceToolbar
         android:id="@+id/toolbar"
         style="@style/ToolbarConstraint.WithBack">
 
-        <net.impacthub.members.ui.widgets.TypefaceButton
+        <net.impacthub.app.ui.widgets.TypefaceButton
             android:id="@+id/button_clear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:background="@null"
-            android:textAllCaps="false"
+            android:foreground="?attr/selectableItemBackground"
             android:text="@string/clear"
+            android:textAllCaps="false"
             android:textColor="@color/impacthub"
             android:textSize="14sp"
             app:typeface="fonts/gt-walsheim-light-web.ttf" />
 
-    </net.impacthub.members.ui.widgets.TypefaceToolbar>
+    </net.impacthub.app.ui.widgets.TypefaceToolbar>
 
     <FrameLayout
         android:layout_width="match_parent"

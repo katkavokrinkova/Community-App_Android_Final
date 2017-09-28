@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <net.impacthub.members.ui.widgets.TypefaceToolbar
+    <net.impacthub.app.ui.widgets.TypefaceToolbar
         android:id="@+id/toolbar"
         style="@style/ToolbarConstraint" />
 
@@ -38,14 +38,14 @@
                         android:orientation="vertical"
                         android:padding="24dp">
 
-                        <net.impacthub.members.ui.widgets.CircleImageView
+                        <net.impacthub.app.ui.widgets.CircleImageView
                             android:id="@+id/image_profile_avatar"
                             android:layout_width="96dp"
                             android:layout_height="96dp"
                             android:layout_marginBottom="24dp"
                             android:layout_marginTop="36dp" />
 
-                        <net.impacthub.members.ui.widgets.TypefaceTextView
+                        <net.impacthub.app.ui.widgets.TypefaceTextView
                             android:id="@+id/text_full_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
                             app:typeface="fonts/gt-walsheim-medium-web.ttf"
                             tools:text="Tamar Berger" />
 
-                        <net.impacthub.members.ui.widgets.TypefaceTextView
+                        <net.impacthub.app.ui.widgets.TypefaceTextView
                             android:id="@+id/text_status_update"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -78,7 +78,7 @@
                                 android:contentDescription="@string/locations"
                                 android:src="@mipmap/location_pin" />
 
-                            <net.impacthub.members.ui.widgets.TypefaceTextView
+                            <net.impacthub.app.ui.widgets.TypefaceTextView
                                 android:id="@+id/locations"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"

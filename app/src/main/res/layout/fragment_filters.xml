@@ -8,132 +8,36 @@
     android:orientation="vertical"
     tools:ignore="RtlSymmetry">
 
-    <net.impacthub.members.ui.widgets.TypefaceToolbar
+    <net.impacthub.app.ui.widgets.TypefaceToolbar
         android:id="@+id/toolbar"
         style="@style/ToolbarConstraint.WithBack"
         app:title="@string/filter">
 
-        <net.impacthub.members.ui.widgets.TypefaceButton
-            android:id="@+id/clear"
+        <net.impacthub.app.ui.widgets.TypefaceButton
+            android:id="@+id/button_clear_all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:background="@null"
-            android:textAllCaps="false"
             android:text="@string/clear_all"
+            android:textAllCaps="false"
             android:textColor="@color/impacthub"
+            android:foreground="?attr/selectableItemBackground"
             android:textSize="14sp"
             app:typeface="fonts/gt-walsheim-light-web.ttf" />
 
-    </net.impacthub.members.ui.widgets.TypefaceToolbar>
+    </net.impacthub.app.ui.widgets.TypefaceToolbar>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <LinearLayout
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list_items"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:id="@+id/city_bar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:foreground="?attr/selectableItemBackground"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="20dp">
-
-                    <net.impacthub.members.ui.widgets.TypefaceTextView
-                        android:id="@+id/city"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:paddingEnd="20dp"
-                        android:text="@string/city"
-                        android:textColor="@color/greyish_brown"
-                        android:textSize="12sp"
-                        app:typeface="fonts/gt-walsheim-medium-web.ttf" />
-
-                    <net.impacthub.members.ui.widgets.TypefaceTextView
-                        android:id="@+id/cities_selected"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:gravity="end"
-                        android:lines="1"
-                        android:text="@string/all"
-                        android:textColor="@color/warm_grey_2"
-                        android:textSize="12sp"
-                        app:typeface="fonts/gt-walsheim-light-web.ttf" />
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:background="#0d000000" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/sector_bar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:foreground="?attr/selectableItemBackground"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="20dp">
-
-                    <net.impacthub.members.ui.widgets.TypefaceTextView
-                        android:id="@+id/sector"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:paddingEnd="20dp"
-                        android:text="@string/sector"
-                        android:textColor="@color/greyish_brown"
-                        android:textSize="12sp"
-                        app:typeface="fonts/gt-walsheim-medium-web.ttf" />
-
-                    <net.impacthub.members.ui.widgets.TypefaceTextView
-                        android:id="@+id/sectors_selected"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:gravity="end"
-                        android:lines="1"
-                        android:text="@string/all"
-                        android:textColor="@color/warm_grey_2"
-                        android:textSize="12sp"
-                        app:typeface="fonts/gt-walsheim-light-web.ttf" />
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:background="#0d000000" />
-
-            </LinearLayout>
-
-        </LinearLayout>
+            android:layout_height="match_parent"
+            android:scrollbars="vertical" />
 
         <include layout="@layout/layout_top_shadow" />
 
