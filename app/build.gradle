@@ -16,9 +16,9 @@ android {
     signingConfigs {
         release {
             storeFile file("../config/signing/release_key.jks")
-            storePassword "change-me"
-            keyAlias "change-me"
-            keyPassword "change-me"
+            storePassword "63V.m932c96!ULJ"
+            keyAlias "Impact_Hub_Community_App"
+            keyPassword "63V.m932c96!ULJ"
         }
     }
 
