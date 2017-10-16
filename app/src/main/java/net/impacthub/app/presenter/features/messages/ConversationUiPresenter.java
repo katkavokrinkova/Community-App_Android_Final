@@ -71,6 +71,7 @@ public class ConversationUiPresenter extends UiPresenter<ConversationUiContract>
 
         if (TextUtils.isEmpty(message)) {
             getUi().onError(new Throwable("Message should not be empty."));
+            getUi().onEnableSendButton();
             return;
         }
 
@@ -88,6 +89,12 @@ public class ConversationUiPresenter extends UiPresenter<ConversationUiContract>
                     @Override
                     public void accept(@NonNull Id id) throws Exception {
                         getUi().onClearTextField();
+                    }
+                })
+                .doOnError(new Consumer<Throwable>() {
+                    @Override
+                    public void accept(@NonNull Throwable throwable) throws Exception {
+                        getUi().onEnableSendButton();
                     }
                 })
                 .observeOn(Schedulers.io())
@@ -121,6 +128,7 @@ public class ConversationUiPresenter extends UiPresenter<ConversationUiContract>
 
         if (TextUtils.isEmpty(message)) {
             getUi().onError(new Throwable("Message should not be empty."));
+            getUi().onEnableSendButton();
             return;
         }
 
@@ -137,6 +145,12 @@ public class ConversationUiPresenter extends UiPresenter<ConversationUiContract>
                     @Override
                     public void accept(@NonNull Id id) throws Exception {
                         getUi().onClearTextField();
+                    }
+                })
+                .doOnError(new Consumer<Throwable>() {
+                    @Override
+                    public void accept(@NonNull Throwable throwable) throws Exception {
+                        getUi().onEnableSendButton();
                     }
                 })
                 .observeOn(Schedulers.io())

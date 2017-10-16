@@ -26,7 +26,7 @@ public class ApiCall<T> {
     private final ClientManager mClientManager;
     private final Gson mGson = new Gson();
 
-    public ApiCall() {
+    ApiCall() {
         this(clientManagerProvider());
     }
 

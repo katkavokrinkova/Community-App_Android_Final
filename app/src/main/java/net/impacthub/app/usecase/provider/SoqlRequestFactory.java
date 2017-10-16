@@ -66,7 +66,7 @@ public class SoqlRequestFactory {
 
     private static final String NOTIFICATIONS = "SELECT CreatedDate,FromUserId__c,Id,isRead__c,Name,RelatedId__c,Sent__c,Type__c," +
             "ProfilePicURL__c,Message__c, ChatterGroupId__c FROM PushNotification__c" +
-            " WHERE toUserId__c = '%s' ORDER BY CreatedDate DESC LIMIT 250";
+            " WHERE toUserId__c = '%s' AND FromUserId__c != '%s' ORDER BY CreatedDate DESC LIMIT 250";
 
     private static final String COMPANIES = "SELECT id, name, Number_of_Employees__c, Impact_Hub_Cities__c, Sector_Industry__c," +
             " Logo_Image_Url__c, Banner_Image_Url__c,Affiliated_SDG__c, Twitter__c, Instagram__c, Facebook__c, LinkedIn__c," +
@@ -148,7 +148,7 @@ public class SoqlRequestFactory {
     }
 
     public RestRequest createNotificationsRequest(String userId) throws UnsupportedEncodingException {
-        return mRestRequestFactory.getForQuery(String.format(NOTIFICATIONS, userId));
+        return mRestRequestFactory.getForQuery(String.format(NOTIFICATIONS, userId, userId));
     }
 
     public RestRequest createCompaniesRequest() throws UnsupportedEncodingException {

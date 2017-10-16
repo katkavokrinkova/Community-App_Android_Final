@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -54,6 +55,7 @@ public class ConversationFragment extends BaseChildFragment<ConversationUiPresen
 
     @BindView(R.id.message_items) protected RecyclerView mMessageList;
     @BindView(R.id.message_entry) protected EditText mMessageField;
+    @BindView(R.id.button_send) protected ImageView mSendButton;
 
     private String mConversationID;
     private ConversationListAdapter mAdapter;
@@ -83,6 +85,7 @@ public class ConversationFragment extends BaseChildFragment<ConversationUiPresen
 
     @OnClick(R.id.button_send)
     protected void onSendButtonClicked() {
+        mSendButton.setEnabled(false);
         sendMessage(mMessageField.getText().toString());
     }
 
@@ -141,11 +144,17 @@ public class ConversationFragment extends BaseChildFragment<ConversationUiPresen
 
     @Override
     public void onClearTextField() {
+        mSendButton.setEnabled(true);
         mMessageField.setText(null);
     }
 
     @Override
     public void onDismissConversation() {
         popChildFragment();
+    }
+
+    @Override
+    public void onEnableSendButton() {
+        mSendButton.setEnabled(true);
     }
 }
