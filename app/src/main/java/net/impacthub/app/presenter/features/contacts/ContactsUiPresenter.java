@@ -104,7 +104,7 @@ public class ContactsUiPresenter extends UiPresenter<ContactsUiContract> {
         }catch (Exception e){}
     }
 
-    public void declineContact(String contactId) {
+    public void disconnectContact(String contactId) {
         try{
             JSONObject jsonObject = new JSONObject(new Gson().toJson(new DeclineContactBody(contactId)));
             subscribeWith(new DeleteDMRequest(jsonObject).getUseCase(), new DisposableSingleObserver<Object>() {

@@ -105,7 +105,11 @@ public class ContactsFragment extends BaseChildFragment<ContactsUiPresenter> imp
                         addChildFragment(ConversationFragment.newInstance(conversationVO), "FRAG_MESSAGE_THREAD");
                         break;
                     case R.id.button_decline_contact:
-                        getPresenter().declineContact(memberVO.mDM_ID);
+                        if (memberVO.mRejectable) {
+                            getPresenter().updateContactRequest(memberVO.mDM_ID, memberVO.mUserId, "Declined");
+                        } else {
+                            getPresenter().disconnectContact(memberVO.mDM_ID);
+                        }
                         break;
                     default:
                         addChildFragment(MemberDetailFragment.newInstance(memberVO), "FRAG_MEMBER_DETAIL");
@@ -148,7 +152,7 @@ public class ContactsFragment extends BaseChildFragment<ContactsUiPresenter> imp
             public void onItemClick(int viewId, ContactVO model) {
                 MemberVO member = model.mMember;
                 if (member != null) {
-                    getPresenter().updateContactRequest(model.mMember.mDM_ID, member.mUserId, "Approved");
+                    getPresenter().updateContactRequest(member.mDM_ID, member.mUserId, "Approved");
                 }
             }
         });
