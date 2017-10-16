@@ -30,7 +30,7 @@ public class ProjectRecords {
     private Attributes attributes;
     private Organisation__r Organisation__r;
     private String ImageURL__c;
-    private String CountOfMembers__c;
+    private Integer CountOfMembers__c;
     private String Impact_Hub_Cities__c;
 
     public String getName() {
@@ -77,7 +77,7 @@ public class ProjectRecords {
         return ImageURL__c;
     }
 
-    public String getCountOfMembers__c() {
+    public Integer getCountOfMembers__c() {
         return CountOfMembers__c;
     }
 

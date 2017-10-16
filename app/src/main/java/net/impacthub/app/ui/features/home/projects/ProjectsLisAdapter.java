@@ -70,7 +70,7 @@ public class ProjectsLisAdapter extends BaseListAdapter<ProjectsLisAdapter.Proje
             projectTitle.setText(itemData.mName);
             projectOrganizationName.setText(itemData.mOrganizationName);
             location.setText(itemData.mLocation);
-            memberCount.setText(itemData.mMemberCount);
+            memberCount.setText(String.valueOf(itemData.mMemberCount));
             ImageLoaderHelper.loadImage(context, buildUrl(itemData.mImageURL), projectImage);
         }
 

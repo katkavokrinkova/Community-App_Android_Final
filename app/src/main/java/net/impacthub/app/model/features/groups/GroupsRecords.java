@@ -23,7 +23,7 @@ public class GroupsRecords {
     private String Group_Descr__c;
     private String Directory_Style__c;
     private String Related_Impact_Goal__c;
-    private String CountOfMembers__c;
+    private Integer CountOfMembers__c;
     private String Sector__c;
     private String ChatterGroupId__c;
     private String ChatterGroupType__c;
@@ -48,7 +48,7 @@ public class GroupsRecords {
         return Related_Impact_Goal__c;
     }
 
-    public String getCountOfMembers__c() {
+    public Integer getCountOfMembers__c() {
         return CountOfMembers__c;
     }
 

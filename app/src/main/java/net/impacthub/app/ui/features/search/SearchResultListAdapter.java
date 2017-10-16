@@ -38,9 +38,9 @@ import net.impacthub.app.ui.widgets.CircleImageView;
  * @date 9/6/2017.
  */
 
-public class SearchResultListAdapter extends BaseListAdapter<RecyclerView.ViewHolder, ListItemType> {
+class SearchResultListAdapter extends BaseListAdapter<RecyclerView.ViewHolder, ListItemType> {
 
-    protected SearchResultListAdapter(LayoutInflater inflater) {
+    SearchResultListAdapter(LayoutInflater inflater) {
         super(inflater);
     }
 
@@ -93,7 +93,7 @@ public class SearchResultListAdapter extends BaseListAdapter<RecyclerView.ViewHo
         }
     }
 
-    class EventViewHolder extends RecyclerViewHolder<EventVO> implements View.OnClickListener {
+    private class EventViewHolder extends RecyclerViewHolder<EventVO> implements View.OnClickListener {
 
         final ImageView eventImage;
         final TextView eventTitle;
@@ -129,7 +129,7 @@ public class SearchResultListAdapter extends BaseListAdapter<RecyclerView.ViewHo
         }
     }
 
-    class ProjectViewHolder extends RecyclerViewHolder<ProjectVO> implements View.OnClickListener {
+    private class ProjectViewHolder extends RecyclerViewHolder<ProjectVO> implements View.OnClickListener {
 
         final ImageView projectImage;
         final TextView projectTitle;
@@ -153,7 +153,7 @@ public class SearchResultListAdapter extends BaseListAdapter<RecyclerView.ViewHo
             projectTitle.setText(itemData.mName);
             projectOrganizationName.setText(itemData.mOrganizationName);
             location.setText(itemData.mLocation);
-            memberCount.setText(itemData.mMemberCount);
+            memberCount.setText(String.valueOf(itemData.mMemberCount));
             ImageLoaderHelper.loadImage(context, buildUrl(itemData.mImageURL), projectImage);
         }
 
@@ -165,7 +165,7 @@ public class SearchResultListAdapter extends BaseListAdapter<RecyclerView.ViewHo
         }
     }
 
-    class MemberViewHolder extends RecyclerViewHolder<MemberVO> implements View.OnClickListener {
+    private class MemberViewHolder extends RecyclerViewHolder<MemberVO> implements View.OnClickListener {
 
         final CircleImageView memberImage;
         final TextView name;
@@ -240,7 +240,7 @@ public class SearchResultListAdapter extends BaseListAdapter<RecyclerView.ViewHo
             Context context = groupImage.getContext();
             groupName.setText(itemData.mName);
             location.setText(itemData.mCities);
-            memberCount.setText(itemData.mMemberCount);
+            memberCount.setText(String.valueOf(itemData.mMemberCount));
             ImageLoaderHelper.loadImage(context, buildUrl(itemData.mImageURL), groupImage);
         }
 
@@ -252,7 +252,7 @@ public class SearchResultListAdapter extends BaseListAdapter<RecyclerView.ViewHo
         }
     }
 
-    class CompanyViewHolder extends RecyclerViewHolder<CompanyVO> implements View.OnClickListener {
+    private class CompanyViewHolder extends RecyclerViewHolder<CompanyVO> implements View.OnClickListener {
 
         final ImageView companyBannerLogo;
         final ImageView companyBannerImage;
