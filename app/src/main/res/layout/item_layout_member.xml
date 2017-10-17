@@ -23,6 +23,7 @@
             android:layout_marginBottom="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
+            android:scaleType="centerCrop"
             android:contentDescription="@string/member"
             android:src="@drawable/ic_fp_40px" />
 
