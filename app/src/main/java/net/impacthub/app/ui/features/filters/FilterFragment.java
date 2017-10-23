@@ -77,24 +77,10 @@ public class FilterFragment extends BaseChildFragment<FiltersUiPresenter> implem
         TypefaceTextView doneButton = (TypefaceTextView) rootView.findViewById(R.id.done);
         doneButton.setOnClickListener(mCloseFilterListener);
 
-        List<FilterBarVO> filterBarVOs = new LinkedList<>();
-
-        Map<String, List<String>> filters = getFilterData().getFilters();
-        if (filters != null) {
-            for (Map.Entry<String, List<String>> entry : filters.entrySet()) {
-                String filterName = entry.getKey();
-                FilterBarVO filterBarVO = new FilterBarVO(filterName);
-                filterBarVO.setSelectedFilters(entry.getValue());
-                filterBarVOs.add(filterBarVO);
-                getPresenter().getFiltersByName(filterName);
-            }
-        }
-
         mFilterList.setHasFixedSize(true);
         mFilterList.setLayoutManager(new LinearLayoutManager(getActivity()));
         mFilterAdapter = new FilterAdapter(getLayoutInflater(getArguments()));
 
-        mFilterAdapter.setItems(filterBarVOs);
         mFilterAdapter.setItemClickListener(new OnListItemClickListener<FilterBarVO>() {
             @Override
             public void onItemClick(int viewId, FilterBarVO model) {
@@ -113,7 +99,18 @@ public class FilterFragment extends BaseChildFragment<FiltersUiPresenter> implem
     @Override
     public void onResume() {
         super.onResume();
-        refreshFilterBar();
+
+        mFilterAdapter.clearItems();
+
+        Map<String, List<String>> filters = getFilterData().getFilters();
+        if (filters != null) {
+            for (Map.Entry<String, List<String>> entry : filters.entrySet()) {
+                String filterName = entry.getKey();
+                FilterBarVO filterBarVO = new FilterBarVO(filterName);
+                filterBarVO.setSelectedFilters(entry.getValue());
+                getPresenter().getFiltersByName(filterBarVO);
+            }
+        }
     }
 
     private void refreshFilterBar() {
@@ -141,8 +138,10 @@ public class FilterFragment extends BaseChildFragment<FiltersUiPresenter> implem
     };
 
     @Override
-    public void onLoadFilters(String key, List<FilterVO> filterVOs) {
-        mFiltersMap.put(key, filterVOs);
+    public void onLoadFilters(FilterBarVO filter, List<FilterVO> filterVOs) {
+        String filterName = filter.getFilterName();
+        mFiltersMap.put(filterName, filterVOs);
+        mFilterAdapter.appendItem(filter);
     }
 
     @Override

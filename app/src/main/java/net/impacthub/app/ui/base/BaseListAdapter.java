@@ -79,6 +79,12 @@ public abstract class BaseListAdapter<VH extends RecyclerView.ViewHolder, DTO ex
         notifyItemInserted(mAllItems.size());
     }
 
+    public void clearItems() {
+        mAllItems.clear();
+        mFilteredItems.clear();
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return mFilteredItems.size();
