@@ -30,27 +30,26 @@
 
         <net.impacthub.app.ui.widgets.TypefaceTextView
             android:id="@+id/filter_name"
-            android:layout_width="0dp"
-            android:layout_weight="0.2"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="@string/city"
-            android:textColor="@color/greyish_brown"
             android:textAllCaps="true"
+            android:textColor="@color/greyish_brown"
             android:textSize="12sp"
-            app:typeface="fonts/gt-walsheim-medium-web.ttf" />
+            app:typeface="fonts/gt-walsheim-medium-web.ttf"
+            tools:text="@string/city" />
 
         <net.impacthub.app.ui.widgets.TypefaceTextView
             android:id="@+id/filter_selected"
             android:layout_width="0dp"
-            android:layout_weight="0.8"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:ellipsize="end"
             android:gravity="end"
             android:lines="1"
-            tools:text="@string/all"
             android:textColor="@color/warm_grey_2"
             android:textSize="12sp"
-            app:typeface="fonts/gt-walsheim-light-web.ttf" />
+            app:typeface="fonts/gt-walsheim-light-web.ttf"
+            tools:text="@string/all" />
 
     </LinearLayout>
 
