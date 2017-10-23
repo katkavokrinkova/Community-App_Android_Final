@@ -40,6 +40,7 @@ public class MembersRecords {
     private String AboutMe__c;
     private String Impact_Hub_Cities__c;
     private Hubs__r Hubs__r;
+    private Account Account;
 
     public Hubs__r getHubs__r() {
         return Hubs__r;
@@ -123,6 +124,10 @@ public class MembersRecords {
 
     public String getSector__c() {
         return Sector__c;
+    }
+
+    public Account getAccount() {
+        return Account;
     }
 
     @Override

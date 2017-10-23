@@ -147,6 +147,7 @@
                             android:layout_height="wrap_content"
                             android:textColor="@color/greyish_brown_2"
                             android:textSize="14sp"
+                            android:gravity="center"
                             app:typeface="fonts/gt-walsheim-light-web.ttf"
                             tools:text="Marketing Consultant at Equinox Consultant" />
 

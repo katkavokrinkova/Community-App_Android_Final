@@ -60,7 +60,7 @@ public class MembersListAdapter extends BaseListAdapter<MembersListAdapter.Membe
         protected void bindViewsWith(MemberVO item) {
             Context context = memberImage.getContext();
             name.setText(item.mFullName);
-            profession.setText(item.mProfession);
+            profession.setText(String.format("%s at %s", item.mProfession, item.mCompanyName));
             locations.setText(item.mLocation);
             ImageLoaderHelper.loadImage(context, buildUrl(item.mProfilePicURL), memberImage);
 
