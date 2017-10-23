@@ -38,13 +38,12 @@
             android:layout_height="match_parent">
 
             <net.impacthub.app.ui.widgets.TypefaceEditText
-                android:id="@+id/text_introduction_message"
+                android:id="@+id/text_input_message"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorWhite"
                 android:focusable="true"
                 android:gravity="left|top"
-                android:hint="Please type an introduction message here."
                 android:inputType="textMultiLine|textCapSentences"
                 android:lines="10"
                 android:padding="8dp"

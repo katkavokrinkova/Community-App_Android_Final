@@ -73,6 +73,8 @@ public class NotificationFragment extends BaseChildFragment<NotificationsPresent
                     case TYPE_DM_REQUEST_SENT:
                         getPresenter().getMemberBy(model.mRecipientUserId);
                         break;
+                    case TYPE_COMMENT:
+                        //getPresenter().get
                     default:
                         showToast("Opening notification... needs implementation!");
                 }

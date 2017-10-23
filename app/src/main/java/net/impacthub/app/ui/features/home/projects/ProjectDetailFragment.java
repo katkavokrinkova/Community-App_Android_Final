@@ -11,6 +11,7 @@
 
 package net.impacthub.app.ui.features.home.projects;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -34,6 +35,7 @@ import net.impacthub.app.ui.binder.ViewBinder;
 import net.impacthub.app.ui.common.AppPagerAdapter;
 import net.impacthub.app.ui.common.ImageLoaderHelper;
 import net.impacthub.app.ui.features.home.chatter.ChatterCommentFragment;
+import net.impacthub.app.ui.features.home.chatter.CreatePostActivity;
 import net.impacthub.app.ui.features.home.chatter.binder.ChatterViewBinder;
 import net.impacthub.app.ui.features.home.jobs.JobDetailFragment;
 import net.impacthub.app.ui.features.home.jobs.binders.JobsViewBinder;
@@ -71,6 +73,7 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
     private ViewBinder<List<ListItemType>> mViewBinder2;
     private ViewBinder<List<MemberVO>> mViewBinder3;
     private ViewBinder<List<JobVO>> mViewBinder4;
+    private String mChatterFeedId;
 
     public static ProjectDetailFragment newInstance(ProjectVO projectDTO) {
 
@@ -102,7 +105,7 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
 
         Bundle arguments = getArguments();
         String projectId = arguments.getString(EXTRA_PROJECT_ID);
-        String feedId = arguments.getString(EXTRA_PROJECT_CHATTER_ID);
+        mChatterFeedId = arguments.getString(EXTRA_PROJECT_CHATTER_ID);
         String projectName = arguments.getString(EXTRA_PROJECT_NAME);
         String organizationName = arguments.getString(EXTRA_PROJECT_ORGANIZATION_NAME);
         String projectImageURL = arguments.getString(EXTRA_PROJECT_IMAGE_URL);
@@ -115,7 +118,9 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
                 public boolean onMenuItemClick(MenuItem item) {
                     switch (item.getItemId()) {
                         case R.id.actionCompose:
-                            showToast("Compose clicked");
+                            Intent intent = new Intent(getActivity(), CreatePostActivity.class);
+                            intent.putExtra(CreatePostActivity.EXTRA_GROUP_ID, mChatterFeedId);
+                            startActivity(intent);
                             return true;
                     }
                     return false;
@@ -141,7 +146,8 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
                         addChildFragment(ChatterCommentFragment.newInstance(model.mComments), "FRAG_CHATTER_COMMENTS");
                         break;
                     case R.id.like_bar:
-                        showToast("Liking post");
+                        if(model.mIsLikedByMe) getPresenter().unlikePost(model.mLikeId);
+                        else getPresenter().likePost(model.mCommentId);
                         break;
                 }
             }
@@ -173,7 +179,7 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
 
 //        new TabsDelegate().setUp(mProjectTab, TITLES);
 
-        getPresenter().loadDetails(feedId, projectId);
+        getPresenter().loadDetails(mChatterFeedId, projectId);
     }
 
     @Override

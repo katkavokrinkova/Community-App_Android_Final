@@ -25,6 +25,7 @@
             android:launchMode="singleTop"/>
         <activity android:name=".ui.features.home.members.ConnectMemberActivity" />
         <activity android:name="net.impacthub.app.ui.features.filters.FilterActivity" />
+        <activity android:name=".ui.features.home.chatter.CreatePostActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

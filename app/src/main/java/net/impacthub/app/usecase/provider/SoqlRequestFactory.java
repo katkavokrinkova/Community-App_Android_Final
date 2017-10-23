@@ -25,6 +25,8 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.util.Locale;
 
+import okhttp3.RequestBody;
+
 import static net.impacthub.app.application.salesforce.SalesforceModuleDependency.restRequestFactoryProvider;
 
 public class SoqlRequestFactory {
@@ -163,16 +165,21 @@ public class SoqlRequestFactory {
         return mRestRequestFactory.getForQuery(ALL_GROUPS);
     }
 
+    public RestRequest createGetMyGroupsRequest(String communityId, String userId) {
+        return new RestRequest(RestRequest.RestMethod.GET,
+                getPath(communityId, "users/", userId + "/groups?filterGroup=Medium"));
+    }
+
+    public RestRequest createGoalGroupsRequest(String goalName) throws UnsupportedEncodingException {
+        return mRestRequestFactory.getForQuery(String.format(GOAL_GROUPS, goalName));
+    }
+
     public RestRequest createYourGroupRequest(String contactId) throws UnsupportedEncodingException {
         return mRestRequestFactory.getForQuery(String.format(YOUR_GROUPS, contactId));
     }
 
     public RestRequest createGoalsRequest() throws UnsupportedEncodingException {
         return mRestRequestFactory.getForQuery(GOALS);
-    }
-
-    public RestRequest createGoalGroupsRequest(String goalName) throws UnsupportedEncodingException {
-        return mRestRequestFactory.getForQuery(String.format(GOAL_GROUPS, goalName));
     }
 
     public RestRequest createGoalMembersRequest(String goalName) throws UnsupportedEncodingException {
@@ -258,10 +265,10 @@ public class SoqlRequestFactory {
                 "/services/apexrest/callGlobalSearch/", jsonObject);
     }
 
-    public RestRequest createConversationsRequest_Old(String communityId) {
-        return new RestRequest(RestRequest.RestMethod.GET,
-                getPath(communityId, "users/me/", "conversations?filterGroup=Small"));
-    }
+//    public RestRequest createConversationsRequest_Old(String communityId) {
+//        return new RestRequest(RestRequest.RestMethod.GET,
+//                getPath(communityId, "users/me/", "conversations?filterGroup=Small"));
+//    }
 
     public RestRequest createConversationMessagesRequest(String communityId, String conversationId) {
         return new RestRequest(RestRequest.RestMethod.GET,
@@ -323,9 +330,18 @@ public class SoqlRequestFactory {
                 getPath(communityId, "feeds/record/", feedId + "/feed-elements?filterGroup=Medium"));
     }
 
-    public RestRequest createGetMyGroupsRequest(String communityId, String userId) {
-        return new RestRequest(RestRequest.RestMethod.GET,
-                getPath(communityId, "users/", userId + "/groups?filterGroup=Medium"));
+    public RestRequest createChatterLikePostRequest(String communityId, String commentID) {
+        return new RestRequest(RestRequest.RestMethod.POST,
+                getPath(communityId, "feed-elements/", commentID + "/capabilities/chatter-likes/items?include=/id"), RequestBody.create(null, ""));
+    }
+
+    public RestRequest createChatterUnlikePostRequest(String communityId, String likeID) {
+        return new RestRequest(RestRequest.RestMethod.DELETE, getPath(communityId, "likes/", likeID));
+    }
+
+    public RestRequest createGroupPostRequest(String communityId, JSONObject jsonObject) {
+        return new RestRequest(RestRequest.RestMethod.POST,
+                getPath(communityId, "feed-elements", ""), jsonObject);
     }
 
     @NonNull

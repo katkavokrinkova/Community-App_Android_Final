@@ -13,6 +13,7 @@ package net.impacthub.app.mapper.chatter;
 
 import net.impacthub.app.model.features.chatterfeed.Comment;
 import net.impacthub.app.model.features.chatterfeed.MessageSegment;
+import net.impacthub.app.model.features.chatterfeed.MyLike;
 import net.impacthub.app.model.features.groups.chatter.ChatterResponse;
 import net.impacthub.app.model.features.groups.chatter.Groups;
 import net.impacthub.app.model.vo.chatter.ChatComment;
@@ -54,6 +55,7 @@ public class ChatterMapper {
                         ChatterVO chatterDTO = new ChatterVO();
                         CommentVO commentVO = new CommentVO();
 
+                        chatterDTO.mCommentId = element.getId();
                         chatterDTO.mDate = element.getCreatedDate();
 
                         Actor actor = element.getActor();
@@ -76,6 +78,10 @@ public class ChatterMapper {
                                 LikesPage likesPage = chatterLikes.getLikesPage();
                                 if (likesPage != null) {
                                     chatterDTO.mLikeCount = likesPage.getTotal();
+                                }
+                                MyLike myLike = chatterLikes.getMyLike();
+                                if (myLike != null) {
+                                    chatterDTO.mLikeId = myLike.getId();
                                 }
                                 chatterDTO.mIsLikedByMe = chatterLikes.getIsLikedByCurrentUser();
                             }

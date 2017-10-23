@@ -34,6 +34,8 @@ public class ChatterVO implements Searchable {
     public int mCommentCount;
     public int mLikeCount;
     public boolean mIsLikedByMe;
+    public String mCommentId;
+    public String mLikeId;
 
     @Override
     public boolean isSearchable(String query) {

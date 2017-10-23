@@ -26,6 +26,8 @@ import net.impacthub.app.model.vo.members.MemberVO;
 import net.impacthub.app.presenter.base.UiPresenter;
 import net.impacthub.app.presenter.rx.AbstractBigFunction;
 import net.impacthub.app.presenter.rx.AbstractFunction;
+import net.impacthub.app.usecase.features.chatter.LikePostUseCase;
+import net.impacthub.app.usecase.features.chatter.UnlikePostUseCase;
 import net.impacthub.app.usecase.features.contacts.DMGetContactsUseCase;
 import net.impacthub.app.usecase.features.groups.ChatterFeedUseCase;
 import net.impacthub.app.usecase.features.members.GetMemberByUserIdUseCase;
@@ -155,6 +157,34 @@ public class ProjectDetailUiPresenter extends UiPresenter<ProjectDetailUiContrac
             public void onError(@NonNull Throwable e) {
                 getUi().onError(e);
                 getUi().onShowProgressBar(false);
+            }
+        });
+    }
+
+    public void likePost(String commentID) {
+        subscribeWith(new LikePostUseCase(commentID).getUseCase(), new DisposableSingleObserver<Object>() {
+            @Override
+            public void onSuccess(@NonNull Object o) {
+                getUi().onError(new Throwable(o.toString()));
+            }
+
+            @Override
+            public void onError(@NonNull Throwable e) {
+                getUi().onError(e);
+            }
+        });
+    }
+
+    public void unlikePost(String likeId) {
+        subscribeWith(new UnlikePostUseCase(likeId).getUseCase(), new DisposableSingleObserver<Object>() {
+            @Override
+            public void onSuccess(@NonNull Object o) {
+                getUi().onError(new Throwable(o.toString()));
+            }
+
+            @Override
+            public void onError(@NonNull Throwable e) {
+                getUi().onError(e);
             }
         });
     }

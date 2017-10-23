@@ -29,6 +29,7 @@ public class Element {
     @SerializedName("createdDate")
     @Expose
     private String createdDate;
+    private String id;
 
     public Actor getActor() {
         return actor;
@@ -36,6 +37,10 @@ public class Element {
 
     public Body getBody() {
         return body;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public Capabilities getCapabilities() {
