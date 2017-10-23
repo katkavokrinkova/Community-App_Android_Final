@@ -47,7 +47,6 @@ import net.impacthub.app.ui.features.home.projects.ProjectDetailFragment;
 import net.impacthub.app.ui.features.home.projects.ProjectsLisAdapter;
 import net.impacthub.app.ui.features.home.projects.binders.ProjectsViewBinder;
 import net.impacthub.app.ui.features.messages.conversation.ConversationFragment;
-import net.impacthub.app.ui.modal.ModalActivity;
 
 import java.util.List;
 
@@ -431,9 +430,8 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
     }
 
     private void connectMember() {
-        Intent intent = new Intent(getActivity(), ModalActivity.class);
-        intent.putExtra(ModalActivity.MODAL_TYPE_CONNECT, true);
-        intent.putExtra(ModalActivity.EXTRA_CONTACT_ID, mContactIDValue);
+        Intent intent = new Intent(getActivity(), ConnectMemberActivity.class);
+        intent.putExtra(ConnectMemberActivity.EXTRA_CONTACT_CONNECT_ID, mContactIDValue);
         startActivityForResult(intent, 1122);
     }
 }

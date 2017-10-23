@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2017 Lightful. All Rights Reserved.
+  ~
+  ~ Save to the extent permitted by law, you may not use, copy, modify,
+  ~ distribute or create derivative works of this material or any part
+  ~ of it without the prior written consent of Lightful.
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar_layout" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="@dimen/default_fab_icon_size"
+            android:layout_height="@dimen/default_fab_icon_size"
+            android:layout_gravity="bottom|right"
+            android:layout_margin="@dimen/default_fab_margin"
+            android:src="@mipmap/ic_send_black_24dp"
+            android:tint="@color/colorWhite"
+            app:backgroundTint="@color/colorPrimary"
+            app:borderWidth="0dp"
+            app:fabSize="normal" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <net.impacthub.app.ui.widgets.TypefaceEditText
+                android:id="@+id/text_introduction_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:focusable="true"
+                android:gravity="left|top"
+                android:hint="Please type an introduction message here."
+                android:inputType="textMultiLine|textCapSentences"
+                android:lines="10"
+                android:padding="8dp"
+                android:scrollbarAlwaysDrawVerticalTrack="true"
+                android:textColor="@color/brownish_grey"
+                app:typeface="fonts/gt-walsheim-light-web.ttf" />
+
+        </ScrollView>
+
+        <include layout="@layout/layout_top_shadow" />
+    </FrameLayout>
+</LinearLayout>

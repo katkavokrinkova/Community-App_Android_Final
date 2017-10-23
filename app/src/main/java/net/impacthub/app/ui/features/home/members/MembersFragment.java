@@ -25,7 +25,6 @@ import net.impacthub.app.ui.common.LinearItemsMarginDecorator;
 import net.impacthub.app.ui.common.UIRefreshManager;
 import net.impacthub.app.ui.features.filters.FilterActivity;
 import net.impacthub.app.ui.features.messages.conversation.ConversationFragment;
-import net.impacthub.app.ui.modal.ModalActivity;
 import net.impacthub.app.ui.widgets.UISearchView;
 import net.impacthub.app.utilities.ViewUtils;
 
@@ -160,9 +159,8 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
                 MemberStatusType statusType = MemberStatusType.fromStatus(member.mMemberStatus);
                 switch (statusType) {
                     case NOT_CONTACTED:
-                        Intent intent = new Intent(getActivity(), ModalActivity.class);
-                        intent.putExtra(ModalActivity.MODAL_TYPE_CONNECT, true);
-                        intent.putExtra(ModalActivity.EXTRA_CONTACT_ID, member.mContactId);
+                        Intent intent = new Intent(getActivity(), ConnectMemberActivity.class);
+                        intent.putExtra(ConnectMemberActivity.EXTRA_CONTACT_CONNECT_ID, member.mContactId);
                         startActivityForResult(intent, 1122);
                         break;
                     case APPROVED:

@@ -67,10 +67,10 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
     @BindView(R.id.tabs) protected TabLayout mProjectTab;
     @BindView(R.id.pager) protected ViewPager mProjectPages;
 
+    private ViewBinder<List<ChatterVO>> mViewBinder1;
     private ViewBinder<List<ListItemType>> mViewBinder2;
     private ViewBinder<List<MemberVO>> mViewBinder3;
     private ViewBinder<List<JobVO>> mViewBinder4;
-    private ViewBinder<List<ChatterVO>> mViewBinder1;
 
     public static ProjectDetailFragment newInstance(ProjectVO projectDTO) {
 
@@ -140,7 +140,7 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
                     case R.id.comment_indicator:
                         addChildFragment(ChatterCommentFragment.newInstance(model.mComments), "FRAG_CHATTER_COMMENTS");
                         break;
-                    case R.id.like_indicator:
+                    case R.id.like_bar:
                         showToast("Liking post");
                         break;
                 }

@@ -50,6 +50,7 @@ public class ChatterFeedListAdapter extends BaseListAdapter<ChatterFeedListAdapt
     class ChatterFeedViewHolder extends RecyclerViewHolder<ChatterVO> implements View.OnClickListener {
 
         final ImageView memberImage;
+        final View likeBar;
         final ImageView likeIndicatorImage;
         final ImageView commentIndicatorImage;
         final TextView displayName;
@@ -61,6 +62,7 @@ public class ChatterFeedListAdapter extends BaseListAdapter<ChatterFeedListAdapt
         ChatterFeedViewHolder(View itemView) {
             super(itemView);
             memberImage = (ImageView) itemView.findViewById(R.id.member_image);
+            likeBar = itemView.findViewById(R.id.like_bar);
             likeIndicatorImage = (ImageView) itemView.findViewById(R.id.like_indicator);
             commentIndicatorImage = (ImageView) itemView.findViewById(R.id.comment_indicator);
             displayName = (TextView) itemView.findViewById(R.id.name);
@@ -71,6 +73,7 @@ public class ChatterFeedListAdapter extends BaseListAdapter<ChatterFeedListAdapt
             memberImage.setOnClickListener(this);
             likeIndicatorImage.setOnClickListener(this);
             commentIndicatorImage.setOnClickListener(this);
+            likeBar.setOnClickListener(this);
         }
 
         @Override

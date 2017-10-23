@@ -23,8 +23,8 @@
 
         <activity android:name="net.impacthub.app.ui.controllers.MainTabsActivity"
             android:launchMode="singleTop"/>
+        <activity android:name=".ui.features.home.members.ConnectMemberActivity" />
         <activity android:name="net.impacthub.app.ui.features.filters.FilterActivity" />
-        <activity android:name="net.impacthub.app.ui.modal.ModalActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
