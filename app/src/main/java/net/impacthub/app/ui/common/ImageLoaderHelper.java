@@ -13,17 +13,24 @@ package net.impacthub.app.ui.common;
 
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 public class ImageLoaderHelper {
 
     private static final String TAG = ImageLoaderHelper.class.getSimpleName();
 
-    public static void loadImage(Context context, Object url, ImageView iv) {
+    public static void loadImage(Context context, int url, ImageView iv) {
+        Picasso.with(context.getApplicationContext()).load(url).into(iv);
+    }
+
+    public static void loadImage(Context context, String url, ImageView iv) {
         if (url != null) {
-            Glide.with(context.getApplicationContext()).load(url).into(iv);
+            Picasso.with(context.getApplicationContext()).load(url).into(iv);
         }
 //        if (url != null && !url.isEmpty()) {
 //            Picasso picasso = new Picasso.Builder(context)
@@ -37,9 +44,29 @@ public class ImageLoaderHelper {
 //        }
     }
 
-//    public static void loadImage(Context context, @DrawableRes int resId, ImageView iv) {
-//        if (resId != 0) {
-//            Picasso.with(context).load(resId).into(iv);
-//        }
-//    }
+    public static void getImageAsBitmap(Context context, String url, final ImageFetchListener listener) {
+        Picasso.with(context.getApplicationContext()).load(url).into(new Target() {
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                if (listener != null) {
+                    listener.onImageReady(bitmap);
+                }
+            }
+
+            @Override
+            public void onBitmapFailed(Drawable errorDrawable) {
+
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+            }
+        });
+    }
+
+    public interface ImageFetchListener {
+
+        void onImageReady(Bitmap bitmap);
+    }
 }

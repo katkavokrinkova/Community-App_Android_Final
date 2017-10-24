@@ -19,10 +19,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
-
 import net.impacthub.app.R;
 import net.impacthub.app.model.vo.contacts.ContactVO;
 import net.impacthub.app.model.vo.members.MemberVO;
@@ -127,11 +123,11 @@ public class ViewMoreContactFragment extends BaseChildFragment<ViewMoreForContac
 
         String profilePictureURL = buildUrl(mProfilePicURL);
         ImageLoaderHelper.loadImage(getContext(), profilePictureURL, mContactImage);
-        Glide.with(getContext().getApplicationContext()).asBitmap().load(profilePictureURL).into(new SimpleTarget<Bitmap>() {
+        ImageLoaderHelper.getImageAsBitmap(getContext(), profilePictureURL, new ImageLoaderHelper.ImageFetchListener() {
             @Override
-            public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+            public void onImageReady(Bitmap bitmap) {
                 if (mToolbar != null) {
-                    RoundedDrawable roundedDrawable = new RoundedDrawable(resource);
+                    RoundedDrawable roundedDrawable = new RoundedDrawable(bitmap);
                     roundedDrawable.setOval(true);
                     int thumbnailSize = getResources().getDimensionPixelOffset(R.dimen.toolbar_thumbnail_size);
                     Drawable drawable = DrawableUtils.resize(getResources(), roundedDrawable.toBitmap(), thumbnailSize, thumbnailSize);
