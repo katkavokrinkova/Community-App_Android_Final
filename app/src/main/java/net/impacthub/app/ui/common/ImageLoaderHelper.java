@@ -25,7 +25,9 @@ public class ImageLoaderHelper {
     private static final String TAG = ImageLoaderHelper.class.getSimpleName();
 
     public static void loadImage(Context context, int url, ImageView iv) {
-        Picasso.with(context.getApplicationContext()).load(url).into(iv);
+        if (url != 0) {
+            Picasso.with(context.getApplicationContext()).load(url).into(iv);
+        }
     }
 
     public static void loadImage(Context context, String url, ImageView iv) {
