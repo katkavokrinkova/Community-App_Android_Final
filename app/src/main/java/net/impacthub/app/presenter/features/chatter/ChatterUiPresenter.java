@@ -11,6 +11,8 @@
 
 package net.impacthub.app.presenter.features.chatter;
 
+import android.text.TextUtils;
+
 import net.impacthub.app.model.features.chatter.GroupPostPayload;
 import net.impacthub.app.model.features.chatter.MessageSegment;
 import net.impacthub.app.model.features.chatter.PostBody;
@@ -34,17 +36,26 @@ public class ChatterUiPresenter extends UiPresenter<ChatterUiContract> {
 
     public void createPost(String message, String groupID) {
 
+        getUi().onShowProgressBar(true);
+        if (TextUtils.isEmpty(message)) {
+            getUi().onError(new Throwable("Message to be posted should not be empty."));
+            getUi().onShowProgressBar(false);
+            return;
+        }
+
         PostBody postBody = new PostBody(new MessageSegment[]{new MessageSegment("Text", message)});
         GroupPostPayload postPayload = new GroupPostPayload(postBody, "FeedItem", groupID);
         subscribeWith(new CreatePostUseCase(postPayload).getUseCase(), new DisposableSingleObserver<Object>() {
             @Override
             public void onSuccess(@NonNull Object o) {
-                getUi().onError(new Throwable(o.toString()));
+                getUi().onShowProgressBar(false);
+                getUi().onDismissModal();
             }
 
             @Override
             public void onError(@NonNull Throwable e) {
                 getUi().onError(e);
+                getUi().onShowProgressBar(false);
             }
         });
 
