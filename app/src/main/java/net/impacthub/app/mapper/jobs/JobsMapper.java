@@ -58,6 +58,7 @@ public class JobsMapper {
         job.mDescription = record.getDescription__c();
         job.mSalary = record.getSalary__c();
         job.mSector = record.getSector__c();
+        job.mJobApplicationURL = record.getJob_Application_URL__c();
 
         Contact__r contact__r = record.getContact__r();
         if (contact__r != null) {

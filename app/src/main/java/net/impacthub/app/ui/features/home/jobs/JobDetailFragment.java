@@ -48,6 +48,7 @@ public class JobDetailFragment extends BaseChildFragment<JobsDetailUiPresenter> 
 
     public static final String EXTRA_JOB_ID = "net.impacthub.members.ui.features.home.jobs.EXTRA_JOB_ID";
     public static final String EXTRA_JOB_NAME = "net.impacthub.members.ui.features.home.jobs.EXTRA_JOB_NAME";
+    public static final String EXTRA_JOB_APPLICATION_URL = "net.impacthub.members.ui.features.home.jobs.EXTRA_JOB_APPLICATION_URL";
     public static final String EXTRA_JOB_IMAGE_URL = "net.impacthub.members.ui.features.home.jobs.EXTRA_JOB_IMAGE_URL";
     public static final String EXTRA_JOB_LOCATION = "net.impacthub.members.ui.features.home.jobs.EXTRA_JOB_LOCATION";
     public static final String EXTRA_JOB_MEMBER_COUNT = "net.impacthub.members.ui.features.home.jobs.EXTRA_JOB_MEMBER_COUNT";
@@ -69,6 +70,7 @@ public class JobDetailFragment extends BaseChildFragment<JobsDetailUiPresenter> 
 
         args.putString(EXTRA_JOB_ID, jobDTO.mJobId);
         args.putString(EXTRA_JOB_NAME, jobDTO.mName);
+        args.putString(EXTRA_JOB_APPLICATION_URL, jobDTO.mJobApplicationURL);
         args.putString(EXTRA_JOB_IMAGE_URL, jobDTO.mBannerImageURL);
         args.putString(EXTRA_JOB_LOCATION, jobDTO.mLocation);
         args.putString(EXTRA_JOB_MEMBER_COUNT, jobDTO.mMemberCount);
@@ -107,6 +109,7 @@ public class JobDetailFragment extends BaseChildFragment<JobsDetailUiPresenter> 
         String jobId = arguments.getString(EXTRA_JOB_ID);
         String jobName = arguments.getString(EXTRA_JOB_NAME);
         String jobImage = arguments.getString(EXTRA_JOB_IMAGE_URL);
+        String jobApplicationURL = arguments.getString(EXTRA_JOB_APPLICATION_URL);
 
         String jobLocation = arguments.getString(EXTRA_JOB_LOCATION);
         String jobAccountId = arguments.getString(EXTRA_JOB_ACCOUNT_ID);
@@ -144,7 +147,7 @@ public class JobDetailFragment extends BaseChildFragment<JobsDetailUiPresenter> 
         mJobDetailList.setHasFixedSize(true);
         mJobDetailList.setAdapter(mAdapter);
 
-        ImageLoaderHelper.loadImage(getContext(), buildUrl(jobImage), mImageDetail);
+        ImageLoaderHelper.loadImage(getContext(), buildUrl(jobApplicationURL), mImageDetail);
 
         getPresenter().getProjects(jobId, jobLocation, jobAccountId, jobCompanyC);
     }

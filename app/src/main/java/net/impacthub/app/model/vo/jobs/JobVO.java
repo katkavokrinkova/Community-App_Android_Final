@@ -31,6 +31,7 @@ public class JobVO implements Searchable {
     public String mJobType;
     public String mLocation;
     public String mCompanyName;
+    public String mJobApplicationURL;
     public String mLogoURL;
     public String mDescription;
     public String mSalary;
