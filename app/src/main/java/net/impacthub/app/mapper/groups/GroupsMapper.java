@@ -15,6 +15,7 @@ import net.impacthub.app.mapper.chatter.ChatterMapper;
 import net.impacthub.app.model.features.groups.GroupsResponse;
 import net.impacthub.app.model.features.groups.GroupsRecords;
 import net.impacthub.app.model.features.groups.chatter.ChatterResponse;
+import net.impacthub.app.model.features.projects.ProjectRecords;
 import net.impacthub.app.model.pojo.ListItemType;
 import net.impacthub.app.model.pojo.SimpleItem;
 import net.impacthub.app.model.vo.groups.GroupVO;
@@ -88,5 +89,17 @@ public class GroupsMapper {
                 }
             }
         }
+    }
+
+    public GroupVO mapAsGroup(ProjectRecords record) {
+        GroupVO group = new GroupVO();
+        group.mImageURL = record.getImageURL__c();
+        group.mName = record.getName();
+        group.mGroupDescription = record.getGroup_Desc__c();
+        group.mCities = record.getImpact_Hub_Cities__c();
+        group.mMemberCount = record.getCountOfMembers__c();
+        group.mChatterGroupId = record.getChatterGroupId__c();
+        group.mSector = record.getSector__c();
+        return group;
     }
 }

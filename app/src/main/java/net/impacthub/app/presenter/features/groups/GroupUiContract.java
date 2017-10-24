@@ -27,6 +27,8 @@ public interface GroupUiContract extends ErrorHandlerUiContract {
 
     void onLoadAllGroups(List<GroupVO> groupList);
 
+    void onLoadGroupsYouManage(List<GroupVO> groupVOs);
+
     void onLoadYourGroups(List<GroupVO> groupList);
 
     void onShowTick(Map<String, List<String>> filters);

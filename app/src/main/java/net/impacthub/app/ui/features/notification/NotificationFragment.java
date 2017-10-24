@@ -7,12 +7,16 @@ import android.view.View;
 import net.impacthub.app.R;
 import net.impacthub.app.model.callback.OnListItemClickListener;
 import net.impacthub.app.model.vo.conversations.ConversationVO;
+import net.impacthub.app.model.vo.groups.GroupVO;
 import net.impacthub.app.model.vo.members.MemberVO;
 import net.impacthub.app.model.vo.notifications.NotificationVO;
+import net.impacthub.app.model.vo.projects.ProjectVO;
 import net.impacthub.app.presenter.features.notifcations.NotificationsPresenter;
 import net.impacthub.app.presenter.features.notifcations.NotificationsUiContract;
 import net.impacthub.app.ui.base.BaseChildFragment;
+import net.impacthub.app.ui.features.home.groups.GroupDetailFragment;
 import net.impacthub.app.ui.features.home.members.MemberDetailFragment;
+import net.impacthub.app.ui.features.home.projects.ProjectDetailFragment;
 import net.impacthub.app.ui.features.messages.conversation.ConversationFragment;
 
 import java.util.List;
@@ -74,9 +78,13 @@ public class NotificationFragment extends BaseChildFragment<NotificationsPresent
                         getPresenter().getMemberBy(model.mRecipientUserId);
                         break;
                     case TYPE_COMMENT:
-                        //getPresenter().get
+                    case TYPE_LIKE_COMMENT:
+                    case TYPE_LIKE_POST:
+                    case TYPE_POST_MENTION:
+                        getPresenter().getGroupOrProjectBy(model.mChatterGroupId);
+                        break;
                     default:
-                        showToast("Opening notification... needs implementation!");
+                        showToast("Can't Open notification!");
                 }
             }
         });
@@ -99,5 +107,15 @@ public class NotificationFragment extends BaseChildFragment<NotificationsPresent
     @Override
     public void onLoadMember(MemberVO memberVO) {
         addChildFragment(MemberDetailFragment.newInstance(memberVO), "FRAG_MEMBER_DETAIL");
+    }
+
+    @Override
+    public void onLoadGroup(GroupVO groupVO) {
+        addChildFragment(GroupDetailFragment.newInstance(groupVO), "FRAG_GROUP_DETAIL");
+    }
+
+    @Override
+    public void onLoadProject(ProjectVO projectVO) {
+        addChildFragment(ProjectDetailFragment.newInstance(projectVO), "FRAG_PROJECT_DETAIL");
     }
 }

@@ -156,6 +156,11 @@ public class GroupsFragment extends BaseChildFragment<GroupPresenter> implements
     }
 
     @Override
+    public void onLoadGroupsYouManage(List<GroupVO> groupVOs) {
+        mViewBinder2.bindView(groupVOs);
+    }
+
+    @Override
     public void onLoadYourGroups(List<GroupVO> groupList) {
         mViewBinder3.bindView(groupList);
     }

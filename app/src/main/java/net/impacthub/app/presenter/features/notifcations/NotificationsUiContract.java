@@ -11,8 +11,10 @@
 
 package net.impacthub.app.presenter.features.notifcations;
 
+import net.impacthub.app.model.vo.groups.GroupVO;
 import net.impacthub.app.model.vo.members.MemberVO;
 import net.impacthub.app.model.vo.notifications.NotificationVO;
+import net.impacthub.app.model.vo.projects.ProjectVO;
 import net.impacthub.app.presenter.features.error.ErrorHandlerUiContract;
 
 import java.util.List;
@@ -28,4 +30,8 @@ public interface NotificationsUiContract extends ErrorHandlerUiContract {
     void onLoadNotifications(List<NotificationVO> notificationDTOList);
 
     void onLoadMember(MemberVO memberVO);
+
+    void onLoadGroup(GroupVO groupVO);
+
+    void onLoadProject(ProjectVO projectVO);
 }

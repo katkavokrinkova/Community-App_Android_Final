@@ -37,6 +37,8 @@ public class SoqlRequestFactory {
             "Account.Name, User__c,Skills__c, AboutMe__c,Status_Update__c,Directory_Summary__c, Interested_SDG__c," +
             "How_Do_You_Most_Identify_with_Your_Curre__c,Twitter__c,Instagram__c,Facebook__c,Linked_In__c, (select Hub_Name__c from contact.Hubs__r) ";
 
+    private static final String  GROUP_PROJECT = "id, name, CountOfMembers__c, ImageURL__c, Group_Descr__c, Impact_Hub_Cities__c, ChatterGroupId__c, Directory_Style__c,Sector__c, CreatedById, Related_Impact_Goal__c, Organisation__r.id, Organisation__r.Number_of_Employees__c, Organisation__r.Impact_Hub_Cities__c, Organisation__r.name,ChatterGroupType__c";
+
     private static final String PROFILE = "SELECT " + CONTACT + " FROM Contact WHERE User__c = '%s'";
     private static final String ALL_MEMBERS_PROFILE = "SELECT " + CONTACT + " FROM Contact where User__c != null and User__r.isactive = true";
 
@@ -77,12 +79,14 @@ public class SoqlRequestFactory {
     private static final String COMPANY_SERVICE_COLUMNS = "id, name, Service_Description__c FROM Company_Service__c";
     private static final String COMPANY_SERVICES = "SELECT " + COMPANY_SERVICE_COLUMNS + "  WHERE Company__r.id ='%s'";
 
-    private static final String GROUP = "id, name, CountOfMembers__c, ImageURL__c, Group_Descr__c,Related_Impact_Goal__c, Impact_Hub_Cities__c, ChatterGroupType__c, ChatterGroupId__c, Directory_Style__c,Sector__c";
+    private static final String GROUP = "id, CreatedById, name, CountOfMembers__c, ImageURL__c, Group_Descr__c,Related_Impact_Goal__c, Impact_Hub_Cities__c, ChatterGroupType__c, ChatterGroupId__c, Directory_Style__c,Sector__c";
     private static final String ALL_GROUPS = "SELECT "+ GROUP + " FROM Directory__c WHERE Directory_Style__c = 'Group'";
+    private static final String GROUPS_YOU_MANAGE = "SELECT "+ GROUP + " FROM Directory__c WHERE Directory_Style__c = 'Group' AND id IN (SELECT DirectoryID__c FROM Directory_Member__c WHERE Member_Role__c = 'Manager' AND ContactID__c ='%s')";
     private static final String YOUR_GROUPS = "SELECT "+ GROUP + " FROM Directory__c " +
             "WHERE Directory_Style__c = 'Group' AND id IN (SELECT DirectoryID__c FROM Directory_Member__c WHERE ContactID__c ='%s')";
     private static final String GOAL_GROUPS = ALL_GROUPS + " AND Related_Impact_Goal__c LIKE '%s'";
     private static final String GOAL_MEMBERS = "SELECT " + CONTACT + " FROM Contact WHERE Interested_SDG__c INCLUDES ('%s')";
+    private static final String CHATTER_GROUP_OR_PROJECT = "SELECT " + GROUP_PROJECT + " FROM Directory__c WHERE ChatterGroupId__c ='%s' AND isMakerSpecific__c = false";
 
     private static final String GOALS = "select id, name,  Active__c, ImageURL__c, Summary__c, Description__c from Taxonomy__c where Grouping__c ='SDG'";
 
@@ -100,7 +104,7 @@ public class SoqlRequestFactory {
     private static final String EVENTS_YOU_MANAGE = "SELECT " + EVENTS_COLUMNS + " where Organiser__c = '%s' and Event_End_DateTime__c >= %s ORDER BY Event_Start_DateTime__c ASC";
     private static final String YOUR_EVENTS = "SELECT " + EVENTS_COLUMNS + " where id in (SELECT Event__c FROM Event_Attendance__c where Registered__c = true and Contact__c = '%s') and Event_End_DateTime__c >= %s ORDER BY Event_Start_DateTime__c ASC";
 
-    private static final String PROJECT = "id,CreatedById, name,Related_Impact_Goal__c,ChatterGroupId__c ,Group_Descr__c, ImageURL__c, CountOfMembers__c, Impact_Hub_Cities__c, Directory_Style__c,Sector__c, Organisation__r.id, Organisation__r.Number_of_Employees__c, Organisation__r.Impact_Hub_Cities__c, Organisation__r.name";
+    private static final String PROJECT = "id,CreatedById, ChatterGroupType__c, name,Related_Impact_Goal__c,ChatterGroupId__c ,Group_Descr__c, ImageURL__c, CountOfMembers__c, Impact_Hub_Cities__c, Directory_Style__c,Sector__c, Organisation__r.id, Organisation__r.Number_of_Employees__c, Organisation__r.Impact_Hub_Cities__c, Organisation__r.name";
 
     private static final String ALL_PROJECTS = "SELECT " + PROJECT + " FROM Directory__c WHERE Directory_Style__c = 'Project'";
     private static final String PROJECTS_YOU_MANAGE = "SELECT " + PROJECT + " FROM Directory__c WHERE Directory_Style__c = 'Project'";
@@ -166,6 +170,14 @@ public class SoqlRequestFactory {
         return mRestRequestFactory.getForQuery(ALL_GROUPS);
     }
 
+    public RestRequest createGroupYouManageRequest(String contactId) throws UnsupportedEncodingException {
+        return mRestRequestFactory.getForQuery(String.format(GROUPS_YOU_MANAGE, contactId));
+    }
+
+    public RestRequest createYourGroupRequest(String contactId) throws UnsupportedEncodingException {
+        return mRestRequestFactory.getForQuery(String.format(YOUR_GROUPS, contactId));
+    }
+
     public RestRequest createGetMyGroupsRequest(String communityId, String userId) {
         return new RestRequest(RestRequest.RestMethod.GET,
                 getPath(communityId, "users/", userId + "/groups?filterGroup=Medium"));
@@ -175,8 +187,8 @@ public class SoqlRequestFactory {
         return mRestRequestFactory.getForQuery(String.format(GOAL_GROUPS, goalName));
     }
 
-    public RestRequest createYourGroupRequest(String contactId) throws UnsupportedEncodingException {
-        return mRestRequestFactory.getForQuery(String.format(YOUR_GROUPS, contactId));
+    public RestRequest createGroupOrProjectRequest(String chatterGroupId) throws UnsupportedEncodingException {
+        return mRestRequestFactory.getForQuery(String.format(CHATTER_GROUP_OR_PROJECT, chatterGroupId));
     }
 
     public RestRequest createGoalsRequest() throws UnsupportedEncodingException {
