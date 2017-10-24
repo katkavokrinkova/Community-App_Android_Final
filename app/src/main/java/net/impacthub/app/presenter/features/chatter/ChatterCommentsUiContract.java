@@ -11,6 +11,7 @@
 
 package net.impacthub.app.presenter.features.chatter;
 
+import net.impacthub.app.model.vo.members.MemberVO;
 import net.impacthub.app.presenter.features.error.ErrorHandlerUiContract;
 
 /**
@@ -20,4 +21,6 @@ import net.impacthub.app.presenter.features.error.ErrorHandlerUiContract;
  */
 
 public interface ChatterCommentsUiContract extends ErrorHandlerUiContract {
+
+    void onLoadMember(MemberVO memberVO);
 }

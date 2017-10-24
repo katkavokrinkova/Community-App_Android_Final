@@ -18,12 +18,15 @@ import android.view.View;
 import android.widget.EditText;
 
 import net.impacthub.app.R;
+import net.impacthub.app.model.callback.OnListItemClickListener;
 import net.impacthub.app.model.vo.chatter.ChatComment;
 import net.impacthub.app.model.vo.chatter.ChatterVO;
+import net.impacthub.app.model.vo.members.MemberVO;
 import net.impacthub.app.presenter.features.chatter.ChatterCommentsUiContract;
 import net.impacthub.app.presenter.features.chatter.ChatterCommentsUiPresenter;
 import net.impacthub.app.ui.base.BaseChildFragment;
 import net.impacthub.app.ui.common.LinearItemsMarginDecorator;
+import net.impacthub.app.ui.features.home.members.MemberDetailFragment;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -87,6 +90,17 @@ public class ChatterCommentFragment extends BaseChildFragment<ChatterCommentsUiP
         mCommentList.addItemDecoration(new LinearItemsMarginDecorator(getResources().getDimensionPixelOffset(R.dimen.default_content_normal_gap)));
         ChatterCommentListAdapter listAdapter = new ChatterCommentListAdapter(LayoutInflater.from(getContext()));
         listAdapter.setItems(comments);
+        listAdapter.setItemClickListener(new OnListItemClickListener<ChatComment>() {
+            @Override
+            public void onItemClick(int viewId, ChatComment model) {
+                getPresenter().getMemberBy(model.mUserId);
+            }
+        });
         mCommentList.setAdapter(listAdapter);
+    }
+
+    @Override
+    public void onLoadMember(MemberVO memberVO) {
+        addChildFragment(MemberDetailFragment.newInstance(memberVO), "FRAG_MEMBER_DETAIL");
     }
 }
