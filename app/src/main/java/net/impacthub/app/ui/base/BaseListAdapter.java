@@ -90,7 +90,7 @@ public abstract class BaseListAdapter<VH extends RecyclerView.ViewHolder, DTO ex
         return mFilteredItems.size();
     }
 
-    protected DTO getItem(int index) {
+    public DTO getItem(int index) {
         return mFilteredItems.get(index);
     }
 

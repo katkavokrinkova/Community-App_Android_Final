@@ -13,7 +13,6 @@ import net.impacthub.app.model.vo.members.MemberVO;
 import net.impacthub.app.ui.base.BaseListAdapter;
 import net.impacthub.app.ui.common.ImageLoaderHelper;
 import net.impacthub.app.ui.common.RecyclerViewHolder;
-import net.impacthub.app.ui.widgets.CircleImageView;
 
 /**
  * @author Filippo Ash
@@ -83,7 +82,8 @@ public class MembersListAdapter extends BaseListAdapter<MembersListAdapter.Membe
         @Override
         public void onClick(View v) {
             if (mItemClickListener != null) {
-                mItemClickListener.onItemClick(v.getId(), getItem(getAdapterPosition()));
+                int position = getAdapterPosition();
+                mItemClickListener.onItemClick(v.getId(), getItem(position), position);
             }
         }
     }

@@ -188,7 +188,7 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
         ProjectsLisAdapter lisAdapter = new ProjectsLisAdapter(layoutInflater);
         lisAdapter.setItemClickListener(new OnListItemClickListener<ProjectVO>() {
             @Override
-            public void onItemClick(int viewId, ProjectVO model) {
+            public void onItemClick(int viewId, ProjectVO model, int position) {
                 addChildFragment(ProjectDetailFragment.newInstance(model), "FRAG_PROJECT_DETAIL");
             }
         });
@@ -198,7 +198,7 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
         GroupsListAdapter groupsListAdapter = new GroupsListAdapter(layoutInflater);
         groupsListAdapter.setItemClickListener(new OnListItemClickListener<GroupVO>() {
             @Override
-            public void onItemClick(int viewId, GroupVO model) {
+            public void onItemClick(int viewId, GroupVO model, int position) {
                 addChildFragment(GroupDetailFragment.newInstance(model), "FRAG_GROUP_DETAIL");
             }
         });

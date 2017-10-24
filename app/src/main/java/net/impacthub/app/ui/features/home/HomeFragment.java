@@ -70,7 +70,7 @@ public class HomeFragment extends BaseChildFragment implements OnListItemClickLi
     }
 
     @Override
-    public void onItemClick(int viewId, HomeMenuItem model) {
+    public void onItemClick(int viewId, HomeMenuItem model, int position) {
         switch (model.getPosition()) {
             case 0:
                 addChildFragment(MembersFragment.newInstance(), "FRAG_MEMBERS");

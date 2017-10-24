@@ -78,7 +78,7 @@ public class FilterListFragment extends BaseChildFragment {
         mAdapter = new FiltersListAdapter(getLayoutInflater(getArguments()));
         mAdapter.setItemClickListener(new OnListItemClickListener<FilterVO>() {
             @Override
-            public void onItemClick(int viewId, FilterVO model) {
+            public void onItemClick(int viewId, FilterVO model, int position) {
                 List<String> filters = getFilterData().getFilters().get(mFilterName);
                 if (filters != null) {
                     String name = model.getName();

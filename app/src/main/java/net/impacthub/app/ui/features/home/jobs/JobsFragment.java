@@ -123,7 +123,7 @@ public class JobsFragment extends BaseChildFragment<JobsUiPresenter> implements 
     }
 
     @Override
-    public void onItemClick(int viewId, JobVO model) {
+    public void onItemClick(int viewId, JobVO model, int position) {
         addChildFragment(JobDetailFragment.newInstance(model), "FRAG_JOB_DETAIL");
     }
 

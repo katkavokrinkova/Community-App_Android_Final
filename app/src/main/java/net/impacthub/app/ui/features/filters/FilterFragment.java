@@ -83,7 +83,7 @@ public class FilterFragment extends BaseChildFragment<FiltersUiPresenter> implem
 
         mFilterAdapter.setItemClickListener(new OnListItemClickListener<FilterBarVO>() {
             @Override
-            public void onItemClick(int viewId, FilterBarVO model) {
+            public void onItemClick(int viewId, FilterBarVO model, int position) {
                 String filterName = model.getFilterName();
                 List<FilterVO> filterVOs = mFiltersMap.get(filterName);
                 List<String> selectedFilters = getFilterData().getFilters().get(filterName);

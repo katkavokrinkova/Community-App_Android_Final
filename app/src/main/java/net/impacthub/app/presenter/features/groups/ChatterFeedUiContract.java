@@ -12,6 +12,7 @@
 package net.impacthub.app.presenter.features.groups;
 
 import net.impacthub.app.model.vo.chatter.ChatterVO;
+import net.impacthub.app.model.vo.members.MemberVO;
 import net.impacthub.app.presenter.features.error.ErrorHandlerUiContract;
 
 import java.util.List;
@@ -19,4 +20,10 @@ import java.util.List;
 public interface ChatterFeedUiContract extends ErrorHandlerUiContract {
 
     void onLoadChatterFeed(List<ChatterVO> chatterDTOs);
+
+    void onLoadMember(MemberVO memberVO);
+
+    void onPostLiked(Integer position);
+
+    void onPostUnLiked(Integer subject);
 }

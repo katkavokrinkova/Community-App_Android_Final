@@ -64,10 +64,11 @@ class FiltersListAdapter extends BaseListAdapter<FiltersListAdapter.FilterViewHo
             filterCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
-                    FilterVO filter = getItem(getAdapterPosition());
+                    int position = getAdapterPosition();
+                    FilterVO filter = getItem(position);
                     filter.setSelected(checked);
                     if (mItemClickListener != null) {
-                        mItemClickListener.onItemClick(-1, filter);
+                        mItemClickListener.onItemClick(-1, filter, position);
                     }
                 }
             });
@@ -87,7 +88,7 @@ class FiltersListAdapter extends BaseListAdapter<FiltersListAdapter.FilterViewHo
             filter.setSelected(!filter.isSelected());
             notifyItemChanged(position);
             if (mItemClickListener != null) {
-                mItemClickListener.onItemClick(view.getId(), filter);
+                mItemClickListener.onItemClick(view.getId(), filter, position);
             }
         }
     }

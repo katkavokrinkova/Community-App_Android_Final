@@ -137,7 +137,7 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
 
         mViewBinder1 = new ChatterViewBinder(new OnListItemClickListener<ChatterVO>() {
             @Override
-            public void onItemClick(int viewId, ChatterVO model) {
+            public void onItemClick(int viewId, ChatterVO model, int position) {
                 switch (viewId) {
                     case R.id.member_image:
                         getPresenter().getMemberBy(model.mUserId);
@@ -155,14 +155,14 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
         mViewBinder2 = new ObjectivesViewBinder();
         mViewBinder3 = new MembersViewBinder(new OnListItemClickListener<MemberVO>() {
             @Override
-            public void onItemClick(int viewId, MemberVO model) {
+            public void onItemClick(int viewId, MemberVO model, int position) {
                 addChildFragment(MemberDetailFragment.newInstance(model), "FRAG_MEMBER_DETAIL");
             }
         });
 
         mViewBinder4 = new JobsViewBinder(new OnListItemClickListener<JobVO>() {
             @Override
-            public void onItemClick(int viewId, JobVO model) {
+            public void onItemClick(int viewId, JobVO model, int position) {
                 addChildFragment(JobDetailFragment.newInstance(model), "FRAG_JOB_DETAIL");
             }
         });

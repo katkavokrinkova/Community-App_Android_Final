@@ -153,7 +153,7 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
     }
 
     @Override
-    public void onItemClick(int viewId, MemberVO member) {
+    public void onItemClick(int viewId, MemberVO member, int position) {
         switch (viewId) {
             case R.id.image_member_status:
                 MemberStatusType statusType = MemberStatusType.fromStatus(member.mMemberStatus);

@@ -81,7 +81,8 @@ class CompaniesListAdapter extends BaseListAdapter<CompaniesListAdapter.ViewHold
         @Override
         public void onClick(View v) {
             if (mItemClickListener != null) {
-                mItemClickListener.onItemClick(v.getId(), getItem(getAdapterPosition()));
+                int position = getAdapterPosition();
+                mItemClickListener.onItemClick(v.getId(), getItem(position), position);
             }
         }
     }

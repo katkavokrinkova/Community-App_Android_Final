@@ -92,7 +92,7 @@ public class ChatterCommentFragment extends BaseChildFragment<ChatterCommentsUiP
         listAdapter.setItems(comments);
         listAdapter.setItemClickListener(new OnListItemClickListener<ChatComment>() {
             @Override
-            public void onItemClick(int viewId, ChatComment model) {
+            public void onItemClick(int viewId, ChatComment model, int position) {
                 getPresenter().getMemberBy(model.mUserId);
             }
         });

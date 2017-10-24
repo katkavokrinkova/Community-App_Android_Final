@@ -108,14 +108,14 @@ public class GoalDetailFragment extends BaseChildFragment<GoalsDetailUiPresenter
         GroupsListAdapter listAdapter = new GroupsListAdapter(getLayoutInflater(getArguments()));
         listAdapter.setItemClickListener(new OnListItemClickListener<GroupVO>() {
             @Override
-            public void onItemClick(int viewId, GroupVO model) {
+            public void onItemClick(int viewId, GroupVO model, int position) {
                 addChildFragment(GroupDetailFragment.newInstance(model), "FRAG_GROUP_DETAIL");
             }
         });
         adapter.addVieBinder(mViewBinder2 = new GroupsViewBinder(listAdapter));
         adapter.addVieBinder(mViewBinder3 = new MembersViewBinder(new OnListItemClickListener<MemberVO>() {
             @Override
-            public void onItemClick(int viewId, MemberVO model) {
+            public void onItemClick(int viewId, MemberVO model, int position) {
                 addChildFragment(MemberDetailFragment.newInstance(model), "FRAG_MEMBER_DETAIL");
             }
         }));

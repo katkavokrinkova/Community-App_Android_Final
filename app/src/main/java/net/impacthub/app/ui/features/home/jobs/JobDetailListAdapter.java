@@ -174,7 +174,8 @@ class JobDetailListAdapter extends BaseListAdapter<RecyclerView.ViewHolder, List
         @Override
         public void onClick(View view) {
             if (mItemClickListener != null) {
-                mItemClickListener.onItemClick(1, getItem(getAdapterPosition()));
+                int position = getAdapterPosition();
+                mItemClickListener.onItemClick(1, getItem(position), position);
             }
         }
     }
@@ -210,7 +211,8 @@ class JobDetailListAdapter extends BaseListAdapter<RecyclerView.ViewHolder, List
         @Override
         public void onClick(View view) {
             if (mItemClickListener != null) {
-                mItemClickListener.onItemClick(0, getItem(getAdapterPosition()));
+                int position = getAdapterPosition();
+                mItemClickListener.onItemClick(0, getItem(position), position);
             }
         }
     }
