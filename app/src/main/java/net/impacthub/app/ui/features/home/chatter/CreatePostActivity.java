@@ -40,15 +40,6 @@ public class CreatePostActivity extends ModalActivity<ChatterUiPresenter> implem
 
     private String mGroupId;
 
-//    public static ConnectMemberActivity newInstance(String contactId) {
-//
-//        Bundle args = new Bundle();
-//        args.putString(EXTRA_CONTACT_CONNECT_ID, contactId);
-//        ConnectMemberActivity fragment = new ConnectMemberActivity();
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
-
     @Override
     protected ChatterUiPresenter onCreatePresenter() {
         return new ChatterUiPresenter(this);
@@ -62,7 +53,6 @@ public class CreatePostActivity extends ModalActivity<ChatterUiPresenter> implem
     @OnClick(R.id.fab)
     protected void onCreatePostClicked() {
         getPresenter().createPost(mInputMessageField.getText().toString(), mGroupId);
-//        getPresenter().connectMember(mContactId, mIntroMessageField.getText().toString());
     }
 
     @Override
@@ -93,7 +83,7 @@ public class CreatePostActivity extends ModalActivity<ChatterUiPresenter> implem
     @Override
     public void onShowProgressBar(boolean showProgressBar) {
         if (showProgressBar) {
-            showDialog("Connecting Member...");
+            showDialog("Creating Post...");
         } else dismissDialog();
     }
 }

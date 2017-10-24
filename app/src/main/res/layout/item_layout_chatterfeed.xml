@@ -88,7 +88,7 @@
                 android:layout_marginLeft="5dp"
                 android:textColor="@color/greyish_brown"
                 android:textSize="12sp"
-                app:typeface="fonts/gt-walsheim-web.ttf"
+                app:typeface="fonts/gt-walsheim-bold-web.ttf"
                 tools:text="123" />
 
         </LinearLayout>
@@ -117,7 +117,7 @@
                 android:layout_marginLeft="5dp"
                 android:textColor="@color/greyish_brown"
                 android:textSize="12sp"
-                app:typeface="fonts/gt-walsheim-web.ttf"
+                app:typeface="fonts/gt-walsheim-bold-web.ttf"
                 tools:text="456" />
 
         </LinearLayout>

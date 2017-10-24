@@ -344,6 +344,11 @@ public class SoqlRequestFactory {
                 getPath(communityId, "feed-elements", ""), jsonObject);
     }
 
+    public RestRequest createAddCommentRequest(String communityId, String commentID, JSONObject jsonObject) {
+        return new RestRequest(RestRequest.RestMethod.POST,
+                getPath(communityId, "feed-elements/", commentID + "/capabilities/comments/items"), jsonObject);
+    }
+
     @NonNull
     private JSONObject createBodyWith(String jsonText) {
         try {

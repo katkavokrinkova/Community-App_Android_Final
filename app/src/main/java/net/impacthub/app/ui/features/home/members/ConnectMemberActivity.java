@@ -40,15 +40,6 @@ public class ConnectMemberActivity extends ModalActivity<ConnectMemberUiPresente
 
     private String mContactId;
 
-//    public static ConnectMemberActivity newInstance(String contactId) {
-//
-//        Bundle args = new Bundle();
-//        args.putString(EXTRA_CONTACT_CONNECT_ID, contactId);
-//        ConnectMemberActivity fragment = new ConnectMemberActivity();
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
-
     @Override
     protected ConnectMemberUiPresenter onCreatePresenter() {
         return new ConnectMemberUiPresenter(this);

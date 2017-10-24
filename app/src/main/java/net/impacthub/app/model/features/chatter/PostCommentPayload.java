@@ -9,22 +9,19 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.app.model.vo.chatter;
-
-import java.util.LinkedList;
-import java.util.List;
+package net.impacthub.app.model.features.chatter;
 
 /**
  * @author Filippo Ash
  * @version 1.0
- * @date 9/1/2017.
+ * @date 10/24/2017.
  */
 
-public class CommentVO {
+public class PostCommentPayload {
 
-    private final List<ChatComment> mComments = new LinkedList<>();
+    private final PostBody body;
 
-    public List<ChatComment> getComments() {
-        return mComments;
+    public PostCommentPayload(PostBody body) {
+        this.body = body;
     }
 }

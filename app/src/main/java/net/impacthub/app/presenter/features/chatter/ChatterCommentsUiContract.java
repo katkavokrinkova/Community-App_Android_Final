@@ -9,22 +9,15 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.app.model.vo.chatter;
+package net.impacthub.app.presenter.features.chatter;
 
-import java.util.LinkedList;
-import java.util.List;
+import net.impacthub.app.presenter.features.error.ErrorHandlerUiContract;
 
 /**
  * @author Filippo Ash
  * @version 1.0
- * @date 9/1/2017.
+ * @date 10/24/2017.
  */
 
-public class CommentVO {
-
-    private final List<ChatComment> mComments = new LinkedList<>();
-
-    public List<ChatComment> getComments() {
-        return mComments;
-    }
+public interface ChatterCommentsUiContract extends ErrorHandlerUiContract {
 }

@@ -142,8 +142,8 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
                     case R.id.member_image:
                         getPresenter().getMemberBy(model.mUserId);
                         break;
-                    case R.id.comment_indicator:
-                        addChildFragment(ChatterCommentFragment.newInstance(model.mComments), "FRAG_CHATTER_COMMENTS");
+                    case R.id.comment_bar:
+                        addChildFragment(ChatterCommentFragment.newInstance(model), "FRAG_CHATTER_COMMENTS");
                         break;
                     case R.id.like_bar:
                         if(model.mIsLikedByMe) getPresenter().unlikePost(model.mLikeId);

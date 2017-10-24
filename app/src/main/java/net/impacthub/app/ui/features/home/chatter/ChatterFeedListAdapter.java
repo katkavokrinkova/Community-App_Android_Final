@@ -84,7 +84,7 @@ public class ChatterFeedListAdapter extends BaseListAdapter<ChatterFeedListAdapt
             displayName.setText(itemData.mDisplayName);
             displayComment.setText(itemData.mComment);
             likeCount.setText(String.valueOf(itemData.mLikeCount));
-            commentCount.setText(String.valueOf(itemData.mCommentCount));
+            commentCount.setText(String.valueOf(itemData.mComments.getComments().size()));
 
             likeIndicatorImage.setImageResource(itemData.mIsLikedByMe ? R.mipmap.like_red : R.mipmap.like_grey);
 

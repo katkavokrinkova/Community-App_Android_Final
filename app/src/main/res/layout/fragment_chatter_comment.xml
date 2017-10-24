@@ -18,48 +18,58 @@
 
     <include layout="@layout/toolbar_with_back_layout" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorWhite"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <net.impacthub.app.ui.widgets.TypefaceEditText
-            android:id="@+id/text_comment_entry"
-            android:layout_width="0dp"
-            android:layout_height="56dp"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:hint="Type comment..."
-            android:lines="2"
-            android:paddingEnd="@dimen/message_side_margin"
-            android:paddingStart="@dimen/message_side_margin"
-            android:scrollbarAlwaysDrawVerticalTrack="true"
-            android:textColor="@color/brownish_grey"
-            android:textSize="16sp"
-            app:typeface="fonts/gt-walsheim-light-web.ttf" />
-
-        <ImageView
-            android:id="@+id/button_add_comment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:src="@mipmap/ic_send_black_24dp" />
-
-    </LinearLayout>
-
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/comment_items"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+            android:orientation="vertical">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/comment_items"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:scrollbars="vertical"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#E9EAEB" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <net.impacthub.app.ui.widgets.TypefaceEditText
+                    android:id="@+id/text_comment_entry"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="@color/colorWhite"
+                    android:gravity="center_vertical"
+                    android:hint="Add comment..."
+                    android:imeOptions="actionSend"
+                    android:paddingEnd="48dp"
+                    android:paddingStart="24dp"
+                    android:textColor="@color/brownish_grey"
+                    android:textSize="16sp"
+                    app:typeface="fonts/gt-walsheim-light-web.ttf" />
+
+                <ImageView
+                    android:id="@+id/button_add_comment"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_marginRight="16dp"
+                    android:src="@mipmap/ic_send_black_24dp"
+                    android:tint="#B9B9B9" />
+
+            </FrameLayout>
+        </LinearLayout>
 
         <include layout="@layout/layout_top_shadow" />
 
