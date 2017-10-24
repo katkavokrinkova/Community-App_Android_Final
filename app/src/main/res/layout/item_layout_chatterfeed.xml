@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="17dp">
+        android:padding="8dp">
 
         <net.impacthub.app.ui.widgets.CircleImageView
             android:id="@+id/member_image"
@@ -48,9 +48,9 @@
                 android:id="@+id/comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:autoLink="all"
                 android:textColor="@color/warm_grey_2"
                 android:textSize="14sp"
-                android:autoLink="all"
                 app:typeface="fonts/gt-walsheim-web.ttf"
                 tools:text="a b c d e f g a b c d e f g a b c d e f g a b c d e f g a b c d e f g a b c d e f g a b c d e f g a b c d e f g a b c d e f g " />
 
@@ -67,49 +67,60 @@
             android:id="@+id/like_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:foreground="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:minWidth="56dp"
+            android:orientation="horizontal"
+            android:padding="8dp">
 
-        <ImageView
-            android:id="@+id/like_indicator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/locations"
-            android:paddingEnd="5dp"
-            android:paddingStart="5dp"
-            android:src="@drawable/like_selector" />
+            <ImageView
+                android:id="@+id/like_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/locations"
+                android:src="@drawable/like_selector" />
 
 
-        <net.impacthub.app.ui.widgets.TypefaceTextView
-            android:id="@+id/like_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minWidth="40dp"
-            android:textColor="@color/greyish_brown"
-            android:textSize="12sp"
-            app:typeface="fonts/gt-walsheim-web.ttf"
-            tools:text="123" />
+            <net.impacthub.app.ui.widgets.TypefaceTextView
+                android:id="@+id/like_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textColor="@color/greyish_brown"
+                android:textSize="12sp"
+                app:typeface="fonts/gt-walsheim-web.ttf"
+                tools:text="123" />
 
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/comment_indicator"
+        <LinearLayout
+            android:id="@+id/comment_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/locations"
-            android:paddingEnd="5dp"
-            android:paddingStart="5dp"
-            android:src="@mipmap/comment_grey" />
+            android:foreground="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:minWidth="56dp"
+            android:orientation="horizontal"
+            android:padding="8dp">
 
-        <net.impacthub.app.ui.widgets.TypefaceTextView
-            android:id="@+id/comment_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minWidth="40dp"
-            android:textColor="@color/greyish_brown"
-            android:textSize="12sp"
-            app:typeface="fonts/gt-walsheim-web.ttf"
-            tools:text="456" />
+            <ImageView
+                android:id="@+id/comment_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/locations"
+                android:src="@mipmap/comment_grey" />
 
+            <net.impacthub.app.ui.widgets.TypefaceTextView
+                android:id="@+id/comment_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textColor="@color/greyish_brown"
+                android:textSize="12sp"
+                app:typeface="fonts/gt-walsheim-web.ttf"
+                tools:text="456" />
+
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>
