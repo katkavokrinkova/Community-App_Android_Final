@@ -147,7 +147,7 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
                         break;
                     case R.id.like_bar:
                         if(model.mIsLikedByMe) getPresenter().unlikePost(model.mLikeId);
-                        else getPresenter().likePost(model.mCommentId);
+                        else getPresenter().likePost(model.mUserId, model.mCommentId);
                         break;
                 }
             }
@@ -175,8 +175,8 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
         mProjectPages.setAdapter(adapter);
         mProjectPages.setOffscreenPageLimit(adapter.getCount());
 
+        mProjectTab.setTabMode(TabLayout.MODE_SCROLLABLE);
         mProjectTab.setupWithViewPager(mProjectPages);
-
 //        new TabsDelegate().setUp(mProjectTab, TITLES);
 
         getPresenter().loadDetails(mChatterFeedId, projectId);

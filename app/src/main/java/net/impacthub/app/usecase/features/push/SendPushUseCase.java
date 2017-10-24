@@ -11,6 +11,9 @@
 
 package net.impacthub.app.usecase.features.push;
 
+import com.google.gson.Gson;
+
+import net.impacthub.app.model.features.push.PushBody;
 import net.impacthub.app.usecase.base.BaseUseCaseGenerator;
 
 import org.json.JSONObject;
@@ -27,10 +30,10 @@ import io.reactivex.Single;
 
 public class SendPushUseCase extends BaseUseCaseGenerator<Single<Object>, Object> {
 
-    private final JSONObject mJsonObject;
+    private final PushBody mPushBody;
 
-    public SendPushUseCase(JSONObject jsonObject) {
-        mJsonObject = jsonObject;
+    public SendPushUseCase(PushBody pushBody) {
+        mPushBody = pushBody;
     }
 
     @Override
@@ -38,8 +41,8 @@ public class SendPushUseCase extends BaseUseCaseGenerator<Single<Object>, Object
         return Single.fromCallable(new Callable<Object>() {
             @Override
             public Object call() throws Exception {
-
-                return getApiCall().getResponse(getSoqlRequestFactory().createSendPushRequest(mJsonObject), Object.class);
+                JSONObject jsonObject = new JSONObject(new Gson().toJson(mPushBody));
+                return getApiCall().getResponse(getSoqlRequestFactory().createSendPushRequest(jsonObject), Object.class);
             }
         });
     }

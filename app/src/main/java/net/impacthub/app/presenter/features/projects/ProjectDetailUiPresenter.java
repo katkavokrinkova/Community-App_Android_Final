@@ -19,10 +19,12 @@ import net.impacthub.app.model.features.chatterfeed.ChatterFeedResponse;
 import net.impacthub.app.model.features.contacts.ContactsResponse;
 import net.impacthub.app.model.features.jobs.JobsResponse;
 import net.impacthub.app.model.features.objectives.ObjectivesResponse;
+import net.impacthub.app.model.features.push.PushBody;
 import net.impacthub.app.model.pojo.ListItemType;
 import net.impacthub.app.model.vo.chatter.ChatterVO;
 import net.impacthub.app.model.vo.jobs.JobVO;
 import net.impacthub.app.model.vo.members.MemberVO;
+import net.impacthub.app.model.vo.notifications.NotificationType;
 import net.impacthub.app.presenter.base.UiPresenter;
 import net.impacthub.app.presenter.rx.AbstractBigFunction;
 import net.impacthub.app.presenter.rx.AbstractFunction;
@@ -35,6 +37,7 @@ import net.impacthub.app.usecase.features.profile.ProfileUseCase;
 import net.impacthub.app.usecase.features.projects.ProjectJobsUseCase;
 import net.impacthub.app.usecase.features.projects.ProjectMembersUseCase;
 import net.impacthub.app.usecase.features.projects.ProjectObjectivesUseCase;
+import net.impacthub.app.usecase.features.push.SendPushUseCase;
 
 import java.util.List;
 
@@ -161,8 +164,18 @@ public class ProjectDetailUiPresenter extends UiPresenter<ProjectDetailUiContrac
         });
     }
 
-    public void likePost(String commentID) {
-        subscribeWith(new LikePostUseCase(commentID).getUseCase(), new DisposableSingleObserver<Object>() {
+    public void likePost(String toUserIds, String commentID) {
+        String type = NotificationType.TYPE_LIKE_POST.getType();
+        PushBody pushQuery = new PushBody(getUserAccount().getUserId(), toUserIds, type, commentID);
+
+        Single<Object> useCase = new LikePostUseCase(commentID).getUseCase()
+                .flatMap(new AbstractFunction<PushBody, Object, SingleSource<?>>(pushQuery) {
+                    @Override
+                    protected SingleSource<?> apply(Object response, PushBody subject) throws Exception {
+                        return new SendPushUseCase(subject).getUseCase();
+                    }
+                });
+        subscribeWith(useCase, new DisposableSingleObserver<Object>() {
             @Override
             public void onSuccess(@NonNull Object o) {
                 getUi().onError(new Throwable(o.toString()));

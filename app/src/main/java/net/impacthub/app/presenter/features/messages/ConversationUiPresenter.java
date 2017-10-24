@@ -101,8 +101,7 @@ public class ConversationUiPresenter extends UiPresenter<ConversationUiContract>
                 .flatMap(new AbstractFunction<PushBody, Id, SingleSource<?>>(pushQuery) {
                     @Override
                     protected SingleSource<?> apply(Id response, PushBody subject) throws Exception {
-                        JSONObject jsonObject = new JSONObject(new Gson().toJson(subject));
-                        return new SendPushUseCase(jsonObject).getUseCase();
+                        return new SendPushUseCase(subject).getUseCase();
                     }
                 })
                 .flatMap(new AbstractFunction<String, Object, SingleSource<ProcessedMessages>>(conversationID) {
@@ -157,8 +156,7 @@ public class ConversationUiPresenter extends UiPresenter<ConversationUiContract>
                 .flatMap(new AbstractFunction<PushBody, Id, SingleSource<?>>(pushQuery) {
                     @Override
                     protected SingleSource<?> apply(Id response, PushBody subject) throws Exception {
-                        JSONObject jsonObject = new JSONObject(new Gson().toJson(subject));
-                        return new SendPushUseCase(jsonObject).getUseCase();
+                        return new SendPushUseCase(subject).getUseCase();
                     }
                 });
         subscribeWith(sendMessageSingle, new DisposableSingleObserver<Object>() {
