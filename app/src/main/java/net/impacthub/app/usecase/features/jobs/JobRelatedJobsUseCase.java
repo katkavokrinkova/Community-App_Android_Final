@@ -11,7 +11,7 @@
 
 package net.impacthub.app.usecase.features.jobs;
 
-import net.impacthub.app.model.features.projects.ProjectResponse;
+import net.impacthub.app.model.features.jobs.JobsResponse;
 import net.impacthub.app.usecase.base.BaseUseCaseGenerator;
 
 import java.util.concurrent.Callable;
@@ -21,17 +21,17 @@ import io.reactivex.Single;
 /**
  * @author Filippo Ash
  * @version 1.0
- * @date 8/22/2017.
+ * @date 10/24/2017.
  */
 
-public class JobProjectsUseCase extends BaseUseCaseGenerator<Single<ProjectResponse>, ProjectResponse> {
+public class JobRelatedJobsUseCase extends BaseUseCaseGenerator<Single<JobsResponse>, JobsResponse> {
 
     private final String mJobId;
     private final String mJobLocation;
     private final String mJobAccountId;
     private final String mJobCompanyC;
 
-    public JobProjectsUseCase(String jobId, String jobLocation, String jobAccountId, String jobCompanyC) {
+    public JobRelatedJobsUseCase(String jobId, String jobLocation, String jobAccountId, String jobCompanyC) {
         mJobId = jobId;
         mJobLocation = jobLocation;
         mJobAccountId = jobAccountId;
@@ -39,11 +39,11 @@ public class JobProjectsUseCase extends BaseUseCaseGenerator<Single<ProjectRespo
     }
 
     @Override
-    public Single<ProjectResponse> getUseCase() {
-        return Single.fromCallable(new Callable<ProjectResponse>() {
+    public Single<JobsResponse> getUseCase() {
+        return Single.fromCallable(new Callable<JobsResponse>() {
             @Override
-            public ProjectResponse call() throws Exception {
-                return getApiCall().getResponse(getSoqlRequestFactory().createJobRelatedProjectsRequest(mJobId, mJobLocation, mJobAccountId, mJobCompanyC), ProjectResponse.class);
+            public JobsResponse call() throws Exception {
+                return getApiCall().getResponse(getSoqlRequestFactory().createJobRelatedJobsRequest(mJobId, mJobLocation, mJobAccountId, mJobCompanyC), JobsResponse.class);
             }
         });
     }

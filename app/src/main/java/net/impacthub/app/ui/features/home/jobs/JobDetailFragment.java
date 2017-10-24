@@ -127,8 +127,16 @@ public class JobDetailFragment extends BaseChildFragment<JobsDetailUiPresenter> 
         mAdapter.setItemClickListener(new OnListItemClickListener<ListItemType>() {
             @Override
             public void onItemClick(int viewId, ListItemType model) {
-                ProjectVO projectVO = (ProjectVO) model.getModel();
-                addChildFragment(ProjectDetailFragment.newInstance(projectVO), "FRAG_PROJECT_DETAIL");
+                switch (viewId) {
+                    case 0:
+                        ProjectVO projectVO = (ProjectVO) model.getModel();
+                        addChildFragment(ProjectDetailFragment.newInstance(projectVO), "FRAG_PROJECT_DETAIL");
+                        break;
+                    case 1:
+                        JobVO jobVO = (JobVO) model.getModel();
+                        addChildFragment(JobDetailFragment.newInstance(jobVO), "FRAG_JOB_DETAIL");
+                        break;
+                }
             }
         });
         mAdapter.setItems(listItemTypes);
@@ -142,7 +150,7 @@ public class JobDetailFragment extends BaseChildFragment<JobsDetailUiPresenter> 
     }
 
     @Override
-    public void onLoadRelatedProjects(List<ListItemType> listItemTypes) {
+    public void onLoadRelatedItems(List<ListItemType> listItemTypes) {
         mAdapter.appendItems(listItemTypes);
     }
 }

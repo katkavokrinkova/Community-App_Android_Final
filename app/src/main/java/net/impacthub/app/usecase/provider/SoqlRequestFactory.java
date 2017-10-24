@@ -113,7 +113,8 @@ public class SoqlRequestFactory {
             "Location__c FROM Job__c WHERE id != '%s' and (Location__c = '%s'" +
             " or Contact__r.AccountId = '%s'";
 
-    private static final String JOB_RELATED_PROJECT = "SELECT " + PROJECT + " FROM Directory__c WHERE Organisation__c in (SELECT Company__c FROM Job__c WHERE id ='%s')";
+    private static final String JOB_RELATED_PROJECTS = "SELECT " + PROJECT + " FROM Directory__c WHERE isMakerSpecific__c = false AND Organisation__c in (SELECT Company__c FROM Job__c WHERE id ='%s')";
+    private static final String JOB_RELATED_JOBS = "SELECT " + JOB_COLUMNS + " FROM Job__c WHERE id='%s' AND (Location__c = '%s' OR Contact__r.AccountId = '%s' OR (Company__c  != null and  Company__c = '%s'))";
 
     private static final String COMPANY_PROJECT = "SELECT " + PROJECT + " FROM Directory__c WHERE Directory_Style__c ='Project' AND Organisation__c ='%s'";
     private static final String COMPANY_MEMBER = "SELECT " + CONTACT + " FROM Contact WHERE User__c != NULL and User__r.isactive = true AND accountid='%s'";
@@ -198,13 +199,21 @@ public class SoqlRequestFactory {
         return mRestRequestFactory.getForQuery(String.format(PROJECT_JOBS, projectId));
     }
 
-    public RestRequest createJobRelatedProjectsRequest(String jobId, String jobLocation, String accountId, String jobCompany) throws UnsupportedEncodingException {
-        String query = String.format(RELATED_PROJECTS, jobId, jobLocation, accountId);
-        if (jobCompany != null) {
-            query += String.format(Locale.UK, " or Company__c = '%s'", jobCompany);
-        }
-        return mRestRequestFactory.getForQuery(String.format("%s)", query));
+    public RestRequest createJobRelatedJobsRequest(String jobId, String jobLocation, String accountId, String jobCompany) throws UnsupportedEncodingException {
+        return mRestRequestFactory.getForQuery(String.format(JOB_RELATED_JOBS, jobId, jobLocation, accountId, jobCompany));
     }
+
+    public RestRequest createJobRelatedProjectsRequest(String jobId) throws UnsupportedEncodingException {
+        return mRestRequestFactory.getForQuery(String.format(JOB_RELATED_PROJECTS, jobId));
+    }
+
+//    public RestRequest createJobRelatedProjectsRequest(String jobId, String jobLocation, String accountId, String jobCompany) throws UnsupportedEncodingException {
+//        String query = String.format(RELATED_PROJECTS, jobId, jobLocation, accountId);
+//        if (jobCompany != null) {
+//            query += String.format(Locale.UK, " or Company__c = '%s'", jobCompany);
+//        }
+//        return mRestRequestFactory.getForQuery(String.format("%s)", query));
+//    }
 
     public RestRequest createJobsRequest(int skip, int top, String date) throws UnsupportedEncodingException {
         return mRestRequestFactory.getForQuery(String.format(JOBS, date));

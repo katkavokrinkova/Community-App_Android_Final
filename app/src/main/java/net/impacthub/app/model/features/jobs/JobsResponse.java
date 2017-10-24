@@ -20,14 +20,14 @@ package net.impacthub.app.model.features.jobs;
 public class JobsResponse {
 
     private String done;
-    private Records[] records;
+    private JobRecord[] records;
     private String totalSize;
 
     public String getDone() {
         return done;
     }
 
-    public Records[] getRecords() {
+    public JobRecord[] getRecords() {
         return records;
     }
 

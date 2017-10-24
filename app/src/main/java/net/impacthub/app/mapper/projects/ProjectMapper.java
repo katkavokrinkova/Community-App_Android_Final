@@ -58,6 +58,7 @@ public class ProjectMapper {
         return projectDTO;
     }
 
+    @NonNull
     public List<ListItemType> mapAsListItemType(ProjectResponse projectResponse) {
         List<ListItemType> listItemTypes = new LinkedList<>();
         if (projectResponse != null) {
