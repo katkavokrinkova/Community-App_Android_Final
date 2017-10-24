@@ -205,9 +205,6 @@ class SearchResultListAdapter extends BaseListAdapter<RecyclerView.ViewHolder, L
                 case MemberStatus.NOT_CONTACTED:
                     ImageLoaderHelper.loadImage(context, R.mipmap.comment_bubble_small, iconMemberStatus);
                     break;
-                case MemberStatus.DECLINED:
-                default:
-                    ImageLoaderHelper.loadImage(context, 0, iconMemberStatus);
             }
         }
 
