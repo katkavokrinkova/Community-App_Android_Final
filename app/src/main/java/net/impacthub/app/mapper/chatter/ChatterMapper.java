@@ -110,6 +110,7 @@ public class ChatterMapper {
                         for (Comment pageComment : pageComments) {
                             ChatComment chatComment = new ChatComment();
 
+                            chatComment.mChatCommentId = pageComment.getId();
                             chatComment.mDate = DateUtils.getElapsedDateTime(pageComment.getCreatedDate());
 
                             Actor actor2 = pageComment.getActor();
@@ -152,6 +153,7 @@ public class ChatterMapper {
     public ChatComment mapCommentResponse(CommentResponse commentResponse) {
         ChatComment chatComment = new ChatComment();
         if (commentResponse != null) {
+            chatComment.mChatCommentId = commentResponse.getId();
             chatComment.mDate = DateUtils.getElapsedDateTime(commentResponse.getCreatedDate());
 
             User user = commentResponse.getUser();

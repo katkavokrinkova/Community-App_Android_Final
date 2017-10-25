@@ -57,9 +57,6 @@ public class ChatterCommentsUiPresenter extends UiPresenter<ChatterCommentsUiCon
         PostBody postBody = new PostBody(new MessageSegment[]{new MessageSegment("Text", typedComment)});
         PostCommentPayload payload = new PostCommentPayload(postBody);
 
-        String type = NotificationType.TYPE_COMMENT.getType();
-        PushBody pushQuery = new PushBody(getUserAccount().getUserId(), toUserIds, type, commentID);
-
         Single<Object> useCase = new AddCommentUseCase(commentID, payload).getUseCase()
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSuccess(new Consumer<ChatComment>() {
@@ -69,10 +66,13 @@ public class ChatterCommentsUiPresenter extends UiPresenter<ChatterCommentsUiCon
                     }
                 })
                 .observeOn(Schedulers.io())
-                .flatMap(new AbstractFunction<PushBody, Object, SingleSource<?>>(pushQuery) {
+                .flatMap(new AbstractFunction<String, ChatComment, SingleSource<?>>(toUserIds) {
                     @Override
-                    protected SingleSource<?> apply(Object response, PushBody subject) throws Exception {
-                        return new SendPushUseCase(subject).getUseCase();
+                    protected SingleSource<?> apply(ChatComment response, String subject) throws Exception {
+
+                        String type = NotificationType.TYPE_COMMENT.getType();
+                        PushBody pushQuery = new PushBody(getUserAccount().getUserId(), subject, type, response.mChatCommentId);
+                        return new SendPushUseCase(pushQuery).getUseCase();
                     }
                 });
         subscribeWith(useCase, new DisposableSingleObserver<Object>() {

@@ -36,6 +36,10 @@ public class CommentResponse {
     private ModerationFlags moderationFlags;
     private String likesMessage;
 
+    public String getId() {
+        return id;
+    }
+
     public String getCreatedDate() {
         return createdDate;
     }

@@ -26,6 +26,7 @@ import java.util.Map;
 
 public class ChatComment implements Serializable, Searchable {
 
+    public String mChatCommentId;
     public String mDate;
     public String mUserId;
     public String mDisplayName;
