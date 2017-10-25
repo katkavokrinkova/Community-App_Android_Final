@@ -77,7 +77,9 @@ public class ChatterFeedPresenter extends UiPresenter<ChatterFeedUiContract> {
     }
 
     public void likePost(String toUserIds, String commentID, int position) {
+        getUi().onShowProgressBar(true);
         if (mCommentIdList.contains(commentID)) {
+            getUi().onShowProgressBar(false);
             getUi().onError(new Throwable("Already processing like..."));
             return;
         }
@@ -100,11 +102,12 @@ public class ChatterFeedPresenter extends UiPresenter<ChatterFeedUiContract> {
             protected void onSuccess(Object o, ChatterWrapper subject) {
                 getUi().onPostLiked(subject.getPosition());
                 mCommentIdList.remove(subject.getCommentID());
+                getUi().onShowProgressBar(false);
             }
 
             @Override
             protected void onError(Throwable e, ChatterWrapper subject) {
-                super.onError(e, subject);
+                getUi().onShowProgressBar(false);
                 getUi().onError(e);
                 mCommentIdList.remove(subject.getCommentID());
             }
@@ -112,7 +115,9 @@ public class ChatterFeedPresenter extends UiPresenter<ChatterFeedUiContract> {
     }
 
     public void unlikePost(String commentID, int position) {
+        getUi().onShowProgressBar(true);
         if (mCommentIdList.contains(commentID)) {
+            getUi().onShowProgressBar(false);
             getUi().onError(new Throwable("Already processing like..."));
             return;
         }
@@ -124,10 +129,12 @@ public class ChatterFeedPresenter extends UiPresenter<ChatterFeedUiContract> {
             protected void onSuccess(Object o, ChatterWrapper subject) {
                 getUi().onPostUnLiked(subject.getPosition());
                 mCommentIdList.remove(subject.getCommentID());
+                getUi().onShowProgressBar(false);
             }
 
             @Override
             protected void onError(Throwable e, ChatterWrapper subject) {
+                getUi().onShowProgressBar(false);
                 getUi().onError(e);
                 mCommentIdList.remove(subject.getCommentID());
             }
