@@ -348,7 +348,7 @@ public class SoqlRequestFactory {
 
     public RestRequest createChatterFeedRequest(String communityId, String feedId) {
         return new RestRequest(RestRequest.RestMethod.GET,
-                getPath(communityId, "feeds/record/", feedId + "/feed-elements?filterGroup=Medium"));
+                getPath(communityId, "feeds/record/", feedId + "/feed-elements?recentCommentCount=25&filterGroup=Medium"));
     }
 
     public RestRequest createChatterLikePostRequest(String communityId, String commentID, boolean value) {
