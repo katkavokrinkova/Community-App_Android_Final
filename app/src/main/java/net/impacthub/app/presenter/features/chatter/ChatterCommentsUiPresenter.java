@@ -17,15 +17,22 @@ import net.impacthub.app.model.features.chatter.MessageSegment;
 import net.impacthub.app.model.features.chatter.PostBody;
 import net.impacthub.app.model.features.chatter.PostCommentPayload;
 import net.impacthub.app.model.features.push.PushBody;
+import net.impacthub.app.model.vo.chatter.ChatComment;
 import net.impacthub.app.model.vo.members.MemberVO;
 import net.impacthub.app.model.vo.notifications.NotificationType;
 import net.impacthub.app.presenter.base.UiPresenter;
+import net.impacthub.app.presenter.rx.AbstractFunction;
 import net.impacthub.app.usecase.features.chatter.AddCommentUseCase;
 import net.impacthub.app.usecase.features.members.GetMemberByUserIdUseCase;
+import net.impacthub.app.usecase.features.push.SendPushUseCase;
 
 import io.reactivex.Single;
+import io.reactivex.SingleSource;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * @author Filippo Ash
@@ -53,11 +60,24 @@ public class ChatterCommentsUiPresenter extends UiPresenter<ChatterCommentsUiCon
         String type = NotificationType.TYPE_COMMENT.getType();
         PushBody pushQuery = new PushBody(getUserAccount().getUserId(), toUserIds, type, commentID);
 
-        Single<Object> useCase = new AddCommentUseCase(commentID, payload).getUseCase();
+        Single<Object> useCase = new AddCommentUseCase(commentID, payload).getUseCase()
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSuccess(new Consumer<ChatComment>() {
+                    @Override
+                    public void accept(@NonNull ChatComment o) throws Exception {
+                        getUi().onAppendComment(o);
+                    }
+                })
+                .observeOn(Schedulers.io())
+                .flatMap(new AbstractFunction<PushBody, Object, SingleSource<?>>(pushQuery) {
+                    @Override
+                    protected SingleSource<?> apply(Object response, PushBody subject) throws Exception {
+                        return new SendPushUseCase(subject).getUseCase();
+                    }
+                });
         subscribeWith(useCase, new DisposableSingleObserver<Object>() {
             @Override
             public void onSuccess(@NonNull Object o) {
-                getUi().onError(new Throwable(o.toString()));
                 getUi().onShowProgressBar(false);
             }
 

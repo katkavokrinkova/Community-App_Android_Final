@@ -9,21 +9,26 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.app.presenter.features.chatter;
-
-import net.impacthub.app.model.vo.chatter.ChatComment;
-import net.impacthub.app.model.vo.members.MemberVO;
-import net.impacthub.app.presenter.features.error.ErrorHandlerUiContract;
+package net.impacthub.app.model.features.chatterfeed.comment;
 
 /**
  * @author Filippo Ash
  * @version 1.0
- * @date 10/24/2017.
+ * @date 10/25/2017.
  */
 
-public interface ChatterCommentsUiContract extends ErrorHandlerUiContract {
+public class Body {
 
-    void onLoadMember(MemberVO memberVO);
+    private String text;
+    private MessageSegments[] messageSegments;
+    private String isRichText;
 
-    void onAppendComment(ChatComment chatComment);
+    public String getText() {
+        return text;
+    }
+
+    @Override
+    public String toString() {
+        return "Body [text = " + text + ", messageSegments = " + messageSegments + ", isRichText = " + isRichText + "]";
+    }
 }

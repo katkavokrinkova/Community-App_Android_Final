@@ -11,9 +11,13 @@
 
 package net.impacthub.app.mapper.chatter;
 
+import android.support.annotation.NonNull;
+
 import net.impacthub.app.model.features.chatterfeed.Comment;
 import net.impacthub.app.model.features.chatterfeed.MessageSegment;
 import net.impacthub.app.model.features.chatterfeed.MyLike;
+import net.impacthub.app.model.features.chatterfeed.comment.CommentResponse;
+import net.impacthub.app.model.features.chatterfeed.comment.User;
 import net.impacthub.app.model.features.groups.chatter.ChatterResponse;
 import net.impacthub.app.model.features.groups.chatter.Groups;
 import net.impacthub.app.model.vo.chatter.ChatComment;
@@ -52,84 +56,84 @@ public class ChatterMapper {
                 for (int i = 0; i < elements.size(); i++) {
                     Element element = elements.get(i);
                     if (element != null) {
-                        ChatterVO chatterDTO = new ChatterVO();
-                        CommentVO commentVO = new CommentVO();
-
-                        chatterDTO.mCommentId = element.getId();
-                        chatterDTO.mDate = element.getCreatedDate();
-
-                        Actor actor = element.getActor();
-                        if (actor != null) {
-                            chatterDTO.mUserId = actor.getId();
-                            chatterDTO.mDisplayName = actor.getDisplayName();
-                            Photo photo = actor.getPhoto();
-                            if (photo != null) {
-                                chatterDTO.mImageURL = photo.getMediumPhotoUrl();
-                            }
-                        }
-                        Body body = element.getBody();
-                        if (body != null) {
-                            chatterDTO.mComment = body.getText();
-                        }
-                        Capabilities capabilities = element.getCapabilities();
-                        if (capabilities != null) {
-                            ChatterLikes chatterLikes = capabilities.getChatterLikes();
-                            if (chatterLikes != null) {
-                                LikesPage likesPage = chatterLikes.getLikesPage();
-                                if (likesPage != null) {
-                                    chatterDTO.mLikeCount = likesPage.getTotal();
-                                }
-                                MyLike myLike = chatterLikes.getMyLike();
-                                if (myLike != null) {
-                                    chatterDTO.mLikeId = myLike.getId();
-                                }
-                                chatterDTO.mIsLikedByMe = chatterLikes.getIsLikedByCurrentUser();
-                            }
-                            Comments comments = capabilities.getComments();
-                            if (comments != null) {
-                                CommentsPage page = comments.getPage();
-                                if (page != null) {
-                                    List<Comment> pageComments = page.getComments();
-                                    if (pageComments != null) {
-
-                                        for (Comment pageComment : pageComments) {
-                                            ChatComment chatComment = new ChatComment();
-
-                                            chatComment.mDate = DateUtils.getElapsedDateTime(pageComment.getCreatedDate());
-
-                                            Actor actor2 = pageComment.getActor();
-                                            if (actor2 != null) {
-                                                chatComment.mUserId = actor2.getId();
-                                                chatComment.mDisplayName = actor2.getDisplayName();
-                                                Photo actor2Photo = actor2.getPhoto();
-                                                if (actor2Photo != null) {
-                                                    chatComment.mImageURL = actor2Photo.getMediumPhotoUrl();
-                                                }
-                                            }
-                                            Body pageCommentBody = pageComment.getBody();
-                                            if (pageCommentBody != null) {
-                                                List<MessageSegment> messageSegments = pageCommentBody.getMessageSegments();
-                                                if (messageSegments != null) {
-                                                    for (int count = messageSegments.size() - 1; count >= 0; count--) {
-                                                        MessageSegment messageSegment = messageSegments.get(count);
-                                                        chatComment.mCommentTxt = messageSegment.getText();
-                                                    }
-                                                }
-                                            }
-                                            commentVO.getComments().add(chatComment);
-                                        }
-                                    }
-                                    chatterDTO.mCommentCount = page.getTotal();
-                                }
-                            }
-                        }
-                        chatterDTO.mComments = commentVO;
+                        ChatterVO chatterDTO = mapChatterVO(element);
                         chatterDTOs.add(chatterDTO);
                     }
                 }
             }
         }
         return chatterDTOs;
+    }
+
+    @NonNull
+    private ChatterVO mapChatterVO(Element element) {
+        ChatterVO chatterDTO = new ChatterVO();
+        CommentVO commentVO = new CommentVO();
+
+        chatterDTO.mCommentId = element.getId();
+        chatterDTO.mDate = element.getCreatedDate();
+
+        Actor actor = element.getActor();
+        if (actor != null) {
+            chatterDTO.mUserId = actor.getId();
+            chatterDTO.mDisplayName = actor.getDisplayName();
+            Photo photo = actor.getPhoto();
+            if (photo != null) {
+                chatterDTO.mImageURL = photo.getMediumPhotoUrl();
+            }
+        }
+        Body body = element.getBody();
+        if (body != null) {
+            chatterDTO.mComment = body.getText();
+        }
+        Capabilities capabilities = element.getCapabilities();
+        if (capabilities != null) {
+            ChatterLikes chatterLikes = capabilities.getChatterLikes();
+            if (chatterLikes != null) {
+                LikesPage likesPage = chatterLikes.getLikesPage();
+                if (likesPage != null) {
+                    chatterDTO.mLikeCount = likesPage.getTotal();
+                }
+                MyLike myLike = chatterLikes.getMyLike();
+                if (myLike != null) {
+                    chatterDTO.mLikeId = myLike.getId();
+                }
+                chatterDTO.mIsLikedByMe = chatterLikes.getIsLikedByCurrentUser();
+            }
+            Comments comments = capabilities.getComments();
+            if (comments != null) {
+                CommentsPage page = comments.getPage();
+                if (page != null) {
+                    List<Comment> pageComments = page.getComments();
+                    if (pageComments != null) {
+
+                        for (Comment pageComment : pageComments) {
+                            ChatComment chatComment = new ChatComment();
+
+                            chatComment.mDate = DateUtils.getElapsedDateTime(pageComment.getCreatedDate());
+
+                            Actor actor2 = pageComment.getActor();
+                            if (actor2 != null) {
+                                chatComment.mUserId = actor2.getId();
+                                chatComment.mDisplayName = actor2.getDisplayName();
+                                Photo actor2Photo = actor2.getPhoto();
+                                if (actor2Photo != null) {
+                                    chatComment.mImageURL = actor2Photo.getMediumPhotoUrl();
+                                }
+                            }
+                            Body pageCommentBody = pageComment.getBody();
+                            if (pageCommentBody != null) {
+                                chatComment.mCommentTxt = pageCommentBody.getText();
+                            }
+                            commentVO.getComments().add(chatComment);
+                        }
+                    }
+                    chatterDTO.mCommentCount = page.getTotal();
+                }
+            }
+        }
+        chatterDTO.mComments = commentVO;
+        return chatterDTO;
     }
 
     public Set<String> mapChatterIdForGroups(ChatterResponse chatterGroupResponse) {
@@ -143,5 +147,29 @@ public class ChatterMapper {
             }
         }
         return ids;
+    }
+
+    public ChatComment mapCommentResponse(CommentResponse commentResponse) {
+        ChatComment chatComment = new ChatComment();
+        if (commentResponse != null) {
+            chatComment.mDate = DateUtils.getElapsedDateTime(commentResponse.getCreatedDate());
+
+            User user = commentResponse.getUser();
+            if (user != null) {
+                chatComment.mUserId = user.getId();
+                chatComment.mDisplayName = user.getDisplayName();
+
+                net.impacthub.app.model.features.chatterfeed.comment.Photo userPhoto = user.getPhoto();
+                if (userPhoto != null) {
+                    chatComment.mImageURL = userPhoto.getMediumPhotoUrl();
+                }
+            }
+
+            net.impacthub.app.model.features.chatterfeed.comment.Body body = commentResponse.getBody();
+            if (body != null) {
+                chatComment.mCommentTxt = body.getText();
+            }
+        }
+        return chatComment;
     }
 }

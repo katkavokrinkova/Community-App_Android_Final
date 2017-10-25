@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import net.impacthub.app.R;
+import net.impacthub.app.model.callback.OnCommentAddedCallback;
 import net.impacthub.app.model.callback.OnListItemClickListener;
 import net.impacthub.app.model.vo.chatter.ChatterVO;
 import net.impacthub.app.model.vo.members.MemberVO;
@@ -35,7 +36,7 @@ import java.util.List;
  * @date 10/24/2017.
  */
 
-public class ChatterFeedViewBinder extends ViewBinderAdapter<ChatterFeedPresenter> implements ChatterFeedUiContract {
+public class ChatterFeedViewBinder extends ViewBinderAdapter<ChatterFeedPresenter> implements ChatterFeedUiContract, OnCommentAddedCallback {
 
     private final String mChatterGroupId;
     private final OnChatterFeedActionListener mChatterFeedActionListener;
@@ -67,7 +68,7 @@ public class ChatterFeedViewBinder extends ViewBinderAdapter<ChatterFeedPresente
                         break;
                     case R.id.comment_bar:
                         if (mChatterFeedActionListener != null) {
-                            mChatterFeedActionListener.openComments(model);
+                            mChatterFeedActionListener.openComments(model, ChatterFeedViewBinder.this, position);
                         }
                         break;
                     case R.id.like_bar:
@@ -85,9 +86,6 @@ public class ChatterFeedViewBinder extends ViewBinderAdapter<ChatterFeedPresente
         recyclerView.setAdapter(mAdapter);
         getPresenter().loadChatterFeed(mChatterGroupId);
         return recyclerView;
-    }
-
-    public void updateViewPostCreated() {
     }
 
     @Override
@@ -130,11 +128,18 @@ public class ChatterFeedViewBinder extends ViewBinderAdapter<ChatterFeedPresente
         showToast(throwable.getMessage());
     }
 
+    @Override
+    public void onRefreshCommentItem(int refreshPosition) {
+        if (mAdapter != null) {
+            mAdapter.notifyItemChanged(refreshPosition);
+        }
+    }
+
     public interface OnChatterFeedActionListener {
 
         void onShowProgressBar(boolean showProgressBar);
 
-        void openComments(ChatterVO model);
+        void openComments(ChatterVO model, OnCommentAddedCallback callback, int position);
 
         void onLoadMember(MemberVO memberVO);
     }

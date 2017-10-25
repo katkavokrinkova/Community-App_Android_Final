@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import net.impacthub.app.R;
+import net.impacthub.app.model.callback.OnCommentAddedCallback;
 import net.impacthub.app.model.callback.OnListItemClickListener;
 import net.impacthub.app.model.vo.chatter.ChatComment;
 import net.impacthub.app.model.vo.chatter.ChatterVO;
@@ -27,6 +28,7 @@ import net.impacthub.app.presenter.features.chatter.ChatterCommentsUiPresenter;
 import net.impacthub.app.ui.base.BaseChildFragment;
 import net.impacthub.app.ui.common.LinearItemsMarginDecorator;
 import net.impacthub.app.ui.features.home.members.MemberDetailFragment;
+import net.impacthub.app.utilities.KeyboardUtils;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -47,7 +49,10 @@ public class ChatterCommentFragment extends BaseChildFragment<ChatterCommentsUiP
     @BindView(R.id.comment_items) protected RecyclerView mCommentList;
     @BindView(R.id.text_comment_entry) protected EditText mCommentField;
 
+    private ChatterCommentListAdapter mListAdapter;
     private ChatterVO mChatterVO;
+    private OnCommentAddedCallback mCommentCallback;
+    private int mCommentRefreshPosition;
 
     public static ChatterCommentFragment newInstance(ChatterVO chatterVO) {
         
@@ -59,9 +64,9 @@ public class ChatterCommentFragment extends BaseChildFragment<ChatterCommentsUiP
     }
 
     @OnClick(R.id.button_add_comment)
-    protected void onAddComment() {
+    protected void onAddComment(View view) {
+        KeyboardUtils.hideNativeKeyboard(getContext(), view);
         getPresenter().addComment(mChatterVO.mUserId, mChatterVO.mCommentId, mCommentField.getText().toString());
-        mChatterVO.mComments.getComments().add(new ChatComment());
     }
 
     @Override
@@ -88,19 +93,38 @@ public class ChatterCommentFragment extends BaseChildFragment<ChatterCommentsUiP
 
         mCommentList.setHasFixedSize(true);
         mCommentList.addItemDecoration(new LinearItemsMarginDecorator(getResources().getDimensionPixelOffset(R.dimen.default_content_normal_gap)));
-        ChatterCommentListAdapter listAdapter = new ChatterCommentListAdapter(LayoutInflater.from(getContext()));
-        listAdapter.setItems(comments);
-        listAdapter.setItemClickListener(new OnListItemClickListener<ChatComment>() {
+        mListAdapter = new ChatterCommentListAdapter(LayoutInflater.from(getContext()));
+        mListAdapter.setItems(comments);
+        mListAdapter.setItemClickListener(new OnListItemClickListener<ChatComment>() {
             @Override
             public void onItemClick(int viewId, ChatComment model, int position) {
                 getPresenter().getMemberBy(model.mUserId);
             }
         });
-        mCommentList.setAdapter(listAdapter);
+        mCommentList.setAdapter(mListAdapter);
     }
 
     @Override
     public void onLoadMember(MemberVO memberVO) {
         addChildFragment(MemberDetailFragment.newInstance(memberVO), "FRAG_MEMBER_DETAIL");
+    }
+
+    @Override
+    public void onAppendComment(ChatComment chatComment) {
+        mCommentField.setText(null);
+        mChatterVO.mComments.getComments().add(chatComment);
+        mListAdapter.appendItem(chatComment);
+        mListAdapter.notifyItemInserted(mListAdapter.getItemCount());
+        if (mCommentCallback != null) {
+            mCommentCallback.onRefreshCommentItem(mCommentRefreshPosition);
+        }
+    }
+
+    public void setCommentCallback(OnCommentAddedCallback commentCallback) {
+        mCommentCallback = commentCallback;
+    }
+
+    public void setCommentRefreshPosition(int commentRefreshPosition) {
+        mCommentRefreshPosition = commentRefreshPosition;
     }
 }
