@@ -33,5 +33,12 @@ public abstract class DisposableSingleObserverAdapter<S, T> extends DisposableSi
         onSuccess(t, mSubject);
     }
 
+    @Override
+    public void onError(@NonNull Throwable e) {
+        onError(e, mSubject);
+    }
+
+    protected void onError(Throwable e, S subject) {}
+
     protected abstract void onSuccess(T t, S subject);
 }

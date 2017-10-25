@@ -28,8 +28,10 @@ import net.impacthub.app.presenter.features.groups.ChatterFeedUiContract;
 import net.impacthub.app.ui.base.BaseChildFragment;
 import net.impacthub.app.ui.common.ImageLoaderHelper;
 import net.impacthub.app.ui.common.LinearItemsMarginDecorator;
+import net.impacthub.app.ui.features.home.chatter.ChatterCommentFragment;
 import net.impacthub.app.ui.features.home.chatter.ChatterFeedListAdapter;
 import net.impacthub.app.ui.features.home.chatter.binder.ChatterFeedViewBinder;
+import net.impacthub.app.ui.features.home.members.MemberDetailFragment;
 
 import java.util.List;
 
@@ -41,7 +43,7 @@ import butterknife.BindView;
  * @date 8/17/2017.
  */
 
-public class GroupDetailFragment extends BaseChildFragment {
+public class GroupDetailFragment extends BaseChildFragment implements ChatterFeedViewBinder.OnChatterFeedActionListener {
 
     private static final String EXTRA_CHATTER_FEED_ID = "net.impacthub.members.ui.features.home.groups.EXTRA_CHATTER_FEED_ID";
     private static final String EXTRA_GROUP_NAME = "net.impacthub.members.ui.features.home.groups.EXTRA_GROUP_NAME";
@@ -98,7 +100,7 @@ public class GroupDetailFragment extends BaseChildFragment {
         ImageLoaderHelper.loadImage(context, buildUrl(groupImageURL), mImageDetail);
 
 
-        mFeedViewBinder = new ChatterFeedViewBinder(chatterFeedId, null);
+        mFeedViewBinder = new ChatterFeedViewBinder(chatterFeedId, this);
         mChatterFeedContainer.addView(mFeedViewBinder.getView(context, -1));
 
 //        mChatterList.setHasFixedSize(true);
@@ -126,5 +128,15 @@ public class GroupDetailFragment extends BaseChildFragment {
             mFeedViewBinder.onDestroy();
         }
         super.onDestroy();
+    }
+
+    @Override
+    public void openComments(ChatterVO model) {
+        addChildFragment(ChatterCommentFragment.newInstance(model), "FRAG_CHATTER_COMMENTS");
+    }
+
+    @Override
+    public void onLoadMember(MemberVO memberVO) {
+        addChildFragment(MemberDetailFragment.newInstance(memberVO), "FRAG_MEMBER_DETAIL");
     }
 }

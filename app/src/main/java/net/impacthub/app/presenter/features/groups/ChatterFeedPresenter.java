@@ -14,6 +14,7 @@ package net.impacthub.app.presenter.features.groups;
 
 import net.impacthub.app.mapper.chatter.ChatterMapper;
 import net.impacthub.app.model.features.push.PushBody;
+import net.impacthub.app.model.pojo.ChatterWrapper;
 import net.impacthub.app.model.vo.chatter.ChatterVO;
 import net.impacthub.app.model.features.chatterfeed.ChatterFeedResponse;
 import net.impacthub.app.model.vo.members.MemberVO;
@@ -27,6 +28,7 @@ import net.impacthub.app.usecase.features.groups.ChatterFeedUseCase;
 import net.impacthub.app.usecase.features.members.GetMemberByUserIdUseCase;
 import net.impacthub.app.usecase.features.push.SendPushUseCase;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import io.reactivex.Single;
@@ -35,6 +37,8 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.observers.DisposableSingleObserver;
 
 public class ChatterFeedPresenter extends UiPresenter<ChatterFeedUiContract> {
+
+    private final List<String> mCommentIdList = new LinkedList<>();
 
     public ChatterFeedPresenter(ChatterFeedUiContract uiContract) {
         super(uiContract);
@@ -73,6 +77,13 @@ public class ChatterFeedPresenter extends UiPresenter<ChatterFeedUiContract> {
     }
 
     public void likePost(String toUserIds, String commentID, int position) {
+        if (mCommentIdList.contains(commentID)) {
+            getUi().onError(new Throwable("Already processing like..."));
+            return;
+        }
+        mCommentIdList.add(commentID);
+        ChatterWrapper chatterWrapper = new ChatterWrapper(commentID, position);
+
         String type = NotificationType.TYPE_LIKE_POST.getType();
         PushBody pushQuery = new PushBody(getUserAccount().getUserId(), toUserIds, type, commentID);
 
@@ -83,31 +94,42 @@ public class ChatterFeedPresenter extends UiPresenter<ChatterFeedUiContract> {
                         return new SendPushUseCase(subject).getUseCase();
                     }
                 });
-        subscribeWith(useCase, new DisposableSingleObserverAdapter<Integer, Object>(position) {
+        subscribeWith(useCase, new DisposableSingleObserverAdapter<ChatterWrapper, Object>(chatterWrapper) {
 
             @Override
-            protected void onSuccess(Object o, Integer subject) {
-                getUi().onPostLiked(subject);
+            protected void onSuccess(Object o, ChatterWrapper subject) {
+                getUi().onPostLiked(subject.getPosition());
+                mCommentIdList.remove(subject.getCommentID());
             }
 
             @Override
-            public void onError(@NonNull Throwable e) {
+            protected void onError(Throwable e, ChatterWrapper subject) {
+                super.onError(e, subject);
                 getUi().onError(e);
+                mCommentIdList.remove(subject.getCommentID());
             }
         });
     }
 
-    public void unlikePost(String likeId, int position) {
-        subscribeWith(new UnlikePostUseCase(likeId).getUseCase(), new DisposableSingleObserverAdapter<Integer, Object>(position) {
+    public void unlikePost(String commentID, int position) {
+        if (mCommentIdList.contains(commentID)) {
+            getUi().onError(new Throwable("Already processing like..."));
+            return;
+        }
+        mCommentIdList.add(commentID);
+        ChatterWrapper chatterWrapper = new ChatterWrapper(commentID, position);
+        subscribeWith(new UnlikePostUseCase(commentID).getUseCase(), new DisposableSingleObserverAdapter<ChatterWrapper, Object>(chatterWrapper) {
 
             @Override
-            protected void onSuccess(Object o, Integer subject) {
-                getUi().onPostUnLiked(subject);
+            protected void onSuccess(Object o, ChatterWrapper subject) {
+                getUi().onPostUnLiked(subject.getPosition());
+                mCommentIdList.remove(subject.getCommentID());
             }
 
             @Override
-            public void onError(@NonNull Throwable e) {
+            protected void onError(Throwable e, ChatterWrapper subject) {
                 getUi().onError(e);
+                mCommentIdList.remove(subject.getCommentID());
             }
         });
     }

@@ -36,7 +36,7 @@ public class LikePostUseCase extends BaseUseCaseGenerator<Single<Object>, Object
         return Single.fromCallable(new Callable<Object>() {
             @Override
             public Object call() throws Exception {
-                return getApiCall().getResponse(getSoqlRequestFactory().createChatterLikePostRequest(getUserAccount().getCommunityId(), mCommentId), Object.class);
+                return getApiCall().getResponse(getSoqlRequestFactory().createChatterLikePostRequest(getUserAccount().getCommunityId(), mCommentId, true), Object.class);
             }
         });
     }

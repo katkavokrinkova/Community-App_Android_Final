@@ -351,14 +351,14 @@ public class SoqlRequestFactory {
                 getPath(communityId, "feeds/record/", feedId + "/feed-elements?filterGroup=Medium"));
     }
 
-    public RestRequest createChatterLikePostRequest(String communityId, String commentID) {
-        return new RestRequest(RestRequest.RestMethod.POST,
-                getPath(communityId, "feed-elements/", commentID + "/capabilities/chatter-likes/items?include=/id"), RequestBody.create(null, ""));
+    public RestRequest createChatterLikePostRequest(String communityId, String commentID, boolean value) {
+        return new RestRequest(RestRequest.RestMethod.PATCH,
+                getPath(communityId, "feed-elements/", commentID + "/capabilities/chatter-likes/items?isLikedByCurrentUser=" + value), RequestBody.create(null, ""));
     }
 
-    public RestRequest createChatterUnlikePostRequest(String communityId, String likeID) {
-        return new RestRequest(RestRequest.RestMethod.DELETE, getPath(communityId, "likes/", likeID));
-    }
+//    public RestRequest createChatterUnlikePostRequest(String communityId, String likeID) {
+//        return new RestRequest(RestRequest.RestMethod.DELETE, getPath(communityId, "likes/", likeID));
+//    }
 
     public RestRequest createGroupPostRequest(String communityId, JSONObject jsonObject) {
         return new RestRequest(RestRequest.RestMethod.POST,

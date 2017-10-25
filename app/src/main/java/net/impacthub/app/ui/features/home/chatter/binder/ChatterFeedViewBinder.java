@@ -66,11 +66,13 @@ public class ChatterFeedViewBinder extends ViewBinderAdapter<ChatterFeedPresente
                         getPresenter().getMemberBy(model.mUserId);
                         break;
                     case R.id.comment_bar:
-                        //addChildFragment(ChatterCommentFragment.newInstance(model), "FRAG_CHATTER_COMMENTS");
+                        if (mChatterFeedActionListener != null) {
+                            mChatterFeedActionListener.openComments(model);
+                        }
                         break;
                     case R.id.like_bar:
-                        if(model.mIsLikedByMe) {
-                            getPresenter().unlikePost(model.mLikeId, position);
+                        if (model.mIsLikedByMe) {
+                            getPresenter().unlikePost(model.mCommentId, position);
                         } else {
                             getPresenter().likePost(model.mUserId, model.mCommentId, position);
                         }
@@ -85,7 +87,8 @@ public class ChatterFeedViewBinder extends ViewBinderAdapter<ChatterFeedPresente
         return recyclerView;
     }
 
-    public void updateViewPostCreated() {}
+    public void updateViewPostCreated() {
+    }
 
     @Override
     public void onLoadChatterFeed(List<ChatterVO> chatterDTOs) {
@@ -94,7 +97,9 @@ public class ChatterFeedViewBinder extends ViewBinderAdapter<ChatterFeedPresente
 
     @Override
     public void onLoadMember(MemberVO memberVO) {
-        showToast("Loading member");
+        if (mChatterFeedActionListener != null) {
+            mChatterFeedActionListener.onLoadMember(memberVO);
+        }
     }
 
     @Override
@@ -122,11 +127,15 @@ public class ChatterFeedViewBinder extends ViewBinderAdapter<ChatterFeedPresente
 
     @Override
     public void onError(Throwable throwable) {
-
+        showToast(throwable.getMessage());
     }
 
     public interface OnChatterFeedActionListener {
 
         void onShowProgressBar(boolean showProgressBar);
+
+        void openComments(ChatterVO model);
+
+        void onLoadMember(MemberVO memberVO);
     }
 }

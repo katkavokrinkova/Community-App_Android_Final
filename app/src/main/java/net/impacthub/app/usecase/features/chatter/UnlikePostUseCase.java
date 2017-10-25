@@ -25,10 +25,10 @@ import io.reactivex.Single;
 
 public class UnlikePostUseCase extends BaseUseCaseGenerator<Single<Object>, Object> {
 
-    private final String mLikeId;
+    private final String mCommentId;
 
-    public UnlikePostUseCase(String likeID) {
-        mLikeId = likeID;
+    public UnlikePostUseCase(String commentID) {
+        mCommentId = commentID;
     }
 
     @Override
@@ -36,7 +36,7 @@ public class UnlikePostUseCase extends BaseUseCaseGenerator<Single<Object>, Obje
         return Single.fromCallable(new Callable<Object>() {
             @Override
             public Object call() throws Exception {
-                return getApiCall().getResponse(getSoqlRequestFactory().createChatterUnlikePostRequest(getUserAccount().getCommunityId(), mLikeId), Object.class);
+                return getApiCall().getResponse(getSoqlRequestFactory().createChatterLikePostRequest(getUserAccount().getCommunityId(), mCommentId, false), Object.class);
             }
         });
     }

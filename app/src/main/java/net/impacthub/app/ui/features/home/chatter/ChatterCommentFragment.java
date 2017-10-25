@@ -60,7 +60,7 @@ public class ChatterCommentFragment extends BaseChildFragment<ChatterCommentsUiP
 
     @OnClick(R.id.button_add_comment)
     protected void onAddComment() {
-        getPresenter().addComment(mChatterVO.mCommentId, mCommentField.getText().toString());
+        getPresenter().addComment(mChatterVO.mUserId, mChatterVO.mCommentId, mCommentField.getText().toString());
         mChatterVO.mComments.getComments().add(new ChatComment());
     }
 

@@ -16,11 +16,14 @@ import android.text.TextUtils;
 import net.impacthub.app.model.features.chatter.MessageSegment;
 import net.impacthub.app.model.features.chatter.PostBody;
 import net.impacthub.app.model.features.chatter.PostCommentPayload;
+import net.impacthub.app.model.features.push.PushBody;
 import net.impacthub.app.model.vo.members.MemberVO;
+import net.impacthub.app.model.vo.notifications.NotificationType;
 import net.impacthub.app.presenter.base.UiPresenter;
 import net.impacthub.app.usecase.features.chatter.AddCommentUseCase;
 import net.impacthub.app.usecase.features.members.GetMemberByUserIdUseCase;
 
+import io.reactivex.Single;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.observers.DisposableSingleObserver;
 
@@ -36,7 +39,7 @@ public class ChatterCommentsUiPresenter extends UiPresenter<ChatterCommentsUiCon
         super(uiContract);
     }
 
-    public void addComment(String commentID, String typedComment) {
+    public void addComment(String toUserIds, String commentID, String typedComment) {
         getUi().onShowProgressBar(true);
         if (TextUtils.isEmpty(typedComment)) {
             getUi().onError(new Throwable("Comment should not be empty."));
@@ -46,7 +49,12 @@ public class ChatterCommentsUiPresenter extends UiPresenter<ChatterCommentsUiCon
 
         PostBody postBody = new PostBody(new MessageSegment[]{new MessageSegment("Text", typedComment)});
         PostCommentPayload payload = new PostCommentPayload(postBody);
-        subscribeWith(new AddCommentUseCase(commentID, payload).getUseCase(), new DisposableSingleObserver<Object>() {
+
+        String type = NotificationType.TYPE_COMMENT.getType();
+        PushBody pushQuery = new PushBody(getUserAccount().getUserId(), toUserIds, type, commentID);
+
+        Single<Object> useCase = new AddCommentUseCase(commentID, payload).getUseCase();
+        subscribeWith(useCase, new DisposableSingleObserver<Object>() {
             @Override
             public void onSuccess(@NonNull Object o) {
                 getUi().onError(new Throwable(o.toString()));
