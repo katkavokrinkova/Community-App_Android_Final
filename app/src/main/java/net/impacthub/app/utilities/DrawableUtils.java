@@ -41,4 +41,12 @@ public final class DrawableUtils {
         Bitmap bitmapResized = Bitmap.createScaledBitmap(bitmap, width, height, false);
         return new BitmapDrawable(resources, bitmapResized);
     }
+
+    public static Drawable bitmapToDrawable(Context context, Bitmap bitmap) {
+        return new BitmapDrawable(context.getResources(), bitmap);
+    }
+
+    public static Drawable bitmapToDrawable(Resources resources, Bitmap bitmap) {
+        return new BitmapDrawable(resources, bitmap);
+    }
 }

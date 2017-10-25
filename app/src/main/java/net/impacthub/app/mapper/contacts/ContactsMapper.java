@@ -59,6 +59,7 @@ public class ContactsMapper {
                             MemberVO memberVO = memberVOMap.get(contactFrom__c);
                             memberVO.mMemberStatus = MemberStatus.APPROVED;
                             memberVO.mDM_ID = record.getId();
+                            memberVO.mRejectable = true;
                             contactVO.mMember = memberVO;
                             contactsWrapper.getApprovedContacts().add(contactVO);
                         }

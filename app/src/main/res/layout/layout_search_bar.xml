@@ -16,6 +16,16 @@
     android:background="@color/colorWhite"
     android:gravity="center_vertical">
 
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/button_clear"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_gravity="right|center_vertical"
+        android:layout_marginEnd="16dp"
+        android:tint="@color/brownish_grey"
+        android:visibility="gone"
+        app:srcCompat="@drawable/ic_cancel_black_24dp" />
+
     <net.impacthub.app.ui.widgets.SendEditText
         android:id="@+id/text_global_search_term"
         android:layout_width="match_parent"
@@ -29,15 +39,5 @@
         android:textColor="@color/brownish_grey"
         android:textSize="16sp"
         app:typeface="fonts/gt-walsheim-light-web.ttf" />
-
-    <android.support.v7.widget.AppCompatImageView
-        android:id="@+id/button_clear"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_gravity="right|center_vertical"
-        android:layout_marginEnd="16dp"
-        android:tint="@color/brownish_grey"
-        android:visibility="gone"
-        app:srcCompat="@drawable/ic_cancel_black_24dp" />
 
 </FrameLayout>

@@ -80,7 +80,8 @@ public class ChatterCommentListAdapter extends BaseListAdapter<ChatterCommentLis
         @Override
         public void onClick(View view) {
             if (mItemClickListener != null) {
-                mItemClickListener.onItemClick(view.getId(), getItem(getAdapterPosition()));
+                int position = getAdapterPosition();
+                mItemClickListener.onItemClick(view.getId(), getItem(position), position);
             }
         }
     }

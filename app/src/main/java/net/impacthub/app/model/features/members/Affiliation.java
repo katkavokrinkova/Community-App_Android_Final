@@ -13,7 +13,7 @@ public class Affiliation {
     private String name;
     @SerializedName("CountOfMembers__c")
     @Expose
-    private String countOfMembers;
+    private Integer countOfMembers;
     @SerializedName("ImageURL__c")
     @Expose
     private String imageUrl;
@@ -44,7 +44,7 @@ public class Affiliation {
         return name;
     }
 
-    public String getCountOfMembers() {
+    public Integer getCountOfMembers() {
         return countOfMembers;
     }
 

@@ -23,15 +23,16 @@ public class ProjectRecords {
     private String Group_Descr__c;
     private String Directory_Style__c;
     private String Related_Impact_Goal__c;
+    private Integer CountOfMembers__c;
     private String CreatedById;
     private String Sector__c;
     private String ChatterGroupId__c;
+    private String ChatterGroupType__c;
     private String Id;
     private Attributes attributes;
-    private Organisation__r Organisation__r;
     private String ImageURL__c;
-    private String CountOfMembers__c;
     private String Impact_Hub_Cities__c;
+    private Organisation__r Organisation__r;
 
     public String getName() {
         return Name;
@@ -69,15 +70,23 @@ public class ProjectRecords {
         return attributes;
     }
 
-    public net.impacthub.app.model.features.projects.Organisation__r getOrganisation__r() {
+    public Organisation__r getOrganisation__r() {
         return Organisation__r;
+    }
+
+    public String getChatterGroupType__c() {
+        return ChatterGroupType__c;
+    }
+
+    public String getGroup_Descr__c() {
+        return Group_Descr__c;
     }
 
     public String getImageURL__c() {
         return ImageURL__c;
     }
 
-    public String getCountOfMembers__c() {
+    public Integer getCountOfMembers__c() {
         return CountOfMembers__c;
     }
 

@@ -47,7 +47,6 @@ import net.impacthub.app.ui.features.home.projects.ProjectDetailFragment;
 import net.impacthub.app.ui.features.home.projects.ProjectsLisAdapter;
 import net.impacthub.app.ui.features.home.projects.binders.ProjectsViewBinder;
 import net.impacthub.app.ui.features.messages.conversation.ConversationFragment;
-import net.impacthub.app.ui.modal.ModalActivity;
 
 import java.util.List;
 
@@ -79,6 +78,7 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
     public static final String EXTRA_MEMBER_ABOUT_ME = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_ABOUT_ME";
     public static final String EXTRA_MEMBER_STATUS_UPDATE = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_STATUS_UPDATE";
     public static final String EXTRA_MEMBER_PROFESSION = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_PROFESSION";
+    public static final String EXTRA_MEMBER_COMPANY_NAME = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_COMPANY_NAME";
 
     @BindView(R.id.app_bar_layout) protected AppBarLayout mAppBar;
     @BindView(R.id.collapse_toolbar_member_detail) protected CollapsingToolbarLayout mCollapsingToolbarLayout;
@@ -109,6 +109,7 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
     private String mLinkedinLinkValue;
     private String mInstagramLinkValue;
     private String mImageURLValue;
+    private String mCompanyName;
 
     private ViewBinder<List<ListItemType>> mViewBinder1;
     private ViewBinder<List<ProjectVO>> mViewBinder2;
@@ -133,6 +134,7 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
         args.putString(EXTRA_MEMBER_ABOUT_ME, member.mAboutMe);
         args.putString(EXTRA_MEMBER_STATUS_UPDATE, member.mStatusUpdate);
         args.putString(EXTRA_MEMBER_PROFESSION, member.mProfession);
+        args.putString(EXTRA_MEMBER_COMPANY_NAME, member.mCompanyName);
         MemberDetailFragment fragment = new MemberDetailFragment();
         fragment.setArguments(args);
         return fragment;
@@ -167,6 +169,7 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
         mLinkedinLinkValue = arguments.getString(EXTRA_MEMBER_LINKEDIN);
         mInstagramLinkValue = arguments.getString(EXTRA_MEMBER_INSTAGRAM);
         mImageURLValue = arguments.getString(EXTRA_MEMBER_PROFILE_PICTURE);
+        mCompanyName = arguments.getString(EXTRA_MEMBER_COMPANY_NAME);
     }
 
     @Override
@@ -185,7 +188,7 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
         ProjectsLisAdapter lisAdapter = new ProjectsLisAdapter(layoutInflater);
         lisAdapter.setItemClickListener(new OnListItemClickListener<ProjectVO>() {
             @Override
-            public void onItemClick(int viewId, ProjectVO model) {
+            public void onItemClick(int viewId, ProjectVO model, int position) {
                 addChildFragment(ProjectDetailFragment.newInstance(model), "FRAG_PROJECT_DETAIL");
             }
         });
@@ -195,7 +198,7 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
         GroupsListAdapter groupsListAdapter = new GroupsListAdapter(layoutInflater);
         groupsListAdapter.setItemClickListener(new OnListItemClickListener<GroupVO>() {
             @Override
-            public void onItemClick(int viewId, GroupVO model) {
+            public void onItemClick(int viewId, GroupVO model, int position) {
                 addChildFragment(GroupDetailFragment.newInstance(model), "FRAG_GROUP_DETAIL");
             }
         });
@@ -208,7 +211,7 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
 
         setUpToolbar(mFullNameValue);
         mLocation.setText(mLocationValue);
-        mProfession.setText(mProfessionValue);
+        mProfession.setText(String.format("%s at %s", mProfessionValue, mCompanyName));
 
         mStatusUpdate.setText(mStatusUpdateValue);
 
@@ -427,9 +430,8 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
     }
 
     private void connectMember() {
-        Intent intent = new Intent(getActivity(), ModalActivity.class);
-        intent.putExtra(ModalActivity.MODAL_TYPE_CONNECT, true);
-        intent.putExtra(ModalActivity.EXTRA_CONTACT_ID, mContactIDValue);
+        Intent intent = new Intent(getActivity(), ConnectMemberActivity.class);
+        intent.putExtra(ConnectMemberActivity.EXTRA_CONTACT_CONNECT_ID, mContactIDValue);
         startActivityForResult(intent, 1122);
     }
 }

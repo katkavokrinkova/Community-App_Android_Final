@@ -182,14 +182,14 @@ public class CompanyDetailFragment extends BaseChildFragment<CompanyDetailUiPres
         ProjectsLisAdapter lisAdapter = new ProjectsLisAdapter(getLayoutInflater(getArguments()));
         lisAdapter.setItemClickListener(new OnListItemClickListener<ProjectVO>() {
             @Override
-            public void onItemClick(int viewId, ProjectVO model) {
+            public void onItemClick(int viewId, ProjectVO model, int position) {
                 addChildFragment(ProjectDetailFragment.newInstance(model), "FRAG_PROJECT_DETAIL");
             }
         });
         adapter.addVieBinder(mViewBinder2 = new ProjectsViewBinder(lisAdapter));
         adapter.addVieBinder(mViewBinder3 = new MembersViewBinder(new OnListItemClickListener<MemberVO>() {
             @Override
-            public void onItemClick(int viewId, MemberVO model) {
+            public void onItemClick(int viewId, MemberVO model, int position) {
                 addChildFragment(MemberDetailFragment.newInstance(model), "FRAG_MEMBER_DETAIL");
             }
         }));

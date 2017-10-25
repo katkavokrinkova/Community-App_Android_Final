@@ -71,6 +71,7 @@ public class ConversationUiPresenter extends UiPresenter<ConversationUiContract>
 
         if (TextUtils.isEmpty(message)) {
             getUi().onError(new Throwable("Message should not be empty."));
+            getUi().onEnableSendButton();
             return;
         }
 
@@ -90,12 +91,17 @@ public class ConversationUiPresenter extends UiPresenter<ConversationUiContract>
                         getUi().onClearTextField();
                     }
                 })
+                .doOnError(new Consumer<Throwable>() {
+                    @Override
+                    public void accept(@NonNull Throwable throwable) throws Exception {
+                        getUi().onEnableSendButton();
+                    }
+                })
                 .observeOn(Schedulers.io())
                 .flatMap(new AbstractFunction<PushBody, Id, SingleSource<?>>(pushQuery) {
                     @Override
                     protected SingleSource<?> apply(Id response, PushBody subject) throws Exception {
-                        JSONObject jsonObject = new JSONObject(new Gson().toJson(subject));
-                        return new SendPushUseCase(jsonObject).getUseCase();
+                        return new SendPushUseCase(subject).getUseCase();
                     }
                 })
                 .flatMap(new AbstractFunction<String, Object, SingleSource<ProcessedMessages>>(conversationID) {
@@ -121,6 +127,7 @@ public class ConversationUiPresenter extends UiPresenter<ConversationUiContract>
 
         if (TextUtils.isEmpty(message)) {
             getUi().onError(new Throwable("Message should not be empty."));
+            getUi().onEnableSendButton();
             return;
         }
 
@@ -139,12 +146,17 @@ public class ConversationUiPresenter extends UiPresenter<ConversationUiContract>
                         getUi().onClearTextField();
                     }
                 })
+                .doOnError(new Consumer<Throwable>() {
+                    @Override
+                    public void accept(@NonNull Throwable throwable) throws Exception {
+                        getUi().onEnableSendButton();
+                    }
+                })
                 .observeOn(Schedulers.io())
                 .flatMap(new AbstractFunction<PushBody, Id, SingleSource<?>>(pushQuery) {
                     @Override
                     protected SingleSource<?> apply(Id response, PushBody subject) throws Exception {
-                        JSONObject jsonObject = new JSONObject(new Gson().toJson(subject));
-                        return new SendPushUseCase(jsonObject).getUseCase();
+                        return new SendPushUseCase(subject).getUseCase();
                     }
                 });
         subscribeWith(sendMessageSingle, new DisposableSingleObserver<Object>() {

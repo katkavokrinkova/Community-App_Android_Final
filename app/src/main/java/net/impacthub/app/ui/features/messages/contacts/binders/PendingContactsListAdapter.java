@@ -93,7 +93,8 @@ public class PendingContactsListAdapter extends BaseListAdapter<PendingContactsL
         @Override
         public void onClick(View view) {
             if (mItemClickListener != null) {
-                mItemClickListener.onItemClick(view.getId(), getItem(getAdapterPosition()));
+                int position = getAdapterPosition();
+                mItemClickListener.onItemClick(view.getId(), getItem(position), position);
             }
         }
     }

@@ -27,4 +27,6 @@ public interface ConversationUiContract extends ErrorHandlerUiContract {
     void onClearTextField();
 
     void onDismissConversation();
+
+    void onEnableSendButton();
 }

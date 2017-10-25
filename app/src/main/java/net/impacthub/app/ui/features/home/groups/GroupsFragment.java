@@ -146,13 +146,18 @@ public class GroupsFragment extends BaseChildFragment<GroupPresenter> implements
     }
 
     @Override
-    public void onItemClick(int viewId, GroupVO model) {
+    public void onItemClick(int viewId, GroupVO model, int position) {
         addChildFragment(GroupDetailFragment.newInstance(model), "FRAG_GROUP_DETAIL");
     }
 
     @Override
     public void onLoadAllGroups(List<GroupVO> groupList) {
         mViewBinder1.bindView(groupList);
+    }
+
+    @Override
+    public void onLoadGroupsYouManage(List<GroupVO> groupVOs) {
+        mViewBinder2.bindView(groupVOs);
     }
 
     @Override

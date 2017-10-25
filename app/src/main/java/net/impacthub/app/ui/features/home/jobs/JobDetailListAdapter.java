@@ -23,6 +23,7 @@ import net.impacthub.app.R;
 import net.impacthub.app.model.pojo.FilterableString;
 import net.impacthub.app.model.pojo.ListItemType;
 import net.impacthub.app.model.vo.jobs.JobDescriptionVO;
+import net.impacthub.app.model.vo.jobs.JobVO;
 import net.impacthub.app.model.vo.projects.ProjectVO;
 import net.impacthub.app.ui.base.BaseListAdapter;
 import net.impacthub.app.ui.common.ImageLoaderHelper;
@@ -34,9 +35,9 @@ import net.impacthub.app.ui.common.RecyclerViewHolder;
  * @date 8/22/2017.
  */
 
-public class JobDetailListAdapter extends BaseListAdapter<RecyclerView.ViewHolder, ListItemType> {
+class JobDetailListAdapter extends BaseListAdapter<RecyclerView.ViewHolder, ListItemType> {
 
-    protected JobDetailListAdapter(LayoutInflater inflater) {
+    JobDetailListAdapter(LayoutInflater inflater) {
         super(inflater);
     }
 
@@ -58,8 +59,11 @@ public class JobDetailListAdapter extends BaseListAdapter<RecyclerView.ViewHolde
             case 2:
                 viewHolder = new DescriptionViewHolder(getLayoutInflater().inflate(R.layout.item_layout_job_text_description, parent, false));
                 break;
+            case 3:
+                viewHolder = new JobRelatedProjectViewHolder(getLayoutInflater().inflate(R.layout.item_job_related_layout, parent, false));
+                break;
             default:
-                viewHolder = new JobProjectViewHolder(getLayoutInflater().inflate(R.layout.item_layout_job_project, parent, false));
+                viewHolder = new JobRelatedJobViewHolder(getLayoutInflater().inflate(R.layout.item_job_related_layout, parent, false));
         }
         return viewHolder;
     }
@@ -82,7 +86,11 @@ public class JobDetailListAdapter extends BaseListAdapter<RecyclerView.ViewHolde
                 break;
             case 3:
                 ProjectVO projectVO = (ProjectVO) model;
-                ((JobProjectViewHolder) holder).bindViewsWith(projectVO);
+                ((JobRelatedProjectViewHolder) holder).bindViewsWith(projectVO);
+                break;
+            case 4:
+                JobVO jobVO = (JobVO) model;
+                ((JobRelatedJobViewHolder) holder).bindViewsWith(jobVO);
                 break;
         }
     }
@@ -138,20 +146,57 @@ public class JobDetailListAdapter extends BaseListAdapter<RecyclerView.ViewHolde
         }
     }
 
-    private class JobProjectViewHolder extends RecyclerViewHolder<ProjectVO> implements View.OnClickListener {
+    private class JobRelatedJobViewHolder extends RecyclerViewHolder<JobVO> implements View.OnClickListener {
+
+        final ImageView jobImage;
+        final TextView jobName;
+        final TextView jobCompany;
+//        final View projectLink;
+
+        JobRelatedJobViewHolder(View itemView) {
+            super(itemView);
+            jobImage = (ImageView) itemView.findViewById(R.id.image_project_logo);
+            jobName = (TextView) itemView.findViewById(R.id.text_project_name);
+            jobCompany = (TextView) itemView.findViewById(R.id.text_project_company);
+//            projectLink = itemView.findViewById(R.id.container_project_link);
+//            projectLink.setOnClickListener(this);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        protected void bindViewsWith(JobVO itemData) {
+            Context context = jobImage.getContext();
+            jobName.setText(itemData.mName);
+            jobCompany.setText(itemData.mCompanyName);
+            ImageLoaderHelper.loadImage(context, buildUrl(itemData.mLogoURL), jobImage);
+        }
+
+        @Override
+        public void onClick(View view) {
+            if (mItemClickListener != null) {
+                int position = getAdapterPosition();
+                mItemClickListener.onItemClick(1, getItem(position), position);
+            }
+        }
+    }
+
+    private class JobRelatedProjectViewHolder extends RecyclerViewHolder<ProjectVO> implements View.OnClickListener {
 
         final ImageView projectImage;
         final TextView projectName;
         final TextView projectCompany;
+        final TextView relatedLinkName;
 //        final View projectLink;
 
-        JobProjectViewHolder(View itemView) {
+        JobRelatedProjectViewHolder(View itemView) {
             super(itemView);
             projectImage = (ImageView) itemView.findViewById(R.id.image_project_logo);
             projectName = (TextView) itemView.findViewById(R.id.text_project_name);
             projectCompany = (TextView) itemView.findViewById(R.id.text_project_company);
+            relatedLinkName = (TextView) itemView.findViewById(R.id.text_related_item_name);
 //            projectLink = itemView.findViewById(R.id.container_project_link);
 //            projectLink.setOnClickListener(this);
+            relatedLinkName.setText("View Project");
             itemView.setOnClickListener(this);
         }
 
@@ -166,7 +211,8 @@ public class JobDetailListAdapter extends BaseListAdapter<RecyclerView.ViewHolde
         @Override
         public void onClick(View view) {
             if (mItemClickListener != null) {
-                mItemClickListener.onItemClick(view.getId(), getItem(getAdapterPosition()));
+                int position = getAdapterPosition();
+                mItemClickListener.onItemClick(0, getItem(position), position);
             }
         }
     }

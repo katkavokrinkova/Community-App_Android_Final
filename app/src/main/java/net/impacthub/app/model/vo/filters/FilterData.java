@@ -24,7 +24,7 @@ import java.util.Map;
 
 public class FilterData implements Serializable {
 
-    public final static String KEY_FILTER_HUB = "hub";
+    public final static String KEY_FILTER_HUB = "impact hub";
     public final static String KEY_FILTER_CITY = "city";
     public final static String KEY_FILTER_SECTOR = "sector";
 

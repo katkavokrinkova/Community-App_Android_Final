@@ -13,7 +13,6 @@ import net.impacthub.app.model.vo.members.MemberVO;
 import net.impacthub.app.ui.base.BaseListAdapter;
 import net.impacthub.app.ui.common.ImageLoaderHelper;
 import net.impacthub.app.ui.common.RecyclerViewHolder;
-import net.impacthub.app.ui.widgets.CircleImageView;
 
 /**
  * @author Filippo Ash
@@ -39,7 +38,7 @@ public class MembersListAdapter extends BaseListAdapter<MembersListAdapter.Membe
 
     class MemberViewHolder extends RecyclerViewHolder<MemberVO> implements View.OnClickListener {
 
-        final CircleImageView memberImage;
+        final ImageView memberImage;
         final TextView name;
         final TextView profession;
         final TextView locations;
@@ -47,7 +46,7 @@ public class MembersListAdapter extends BaseListAdapter<MembersListAdapter.Membe
 
         MemberViewHolder(View itemView) {
             super(itemView);
-            memberImage = (CircleImageView) itemView.findViewById(R.id.member_image);
+            memberImage = (ImageView) itemView.findViewById(R.id.member_image);
             name = (TextView) itemView.findViewById(R.id.name);
             profession = (TextView) itemView.findViewById(R.id.profession);
             locations = (TextView) itemView.findViewById(R.id.locations);
@@ -60,7 +59,7 @@ public class MembersListAdapter extends BaseListAdapter<MembersListAdapter.Membe
         protected void bindViewsWith(MemberVO item) {
             Context context = memberImage.getContext();
             name.setText(item.mFullName);
-            profession.setText(item.mProfession);
+            profession.setText(String.format("%s at %s", item.mProfession, item.mCompanyName));
             locations.setText(item.mLocation);
             ImageLoaderHelper.loadImage(context, buildUrl(item.mProfilePicURL), memberImage);
 
@@ -77,16 +76,14 @@ public class MembersListAdapter extends BaseListAdapter<MembersListAdapter.Membe
                 case MemberStatus.NOT_CONTACTED:
                     ImageLoaderHelper.loadImage(context, R.mipmap.comment_bubble_small, iconMemberStatus);
                     break;
-                case MemberStatus.DECLINED:
-                default:
-                    ImageLoaderHelper.loadImage(context, 0, iconMemberStatus);
             }
         }
 
         @Override
         public void onClick(View v) {
             if (mItemClickListener != null) {
-                mItemClickListener.onItemClick(v.getId(), getItem(getAdapterPosition()));
+                int position = getAdapterPosition();
+                mItemClickListener.onItemClick(v.getId(), getItem(position), position);
             }
         }
     }

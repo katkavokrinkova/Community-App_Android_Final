@@ -17,10 +17,7 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
+import android.widget.ImageView;
 
 import net.impacthub.app.R;
 import net.impacthub.app.model.features.conversations.ProcessedMessages;
@@ -31,6 +28,7 @@ import net.impacthub.app.model.vo.notifications.NotificationType;
 import net.impacthub.app.presenter.features.messages.ConversationUiContract;
 import net.impacthub.app.presenter.features.messages.ConversationUiPresenter;
 import net.impacthub.app.ui.base.BaseChildFragment;
+import net.impacthub.app.ui.common.ImageLoaderHelper;
 import net.impacthub.app.ui.widgets.drawables.RoundedDrawable;
 import net.impacthub.app.utilities.DrawableUtils;
 
@@ -54,13 +52,14 @@ public class ConversationFragment extends BaseChildFragment<ConversationUiPresen
 
     @BindView(R.id.message_items) protected RecyclerView mMessageList;
     @BindView(R.id.message_entry) protected EditText mMessageField;
+    @BindView(R.id.button_send) protected ImageView mSendButton;
 
     private String mConversationID;
     private ConversationListAdapter mAdapter;
     private String mInReplyTo;
 
     public static ConversationFragment newInstance(ConversationVO model) {
-        
+
         Bundle args = new Bundle();
         args.putString(EXTRA_CONVERSATION_ID, model.mConversationId);
         args.putString(EXTRA_CONVERSATION_DISPLAY_NAME, model.mDisplayName);
@@ -83,6 +82,7 @@ public class ConversationFragment extends BaseChildFragment<ConversationUiPresen
 
     @OnClick(R.id.button_send)
     protected void onSendButtonClicked() {
+        mSendButton.setEnabled(false);
         sendMessage(mMessageField.getText().toString());
     }
 
@@ -122,12 +122,11 @@ public class ConversationFragment extends BaseChildFragment<ConversationUiPresen
         if (recipients != null && recipients.size() > 0) {
             RecipientVO recipientVO = recipients.get(0);
             setUpToolbar(recipientVO.mDisplayName);
-
-            Glide.with(getContext().getApplicationContext()).asBitmap().load(recipientVO.mImageURL).into(new SimpleTarget<Bitmap>() {
+            ImageLoaderHelper.getImageAsBitmap(getContext(), recipientVO.mImageURL, new ImageLoaderHelper.ImageFetchListener() {
                 @Override
-                public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+                public void onImageReady(Bitmap bitmap) {
                     if (mToolbar != null) {
-                        RoundedDrawable roundedDrawable = new RoundedDrawable(resource);
+                        RoundedDrawable roundedDrawable = new RoundedDrawable(bitmap);
                         roundedDrawable.setOval(true);
                         int thumbnailSize = getResources().getDimensionPixelOffset(R.dimen.toolbar_thumbnail_size);
                         Drawable drawable = DrawableUtils.resize(getResources(), roundedDrawable.toBitmap(), thumbnailSize, thumbnailSize);
@@ -141,11 +140,17 @@ public class ConversationFragment extends BaseChildFragment<ConversationUiPresen
 
     @Override
     public void onClearTextField() {
+        mSendButton.setEnabled(true);
         mMessageField.setText(null);
     }
 
     @Override
     public void onDismissConversation() {
         popChildFragment();
+    }
+
+    @Override
+    public void onEnableSendButton() {
+        mSendButton.setEnabled(true);
     }
 }

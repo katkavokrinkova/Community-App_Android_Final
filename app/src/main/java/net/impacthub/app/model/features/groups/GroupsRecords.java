@@ -23,7 +23,8 @@ public class GroupsRecords {
     private String Group_Descr__c;
     private String Directory_Style__c;
     private String Related_Impact_Goal__c;
-    private String CountOfMembers__c;
+    private Integer CountOfMembers__c;
+    private String CreatedById;
     private String Sector__c;
     private String ChatterGroupId__c;
     private String ChatterGroupType__c;
@@ -48,7 +49,7 @@ public class GroupsRecords {
         return Related_Impact_Goal__c;
     }
 
-    public String getCountOfMembers__c() {
+    public Integer getCountOfMembers__c() {
         return CountOfMembers__c;
     }
 
@@ -62,6 +63,14 @@ public class GroupsRecords {
 
     public String getId() {
         return Id;
+    }
+
+    public String getCreatedById() {
+        return CreatedById;
+    }
+
+    public String getGroup_Descr__c() {
+        return Group_Descr__c;
     }
 
     public Attributes getAttributes() {

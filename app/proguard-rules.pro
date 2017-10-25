@@ -68,6 +68,10 @@
 -keep class sun.misc.Unsafe { *; }
 -keep class com.google.gson.stream.** { *; }
 
+## ---- PICASSO ----
+
+-dontwarn com.squareup.okhttp.**
+
 ## ---- GLIDE ---
 -keep public class * implements com.bumptech.glide.module.GlideModule
 -keep public class * extends com.bumptech.glide.AppGlideModule

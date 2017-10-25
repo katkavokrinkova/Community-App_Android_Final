@@ -12,6 +12,7 @@
 package net.impacthub.app.mapper.members;
 
 import net.impacthub.app.model.features.contacts.ContactsResponse;
+import net.impacthub.app.model.features.members.Account;
 import net.impacthub.app.model.features.members.Affiliation;
 import net.impacthub.app.model.features.members.Affiliations;
 import net.impacthub.app.model.features.members.HubRecords;
@@ -99,6 +100,11 @@ public class MembersMapper {
                 }
                 memberDTO.mLocation = hubs;
             }
+        }
+
+        Account account = record.getAccount();
+        if (account != null) {
+            memberDTO.mCompanyName = account.getName();
         }
 
         return memberDTO;

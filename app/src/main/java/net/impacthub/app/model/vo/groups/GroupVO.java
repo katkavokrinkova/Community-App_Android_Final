@@ -30,7 +30,7 @@ public class GroupVO implements Searchable {
     public String mGroupDescription;
     public String mImageURL;
     public String mCities;
-    public String mMemberCount;
+    public Integer mMemberCount;
     public String mChatterGroupId;
     public String mSector;
 

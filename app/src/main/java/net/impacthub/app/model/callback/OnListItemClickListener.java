@@ -8,5 +8,5 @@ package net.impacthub.app.model.callback;
 
 public interface OnListItemClickListener<T> {
 
-    void onItemClick(int viewId, T model);
+    void onItemClick(int viewId, T model, int position);
 }
