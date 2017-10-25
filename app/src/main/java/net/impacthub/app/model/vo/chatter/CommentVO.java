@@ -11,6 +11,7 @@
 
 package net.impacthub.app.model.vo.chatter;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -20,7 +21,7 @@ import java.util.List;
  * @date 9/1/2017.
  */
 
-public class CommentVO {
+public class CommentVO implements Serializable {
 
     private final List<ChatComment> mComments = new LinkedList<>();
 

@@ -41,6 +41,7 @@ public class ChatterFeedViewBinder extends ViewBinderAdapter<ChatterFeedPresente
     private final String mChatterGroupId;
     private final OnChatterFeedActionListener mChatterFeedActionListener;
     private ChatterFeedListAdapter mAdapter;
+    private RecyclerView mRecyclerView;
 
     public ChatterFeedViewBinder(String chatterFeedId, OnChatterFeedActionListener feedActionListener) {
         mChatterGroupId = chatterFeedId;
@@ -56,8 +57,8 @@ public class ChatterFeedViewBinder extends ViewBinderAdapter<ChatterFeedPresente
     public View getView(Context context, int position) {
         onCreate(context);
         LayoutInflater inflater = LayoutInflater.from(context);
-        RecyclerView recyclerView = (RecyclerView) inflater.inflate(R.layout.common_list_layout, new LinearLayout(context), false);
-        recyclerView.setHasFixedSize(true);
+        mRecyclerView = (RecyclerView) inflater.inflate(R.layout.common_list_layout, new LinearLayout(context), false);
+        mRecyclerView.setHasFixedSize(true);
         mAdapter = new ChatterFeedListAdapter(inflater);
         mAdapter.setItemClickListener(new OnListItemClickListener<ChatterVO>() {
             @Override
@@ -82,10 +83,10 @@ public class ChatterFeedViewBinder extends ViewBinderAdapter<ChatterFeedPresente
             }
         });
         int offset = context.getResources().getDimensionPixelOffset(R.dimen.default_content_normal_gap);
-        recyclerView.addItemDecoration(new LinearItemsMarginDecorator(offset));
-        recyclerView.setAdapter(mAdapter);
+        mRecyclerView.addItemDecoration(new LinearItemsMarginDecorator(offset));
+        mRecyclerView.setAdapter(mAdapter);
         getPresenter().loadChatterFeed(mChatterGroupId);
-        return recyclerView;
+        return mRecyclerView;
     }
 
     @Override
@@ -133,6 +134,11 @@ public class ChatterFeedViewBinder extends ViewBinderAdapter<ChatterFeedPresente
         if (mAdapter != null) {
             mAdapter.notifyItemChanged(refreshPosition);
         }
+    }
+
+    public void appendNewPost(ChatterVO chatterVO) {
+        mAdapter.appendItem(0, chatterVO);
+        mRecyclerView.smoothScrollToPosition(0);
     }
 
     public interface OnChatterFeedActionListener {

@@ -12,11 +12,13 @@
 package net.impacthub.app.ui.features.home.chatter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
 import net.impacthub.app.R;
+import net.impacthub.app.model.vo.chatter.ChatterVO;
 import net.impacthub.app.presenter.features.chatter.ChatterUiContract;
 import net.impacthub.app.presenter.features.chatter.ChatterUiPresenter;
 import net.impacthub.app.ui.modal.ModalActivity;
@@ -35,6 +37,7 @@ import butterknife.OnClick;
 public class CreatePostActivity extends ModalActivity<ChatterUiPresenter> implements ChatterUiContract {
 
     public static final String EXTRA_GROUP_ID = "net.impacthub.members.ui.features.home.members.EXTRA_GROUP_ID";
+    public static final String EXTRA_POSTED_DATA = "net.impacthub.members.ui.features.home.members.EXTRA_POSTED_DATA";
 
     @BindView(R.id.text_input_message) protected EditText mInputMessageField;
 
@@ -75,8 +78,10 @@ public class CreatePostActivity extends ModalActivity<ChatterUiPresenter> implem
     }
 
     @Override
-    public void onDismissModal() {
-        setResult(Activity.RESULT_OK);
+    public void onDismissModal(ChatterVO chatterVO) {
+        Intent data = new Intent();
+        data.putExtra(EXTRA_POSTED_DATA, chatterVO);
+        setResult(Activity.RESULT_OK, data);
         finish();
     }
 

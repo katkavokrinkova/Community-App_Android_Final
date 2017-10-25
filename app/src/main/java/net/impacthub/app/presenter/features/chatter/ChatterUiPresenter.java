@@ -16,6 +16,7 @@ import android.text.TextUtils;
 import net.impacthub.app.model.features.chatter.GroupPostPayload;
 import net.impacthub.app.model.features.chatter.MessageSegment;
 import net.impacthub.app.model.features.chatter.PostBody;
+import net.impacthub.app.model.vo.chatter.ChatterVO;
 import net.impacthub.app.presenter.base.UiPresenter;
 import net.impacthub.app.usecase.features.chatter.CreatePostUseCase;
 
@@ -45,11 +46,12 @@ public class ChatterUiPresenter extends UiPresenter<ChatterUiContract> {
 
         PostBody postBody = new PostBody(new MessageSegment[]{new MessageSegment("Text", message)});
         GroupPostPayload postPayload = new GroupPostPayload(postBody, "FeedItem", groupID);
-        subscribeWith(new CreatePostUseCase(postPayload).getUseCase(), new DisposableSingleObserver<Object>() {
+
+        subscribeWith(new CreatePostUseCase(postPayload).getUseCase(), new DisposableSingleObserver<ChatterVO>() {
             @Override
-            public void onSuccess(@NonNull Object o) {
+            public void onSuccess(@NonNull ChatterVO chatterVO) {
                 getUi().onShowProgressBar(false);
-                getUi().onDismissModal();
+                getUi().onDismissModal(chatterVO);
             }
 
             @Override

@@ -114,7 +114,6 @@ public class ChatterCommentFragment extends BaseChildFragment<ChatterCommentsUiP
         mCommentField.setText(null);
         mChatterVO.mComments.getComments().add(chatComment);
         mListAdapter.appendItem(chatComment);
-        mListAdapter.notifyItemInserted(mListAdapter.getItemCount());
         if (mCommentCallback != null) {
             mCommentCallback.onRefreshCommentItem(mCommentRefreshPosition);
         }

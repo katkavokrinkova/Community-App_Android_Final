@@ -14,6 +14,7 @@ package net.impacthub.app.model.vo.chatter;
 import net.impacthub.app.model.pojo.Searchable;
 import net.impacthub.app.utilities.TextUtils;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -23,7 +24,7 @@ import java.util.Map;
  * @date 9/1/2017.
  */
 
-public class ChatComment implements Searchable {
+public class ChatComment implements Serializable, Searchable {
 
     public String mDate;
     public String mUserId;

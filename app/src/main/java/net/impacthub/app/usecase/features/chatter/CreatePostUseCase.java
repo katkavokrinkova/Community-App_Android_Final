@@ -13,7 +13,10 @@ package net.impacthub.app.usecase.features.chatter;
 
 import com.google.gson.Gson;
 
+import net.impacthub.app.mapper.chatter.ChatterMapper;
 import net.impacthub.app.model.features.chatter.GroupPostPayload;
+import net.impacthub.app.model.features.chatterfeed.Element;
+import net.impacthub.app.model.vo.chatter.ChatterVO;
 import net.impacthub.app.usecase.base.BaseUseCaseGenerator;
 
 import org.json.JSONObject;
@@ -21,6 +24,8 @@ import org.json.JSONObject;
 import java.util.concurrent.Callable;
 
 import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Function;
 
 /**
  * @author Filippo Ash
@@ -28,7 +33,7 @@ import io.reactivex.Single;
  * @date 10/23/2017.
  */
 
-public class CreatePostUseCase extends BaseUseCaseGenerator<Single<Object>, Object> {
+public class CreatePostUseCase extends BaseUseCaseGenerator<Single<ChatterVO>, Element> {
 
     private final GroupPostPayload mPostPayload;
 
@@ -37,12 +42,17 @@ public class CreatePostUseCase extends BaseUseCaseGenerator<Single<Object>, Obje
     }
 
     @Override
-    public Single<Object> getUseCase() {
-        return Single.fromCallable(new Callable<Object>() {
+    public Single<ChatterVO> getUseCase() {
+        return Single.fromCallable(new Callable<Element>() {
             @Override
-            public Object call() throws Exception {
+            public Element call() throws Exception {
                 JSONObject jsonObject = new JSONObject(new Gson().toJson(mPostPayload));
-                return getApiCall().getResponse(getSoqlRequestFactory().createGroupPostRequest(getUserAccount().getCommunityId(), jsonObject), Object.class);
+                return getApiCall().getResponse(getSoqlRequestFactory().createGroupPostRequest(getUserAccount().getCommunityId(), jsonObject), Element.class);
+            }
+        }).map(new Function<Element, ChatterVO>() {
+            @Override
+            public ChatterVO apply(@NonNull Element element) throws Exception {
+                return new ChatterMapper().mapChatterVO(element);
             }
         });
     }

@@ -11,8 +11,12 @@
 
 package net.impacthub.app.ui.features.home.groups;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -26,6 +30,7 @@ import net.impacthub.app.model.vo.members.MemberVO;
 import net.impacthub.app.ui.base.BaseChildFragment;
 import net.impacthub.app.ui.common.ImageLoaderHelper;
 import net.impacthub.app.ui.features.home.chatter.ChatterCommentFragment;
+import net.impacthub.app.ui.features.home.chatter.CreatePostActivity;
 import net.impacthub.app.ui.features.home.chatter.binder.ChatterFeedViewBinder;
 import net.impacthub.app.ui.features.home.members.MemberDetailFragment;
 
@@ -51,6 +56,7 @@ public class GroupDetailFragment extends BaseChildFragment implements ChatterFee
     @BindView(R.id.chatter_feed_container) protected FrameLayout mChatterFeedContainer;
 
     private ChatterFeedViewBinder mFeedViewBinder;
+    private String mChatterFeedId;
 
     public static GroupDetailFragment newInstance(GroupVO groupDTO) {
 
@@ -74,11 +80,28 @@ public class GroupDetailFragment extends BaseChildFragment implements ChatterFee
         super.bindView(rootView);
 
         Bundle arguments = getArguments();
-        String chatterFeedId = arguments.getString(EXTRA_CHATTER_FEED_ID);
+        mChatterFeedId = arguments.getString(EXTRA_CHATTER_FEED_ID);
         String groupName = arguments.getString(EXTRA_GROUP_NAME);
         String groupDescription = arguments.getString(EXTRA_GROUP_DESCRIPTION);
         String groupImageURL = arguments.getString(EXTRA_GROUP_IMAGE_URL);
         setUpToolbar(groupName);
+
+        if (mToolbar != null) {
+            mToolbar.inflateMenu(R.menu.menu_compose_post);
+            mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    switch (item.getItemId()) {
+                        case R.id.actionCompose:
+                            Intent intent = new Intent(getActivity(), CreatePostActivity.class);
+                            intent.putExtra(CreatePostActivity.EXTRA_GROUP_ID, mChatterFeedId);
+                            startActivityForResult(intent, 1234);
+                            return true;
+                    }
+                    return false;
+                }
+            });
+        }
 
         mHeaderTitle.setText("DISCUSSION");
         mTitle.setText(groupName);
@@ -86,7 +109,7 @@ public class GroupDetailFragment extends BaseChildFragment implements ChatterFee
         Context context = getContext();
         ImageLoaderHelper.loadImage(context, buildUrl(groupImageURL), mImageDetail);
 
-        mFeedViewBinder = new ChatterFeedViewBinder(chatterFeedId, this);
+        mFeedViewBinder = new ChatterFeedViewBinder(mChatterFeedId, this);
         mChatterFeedContainer.addView(mFeedViewBinder.getView(context, -1));
     }
 
@@ -109,5 +132,17 @@ public class GroupDetailFragment extends BaseChildFragment implements ChatterFee
     @Override
     public void onLoadMember(MemberVO memberVO) {
         addChildFragment(MemberDetailFragment.newInstance(memberVO), "FRAG_MEMBER_DETAIL");
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1234 && resultCode == Activity.RESULT_OK) {
+            ChatterVO chatterVO = (ChatterVO) data.getSerializableExtra(CreatePostActivity.EXTRA_POSTED_DATA);
+            if (mFeedViewBinder != null) {
+                mFeedViewBinder.appendNewPost(chatterVO);
+            }
+        }
+        showToast("Created a post");
     }
 }

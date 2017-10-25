@@ -66,7 +66,7 @@ public class ChatterMapper {
     }
 
     @NonNull
-    private ChatterVO mapChatterVO(Element element) {
+    public ChatterVO mapChatterVO(Element element) {
         ChatterVO chatterDTO = new ChatterVO();
         CommentVO commentVO = new CommentVO();
 

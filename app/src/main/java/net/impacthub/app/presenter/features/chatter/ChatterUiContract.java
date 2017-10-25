@@ -11,6 +11,7 @@
 
 package net.impacthub.app.presenter.features.chatter;
 
+import net.impacthub.app.model.vo.chatter.ChatterVO;
 import net.impacthub.app.presenter.features.error.ErrorHandlerUiContract;
 
 /**
@@ -21,5 +22,5 @@ import net.impacthub.app.presenter.features.error.ErrorHandlerUiContract;
 
 public interface ChatterUiContract extends ErrorHandlerUiContract {
 
-    void onDismissModal();
+    void onDismissModal(ChatterVO chatterVO);
 }
