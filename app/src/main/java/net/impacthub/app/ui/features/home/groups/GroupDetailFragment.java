@@ -11,7 +11,6 @@
 
 package net.impacthub.app.ui.features.home.groups;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -42,7 +41,7 @@ import butterknife.BindView;
  * @date 8/17/2017.
  */
 
-public class GroupDetailFragment extends BaseChildFragment implements ChatterFeedViewBinder.OnChatterFeedActionListener {
+public class GroupDetailFragment extends BaseChildFragment {
 
     private static final String EXTRA_CHATTER_FEED_ID = "net.impacthub.members.ui.features.home.groups.EXTRA_CHATTER_FEED_ID";
     private static final String EXTRA_GROUP_NAME = "net.impacthub.members.ui.features.home.groups.EXTRA_GROUP_NAME";
@@ -109,7 +108,25 @@ public class GroupDetailFragment extends BaseChildFragment implements ChatterFee
         Context context = getContext();
         ImageLoaderHelper.loadImage(context, buildUrl(groupImageURL), mImageDetail);
 
-        mFeedViewBinder = new ChatterFeedViewBinder(mChatterFeedId, this);
+        mFeedViewBinder = new ChatterFeedViewBinder(mChatterFeedId, new ChatterFeedViewBinder.OnChatterFeedActionListener() {
+            @Override
+            public void onShowProgressBar(boolean showProgressBar) {
+                GroupDetailFragment.this.onShowProgressBar(showProgressBar);
+            }
+
+            @Override
+            public void openComments(ChatterVO model, OnCommentAddedCallback callback, int position) {
+                ChatterCommentFragment commentFragment = ChatterCommentFragment.newInstance(model);
+                commentFragment.setCommentCallback(callback);
+                commentFragment.setCommentRefreshPosition(position);
+                addChildFragment(commentFragment, "FRAG_CHATTER_COMMENTS");
+            }
+
+            @Override
+            public void onLoadMember(MemberVO memberVO) {
+                addChildFragment(MemberDetailFragment.newInstance(memberVO), "FRAG_MEMBER_DETAIL");
+            }
+        });
         mChatterFeedContainer.addView(mFeedViewBinder.getView(context, -1));
     }
 
@@ -122,27 +139,8 @@ public class GroupDetailFragment extends BaseChildFragment implements ChatterFee
     }
 
     @Override
-    public void openComments(ChatterVO model, OnCommentAddedCallback callback, int position) {
-        ChatterCommentFragment commentFragment = ChatterCommentFragment.newInstance(model);
-        commentFragment.setCommentCallback(callback);
-        commentFragment.setCommentRefreshPosition(position);
-        addChildFragment(commentFragment, "FRAG_CHATTER_COMMENTS");
-    }
-
-    @Override
-    public void onLoadMember(MemberVO memberVO) {
-        addChildFragment(MemberDetailFragment.newInstance(memberVO), "FRAG_MEMBER_DETAIL");
-    }
-
-    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 1234 && resultCode == Activity.RESULT_OK) {
-            ChatterVO chatterVO = (ChatterVO) data.getSerializableExtra(CreatePostActivity.EXTRA_POSTED_DATA);
-            if (mFeedViewBinder != null) {
-                mFeedViewBinder.appendNewPost(chatterVO);
-            }
-        }
-        showToast("Created a post");
+        mFeedViewBinder.onActivityResult(requestCode, resultCode, data);
     }
 }

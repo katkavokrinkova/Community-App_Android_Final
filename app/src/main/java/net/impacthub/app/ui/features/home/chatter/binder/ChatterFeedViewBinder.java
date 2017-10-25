@@ -11,7 +11,9 @@
 
 package net.impacthub.app.ui.features.home.chatter.binder;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +29,7 @@ import net.impacthub.app.presenter.features.groups.ChatterFeedUiContract;
 import net.impacthub.app.ui.binder.ViewBinderAdapter;
 import net.impacthub.app.ui.common.LinearItemsMarginDecorator;
 import net.impacthub.app.ui.features.home.chatter.ChatterFeedListAdapter;
+import net.impacthub.app.ui.features.home.chatter.CreatePostActivity;
 
 import java.util.List;
 
@@ -136,9 +139,14 @@ public class ChatterFeedViewBinder extends ViewBinderAdapter<ChatterFeedPresente
         }
     }
 
-    public void appendNewPost(ChatterVO chatterVO) {
-        mAdapter.appendItem(0, chatterVO);
-        mRecyclerView.smoothScrollToPosition(0);
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == 1234 && resultCode == Activity.RESULT_OK) {
+            ChatterVO chatterVO = (ChatterVO) data.getSerializableExtra(CreatePostActivity.EXTRA_POSTED_DATA);
+            if (chatterVO != null) {
+                mAdapter.appendItem(0, chatterVO);
+                mRecyclerView.smoothScrollToPosition(0);
+            }
+        }
     }
 
     public interface OnChatterFeedActionListener {
