@@ -102,6 +102,7 @@ public class ChatterCommentFragment extends BaseChildFragment<ChatterCommentsUiP
             }
         });
         mCommentList.setAdapter(mListAdapter);
+        mCommentList.smoothScrollToPosition(comments.size());
     }
 
     @Override
@@ -112,11 +113,14 @@ public class ChatterCommentFragment extends BaseChildFragment<ChatterCommentsUiP
     @Override
     public void onAppendComment(ChatComment chatComment) {
         mCommentField.setText(null);
-        mChatterVO.mComments.getComments().add(chatComment);
+        List<ChatComment> comments = mChatterVO.mComments.getComments();
+        comments.add(chatComment);
+        mChatterVO.mCommentCount++;
         mListAdapter.appendItem(chatComment);
         if (mCommentCallback != null) {
             mCommentCallback.onRefreshCommentItem(mCommentRefreshPosition);
         }
+        mCommentList.smoothScrollToPosition(comments.size());
     }
 
     public void setCommentCallback(OnCommentAddedCallback commentCallback) {
