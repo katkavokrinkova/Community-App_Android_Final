@@ -21,14 +21,15 @@ import net.impacthub.app.presenter.base.UiPresenter;
 import net.impacthub.app.usecase.base.UseCaseGenerator;
 import net.impacthub.app.usecase.features.groups.AllGroupsUseCase;
 import net.impacthub.app.usecase.features.groups.GetMyGroupUseCase;
+import net.impacthub.app.usecase.features.groups.GroupsYouManage;
 import net.impacthub.app.usecase.features.groups.YourGroupsUseCase;
 import net.impacthub.app.usecase.features.profile.ProfileUseCase;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Single;
-import io.reactivex.SingleSource;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Function;
@@ -41,6 +42,9 @@ import io.reactivex.observers.DisposableSingleObserver;
  */
 
 public class GroupPresenter extends UiPresenter<GroupUiContract> {
+
+    private static final String KEY_GROUP_YOU_MANAGE = "group_you_manage";
+    private static final String KEY_YOUR_GROUPS = "your_groups";
 
     private final UseCaseGenerator<Single<MemberVO>> mProfileUseCase = new ProfileUseCase();
     private final UseCaseGenerator<Single<ChatterResponse>> mMyGroupsUseCase = new GetMyGroupUseCase();
@@ -76,23 +80,31 @@ public class GroupPresenter extends UiPresenter<GroupUiContract> {
             }
         });
 
-        Single<List<GroupVO>> yourGroupsSingle = mProfileUseCase.getUseCase()
-                .flatMap(new Function<MemberVO, SingleSource<? extends GroupsResponse>>() {
+        Single<Map<String, List<GroupVO>>> yourGroupsSingle = mProfileUseCase.getUseCase()
+                .flatMap(new Function<MemberVO, Single<Map<String, List<GroupVO>>>>() {
                     @Override
-                    public SingleSource<? extends GroupsResponse> apply(@NonNull MemberVO memberVO) throws Exception {
-                        return new YourGroupsUseCase(memberVO.mContactId).getUseCase();
-                    }
-                })
-                .map(new Function<GroupsResponse, List<GroupVO>>() {
-                    @Override
-                    public List<GroupVO> apply(@NonNull GroupsResponse response) throws Exception {
-                        return new GroupsMapper().mapGroups(response);
+                    public Single<Map<String, List<GroupVO>>> apply(@NonNull MemberVO memberVO) throws Exception {
+                        String contactId = memberVO.mContactId;
+                        return Single.zip(new GroupsYouManage(contactId).getUseCase(), new YourGroupsUseCase(contactId).getUseCase(), new BiFunction<GroupsResponse, GroupsResponse, Map<String, List<GroupVO>>>() {
+                            @Override
+                            public Map<String, List<GroupVO>> apply(@NonNull GroupsResponse groupsResponse, @NonNull GroupsResponse groupsResponse2) throws Exception {
+                                GroupsMapper mapper = new GroupsMapper();
+                                List<GroupVO> groupYouManageVOs = mapper.mapGroups(groupsResponse);
+                                List<GroupVO> yourGroupVOs = mapper.mapGroups(groupsResponse2);
+                                Map<String, List<GroupVO>> map = new HashMap<>();
+                                map.put(KEY_GROUP_YOU_MANAGE, groupYouManageVOs);
+                                map.put(KEY_YOUR_GROUPS, yourGroupVOs);
+                                return map;
+                            }
+                        });
                     }
                 });
-        subscribeWith(yourGroupsSingle, new DisposableSingleObserver<List<GroupVO>>() {
+        subscribeWith(yourGroupsSingle, new DisposableSingleObserver<Map<String, List<GroupVO>>>() {
+
             @Override
-            public void onSuccess(@NonNull List<GroupVO> groupVOs) {
-                getUi().onLoadYourGroups(groupVOs);
+            public void onSuccess(@NonNull Map<String, List<GroupVO>> stringListMap) {
+                getUi().onLoadGroupsYouManage(stringListMap.get(KEY_GROUP_YOU_MANAGE));
+                getUi().onLoadYourGroups(stringListMap.get(KEY_YOUR_GROUPS));
             }
 
             @Override

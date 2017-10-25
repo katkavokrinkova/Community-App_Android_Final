@@ -68,14 +68,15 @@ public class GroupsListAdapter extends BaseListAdapter<GroupsListAdapter.GroupVi
             Context context = groupImage.getContext();
             groupName.setText(itemData.mName);
             location.setText(itemData.mCities);
-            memberCount.setText(itemData.mMemberCount);
+            memberCount.setText(String.valueOf(itemData.mMemberCount));
             ImageLoaderHelper.loadImage(context, buildUrl(itemData.mImageURL), groupImage);
         }
 
         @Override
         public void onClick(View v) {
             if (mItemClickListener != null) {
-                mItemClickListener.onItemClick(v.getId(), getItem(getAdapterPosition()));
+                int position = getAdapterPosition();
+                mItemClickListener.onItemClick(v.getId(), getItem(position), position);
             }
         }
     }

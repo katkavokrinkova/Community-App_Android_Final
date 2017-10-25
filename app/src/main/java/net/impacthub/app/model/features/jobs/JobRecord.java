@@ -17,7 +17,7 @@ package net.impacthub.app.model.features.jobs;
  * @date 8/9/2017.
  */
 
-public class Records {
+public class JobRecord {
 
     private String Job_Type__c;
     private String Related_Impact_Goal__c;

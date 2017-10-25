@@ -44,6 +44,7 @@ public class NotificationMapper {
                         notificationDTO.mRecipientUserId = record.getFromUserId__c();
                         notificationDTO.mDisplayName = record.getName();
                         notificationDTO.mProfilePicUrl = record.getProfilePicURL__c();
+                        notificationDTO.mChatterGroupId = record.getChatterGroupId__c();
                         notificationDTO.mCreatedDate = DateUtils.getElapsedDateTime(record.getCreatedDate());
                         notificationDTO.mNotificationType = NotificationType.fromString(record.getType__c());
                         notificationDTOList.add(notificationDTO);

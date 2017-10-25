@@ -9,7 +9,7 @@
  * all copies or substantial portions of the Software.
  */
 
-package net.impacthub.app.usecase.features.jobs;
+package net.impacthub.app.usecase.features.notifications;
 
 import net.impacthub.app.model.features.projects.ProjectResponse;
 import net.impacthub.app.usecase.base.BaseUseCaseGenerator;
@@ -21,21 +21,15 @@ import io.reactivex.Single;
 /**
  * @author Filippo Ash
  * @version 1.0
- * @date 8/22/2017.
+ * @date 10/24/2017.
  */
 
-public class JobProjectsUseCase extends BaseUseCaseGenerator<Single<ProjectResponse>, ProjectResponse> {
+public class GroupOrProjectUseCase extends BaseUseCaseGenerator<Single<ProjectResponse>, ProjectResponse> {
 
-    private final String mJobId;
-    private final String mJobLocation;
-    private final String mJobAccountId;
-    private final String mJobCompanyC;
+    private final String mChatterGroupId;
 
-    public JobProjectsUseCase(String jobId, String jobLocation, String jobAccountId, String jobCompanyC) {
-        mJobId = jobId;
-        mJobLocation = jobLocation;
-        mJobAccountId = jobAccountId;
-        mJobCompanyC = jobCompanyC;
+    public GroupOrProjectUseCase(String chatterGroupID) {
+        mChatterGroupId = chatterGroupID;
     }
 
     @Override
@@ -43,7 +37,7 @@ public class JobProjectsUseCase extends BaseUseCaseGenerator<Single<ProjectRespo
         return Single.fromCallable(new Callable<ProjectResponse>() {
             @Override
             public ProjectResponse call() throws Exception {
-                return getApiCall().getResponse(getSoqlRequestFactory().createJobRelatedProjectsRequest(mJobId, mJobLocation, mJobAccountId, mJobCompanyC), ProjectResponse.class);
+                return getApiCall().getResponse(getSoqlRequestFactory().createGroupOrProjectRequest(mChatterGroupId), ProjectResponse.class);
             }
         });
     }

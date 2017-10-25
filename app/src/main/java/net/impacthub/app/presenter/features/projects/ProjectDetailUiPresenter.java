@@ -11,24 +11,19 @@
 
 package net.impacthub.app.presenter.features.projects;
 
-import net.impacthub.app.mapper.chatter.ChatterMapper;
 import net.impacthub.app.mapper.jobs.JobsMapper;
 import net.impacthub.app.mapper.members.MembersMapper;
 import net.impacthub.app.mapper.objectives.ObjectivesMapper;
-import net.impacthub.app.model.features.chatterfeed.ChatterFeedResponse;
 import net.impacthub.app.model.features.contacts.ContactsResponse;
 import net.impacthub.app.model.features.jobs.JobsResponse;
 import net.impacthub.app.model.features.objectives.ObjectivesResponse;
 import net.impacthub.app.model.pojo.ListItemType;
-import net.impacthub.app.model.vo.chatter.ChatterVO;
 import net.impacthub.app.model.vo.jobs.JobVO;
 import net.impacthub.app.model.vo.members.MemberVO;
 import net.impacthub.app.presenter.base.UiPresenter;
 import net.impacthub.app.presenter.rx.AbstractBigFunction;
 import net.impacthub.app.presenter.rx.AbstractFunction;
 import net.impacthub.app.usecase.features.contacts.DMGetContactsUseCase;
-import net.impacthub.app.usecase.features.groups.ChatterFeedUseCase;
-import net.impacthub.app.usecase.features.members.GetMemberByUserIdUseCase;
 import net.impacthub.app.usecase.features.profile.ProfileUseCase;
 import net.impacthub.app.usecase.features.projects.ProjectJobsUseCase;
 import net.impacthub.app.usecase.features.projects.ProjectMembersUseCase;
@@ -54,29 +49,7 @@ public class ProjectDetailUiPresenter extends UiPresenter<ProjectDetailUiContrac
         super(uiContract);
     }
 
-    public void loadDetails(String feedId, String projectId) {
-
-        Single<List<ChatterVO>> chatterSingle = new ChatterFeedUseCase(feedId).getUseCase()
-                .map(new Function<ChatterFeedResponse, List<ChatterVO>>() {
-                    @Override
-                    public List<ChatterVO> apply(@NonNull ChatterFeedResponse chatterFeedResponse) throws Exception {
-                        return new ChatterMapper().map(chatterFeedResponse);
-                    }
-                });
-        getUi().onShowProgressBar(true);
-        subscribeWith(chatterSingle, new DisposableSingleObserver<List<ChatterVO>>() {
-            @Override
-            public void onSuccess(@NonNull List<ChatterVO> chatterVOs) {
-                getUi().onLoadChatterFeed(chatterVOs);
-                getUi().onShowProgressBar(false);
-            }
-
-            @Override
-            public void onError(@NonNull Throwable e) {
-                getUi().onError(e);
-                getUi().onShowProgressBar(false);
-            }
-        });
+    public void loadDetails(String projectId) {
 
         Single<List<ListItemType>> listSingle = new ProjectObjectivesUseCase(projectId).getUseCase()
                 .map(new Function<ObjectivesResponse, List<ListItemType>>() {
@@ -138,23 +111,6 @@ public class ProjectDetailUiPresenter extends UiPresenter<ProjectDetailUiContrac
             @Override
             public void onError(@NonNull Throwable e) {
                 getUi().onError(e);
-            }
-        });
-    }
-
-    public void getMemberBy(String id) {
-        getUi().onShowProgressBar(true);
-        subscribeWith(new GetMemberByUserIdUseCase(id).getUseCase(), new DisposableSingleObserver<MemberVO>() {
-            @Override
-            public void onSuccess(@NonNull MemberVO memberVO) {
-                getUi().onLoadMember(memberVO);
-                getUi().onShowProgressBar(false);
-            }
-
-            @Override
-            public void onError(@NonNull Throwable e) {
-                getUi().onError(e);
-                getUi().onShowProgressBar(false);
             }
         });
     }

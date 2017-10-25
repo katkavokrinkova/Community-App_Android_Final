@@ -11,6 +11,7 @@
 
 package net.impacthub.app.ui.features.home.projects;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -21,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.impacthub.app.R;
+import net.impacthub.app.model.callback.OnCommentAddedCallback;
 import net.impacthub.app.model.callback.OnListItemClickListener;
 import net.impacthub.app.model.pojo.ListItemType;
 import net.impacthub.app.model.vo.chatter.ChatterVO;
@@ -34,7 +36,8 @@ import net.impacthub.app.ui.binder.ViewBinder;
 import net.impacthub.app.ui.common.AppPagerAdapter;
 import net.impacthub.app.ui.common.ImageLoaderHelper;
 import net.impacthub.app.ui.features.home.chatter.ChatterCommentFragment;
-import net.impacthub.app.ui.features.home.chatter.binder.ChatterViewBinder;
+import net.impacthub.app.ui.features.home.chatter.CreatePostActivity;
+import net.impacthub.app.ui.features.home.chatter.binder.ChatterFeedViewBinder;
 import net.impacthub.app.ui.features.home.jobs.JobDetailFragment;
 import net.impacthub.app.ui.features.home.jobs.binders.JobsViewBinder;
 import net.impacthub.app.ui.features.home.members.MemberDetailFragment;
@@ -67,10 +70,11 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
     @BindView(R.id.tabs) protected TabLayout mProjectTab;
     @BindView(R.id.pager) protected ViewPager mProjectPages;
 
+    private ChatterFeedViewBinder mChatterFeedViewBinder;
     private ViewBinder<List<ListItemType>> mViewBinder2;
     private ViewBinder<List<MemberVO>> mViewBinder3;
     private ViewBinder<List<JobVO>> mViewBinder4;
-    private ViewBinder<List<ChatterVO>> mViewBinder1;
+    private String mChatterFeedId;
 
     public static ProjectDetailFragment newInstance(ProjectVO projectDTO) {
 
@@ -102,7 +106,7 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
 
         Bundle arguments = getArguments();
         String projectId = arguments.getString(EXTRA_PROJECT_ID);
-        String feedId = arguments.getString(EXTRA_PROJECT_CHATTER_ID);
+        mChatterFeedId = arguments.getString(EXTRA_PROJECT_CHATTER_ID);
         String projectName = arguments.getString(EXTRA_PROJECT_NAME);
         String organizationName = arguments.getString(EXTRA_PROJECT_ORGANIZATION_NAME);
         String projectImageURL = arguments.getString(EXTRA_PROJECT_IMAGE_URL);
@@ -115,7 +119,9 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
                 public boolean onMenuItemClick(MenuItem item) {
                     switch (item.getItemId()) {
                         case R.id.actionCompose:
-                            showToast("Compose clicked");
+                            Intent intent = new Intent(getActivity(), CreatePostActivity.class);
+                            intent.putExtra(CreatePostActivity.EXTRA_GROUP_ID, mChatterFeedId);
+                            startActivityForResult(intent, 1234);
                             return true;
                     }
                     return false;
@@ -130,38 +136,42 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
 
         AppPagerAdapter adapter = new AppPagerAdapter(getContext(), TITLES);
 
-        mViewBinder1 = new ChatterViewBinder(new OnListItemClickListener<ChatterVO>() {
+        mChatterFeedViewBinder = new ChatterFeedViewBinder(mChatterFeedId, new ChatterFeedViewBinder.OnChatterFeedActionListener() {
             @Override
-            public void onItemClick(int viewId, ChatterVO model) {
-                switch (viewId) {
-                    case R.id.member_image:
-                        getPresenter().getMemberBy(model.mUserId);
-                        break;
-                    case R.id.comment_indicator:
-                        addChildFragment(ChatterCommentFragment.newInstance(model.mComments), "FRAG_CHATTER_COMMENTS");
-                        break;
-                    case R.id.like_indicator:
-                        showToast("Liking post");
-                        break;
-                }
+            public void onShowProgressBar(boolean showProgressBar) {
+                ProjectDetailFragment.this.onShowProgressBar(showProgressBar);
+            }
+
+            @Override
+            public void openComments(ChatterVO model, OnCommentAddedCallback callback, int position) {
+                ChatterCommentFragment commentFragment = ChatterCommentFragment.newInstance(model);
+                commentFragment.setCommentCallback(callback);
+                commentFragment.setCommentRefreshPosition(position);
+                addChildFragment(commentFragment, "FRAG_CHATTER_COMMENTS");
+            }
+
+            @Override
+            public void onLoadMember(MemberVO memberVO) {
+                addChildFragment(MemberDetailFragment.newInstance(memberVO), "FRAG_MEMBER_DETAIL");
             }
         });
+
         mViewBinder2 = new ObjectivesViewBinder();
         mViewBinder3 = new MembersViewBinder(new OnListItemClickListener<MemberVO>() {
             @Override
-            public void onItemClick(int viewId, MemberVO model) {
+            public void onItemClick(int viewId, MemberVO model, int position) {
                 addChildFragment(MemberDetailFragment.newInstance(model), "FRAG_MEMBER_DETAIL");
             }
         });
 
         mViewBinder4 = new JobsViewBinder(new OnListItemClickListener<JobVO>() {
             @Override
-            public void onItemClick(int viewId, JobVO model) {
+            public void onItemClick(int viewId, JobVO model, int position) {
                 addChildFragment(JobDetailFragment.newInstance(model), "FRAG_JOB_DETAIL");
             }
         });
 
-        adapter.addVieBinder(mViewBinder1);
+        adapter.addVieBinder(mChatterFeedViewBinder);
         adapter.addVieBinder(mViewBinder2);
         adapter.addVieBinder(mViewBinder3);
         adapter.addVieBinder(mViewBinder4);
@@ -169,16 +179,10 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
         mProjectPages.setAdapter(adapter);
         mProjectPages.setOffscreenPageLimit(adapter.getCount());
 
+        mProjectTab.setTabMode(TabLayout.MODE_SCROLLABLE);
         mProjectTab.setupWithViewPager(mProjectPages);
 
-//        new TabsDelegate().setUp(mProjectTab, TITLES);
-
-        getPresenter().loadDetails(feedId, projectId);
-    }
-
-    @Override
-    public void onLoadChatterFeed(List<ChatterVO> chatterDTOs) {
-        mViewBinder1.bindView(chatterDTOs);
+        getPresenter().loadDetails(projectId);
     }
 
     @Override
@@ -197,7 +201,16 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
     }
 
     @Override
-    public void onLoadMember(MemberVO memberVO) {
-        addChildFragment(MemberDetailFragment.newInstance(memberVO), "FRAG_MEMBER_DETAIL");
+    public void onDestroy() {
+        if (mChatterFeedViewBinder != null) {
+            mChatterFeedViewBinder.onDestroy();
+        }
+        super.onDestroy();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mChatterFeedViewBinder.onActivityResult(requestCode, resultCode, data);
     }
 }

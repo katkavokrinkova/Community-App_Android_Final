@@ -55,12 +55,16 @@ public class ChatterFeedListAdapter extends BaseListAdapter<ChatterFeedListAdapt
         final TextView displayName;
         final TextView displayDate;
         final TextView displayComment;
+        final View likeBar;
+        final View commentBar;
         final TextView likeCount;
         final TextView commentCount;
 
         ChatterFeedViewHolder(View itemView) {
             super(itemView);
             memberImage = (ImageView) itemView.findViewById(R.id.member_image);
+            likeBar = itemView.findViewById(R.id.like_bar);
+            commentBar = itemView.findViewById(R.id.comment_bar);
             likeIndicatorImage = (ImageView) itemView.findViewById(R.id.like_indicator);
             commentIndicatorImage = (ImageView) itemView.findViewById(R.id.comment_indicator);
             displayName = (TextView) itemView.findViewById(R.id.name);
@@ -68,9 +72,10 @@ public class ChatterFeedListAdapter extends BaseListAdapter<ChatterFeedListAdapt
             displayComment = (TextView) itemView.findViewById(R.id.comment);
             likeCount = (TextView) itemView.findViewById(R.id.like_count);
             commentCount = (TextView) itemView.findViewById(R.id.comment_count);
+
             memberImage.setOnClickListener(this);
-            likeIndicatorImage.setOnClickListener(this);
-            commentIndicatorImage.setOnClickListener(this);
+            commentBar.setOnClickListener(this);
+            likeBar.setOnClickListener(this);
         }
 
         @Override
@@ -90,7 +95,8 @@ public class ChatterFeedListAdapter extends BaseListAdapter<ChatterFeedListAdapt
         @Override
         public void onClick(View view) {
             if (mItemClickListener != null) {
-                mItemClickListener.onItemClick(view.getId(), getItem(getAdapterPosition()));
+                int position = getAdapterPosition();
+                mItemClickListener.onItemClick(view.getId(), getItem(position), position);
             }
         }
     }

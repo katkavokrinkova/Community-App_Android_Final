@@ -38,9 +38,9 @@ import net.impacthub.app.ui.widgets.CircleImageView;
  * @date 9/6/2017.
  */
 
-public class SearchResultListAdapter extends BaseListAdapter<RecyclerView.ViewHolder, ListItemType> {
+class SearchResultListAdapter extends BaseListAdapter<RecyclerView.ViewHolder, ListItemType> {
 
-    protected SearchResultListAdapter(LayoutInflater inflater) {
+    SearchResultListAdapter(LayoutInflater inflater) {
         super(inflater);
     }
 
@@ -93,7 +93,7 @@ public class SearchResultListAdapter extends BaseListAdapter<RecyclerView.ViewHo
         }
     }
 
-    class EventViewHolder extends RecyclerViewHolder<EventVO> implements View.OnClickListener {
+    private class EventViewHolder extends RecyclerViewHolder<EventVO> implements View.OnClickListener {
 
         final ImageView eventImage;
         final TextView eventTitle;
@@ -124,12 +124,13 @@ public class SearchResultListAdapter extends BaseListAdapter<RecyclerView.ViewHo
         @Override
         public void onClick(View v) {
             if (mItemClickListener != null) {
-                mItemClickListener.onItemClick(v.getId(), getItem(getAdapterPosition()));
+                int position = getAdapterPosition();
+                mItemClickListener.onItemClick(v.getId(), getItem(position), position);
             }
         }
     }
 
-    class ProjectViewHolder extends RecyclerViewHolder<ProjectVO> implements View.OnClickListener {
+    private class ProjectViewHolder extends RecyclerViewHolder<ProjectVO> implements View.OnClickListener {
 
         final ImageView projectImage;
         final TextView projectTitle;
@@ -153,19 +154,20 @@ public class SearchResultListAdapter extends BaseListAdapter<RecyclerView.ViewHo
             projectTitle.setText(itemData.mName);
             projectOrganizationName.setText(itemData.mOrganizationName);
             location.setText(itemData.mLocation);
-            memberCount.setText(itemData.mMemberCount);
+            memberCount.setText(String.valueOf(itemData.mMemberCount));
             ImageLoaderHelper.loadImage(context, buildUrl(itemData.mImageURL), projectImage);
         }
 
         @Override
         public void onClick(View v) {
             if (mItemClickListener != null) {
-                mItemClickListener.onItemClick(v.getId(), getItem(getAdapterPosition()));
+                int position = getAdapterPosition();
+                mItemClickListener.onItemClick(v.getId(), getItem(position), position);
             }
         }
     }
 
-    class MemberViewHolder extends RecyclerViewHolder<MemberVO> implements View.OnClickListener {
+    private class MemberViewHolder extends RecyclerViewHolder<MemberVO> implements View.OnClickListener {
 
         final CircleImageView memberImage;
         final TextView name;
@@ -205,16 +207,14 @@ public class SearchResultListAdapter extends BaseListAdapter<RecyclerView.ViewHo
                 case MemberStatus.NOT_CONTACTED:
                     ImageLoaderHelper.loadImage(context, R.mipmap.comment_bubble_small, iconMemberStatus);
                     break;
-                case MemberStatus.DECLINED:
-                default:
-                    ImageLoaderHelper.loadImage(context, 0, iconMemberStatus);
             }
         }
 
         @Override
         public void onClick(View v) {
             if (mItemClickListener != null) {
-                mItemClickListener.onItemClick(v.getId(), getItem(getAdapterPosition()));
+                int position = getAdapterPosition();
+                mItemClickListener.onItemClick(v.getId(), getItem(position), position);
             }
         }
     }
@@ -240,19 +240,20 @@ public class SearchResultListAdapter extends BaseListAdapter<RecyclerView.ViewHo
             Context context = groupImage.getContext();
             groupName.setText(itemData.mName);
             location.setText(itemData.mCities);
-            memberCount.setText(itemData.mMemberCount);
+            memberCount.setText(String.valueOf(itemData.mMemberCount));
             ImageLoaderHelper.loadImage(context, buildUrl(itemData.mImageURL), groupImage);
         }
 
         @Override
         public void onClick(View v) {
             if (mItemClickListener != null) {
-                mItemClickListener.onItemClick(v.getId(), getItem(getAdapterPosition()));
+                int position = getAdapterPosition();
+                mItemClickListener.onItemClick(v.getId(), getItem(position), position);
             }
         }
     }
 
-    class CompanyViewHolder extends RecyclerViewHolder<CompanyVO> implements View.OnClickListener {
+    private class CompanyViewHolder extends RecyclerViewHolder<CompanyVO> implements View.OnClickListener {
 
         final ImageView companyBannerLogo;
         final ImageView companyBannerImage;
@@ -286,7 +287,8 @@ public class SearchResultListAdapter extends BaseListAdapter<RecyclerView.ViewHo
         @Override
         public void onClick(View v) {
             if (mItemClickListener != null) {
-                mItemClickListener.onItemClick(v.getId(), getItem(getAdapterPosition()));
+                int position = getAdapterPosition();
+                mItemClickListener.onItemClick(v.getId(), getItem(position), position);
             }
         }
     }

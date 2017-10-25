@@ -11,19 +11,22 @@
 
 package net.impacthub.app.presenter.features.jobs;
 
+import net.impacthub.app.mapper.jobs.JobsMapper;
 import net.impacthub.app.mapper.projects.ProjectMapper;
+import net.impacthub.app.model.features.jobs.JobsResponse;
 import net.impacthub.app.model.features.projects.ProjectResponse;
 import net.impacthub.app.model.pojo.FilterableString;
 import net.impacthub.app.model.pojo.ListItemType;
 import net.impacthub.app.model.pojo.SimpleItem;
 import net.impacthub.app.presenter.base.UiPresenter;
-import net.impacthub.app.usecase.features.jobs.JobProjectsUseCase;
+import net.impacthub.app.usecase.features.jobs.JobRelatedJobsUseCase;
+import net.impacthub.app.usecase.features.jobs.JobRelatedProjectsUseCase;
 
 import java.util.List;
 
 import io.reactivex.Single;
 import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Function;
+import io.reactivex.functions.BiFunction;
 import io.reactivex.observers.DisposableSingleObserver;
 
 /**
@@ -39,21 +42,28 @@ public class JobsDetailUiPresenter extends UiPresenter<JobsDetailUiContract> {
     }
 
     public void getProjects(String jobId, String jobLocation, String jobAccountId, String jobCompanyC) {
-        Single<List<ListItemType>> jobProjectsSingle = new JobProjectsUseCase(jobId, jobLocation, jobAccountId, jobCompanyC).getUseCase()
-                .map(new Function<ProjectResponse, List<ListItemType>>() {
+        Single<List<ListItemType>> listSingle = Single.zip(
+                new JobRelatedJobsUseCase(jobId, jobLocation, jobAccountId, jobCompanyC).getUseCase(),
+                new JobRelatedProjectsUseCase(jobId).getUseCase(),
+                new BiFunction<JobsResponse, ProjectResponse, List<ListItemType>>() {
                     @Override
-                    public List<ListItemType> apply(@NonNull ProjectResponse projectResponse) throws Exception {
-                        List<ListItemType> itemTypes = new ProjectMapper().mapAsListItemType(projectResponse);
+                    public List<ListItemType> apply(@NonNull JobsResponse jobsResponse, @NonNull ProjectResponse projectResponse) throws Exception {
+                        List<ListItemType> projectItemTypes = new ProjectMapper().mapAsListItemType(projectResponse);
+                        if (!projectItemTypes.isEmpty()) {
+                            projectItemTypes.add(0, new SimpleItem<>(new FilterableString("RELATED PROJECTS"), 0));
+                        }
+                        List<ListItemType> itemTypes = new JobsMapper().mapAsListItemType(jobsResponse);
                         if (itemTypes != null && !itemTypes.isEmpty()) {
                             itemTypes.add(0, new SimpleItem<>(new FilterableString("RELATED JOBS"), 0));
+                            projectItemTypes.addAll(itemTypes);
                         }
-                        return itemTypes;
+                        return projectItemTypes;
                     }
                 });
-        subscribeWith(jobProjectsSingle, new DisposableSingleObserver<List<ListItemType>>() {
+        subscribeWith(listSingle, new DisposableSingleObserver<List<ListItemType>>() {
             @Override
             public void onSuccess(@NonNull List<ListItemType> listItemTypes) {
-                getUi().onLoadRelatedProjects(listItemTypes);
+                getUi().onLoadRelatedItems(listItemTypes);
             }
 
             @Override

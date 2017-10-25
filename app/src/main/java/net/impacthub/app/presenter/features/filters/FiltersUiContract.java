@@ -1,5 +1,6 @@
 package net.impacthub.app.presenter.features.filters;
 
+import net.impacthub.app.model.vo.filters.FilterBarVO;
 import net.impacthub.app.model.vo.filters.FilterVO;
 import net.impacthub.app.presenter.features.error.ErrorHandlerUiContract;
 
@@ -13,7 +14,7 @@ import java.util.List;
 
 public interface FiltersUiContract extends ErrorHandlerUiContract {
 
-    void onLoadFilters(String key, List<FilterVO> filterVOs);
+    void onLoadFilters(FilterBarVO filter, List<FilterVO> filterVOs);
 
     void onLoadFilterList(String filterName, List<FilterVO> filterVOs);
 }

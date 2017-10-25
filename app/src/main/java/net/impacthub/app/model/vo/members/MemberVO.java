@@ -46,6 +46,8 @@ public class MemberVO implements Searchable {
     public String mStatusUpdate;
     public String mSector;
     public String mHubCities;
+    public boolean mRejectable;
+    public String mCompanyName;
 
     @Override
     public boolean isSearchable(String query) {

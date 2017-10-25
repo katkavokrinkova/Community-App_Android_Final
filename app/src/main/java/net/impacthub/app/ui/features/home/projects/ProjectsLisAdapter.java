@@ -70,14 +70,15 @@ public class ProjectsLisAdapter extends BaseListAdapter<ProjectsLisAdapter.Proje
             projectTitle.setText(itemData.mName);
             projectOrganizationName.setText(itemData.mOrganizationName);
             location.setText(itemData.mLocation);
-            memberCount.setText(itemData.mMemberCount);
+            memberCount.setText(String.valueOf(itemData.mMemberCount));
             ImageLoaderHelper.loadImage(context, buildUrl(itemData.mImageURL), projectImage);
         }
 
         @Override
         public void onClick(View v) {
             if (mItemClickListener != null) {
-                mItemClickListener.onItemClick(v.getId(), getItem(getAdapterPosition()));
+                int position = getAdapterPosition();
+                mItemClickListener.onItemClick(v.getId(), getItem(position), position);
             }
         }
     }

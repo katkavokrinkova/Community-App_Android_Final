@@ -25,6 +25,8 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.util.Locale;
 
+import okhttp3.RequestBody;
+
 import static net.impacthub.app.application.salesforce.SalesforceModuleDependency.restRequestFactoryProvider;
 
 public class SoqlRequestFactory {
@@ -32,8 +34,10 @@ public class SoqlRequestFactory {
     //User__c is the user ID
     //id is the contact ID
     private static final String CONTACT = "id, firstname,lastname, ProfilePic__c, Profession__c, Impact_Hub_Cities__c, Name, Sector__c," +
-            " User__c,Skills__c, AboutMe__c,Status_Update__c,Directory_Summary__c, Interested_SDG__c," +
+            "Account.Name, User__c,Skills__c, AboutMe__c,Status_Update__c,Directory_Summary__c, Interested_SDG__c," +
             "How_Do_You_Most_Identify_with_Your_Curre__c,Twitter__c,Instagram__c,Facebook__c,Linked_In__c, (select Hub_Name__c from contact.Hubs__r) ";
+
+    private static final String  GROUP_PROJECT = "id, name, CountOfMembers__c, ImageURL__c, Group_Descr__c, Impact_Hub_Cities__c, ChatterGroupId__c, Directory_Style__c,Sector__c, CreatedById, Related_Impact_Goal__c, Organisation__r.id, Organisation__r.Number_of_Employees__c, Organisation__r.Impact_Hub_Cities__c, Organisation__r.name,ChatterGroupType__c";
 
     private static final String PROFILE = "SELECT " + CONTACT + " FROM Contact WHERE User__c = '%s'";
     private static final String ALL_MEMBERS_PROFILE = "SELECT " + CONTACT + " FROM Contact where User__c != null and User__r.isactive = true";
@@ -66,7 +70,7 @@ public class SoqlRequestFactory {
 
     private static final String NOTIFICATIONS = "SELECT CreatedDate,FromUserId__c,Id,isRead__c,Name,RelatedId__c,Sent__c,Type__c," +
             "ProfilePicURL__c,Message__c, ChatterGroupId__c FROM PushNotification__c" +
-            " WHERE toUserId__c = '%s' ORDER BY CreatedDate DESC LIMIT 250";
+            " WHERE toUserId__c = '%s' AND FromUserId__c != '%s' ORDER BY CreatedDate DESC LIMIT 250";
 
     private static final String COMPANIES = "SELECT id, name, Number_of_Employees__c, Impact_Hub_Cities__c, Sector_Industry__c," +
             " Logo_Image_Url__c, Banner_Image_Url__c,Affiliated_SDG__c, Twitter__c, Instagram__c, Facebook__c, LinkedIn__c," +
@@ -75,12 +79,14 @@ public class SoqlRequestFactory {
     private static final String COMPANY_SERVICE_COLUMNS = "id, name, Service_Description__c FROM Company_Service__c";
     private static final String COMPANY_SERVICES = "SELECT " + COMPANY_SERVICE_COLUMNS + "  WHERE Company__r.id ='%s'";
 
-    private static final String GROUP = "id, name, CountOfMembers__c, ImageURL__c, Group_Descr__c,Related_Impact_Goal__c, Impact_Hub_Cities__c, ChatterGroupType__c, ChatterGroupId__c, Directory_Style__c,Sector__c";
+    private static final String GROUP = "id, CreatedById, name, CountOfMembers__c, ImageURL__c, Group_Descr__c,Related_Impact_Goal__c, Impact_Hub_Cities__c, ChatterGroupType__c, ChatterGroupId__c, Directory_Style__c,Sector__c";
     private static final String ALL_GROUPS = "SELECT "+ GROUP + " FROM Directory__c WHERE Directory_Style__c = 'Group'";
+    private static final String GROUPS_YOU_MANAGE = "SELECT "+ GROUP + " FROM Directory__c WHERE Directory_Style__c = 'Group' AND id IN (SELECT DirectoryID__c FROM Directory_Member__c WHERE Member_Role__c = 'Manager' AND ContactID__c ='%s')";
     private static final String YOUR_GROUPS = "SELECT "+ GROUP + " FROM Directory__c " +
             "WHERE Directory_Style__c = 'Group' AND id IN (SELECT DirectoryID__c FROM Directory_Member__c WHERE ContactID__c ='%s')";
     private static final String GOAL_GROUPS = ALL_GROUPS + " AND Related_Impact_Goal__c LIKE '%s'";
     private static final String GOAL_MEMBERS = "SELECT " + CONTACT + " FROM Contact WHERE Interested_SDG__c INCLUDES ('%s')";
+    private static final String CHATTER_GROUP_OR_PROJECT = "SELECT " + GROUP_PROJECT + " FROM Directory__c WHERE ChatterGroupId__c ='%s' AND isMakerSpecific__c = false";
 
     private static final String GOALS = "select id, name,  Active__c, ImageURL__c, Summary__c, Description__c from Taxonomy__c where Grouping__c ='SDG'";
 
@@ -98,7 +104,7 @@ public class SoqlRequestFactory {
     private static final String EVENTS_YOU_MANAGE = "SELECT " + EVENTS_COLUMNS + " where Organiser__c = '%s' and Event_End_DateTime__c >= %s ORDER BY Event_Start_DateTime__c ASC";
     private static final String YOUR_EVENTS = "SELECT " + EVENTS_COLUMNS + " where id in (SELECT Event__c FROM Event_Attendance__c where Registered__c = true and Contact__c = '%s') and Event_End_DateTime__c >= %s ORDER BY Event_Start_DateTime__c ASC";
 
-    private static final String PROJECT = "id,CreatedById, name,Related_Impact_Goal__c,ChatterGroupId__c ,Group_Descr__c, ImageURL__c, CountOfMembers__c, Impact_Hub_Cities__c, Directory_Style__c,Sector__c, Organisation__r.id, Organisation__r.Number_of_Employees__c, Organisation__r.Impact_Hub_Cities__c, Organisation__r.name";
+    private static final String PROJECT = "id,CreatedById, ChatterGroupType__c, name,Related_Impact_Goal__c,ChatterGroupId__c ,Group_Descr__c, ImageURL__c, CountOfMembers__c, Impact_Hub_Cities__c, Directory_Style__c,Sector__c, Organisation__r.id, Organisation__r.Number_of_Employees__c, Organisation__r.Impact_Hub_Cities__c, Organisation__r.name";
 
     private static final String ALL_PROJECTS = "SELECT " + PROJECT + " FROM Directory__c WHERE Directory_Style__c = 'Project'";
     private static final String PROJECTS_YOU_MANAGE = "SELECT " + PROJECT + " FROM Directory__c WHERE Directory_Style__c = 'Project'";
@@ -111,7 +117,8 @@ public class SoqlRequestFactory {
             "Location__c FROM Job__c WHERE id != '%s' and (Location__c = '%s'" +
             " or Contact__r.AccountId = '%s'";
 
-    private static final String JOB_RELATED_PROJECT = "SELECT " + PROJECT + " FROM Directory__c WHERE Organisation__c in (SELECT Company__c FROM Job__c WHERE id ='%s')";
+    private static final String JOB_RELATED_PROJECTS = "SELECT " + PROJECT + " FROM Directory__c WHERE isMakerSpecific__c = false AND Organisation__c in (SELECT Company__c FROM Job__c WHERE id ='%s')";
+    private static final String JOB_RELATED_JOBS = "SELECT " + JOB_COLUMNS + " FROM Job__c WHERE id='%s' AND (Location__c = '%s' OR Contact__r.AccountId = '%s' OR (Company__c  != null and  Company__c = '%s'))";
 
     private static final String COMPANY_PROJECT = "SELECT " + PROJECT + " FROM Directory__c WHERE Directory_Style__c ='Project' AND Organisation__c ='%s'";
     private static final String COMPANY_MEMBER = "SELECT " + CONTACT + " FROM Contact WHERE User__c != NULL and User__r.isactive = true AND accountid='%s'";
@@ -148,7 +155,7 @@ public class SoqlRequestFactory {
     }
 
     public RestRequest createNotificationsRequest(String userId) throws UnsupportedEncodingException {
-        return mRestRequestFactory.getForQuery(String.format(NOTIFICATIONS, userId));
+        return mRestRequestFactory.getForQuery(String.format(NOTIFICATIONS, userId, userId));
     }
 
     public RestRequest createCompaniesRequest() throws UnsupportedEncodingException {
@@ -163,16 +170,29 @@ public class SoqlRequestFactory {
         return mRestRequestFactory.getForQuery(ALL_GROUPS);
     }
 
+    public RestRequest createGroupYouManageRequest(String contactId) throws UnsupportedEncodingException {
+        return mRestRequestFactory.getForQuery(String.format(GROUPS_YOU_MANAGE, contactId));
+    }
+
     public RestRequest createYourGroupRequest(String contactId) throws UnsupportedEncodingException {
         return mRestRequestFactory.getForQuery(String.format(YOUR_GROUPS, contactId));
     }
 
-    public RestRequest createGoalsRequest() throws UnsupportedEncodingException {
-        return mRestRequestFactory.getForQuery(GOALS);
+    public RestRequest createGetMyGroupsRequest(String communityId, String userId) {
+        return new RestRequest(RestRequest.RestMethod.GET,
+                getPath(communityId, "users/", userId + "/groups?filterGroup=Medium"));
     }
 
     public RestRequest createGoalGroupsRequest(String goalName) throws UnsupportedEncodingException {
         return mRestRequestFactory.getForQuery(String.format(GOAL_GROUPS, goalName));
+    }
+
+    public RestRequest createGroupOrProjectRequest(String chatterGroupId) throws UnsupportedEncodingException {
+        return mRestRequestFactory.getForQuery(String.format(CHATTER_GROUP_OR_PROJECT, chatterGroupId));
+    }
+
+    public RestRequest createGoalsRequest() throws UnsupportedEncodingException {
+        return mRestRequestFactory.getForQuery(GOALS);
     }
 
     public RestRequest createGoalMembersRequest(String goalName) throws UnsupportedEncodingException {
@@ -191,13 +211,21 @@ public class SoqlRequestFactory {
         return mRestRequestFactory.getForQuery(String.format(PROJECT_JOBS, projectId));
     }
 
-    public RestRequest createJobRelatedProjectsRequest(String jobId, String jobLocation, String accountId, String jobCompany) throws UnsupportedEncodingException {
-        String query = String.format(RELATED_PROJECTS, jobId, jobLocation, accountId);
-        if (jobCompany != null) {
-            query += String.format(Locale.UK, " or Company__c = '%s'", jobCompany);
-        }
-        return mRestRequestFactory.getForQuery(String.format("%s)", query));
+    public RestRequest createJobRelatedJobsRequest(String jobId, String jobLocation, String accountId, String jobCompany) throws UnsupportedEncodingException {
+        return mRestRequestFactory.getForQuery(String.format(JOB_RELATED_JOBS, jobId, jobLocation, accountId, jobCompany));
     }
+
+    public RestRequest createJobRelatedProjectsRequest(String jobId) throws UnsupportedEncodingException {
+        return mRestRequestFactory.getForQuery(String.format(JOB_RELATED_PROJECTS, jobId));
+    }
+
+//    public RestRequest createJobRelatedProjectsRequest(String jobId, String jobLocation, String accountId, String jobCompany) throws UnsupportedEncodingException {
+//        String query = String.format(RELATED_PROJECTS, jobId, jobLocation, accountId);
+//        if (jobCompany != null) {
+//            query += String.format(Locale.UK, " or Company__c = '%s'", jobCompany);
+//        }
+//        return mRestRequestFactory.getForQuery(String.format("%s)", query));
+//    }
 
     public RestRequest createJobsRequest(int skip, int top, String date) throws UnsupportedEncodingException {
         return mRestRequestFactory.getForQuery(String.format(JOBS, date));
@@ -258,10 +286,10 @@ public class SoqlRequestFactory {
                 "/services/apexrest/callGlobalSearch/", jsonObject);
     }
 
-    public RestRequest createConversationsRequest_Old(String communityId) {
-        return new RestRequest(RestRequest.RestMethod.GET,
-                getPath(communityId, "users/me/", "conversations?filterGroup=Small"));
-    }
+//    public RestRequest createConversationsRequest_Old(String communityId) {
+//        return new RestRequest(RestRequest.RestMethod.GET,
+//                getPath(communityId, "users/me/", "conversations?filterGroup=Small"));
+//    }
 
     public RestRequest createConversationMessagesRequest(String communityId, String conversationId) {
         return new RestRequest(RestRequest.RestMethod.GET,
@@ -320,12 +348,26 @@ public class SoqlRequestFactory {
 
     public RestRequest createChatterFeedRequest(String communityId, String feedId) {
         return new RestRequest(RestRequest.RestMethod.GET,
-                getPath(communityId, "feeds/record/", feedId + "/feed-elements?filterGroup=Medium"));
+                getPath(communityId, "feeds/record/", feedId + "/feed-elements?recentCommentCount=25&filterGroup=Medium"));
     }
 
-    public RestRequest createGetMyGroupsRequest(String communityId, String userId) {
-        return new RestRequest(RestRequest.RestMethod.GET,
-                getPath(communityId, "users/", userId + "/groups?filterGroup=Medium"));
+    public RestRequest createChatterLikePostRequest(String communityId, String commentID, boolean value) {
+        return new RestRequest(RestRequest.RestMethod.PATCH,
+                getPath(communityId, "feed-elements/", commentID + "/capabilities/chatter-likes/items?isLikedByCurrentUser=" + value), RequestBody.create(null, ""));
+    }
+
+//    public RestRequest createChatterUnlikePostRequest(String communityId, String likeID) {
+//        return new RestRequest(RestRequest.RestMethod.DELETE, getPath(communityId, "likes/", likeID));
+//    }
+
+    public RestRequest createGroupPostRequest(String communityId, JSONObject jsonObject) {
+        return new RestRequest(RestRequest.RestMethod.POST,
+                getPath(communityId, "feed-elements", ""), jsonObject);
+    }
+
+    public RestRequest createAddCommentRequest(String communityId, String commentID, JSONObject jsonObject) {
+        return new RestRequest(RestRequest.RestMethod.POST,
+                getPath(communityId, "feed-elements/", commentID + "/capabilities/comments/items"), jsonObject);
     }
 
     @NonNull

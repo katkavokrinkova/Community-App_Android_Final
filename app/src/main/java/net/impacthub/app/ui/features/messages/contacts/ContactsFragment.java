@@ -94,7 +94,7 @@ public class ContactsFragment extends BaseChildFragment<ContactsUiPresenter> imp
         mListAdapter1 = new ActiveContactsListAdapter(layoutInflater);
         mListAdapter1.setItemClickListener(new OnListItemClickListener<ContactVO>() {
             @Override
-            public void onItemClick(int viewId, ContactVO model) {
+            public void onItemClick(int viewId, ContactVO model, int position) {
                 MemberVO memberVO = model.mMember;
                 switch (viewId) {
                     case R.id.button_message_contact:
@@ -105,7 +105,11 @@ public class ContactsFragment extends BaseChildFragment<ContactsUiPresenter> imp
                         addChildFragment(ConversationFragment.newInstance(conversationVO), "FRAG_MESSAGE_THREAD");
                         break;
                     case R.id.button_decline_contact:
-                        getPresenter().declineContact(memberVO.mDM_ID);
+                        if (memberVO.mRejectable) {
+                            getPresenter().updateContactRequest(memberVO.mDM_ID, memberVO.mUserId, "Declined");
+                        } else {
+                            getPresenter().disconnectContact(memberVO.mDM_ID);
+                        }
                         break;
                     default:
                         addChildFragment(MemberDetailFragment.newInstance(memberVO), "FRAG_MEMBER_DETAIL");
@@ -119,7 +123,7 @@ public class ContactsFragment extends BaseChildFragment<ContactsUiPresenter> imp
         mListAdapter2 = new PendingContactsListAdapter(layoutInflater);
         mListAdapter2.setItemClickListener(new OnListItemClickListener<ContactVO>() {
             @Override
-            public void onItemClick(int viewId, ContactVO model) {
+            public void onItemClick(int viewId, ContactVO model, int position) {
                 MemberVO member = model.mMember;
                 switch (viewId) {
                     case R.id.button_accept_contact:
@@ -145,10 +149,10 @@ public class ContactsFragment extends BaseChildFragment<ContactsUiPresenter> imp
         mListAdapter3 = new RejectedContactsListAdapter(layoutInflater);
         mListAdapter3.setItemClickListener(new OnListItemClickListener<ContactVO>() {
             @Override
-            public void onItemClick(int viewId, ContactVO model) {
+            public void onItemClick(int viewId, ContactVO model, int position) {
                 MemberVO member = model.mMember;
                 if (member != null) {
-                    getPresenter().updateContactRequest(model.mMember.mDM_ID, member.mUserId, "Approved");
+                    getPresenter().updateContactRequest(member.mDM_ID, member.mUserId, "Approved");
                 }
             }
         });

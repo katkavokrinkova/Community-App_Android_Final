@@ -58,6 +58,7 @@ public class ProjectMapper {
         return projectDTO;
     }
 
+    @NonNull
     public List<ListItemType> mapAsListItemType(ProjectResponse projectResponse) {
         List<ListItemType> listItemTypes = new LinkedList<>();
         if (projectResponse != null) {
@@ -95,5 +96,22 @@ public class ProjectMapper {
                 }
             }
         }
+    }
+
+    public ProjectVO mapAsProject(ProjectRecords record) {
+        ProjectVO projectDTO = new ProjectVO();
+        projectDTO.mProjectId = record.getId();
+        projectDTO.mName = record.getName();
+        Organisation__r organisation__r = record.getOrganisation__r();
+        if (organisation__r != null) {
+            projectDTO.mOrganizationName = organisation__r.getName();
+        }
+        projectDTO.mChatterGroupId = record.getChatterGroupId__c();
+        projectDTO.mMemberCount = record.getCountOfMembers__c();
+        projectDTO.mLocation = record.getImpact_Hub_Cities__c();
+        projectDTO.mImageURL = record.getImageURL__c();
+        projectDTO.mSector = record.getSector__c();
+        projectDTO.mCity = record.getImpact_Hub_Cities__c();
+        return projectDTO;
     }
 }

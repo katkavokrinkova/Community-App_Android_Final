@@ -24,5 +24,5 @@ import java.util.List;
 
 public interface JobsDetailUiContract extends ErrorHandlerUiContract {
 
-    void onLoadRelatedProjects(List<ListItemType> listItemTypes);
+    void onLoadRelatedItems(List<ListItemType> listItemTypes);
 }

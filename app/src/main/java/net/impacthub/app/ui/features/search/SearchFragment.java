@@ -95,7 +95,7 @@ public class SearchFragment extends BaseChildFragment<SearchUiPresenter> impleme
     }
 
     @Override
-    public void onItemClick(int viewId, ListItemType model) {
+    public void onItemClick(int viewId, ListItemType model, int position) {
         switch (model.getItemType()) {
             case 0:
                 addChildFragment(MemberDetailFragment.newInstance((MemberVO) model.getModel()), "FRAG_MEMBER_DETAIL");

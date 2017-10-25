@@ -29,7 +29,7 @@ public class ProjectVO implements Searchable {
     public String mProjectId;
     public String mName;
     public String mOrganizationName;
-    public String mMemberCount;
+    public Integer mMemberCount;
     public String mLocation;
     public String mImageURL;
     public String mChatterGroupId;
