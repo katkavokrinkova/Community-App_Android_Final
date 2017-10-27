@@ -60,13 +60,13 @@
 
                 <ImageView
                     android:id="@+id/button_add_comment"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:padding="16dp"
                     android:foreground="?attr/selectableItemBackground"
                     android:layout_gravity="right|center_vertical"
-                    android:layout_marginRight="16dp"
                     android:src="@mipmap/ic_send_black_24dp"
-                    android:tint="#B9B9B9" />
+                    android:tint="@color/greyish_brown" />
 
             </FrameLayout>
         </LinearLayout>
