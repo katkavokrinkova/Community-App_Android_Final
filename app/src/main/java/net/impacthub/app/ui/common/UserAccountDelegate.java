@@ -29,13 +29,12 @@ public class UserAccountDelegate {
         if(url != null && !url.startsWith("http")) {
             url = "https://eu11.salesforce.com" + url;
         }
-        if(url != null && sUserAccount != null) {
+        if(url != null && sUserAccount != null)  {
             if (url.contains("?")) {
                 url  += "&oauth_token=" + sUserAccount.getAuthToken();
             } else {
                 url  += "?oauth_token=" + sUserAccount.getAuthToken();
             }
-            return url;
         }
         return url;
     }

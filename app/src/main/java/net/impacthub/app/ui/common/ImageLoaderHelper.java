@@ -33,6 +33,8 @@ public class ImageLoaderHelper {
     public static void loadImage(Context context, String url, ImageView iv) {
         if (url != null) {
             Picasso.with(context.getApplicationContext()).load(url).into(iv);
+        } else {
+            iv.setImageResource(0);
         }
 //        if (url != null && !url.isEmpty()) {
 //            Picasso picasso = new Picasso.Builder(context)
