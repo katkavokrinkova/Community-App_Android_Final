@@ -39,6 +39,7 @@ public class NotificationMapper {
                     if (record != null) {
                         NotificationVO notificationDTO = new NotificationVO();
                         notificationDTO.mId = record.getId();
+                        notificationDTO.mIsRead = record.getIsRead__c();
                         notificationDTO.mMessage = record.getMessage__c();
                         notificationDTO.mConversationId = record.getRelatedId__c();
                         notificationDTO.mRecipientUserId = record.getFromUserId__c();

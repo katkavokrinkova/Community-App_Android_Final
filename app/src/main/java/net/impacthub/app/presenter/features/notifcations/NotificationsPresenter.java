@@ -26,6 +26,7 @@ import net.impacthub.app.presenter.base.UiPresenter;
 import net.impacthub.app.usecase.base.UseCaseGenerator;
 import net.impacthub.app.usecase.features.members.GetMemberByUserIdUseCase;
 import net.impacthub.app.usecase.features.notifications.GroupOrProjectUseCase;
+import net.impacthub.app.usecase.features.notifications.MarkNotificationReadUseCase;
 import net.impacthub.app.usecase.features.notifications.NotificationsUseCase;
 
 import java.util.List;
@@ -124,6 +125,20 @@ public class NotificationsPresenter extends UiPresenter<NotificationsUiContract>
             public void onError(@NonNull Throwable e) {
                 getUi().onError(e);
                 getUi().onShowProgressBar(false);
+            }
+        });
+    }
+
+    public void setNotificationRead(String notificationId) {
+        subscribeWith(new MarkNotificationReadUseCase(notificationId).getUseCase(), new DisposableSingleObserver<Object>() {
+            @Override
+            public void onSuccess(Object o) {
+                //Nothing
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                getUi().onError(e);
             }
         });
     }

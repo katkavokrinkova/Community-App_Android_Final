@@ -14,9 +14,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingLeft="20dp"
     android:foreground="?attr/selectableItemBackground"
+    android:orientation="vertical"
     android:paddingRight="20dp">
 
     <LinearLayout
@@ -26,20 +25,39 @@
         android:paddingBottom="12dp"
         android:paddingTop="12dp">
 
-        <net.impacthub.app.ui.widgets.CircleImageView
-            android:id="@+id/image_profile_picture"
-            android:layout_width="42dp"
-            android:layout_height="42dp"
-            tools:src="@mipmap/ic_launcher" />
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <View
+                android:id="@+id/image_notification_read"
+                android:layout_width="5dp"
+                android:layout_height="5dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/bg_circle_blue" />
+
+            <net.impacthub.app.ui.widgets.CircleImageView
+                android:id="@+id/image_profile_picture"
+                android:layout_width="42dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_height="42dp"
+                tools:src="@mipmap/ic_launcher" />
+
+
+        </FrameLayout>
+
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_gravity="center_vertical"
+            android:layout_weight="1"
             android:orientation="vertical"
-            android:paddingRight="12dp"
-            android:paddingLeft="12dp">
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp">
 
 
             <net.impacthub.app.ui.widgets.TypefaceTextView
@@ -55,8 +73,8 @@
                 android:id="@+id/text_elapsed_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/warm_grey_2"
                 android:layout_marginTop="@dimen/item_text_top_margin"
+                android:textColor="@color/warm_grey_2"
                 android:textSize="12sp"
                 app:typeface="fonts/gt-walsheim-light-web.ttf"
                 tools:text="3 min ago" />

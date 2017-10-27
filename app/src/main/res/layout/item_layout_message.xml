@@ -77,15 +77,11 @@
                 tools:text="3 min ago" />
         </LinearLayout>
 
-        <net.impacthub.app.ui.widgets.TypefaceTextView
+        <View
             android:id="@+id/image_message_read"
             android:layout_width="10dp"
             android:layout_height="10dp"
-            android:background="@drawable/bg_circle_primary"
-            android:gravity="center"
-            android:textColor="@color/colorWhite"
-            android:textSize="12sp"
-            app:typeface="fonts/gt-walsheim-light-web.ttf" />
+            android:background="@drawable/bg_circle_primary"  />
 
     </LinearLayout>
 

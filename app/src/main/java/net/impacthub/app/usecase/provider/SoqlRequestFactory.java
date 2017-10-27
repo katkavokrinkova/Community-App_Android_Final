@@ -306,6 +306,11 @@ public class SoqlRequestFactory {
                 createBodyWith("{\"read\":true}"));
     }
 
+    public RestRequest createMarkNotificationReadRequest(String notificationId) {
+        JSONObject body = createBodyWith(String.format("{\"notificationIds\": \"%s\"}", notificationId));
+        return new RestRequest(RestRequest.RestMethod.POST,"/services/apexrest/updateReadReceipt/", body);
+    }
+
     public RestRequest createSendMessageWithUserIdRequest(String communityId, JSONObject jsonObject) {
         return new RestRequest(RestRequest.RestMethod.POST,
                 getPath(communityId, "users/me/", "messages?include=/id"), jsonObject);

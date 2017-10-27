@@ -24,7 +24,7 @@ public class Records {
     private String FromUserId__c;
     private String RelatedId__c;
     private String Message__c;
-    private String isRead__c;
+    private Boolean isRead__c;
     private String Sent__c;
     private String CreatedDate;
     private String ChatterGroupId__c;
@@ -52,7 +52,7 @@ public class Records {
         return Message__c;
     }
 
-    public String getIsRead__c() {
+    public Boolean getIsRead__c() {
         return isRead__c;
     }
 

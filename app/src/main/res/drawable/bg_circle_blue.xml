@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2017 Lightful. All Rights Reserved.
+  ~
+  ~ Save to the extent permitted by law, you may not use, copy, modify,
+  ~ distribute or create derivative works of this material or any part
+  ~ of it without the prior written consent of Lightful.
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  -->
+
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+
+    <padding
+        android:bottom="5dip"
+        android:left="5dip"
+        android:right="5dip"
+        android:top="5dip" />
+
+    <solid android:color="@color/colorBlue" />
+    <!--<stroke android:color="@color/colorWhite" android:width="1dp" />-->
+</shape>

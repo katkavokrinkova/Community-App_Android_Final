@@ -70,6 +70,10 @@ public abstract class BaseFragment<P extends UiPresenter<? extends UiContract>> 
     protected void bindView(View rootView) {
     }
 
+    protected LayoutInflater getIHLayoutInflater() {
+        return getLayoutInflater();
+    }
+
     protected void setStatusBarColor(@ColorRes int color) {
         BaseActivity activity = (BaseActivity) getActivity();
         if (activity != null) {

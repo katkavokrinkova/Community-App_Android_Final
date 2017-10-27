@@ -22,4 +22,8 @@ public class TypefaceTextView extends AppCompatTextView {
         super(context, attrs, defStyleAttr);
         mTypefaceResolver.setTypeface(this, attrs);
     }
+
+    public void setBold(Boolean bold) {
+        mTypefaceResolver.setTypeface(this, bold ? "fonts/gt-walsheim-bold-web.ttf" : "fonts/gt-walsheim-light-web.ttf");
+    }
 }

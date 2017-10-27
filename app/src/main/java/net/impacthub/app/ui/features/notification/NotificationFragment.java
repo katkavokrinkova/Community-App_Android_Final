@@ -60,10 +60,11 @@ public class NotificationFragment extends BaseChildFragment<NotificationsPresent
 
         setUpToolbar(R.string.notifications);
         mNotificationsList.setHasFixedSize(true);
-        mAdapter = new NotificationListAdapter(getLayoutInflater(getArguments()));
+        mAdapter = new NotificationListAdapter(getIHLayoutInflater());
         mAdapter.setItemClickListener(new OnListItemClickListener<NotificationVO>() {
             @Override
             public void onItemClick(int viewId, NotificationVO model, int position) {
+                getPresenter().setNotificationRead(model.mId);
                 switch (model.mNotificationType) {
                     case TYPE_PRIVATE_MESSAGE:
                         ConversationVO conversationVO = new ConversationVO();
