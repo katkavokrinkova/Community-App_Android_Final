@@ -12,14 +12,12 @@
 package net.impacthub.app.presenter.features.notifcations;
 
 import net.impacthub.app.mapper.groups.GroupsMapper;
-import net.impacthub.app.mapper.notifications.NotificationMapper;
 import net.impacthub.app.mapper.projects.ProjectMapper;
 import net.impacthub.app.model.features.projects.ProjectRecords;
 import net.impacthub.app.model.features.projects.ProjectResponse;
 import net.impacthub.app.model.vo.groups.GroupVO;
 import net.impacthub.app.model.vo.members.MemberVO;
-import net.impacthub.app.model.vo.notifications.NotificationVO;
-import net.impacthub.app.model.features.notifications.NotificationResponse;
+import net.impacthub.app.model.vo.notifications.NotificationWrapper;
 import net.impacthub.app.model.vo.notifications.ProjectOrGroupWrapper;
 import net.impacthub.app.model.vo.projects.ProjectVO;
 import net.impacthub.app.presenter.base.UiPresenter;
@@ -28,8 +26,6 @@ import net.impacthub.app.usecase.features.members.GetMemberByUserIdUseCase;
 import net.impacthub.app.usecase.features.notifications.GroupOrProjectUseCase;
 import net.impacthub.app.usecase.features.notifications.MarkNotificationReadUseCase;
 import net.impacthub.app.usecase.features.notifications.NotificationsUseCase;
-
-import java.util.List;
 
 import io.reactivex.Single;
 import io.reactivex.annotations.NonNull;
@@ -44,18 +40,18 @@ import io.reactivex.observers.DisposableSingleObserver;
 
 public class NotificationsPresenter extends UiPresenter<NotificationsUiContract> {
 
-    private final UseCaseGenerator<Single<NotificationResponse>> mNotificationUseCase = new NotificationsUseCase();
+    private final UseCaseGenerator<Single<NotificationWrapper>> mNotificationUseCase = new NotificationsUseCase();
 
     public NotificationsPresenter(NotificationsUiContract uiContract) {
         super(uiContract);
     }
 
     public void getNotifications() {
-        subscribeWith(mNotificationUseCase.getUseCase(), new DisposableSingleObserver<NotificationResponse>() {
+        subscribeWith(mNotificationUseCase.getUseCase(), new DisposableSingleObserver<NotificationWrapper>() {
             @Override
-            public void onSuccess(@NonNull NotificationResponse response) {
-                List<NotificationVO> notificationDTOList = new NotificationMapper().map(response);
-                getUi().onLoadNotifications(notificationDTOList);
+            public void onSuccess(@NonNull NotificationWrapper response) {
+                int unreadNotificationCount = response.getmUnreadNotificationCount();
+                getUi().onLoadNotifications(response.getNotificationVOS(), unreadNotificationCount);
             }
 
             @Override

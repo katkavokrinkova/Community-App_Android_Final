@@ -27,7 +27,7 @@ import java.util.List;
 
 public interface NotificationsUiContract extends ErrorHandlerUiContract {
 
-    void onLoadNotifications(List<NotificationVO> notificationDTOList);
+    void onLoadNotifications(List<NotificationVO> notificationDTOList, int unreadNotificationCount);
 
     void onLoadMember(MemberVO memberVO);
 

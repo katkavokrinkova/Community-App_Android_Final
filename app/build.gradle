@@ -74,4 +74,6 @@ dependencies {
 
     compile 'com.google.android.gms:play-services-maps:11.2.0'
     compile 'com.google.android.gms:play-services-gcm:11.2.0'
+
+    compile 'me.leolin:ShortcutBadger:1.1.19@aar'
 }

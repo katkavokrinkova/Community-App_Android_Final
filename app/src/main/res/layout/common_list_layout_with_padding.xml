@@ -21,7 +21,6 @@
     android:fitsSystemWindows="true"
     android:paddingBottom="96dp"
     android:clipToPadding="false"
-    android:scrollbars="vertical"
     android:background="@color/colorWhite"
     android:clipChildren="false"
     app:layoutManager="android.support.v7.widget.LinearLayoutManager"

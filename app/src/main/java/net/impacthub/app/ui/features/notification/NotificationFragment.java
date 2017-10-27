@@ -22,6 +22,7 @@ import net.impacthub.app.ui.features.messages.conversation.ConversationFragment;
 import java.util.List;
 
 import butterknife.BindView;
+import me.leolin.shortcutbadger.ShortcutBadger;
 
 /**
  * @author Filippo Ash
@@ -101,7 +102,8 @@ public class NotificationFragment extends BaseChildFragment<NotificationsPresent
     }
 
     @Override
-    public void onLoadNotifications(List<NotificationVO> notificationDTOList) {
+    public void onLoadNotifications(List<NotificationVO> notificationDTOList, int unreadNotificationCount) {
+        ShortcutBadger.applyCount(getContext(), unreadNotificationCount);
         mAdapter.setItems(notificationDTOList);
     }
 
