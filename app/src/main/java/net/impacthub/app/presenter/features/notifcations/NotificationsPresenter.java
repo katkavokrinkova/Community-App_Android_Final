@@ -129,7 +129,7 @@ public class NotificationsPresenter extends UiPresenter<NotificationsUiContract>
         subscribeWith(new MarkNotificationReadUseCase(notificationId).getUseCase(), new DisposableSingleObserver<Object>() {
             @Override
             public void onSuccess(Object o) {
-                //Nothing
+                getUi().onDecrementNotificationCount();
             }
 
             @Override

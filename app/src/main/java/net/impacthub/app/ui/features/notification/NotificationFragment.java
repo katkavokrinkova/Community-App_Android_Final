@@ -14,6 +14,7 @@ import net.impacthub.app.model.vo.projects.ProjectVO;
 import net.impacthub.app.presenter.features.notifcations.NotificationsPresenter;
 import net.impacthub.app.presenter.features.notifcations.NotificationsUiContract;
 import net.impacthub.app.ui.base.BaseChildFragment;
+import net.impacthub.app.ui.delegate.ShortcutBadgerHelper;
 import net.impacthub.app.ui.features.home.groups.GroupDetailFragment;
 import net.impacthub.app.ui.features.home.members.MemberDetailFragment;
 import net.impacthub.app.ui.features.home.projects.ProjectDetailFragment;
@@ -22,7 +23,6 @@ import net.impacthub.app.ui.features.messages.conversation.ConversationFragment;
 import java.util.List;
 
 import butterknife.BindView;
-import me.leolin.shortcutbadger.ShortcutBadger;
 
 /**
  * @author Filippo Ash
@@ -103,7 +103,7 @@ public class NotificationFragment extends BaseChildFragment<NotificationsPresent
 
     @Override
     public void onLoadNotifications(List<NotificationVO> notificationDTOList, int unreadNotificationCount) {
-        ShortcutBadger.applyCount(getContext(), unreadNotificationCount);
+        ShortcutBadgerHelper.applyBadgeCount(getContext(), unreadNotificationCount);
         mAdapter.setItems(notificationDTOList);
     }
 
@@ -120,5 +120,10 @@ public class NotificationFragment extends BaseChildFragment<NotificationsPresent
     @Override
     public void onLoadProject(ProjectVO projectVO) {
         addChildFragment(ProjectDetailFragment.newInstance(projectVO), "FRAG_PROJECT_DETAIL");
+    }
+
+    @Override
+    public void onDecrementNotificationCount() {
+        ShortcutBadgerHelper.decreaseBadgeCount(getContext());
     }
 }

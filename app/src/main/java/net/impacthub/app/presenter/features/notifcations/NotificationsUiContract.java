@@ -34,4 +34,6 @@ public interface NotificationsUiContract extends ErrorHandlerUiContract {
     void onLoadGroup(GroupVO groupVO);
 
     void onLoadProject(ProjectVO projectVO);
+
+    void onDecrementNotificationCount();
 }

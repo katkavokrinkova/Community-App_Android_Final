@@ -7,7 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.impacthub.app.R;
-import net.impacthub.app.model.home.HomeMenuItem;
+import net.impacthub.app.model.vo.home.HomeMenuItem;
 import net.impacthub.app.ui.base.BaseListAdapter;
 import net.impacthub.app.ui.common.ImageLoaderHelper;
 import net.impacthub.app.ui.common.RecyclerViewHolder;

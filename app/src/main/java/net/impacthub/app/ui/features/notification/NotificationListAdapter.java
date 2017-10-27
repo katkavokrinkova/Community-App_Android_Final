@@ -74,7 +74,7 @@ class NotificationListAdapter extends BaseListAdapter<NotificationListAdapter.Vi
             notificationMessage.setText(item.mMessage);
             elapsedTime.setText(item.mCreatedDate);
             Boolean isRead = item.mIsRead;
-//            itemView.setBackgroundColor(!isRead ? Color.WHITE: 0);
+//            itemView.setBackgroundColor(!isRead ? Color.WHITE: Color.parseColor("#EBEBEB"));
 //            notificationMessage.setBold(!isRead);
             notificationReadIcon.setVisibility(isRead ? View.GONE : View.VISIBLE);
             ImageLoaderHelper.loadImage(context, item.mNotificationType.getIcon(), notificationIcon);
