@@ -14,6 +14,7 @@ package net.impacthub.app.presenter.features.search;
 import net.impacthub.app.model.pojo.ListItemType;
 import net.impacthub.app.presenter.base.UiPresenter;
 import net.impacthub.app.usecase.features.search.GlobalSearchUseCase;
+import net.impacthub.app.utilities.TextUtils;
 
 import java.util.List;
 
@@ -34,6 +35,12 @@ public class SearchUiPresenter extends UiPresenter<SearchUiContract> {
 
     public void search(String searchTerm) {
         getUi().onShowProgressBar(true);
+        if(TextUtils.isEmpty(searchTerm)) {
+            getUi().onError(new Throwable("Search term should not be empty."));
+            getUi().onShowProgressBar(false);
+            return;
+        }
+
         subscribeWith(new GlobalSearchUseCase(searchTerm).getUseCase(), new DisposableSingleObserver<List<ListItemType>>() {
             @Override
             public void onSuccess(@NonNull List<ListItemType> listItemTypes) {
