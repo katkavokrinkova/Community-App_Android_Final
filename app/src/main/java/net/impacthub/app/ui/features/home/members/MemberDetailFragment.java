@@ -47,10 +47,12 @@ import net.impacthub.app.ui.features.home.projects.ProjectDetailFragment;
 import net.impacthub.app.ui.features.home.projects.ProjectsLisAdapter;
 import net.impacthub.app.ui.features.home.projects.binders.ProjectsViewBinder;
 import net.impacthub.app.ui.features.messages.conversation.ConversationFragment;
+import net.impacthub.app.ui.gallery.PicturePreviewActivity;
 
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * @author Filippo Ash
@@ -150,6 +152,15 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
         return R.layout.fragment_member_detail;
     }
 
+
+    @OnClick(R.id.image_detail)
+    void onMemberAvatarClick() {
+        Intent intent = new Intent(getActivity(), PicturePreviewActivity.class);
+        intent.putExtra(PicturePreviewActivity.EXTRA_TOOLBAR_TITLE, mFullNameValue);
+        intent.putExtra(PicturePreviewActivity.EXTRA_IMAGE_URL, buildUrl(mImageURLValue));
+        startActivity(intent);
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -183,7 +194,7 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
 
         adapter.addVieBinder(mViewBinder1 = new AboutViewBinder(new MemberInfoListAdapter(LayoutInflater.from(getContext()))));
 
-        LayoutInflater layoutInflater = getLayoutInflater(getArguments());
+        LayoutInflater layoutInflater = getIHLayoutInflater();
 
         ProjectsLisAdapter lisAdapter = new ProjectsLisAdapter(layoutInflater);
         lisAdapter.setItemClickListener(new OnListItemClickListener<ProjectVO>() {

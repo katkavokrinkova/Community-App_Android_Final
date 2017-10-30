@@ -17,6 +17,7 @@ import android.widget.Toast;
 import net.impacthub.app.R;
 import net.impacthub.app.presenter.base.UiContract;
 import net.impacthub.app.presenter.base.UiPresenter;
+import net.impacthub.app.ui.common.UserAccountDelegate;
 import net.impacthub.app.ui.widgets.TypefaceToolbar;
 
 import butterknife.BindView;
@@ -54,6 +55,10 @@ public abstract class BaseActivity<P extends UiPresenter<? extends UiContract>> 
 
     @CallSuper
     protected void onActivityCreated(Bundle savedInstanceState) {
+    }
+
+    protected String buildUrl(String url) {
+        return UserAccountDelegate.buildUrl(url);
     }
 
     protected P onCreatePresenter() {
