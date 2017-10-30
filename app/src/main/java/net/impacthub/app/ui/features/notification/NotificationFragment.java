@@ -14,6 +14,7 @@ import net.impacthub.app.model.vo.projects.ProjectVO;
 import net.impacthub.app.presenter.features.notifcations.NotificationsPresenter;
 import net.impacthub.app.presenter.features.notifcations.NotificationsUiContract;
 import net.impacthub.app.ui.base.BaseChildFragment;
+import net.impacthub.app.ui.delegate.ShortcutBadgerHelper;
 import net.impacthub.app.ui.features.home.groups.GroupDetailFragment;
 import net.impacthub.app.ui.features.home.members.MemberDetailFragment;
 import net.impacthub.app.ui.features.home.projects.ProjectDetailFragment;
@@ -60,10 +61,11 @@ public class NotificationFragment extends BaseChildFragment<NotificationsPresent
 
         setUpToolbar(R.string.notifications);
         mNotificationsList.setHasFixedSize(true);
-        mAdapter = new NotificationListAdapter(getLayoutInflater(getArguments()));
+        mAdapter = new NotificationListAdapter(getIHLayoutInflater());
         mAdapter.setItemClickListener(new OnListItemClickListener<NotificationVO>() {
             @Override
             public void onItemClick(int viewId, NotificationVO model, int position) {
+                getPresenter().setNotificationRead(model.mId);
                 switch (model.mNotificationType) {
                     case TYPE_PRIVATE_MESSAGE:
                         ConversationVO conversationVO = new ConversationVO();
@@ -100,7 +102,8 @@ public class NotificationFragment extends BaseChildFragment<NotificationsPresent
     }
 
     @Override
-    public void onLoadNotifications(List<NotificationVO> notificationDTOList) {
+    public void onLoadNotifications(List<NotificationVO> notificationDTOList, int unreadNotificationCount) {
+        ShortcutBadgerHelper.applyBadgeCount(getContext(), unreadNotificationCount);
         mAdapter.setItems(notificationDTOList);
     }
 
@@ -117,5 +120,10 @@ public class NotificationFragment extends BaseChildFragment<NotificationsPresent
     @Override
     public void onLoadProject(ProjectVO projectVO) {
         addChildFragment(ProjectDetailFragment.newInstance(projectVO), "FRAG_PROJECT_DETAIL");
+    }
+
+    @Override
+    public void onDecrementNotificationCount() {
+        ShortcutBadgerHelper.decreaseBadgeCount(getContext());
     }
 }

@@ -15,6 +15,7 @@ import com.salesforce.androidsdk.push.PushNotificationInterface;
 import net.impacthub.app.R;
 import net.impacthub.app.application.salesforce.SalesforceApplication;
 import net.impacthub.app.ui.controllers.MainTabsActivity;
+import net.impacthub.app.ui.delegate.ShortcutBadgerHelper;
 import net.impacthub.app.ui.splash.SplashActivity;
 
 
@@ -33,6 +34,8 @@ public class ImpactHubApplication extends SalesforceApplication<SplashActivity> 
             public void onPushMessageReceived(Bundle message) {
                 Log.d("PUSH--MESSAGE", message.toString());
                 Context context = getApplicationContext();
+
+                ShortcutBadgerHelper.increaseBadgeCount(context);
 
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
                 builder.setContentTitle("Impact Hub");

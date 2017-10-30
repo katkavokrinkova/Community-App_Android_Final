@@ -37,21 +37,16 @@ public class CompaniesMapper {
         if (response != null) {
             CompaniesRecords[] records = response.getRecords();
             if (records != null) {
-                companyDTOs.addAll(mapCompanyRecords(records));
+                for (CompaniesRecords record : records) {
+                    if (record != null) {
+                        companyDTOs.add(mapCompanyVO(record));
+                    }
+                }
             }
         }
         return companyDTOs;
     }
 
-    public List<CompanyVO> mapCompanyRecords(CompaniesRecords[] records) {
-        List<CompanyVO> companyDTOs = new LinkedList<>();
-        for (CompaniesRecords record : records) {
-            if (record != null) {
-                companyDTOs.add(mapCompanyVO(record));
-            }
-        }
-        return companyDTOs;
-    }
 
     @NonNull
     private CompanyVO mapCompanyVO(CompaniesRecords record) {

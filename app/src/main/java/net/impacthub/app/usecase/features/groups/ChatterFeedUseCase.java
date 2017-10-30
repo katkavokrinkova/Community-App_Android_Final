@@ -11,14 +11,18 @@
 
 package net.impacthub.app.usecase.features.groups;
 
+import net.impacthub.app.mapper.chatter.ChatterMapper;
 import net.impacthub.app.model.features.chatterfeed.ChatterFeedResponse;
+import net.impacthub.app.model.vo.chatter.ChatterVO;
 import net.impacthub.app.usecase.base.BaseUseCaseGenerator;
 
+import java.util.List;
 import java.util.concurrent.Callable;
 
 import io.reactivex.Single;
+import io.reactivex.functions.Function;
 
-public class ChatterFeedUseCase extends BaseUseCaseGenerator<Single<ChatterFeedResponse>, ChatterFeedResponse> {
+public class ChatterFeedUseCase extends BaseUseCaseGenerator<Single<List<ChatterVO>>, ChatterFeedResponse> {
 
     private final String mFeedId;
 
@@ -27,8 +31,14 @@ public class ChatterFeedUseCase extends BaseUseCaseGenerator<Single<ChatterFeedR
     }
 
     @Override
-    public Single<ChatterFeedResponse> getUseCase() {
-        return Single.fromCallable(new FeedElementsCallable());
+    public Single<List<ChatterVO>> getUseCase() {
+        return Single.fromCallable(new FeedElementsCallable())
+                .map(new Function<ChatterFeedResponse, List<ChatterVO>>() {
+                    @Override
+                    public List<ChatterVO> apply(ChatterFeedResponse chatterFeedResponse) throws Exception {
+                        return new ChatterMapper().map(chatterFeedResponse);
+                    }
+                });
     }
 
     private class FeedElementsCallable implements Callable<ChatterFeedResponse> {

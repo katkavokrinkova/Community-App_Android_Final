@@ -12,6 +12,7 @@
 package net.impacthub.app.ui.features.notification;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import net.impacthub.app.ui.base.BaseListAdapter;
 import net.impacthub.app.ui.common.ImageLoaderHelper;
 import net.impacthub.app.ui.common.RecyclerViewHolder;
 import net.impacthub.app.ui.widgets.CircleImageView;
+import net.impacthub.app.ui.widgets.TypefaceTextView;
 
 /**
  * @author Filippo Ash
@@ -51,16 +53,18 @@ class NotificationListAdapter extends BaseListAdapter<NotificationListAdapter.Vi
     class ViewHolder extends RecyclerViewHolder<NotificationVO> implements View.OnClickListener {
 
         final CircleImageView profileImage;
-        final TextView notificationMessage;
+        final TypefaceTextView notificationMessage;
         final TextView elapsedTime;
         final ImageView notificationIcon;
+        final View notificationReadIcon;
 
         ViewHolder(View itemView) {
             super(itemView);
             profileImage = (CircleImageView) itemView.findViewById(R.id.image_profile_picture);
-            notificationMessage = (TextView) itemView.findViewById(R.id.text_notification_message);
+            notificationMessage = (TypefaceTextView) itemView.findViewById(R.id.text_notification_message);
             elapsedTime = (TextView) itemView.findViewById(R.id.text_elapsed_time);
             notificationIcon = (ImageView) itemView.findViewById(R.id.image_notification_type);
+            notificationReadIcon = itemView.findViewById(R.id.image_notification_read);
             itemView.setOnClickListener(this);
         }
 
@@ -69,6 +73,10 @@ class NotificationListAdapter extends BaseListAdapter<NotificationListAdapter.Vi
             Context context = profileImage.getContext();
             notificationMessage.setText(item.mMessage);
             elapsedTime.setText(item.mCreatedDate);
+            Boolean isRead = item.mIsRead;
+//            itemView.setBackgroundColor(!isRead ? Color.WHITE: Color.parseColor("#EBEBEB"));
+//            notificationMessage.setBold(!isRead);
+            notificationReadIcon.setVisibility(isRead ? View.GONE : View.VISIBLE);
             ImageLoaderHelper.loadImage(context, item.mNotificationType.getIcon(), notificationIcon);
             ImageLoaderHelper.loadImage(context, buildUrl(item.mProfilePicUrl), profileImage);
         }

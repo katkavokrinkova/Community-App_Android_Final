@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Impact Hub</string>
+    <string name="impact_hub_account_type">net.impacthub.app</string>
     <string name="home">Home</string>
     <string name="search">Search</string>
     <string name="search_hint">Search...</string>

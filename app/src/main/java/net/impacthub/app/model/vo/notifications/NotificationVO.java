@@ -25,6 +25,7 @@ import java.util.Map;
 public class NotificationVO implements Searchable {
 
     public String mMessage;
+    public Boolean mIsRead;
     public String mId;
     public String mConversationId;
     public String mChatterGroupId;

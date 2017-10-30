@@ -49,7 +49,7 @@ class CompaniesListAdapter extends BaseListAdapter<CompaniesListAdapter.ViewHold
 
     class ViewHolder extends RecyclerViewHolder<CompanyVO> implements View.OnClickListener {
 
-        final ImageView companyBannerLogo;
+        final ImageView companyLogo;
         final ImageView companyBannerImage;
         final TextView companyName;
         final TextView companySector;
@@ -58,7 +58,7 @@ class CompaniesListAdapter extends BaseListAdapter<CompaniesListAdapter.ViewHold
 
         ViewHolder(View itemView) {
             super(itemView);
-            companyBannerLogo = (ImageView) itemView.findViewById(R.id.image_company_logo);
+            companyLogo = (ImageView) itemView.findViewById(R.id.image_company_logo);
             companyBannerImage = (ImageView) itemView.findViewById(R.id.image_company_banner);
             companyName = (TextView) itemView.findViewById(R.id.text_company_name);
             companySector = (TextView) itemView.findViewById(R.id.text_company_sector);
@@ -74,7 +74,7 @@ class CompaniesListAdapter extends BaseListAdapter<CompaniesListAdapter.ViewHold
             companySector.setText(item.mCompanySector);
             memberCount.setText(item.mCompanyMemberCount);
             locations.setText(item.mCompanyLocation);
-            ImageLoaderHelper.loadImage(context, buildUrl(item.mCompanyLogo), companyBannerLogo);
+            ImageLoaderHelper.loadImage(context, buildUrl(item.mCompanyLogo), companyLogo);
             ImageLoaderHelper.loadImage(context, buildUrl(item.mCompanyBanner), companyBannerImage);
         }
 

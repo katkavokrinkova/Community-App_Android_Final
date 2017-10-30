@@ -9,7 +9,7 @@ import android.view.View;
 
 import net.impacthub.app.R;
 import net.impacthub.app.model.callback.OnListItemClickListener;
-import net.impacthub.app.model.home.HomeMenuItem;
+import net.impacthub.app.model.vo.home.HomeMenuItem;
 import net.impacthub.app.ui.base.BaseChildFragment;
 import net.impacthub.app.ui.common.LinearItemsMarginDecorator;
 import net.impacthub.app.ui.features.home.companies.CompaniesFragment;

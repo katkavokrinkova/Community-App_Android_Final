@@ -92,4 +92,8 @@ public final class TextUtils {
         }
         return filterDisplay;
     }
+
+    public static boolean isEmpty(String value) {
+        return value == null || value.isEmpty();
+    }
 }

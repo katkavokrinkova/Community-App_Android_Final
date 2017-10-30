@@ -27,4 +27,8 @@
     <color name="colorSilver">#c9cecd</color>
     <color name="colorDarkSlateBlue">#133b50</color>
     <color name="colorImagePlaceHolder">#B8D9EC</color>
+    <color name="colorGreen">#28C769</color>
+    <color name="colorBlue">#03a9f3</color>
+    <color name="colorBlue2">#0279FD</color>
+    <color name="colorBlueDark">#0185BE</color>
 </resources>

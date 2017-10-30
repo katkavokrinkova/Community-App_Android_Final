@@ -11,9 +11,7 @@
 
 package net.impacthub.app.presenter.features.companies;
 
-import net.impacthub.app.mapper.companies.CompaniesMapper;
 import net.impacthub.app.model.vo.companies.CompanyVO;
-import net.impacthub.app.model.features.companies.CompaniesResponse;
 import net.impacthub.app.model.vo.filters.FilterData;
 import net.impacthub.app.presenter.base.UiPresenter;
 import net.impacthub.app.usecase.base.UseCaseGenerator;
@@ -24,7 +22,6 @@ import java.util.Map;
 
 import io.reactivex.Single;
 import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableSingleObserver;
 
 /**
@@ -35,7 +32,7 @@ import io.reactivex.observers.DisposableSingleObserver;
 
 public class CompaniesUiPresenter extends UiPresenter<CompaniesUiContract> {
 
-    private final UseCaseGenerator<Single<CompaniesResponse>> mCompaniesUseCase = new CompaniesUseCase();
+    private final UseCaseGenerator<Single<List<CompanyVO>>> mCompaniesUseCase = new CompaniesUseCase();
 
     public CompaniesUiPresenter(CompaniesUiContract uiContract) {
         super(uiContract);
@@ -43,14 +40,7 @@ public class CompaniesUiPresenter extends UiPresenter<CompaniesUiContract> {
 
     public void getCompanies() {
         getUi().onShowProgressBar(true);
-        Single<List<CompanyVO>> companiesSingle = mCompaniesUseCase.getUseCase()
-                .map(new Function<CompaniesResponse, List<CompanyVO>>() {
-                    @Override
-                    public List<CompanyVO> apply(@NonNull CompaniesResponse companiesResponse) throws Exception {
-                        return new CompaniesMapper().map(companiesResponse);
-                    }
-                });
-        subscribeWith(companiesSingle, new DisposableSingleObserver<List<CompanyVO>>() {
+        subscribeWith(mCompaniesUseCase.getUseCase(), new DisposableSingleObserver<List<CompanyVO>>() {
             @Override
             public void onSuccess(@NonNull List<CompanyVO> companyVOs) {
                 getUi().onLoadCompanies(companyVOs);

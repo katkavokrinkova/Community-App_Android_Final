@@ -49,7 +49,7 @@ class MessagesListAdapter extends BaseListAdapter<MessagesListAdapter.MessageVie
     class MessageViewHolder extends RecyclerViewHolder<MessageVO> implements View.OnClickListener {
 
         final ImageView profileImage;
-        final TextView messageReadIcon;
+        final View messageReadIcon;
         final TextView displayName;
         final TextView displayMessage;
         final TextView displayDate;
@@ -57,7 +57,7 @@ class MessagesListAdapter extends BaseListAdapter<MessagesListAdapter.MessageVie
         MessageViewHolder(View itemView) {
             super(itemView);
             profileImage = (ImageView) itemView.findViewById(R.id.image_profile_picture);
-            messageReadIcon = (TextView) itemView.findViewById(R.id.image_message_read);
+            messageReadIcon = itemView.findViewById(R.id.image_message_read);
             displayName = (TextView) itemView.findViewById(R.id.text_sender);
             displayMessage = (TextView) itemView.findViewById(R.id.text_message);
             displayDate = (TextView) itemView.findViewById(R.id.text_event_date);

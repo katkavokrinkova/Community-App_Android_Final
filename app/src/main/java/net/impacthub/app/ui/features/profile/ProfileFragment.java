@@ -12,6 +12,7 @@ import net.impacthub.app.presenter.features.profile.ProfilePresenter;
 import net.impacthub.app.presenter.features.profile.ProfileUiContract;
 import net.impacthub.app.ui.base.BaseChildFragment;
 import net.impacthub.app.ui.common.ImageLoaderHelper;
+import net.impacthub.app.ui.delegate.ShortcutBadgerHelper;
 import net.impacthub.app.ui.widgets.CircleImageView;
 import net.impacthub.app.ui.widgets.TypefaceTextView;
 
@@ -54,6 +55,7 @@ public class ProfileFragment extends BaseChildFragment<ProfilePresenter> impleme
 
     @OnClick(R.id.done)
     protected void onLogoutClick() {
+        ShortcutBadgerHelper.clearBadgeCount(getContext());
         SalesforceSDKManager.getInstance().logout(getActivity());
     }
 

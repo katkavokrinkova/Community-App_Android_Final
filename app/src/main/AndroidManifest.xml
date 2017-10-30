@@ -26,6 +26,7 @@
         <activity android:name=".ui.features.home.members.ConnectMemberActivity" />
         <activity android:name="net.impacthub.app.ui.features.filters.FilterActivity" />
         <activity android:name=".ui.features.home.chatter.CreatePostActivity" />
+        <activity android:name=".ui.gallery.PicturePreviewActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

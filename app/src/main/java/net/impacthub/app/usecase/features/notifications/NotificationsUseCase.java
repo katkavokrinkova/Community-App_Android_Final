@@ -11,12 +11,15 @@
 
 package net.impacthub.app.usecase.features.notifications;
 
+import net.impacthub.app.mapper.notifications.NotificationMapper;
 import net.impacthub.app.model.features.notifications.NotificationResponse;
+import net.impacthub.app.model.vo.notifications.NotificationWrapper;
 import net.impacthub.app.usecase.base.BaseUseCaseGenerator;
 
 import java.util.concurrent.Callable;
 
 import io.reactivex.Single;
+import io.reactivex.functions.Function;
 
 /**
  * @author Filippo Ash
@@ -24,14 +27,19 @@ import io.reactivex.Single;
  * @date 8/4/2017.
  */
 
-public class NotificationsUseCase extends BaseUseCaseGenerator<Single<NotificationResponse>, NotificationResponse> {
+public class NotificationsUseCase extends BaseUseCaseGenerator<Single<NotificationWrapper>, NotificationResponse> {
 
     @Override
-    public Single<NotificationResponse> getUseCase() {
+    public Single<NotificationWrapper> getUseCase() {
         return Single.fromCallable(new Callable<NotificationResponse>() {
             @Override
             public NotificationResponse call() throws Exception {
                 return getApiCall().getResponse(getSoqlRequestFactory().createNotificationsRequest(getUserAccount().getUserId()), NotificationResponse.class);
+            }
+        }).map(new Function<NotificationResponse, NotificationWrapper>() {
+            @Override
+            public NotificationWrapper apply(NotificationResponse notificationResponse) throws Exception {
+                return new NotificationMapper().wrapNotifications(notificationResponse);
             }
         });
     }

@@ -12,11 +12,9 @@
 package net.impacthub.app.presenter.features.groups;
 
 
-import net.impacthub.app.mapper.chatter.ChatterMapper;
 import net.impacthub.app.model.features.push.PushBody;
 import net.impacthub.app.model.pojo.ChatterWrapper;
 import net.impacthub.app.model.vo.chatter.ChatterVO;
-import net.impacthub.app.model.features.chatterfeed.ChatterFeedResponse;
 import net.impacthub.app.model.vo.members.MemberVO;
 import net.impacthub.app.model.vo.notifications.NotificationType;
 import net.impacthub.app.presenter.base.UiPresenter;
@@ -45,16 +43,18 @@ public class ChatterFeedPresenter extends UiPresenter<ChatterFeedUiContract> {
     }
 
     public void loadChatterFeed(String feedId) {
-        subscribeWith(new ChatterFeedUseCase(feedId).getUseCase(), new DisposableSingleObserver<ChatterFeedResponse>() {
+        getUi().onShowProgressBar(true);
+        subscribeWith(new ChatterFeedUseCase(feedId).getUseCase(), new DisposableSingleObserver<List<ChatterVO>>() {
             @Override
-            public void onSuccess(@NonNull ChatterFeedResponse feedElements) {
-                List<ChatterVO> chatterDTOs = new ChatterMapper().map(feedElements);
-                getUi().onLoadChatterFeed(chatterDTOs);
+            public void onSuccess(@NonNull List<ChatterVO> chatterVOList) {
+                getUi().onLoadChatterFeed(chatterVOList);
+                getUi().onShowProgressBar(false);
             }
 
             @Override
             public void onError(@NonNull Throwable e) {
                 getUi().onError(e);
+                getUi().onShowProgressBar(false);
             }
         });
     }
