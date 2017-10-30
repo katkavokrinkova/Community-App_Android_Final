@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -97,13 +98,14 @@ public class GroupsFragment extends BaseChildFragment<GroupPresenter> implements
         setUpToolbar(R.string.label_groups);
 
         AppPagerAdapter adapter = new AppPagerAdapter(getContext(), TITLES);
-//
 
-        mListAdapter1 = new GroupsListAdapter(getLayoutInflater(getArguments()));
+        LayoutInflater layoutInflater = getIHLayoutInflater();
+
+        mListAdapter1 = new GroupsListAdapter(layoutInflater);
         mListAdapter1.setItemClickListener(this);
-        mListAdapter2 = new GroupsListAdapter(getLayoutInflater(getArguments()));
+        mListAdapter2 = new GroupsListAdapter(layoutInflater);
         mListAdapter2.setItemClickListener(this);
-        mListAdapter3 = new GroupsListAdapter(getLayoutInflater(getArguments()));
+        mListAdapter3 = new GroupsListAdapter(layoutInflater);
         mListAdapter3.setItemClickListener(this);
 
         adapter.addVieBinder(mViewBinder1 = new GroupsViewBinder(mListAdapter1));
