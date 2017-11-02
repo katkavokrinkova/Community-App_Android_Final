@@ -20,14 +20,14 @@ package net.impacthub.app.model.features.contacts;
 public class ContactsResponse {
 
     private String done;
-    private Records[] records;
+    private ContactRecords[] records;
     private String totalSize;
 
     public String getDone() {
         return done;
     }
 
-    public Records[] getRecords() {
+    public ContactRecords[] getRecords() {
         return records;
     }
 

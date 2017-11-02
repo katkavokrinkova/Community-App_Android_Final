@@ -17,7 +17,7 @@ package net.impacthub.app.model.features.contacts;
  * @date 8/22/2017.
  */
 
-public class Records {
+public class ContactRecords {
 
     private String Name;
     private String ContactTo__c;

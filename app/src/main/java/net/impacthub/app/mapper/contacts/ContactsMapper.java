@@ -12,7 +12,7 @@
 package net.impacthub.app.mapper.contacts;
 
 import net.impacthub.app.model.features.contacts.ContactsResponse;
-import net.impacthub.app.model.features.contacts.Records;
+import net.impacthub.app.model.features.contacts.ContactRecords;
 import net.impacthub.app.model.vo.contacts.ContactsWrapper;
 import net.impacthub.app.model.vo.contacts.ContactVO;
 import net.impacthub.app.model.vo.members.MemberStatus;
@@ -33,11 +33,11 @@ public class ContactsMapper {
     public ContactsWrapper mapContactMembers(ContactsResponse contactsResponse, List<MemberVO> memberVOs, String contactId) {
         ContactsWrapper contactsWrapper = new ContactsWrapper();
         if (contactsResponse != null) {
-            Records[] records = contactsResponse.getRecords();
+            ContactRecords[] records = contactsResponse.getRecords();
             if (records != null && records.length > 0) {
                 Map<String, MemberVO> memberVOMap = mapListAsMapWithId(memberVOs);
                 memberVOMap.remove(contactId);
-                for (Records record : records) {
+                for (ContactRecords record : records) {
 
                     String contactTo__c = record.getContactTo__c();
                     String contactFrom__c = record.getContactFrom__c();
@@ -51,31 +51,39 @@ public class ContactsMapper {
 
                         if (memberVOMap.containsKey(contactTo__c)) {
                             MemberVO memberVO = memberVOMap.get(contactTo__c);
-                            memberVO.mMemberStatus = MemberStatus.APPROVED;
-                            memberVO.mDM_ID = record.getId();
-                            contactVO.mMember = memberVO;
-                            contactsWrapper.getApprovedContacts().add(contactVO);
+                            if (memberVO != null) {
+                                memberVO.mMemberStatus = MemberStatus.APPROVED;
+                                memberVO.mDM_ID = record.getId();
+                                contactVO.mMember = memberVO;
+                                contactsWrapper.getApprovedContacts().add(contactVO);
+                            }
                         } else if (memberVOMap.containsKey(contactFrom__c)) {
                             MemberVO memberVO = memberVOMap.get(contactFrom__c);
-                            memberVO.mMemberStatus = MemberStatus.APPROVED;
-                            memberVO.mDM_ID = record.getId();
-                            memberVO.mRejectable = true;
-                            contactVO.mMember = memberVO;
-                            contactsWrapper.getApprovedContacts().add(contactVO);
+                            if (memberVO != null) {
+                                memberVO.mMemberStatus = MemberStatus.APPROVED;
+                                memberVO.mDM_ID = record.getId();
+                                memberVO.mRejectable = true;
+                                contactVO.mMember = memberVO;
+                                contactsWrapper.getApprovedContacts().add(contactVO);
+                            }
                         }
                     } else if ("Declined".equalsIgnoreCase(status) && contactId.equals(contactTo__c)) {
                         MemberVO memberVO = memberVOMap.get(contactFrom__c);
-                        memberVO.mMemberStatus = MemberStatus.DECLINED;
-                        memberVO.mDM_ID = record.getId();
-                        contactVO.mMember = memberVO;
-                        contactsWrapper.getDeclinedContacts().add(contactVO);
+                        if (memberVO != null) {
+                            memberVO.mMemberStatus = MemberStatus.DECLINED;
+                            memberVO.mDM_ID = record.getId();
+                            contactVO.mMember = memberVO;
+                            contactsWrapper.getDeclinedContacts().add(contactVO);
+                        }
                     } else if ("Outstanding".equalsIgnoreCase(status) && contactId.equals(contactTo__c)) {
                         contactVO.mIntroMessage = record.getIntroduction_Message__c();
                         MemberVO memberVO = memberVOMap.get(contactFrom__c);
-                        memberVO.mMemberStatus = MemberStatus.OUTSTANDING;
-                        memberVO.mDM_ID = record.getId();
-                        contactVO.mMember = memberVO;
-                        contactsWrapper.getOutstandingContacts().add(contactVO);
+                        if (memberVO != null) {
+                            memberVO.mMemberStatus = MemberStatus.OUTSTANDING;
+                            memberVO.mDM_ID = record.getId();
+                            contactVO.mMember = memberVO;
+                            contactsWrapper.getOutstandingContacts().add(contactVO);
+                        }
                     }
                 }
             }
