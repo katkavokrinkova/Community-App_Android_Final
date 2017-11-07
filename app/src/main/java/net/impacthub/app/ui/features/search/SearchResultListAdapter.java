@@ -24,12 +24,12 @@ import net.impacthub.app.model.pojo.ListItemType;
 import net.impacthub.app.model.vo.companies.CompanyVO;
 import net.impacthub.app.model.vo.events.EventVO;
 import net.impacthub.app.model.vo.groups.GroupVO;
-import net.impacthub.app.model.vo.members.MemberStatus;
 import net.impacthub.app.model.vo.members.MemberVO;
 import net.impacthub.app.model.vo.projects.ProjectVO;
 import net.impacthub.app.ui.base.BaseListAdapter;
 import net.impacthub.app.ui.common.ImageLoaderHelper;
 import net.impacthub.app.ui.common.RecyclerViewHolder;
+import net.impacthub.app.ui.features.home.members.MemberBinderDelegate;
 import net.impacthub.app.ui.widgets.CircleImageView;
 
 /**
@@ -188,26 +188,7 @@ class SearchResultListAdapter extends BaseListAdapter<RecyclerView.ViewHolder, L
 
         @Override
         protected void bindViewsWith(MemberVO item) {
-            Context context = memberImage.getContext();
-            name.setText(item.mFullName);
-            profession.setText(item.mProfession);
-            locations.setText(item.mLocation);
-            ImageLoaderHelper.loadImage(context, buildUrl(item.mProfilePicURL), memberImage);
-
-            switch (item.mMemberStatus) {
-                case MemberStatus.APPROVED:
-                    ImageLoaderHelper.loadImage(context, R.mipmap.comment_bubble_small, iconMemberStatus);
-                    break;
-                case MemberStatus.OUTSTANDING:
-                    ImageLoaderHelper.loadImage(context, R.mipmap.member_waiting, iconMemberStatus);
-                    break;
-                case MemberStatus.APPROVE_DECLINE_BY_ME:
-                    ImageLoaderHelper.loadImage(context, R.mipmap.member_waiting, iconMemberStatus);
-                    break;
-                case MemberStatus.NOT_CONTACTED:
-                    ImageLoaderHelper.loadImage(context, R.mipmap.comment_bubble_small, iconMemberStatus);
-                    break;
-            }
+            MemberBinderDelegate.bind(memberImage.getContext(), item, name, profession, locations, memberImage, iconMemberStatus);
         }
 
         @Override

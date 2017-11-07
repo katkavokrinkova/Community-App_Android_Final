@@ -102,8 +102,8 @@
 
             <ImageView
                 android:id="@+id/button_message_contact"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
                 android:src="@mipmap/comment_bubble_small" />
 
             <net.impacthub.app.ui.widgets.TypefaceTextView

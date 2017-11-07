@@ -11,6 +11,7 @@
 
 package net.impacthub.app.mapper.members;
 
+import net.impacthub.app.model.features.contacts.ContactRecords;
 import net.impacthub.app.model.features.contacts.ContactsResponse;
 import net.impacthub.app.model.features.members.Account;
 import net.impacthub.app.model.features.members.Affiliation;
@@ -90,15 +91,15 @@ public class MembersMapper {
         if (hubs__r != null) {
             HubRecords[] records = hubs__r.getRecords();
             if (records != null) {
-                String hubs = "";
+                StringBuilder hubs = new StringBuilder();
                 int length = records.length;
                 for (int i = 0; i < length; i++) {
-                    hubs += records[i].getHub_Name__c();
+                    hubs.append(records[i].getHub_Name__c());
                     if (i < (length - 1)) {
-                        hubs += ";";
+                        hubs.append(";");
                     }
                 }
-                memberDTO.mLocation = hubs;
+                memberDTO.mLocation = hubs.toString();
             }
         }
 
@@ -212,7 +213,7 @@ public class MembersMapper {
         Map<String, MemberVO> memberVOMap = mapListAsMapWithId(memberVOs);
         memberVOMap.remove(contactId);
         if (contactsResponse != null) {
-            net.impacthub.app.model.features.contacts.Records[] records = contactsResponse.getRecords();
+            ContactRecords[] records = contactsResponse.getRecords();
             if (records != null && records.length > 0) {
                 mapMemberContact(contactId, records, memberVOMap);
             }
@@ -220,8 +221,8 @@ public class MembersMapper {
         return new LinkedList<>(memberVOMap.values());
     }
 
-    private void mapMemberContact(String contactId, net.impacthub.app.model.features.contacts.Records[] records, Map<String, MemberVO> memberVOMap) {
-        for (net.impacthub.app.model.features.contacts.Records record : records) {
+    private void mapMemberContact(String contactId, ContactRecords[] records, Map<String, MemberVO> memberVOMap) {
+        for (ContactRecords record : records) {
 
             String contactTo__c = record.getContactTo__c();
             String contactFrom__c = record.getContactFrom__c();

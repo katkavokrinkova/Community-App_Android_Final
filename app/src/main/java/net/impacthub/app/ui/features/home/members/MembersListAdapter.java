@@ -1,6 +1,5 @@
 package net.impacthub.app.ui.features.home.members;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,10 +7,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.impacthub.app.R;
-import net.impacthub.app.model.vo.members.MemberStatus;
 import net.impacthub.app.model.vo.members.MemberVO;
 import net.impacthub.app.ui.base.BaseListAdapter;
-import net.impacthub.app.ui.common.ImageLoaderHelper;
 import net.impacthub.app.ui.common.RecyclerViewHolder;
 
 /**
@@ -57,26 +54,7 @@ public class MembersListAdapter extends BaseListAdapter<MembersListAdapter.Membe
 
         @Override
         protected void bindViewsWith(MemberVO item) {
-            Context context = memberImage.getContext();
-            name.setText(item.mFullName);
-            profession.setText(String.format("%s at %s", item.mProfession, item.mCompanyName));
-            locations.setText(item.mLocation);
-            ImageLoaderHelper.loadImage(context, buildUrl(item.mProfilePicURL), memberImage);
-
-            switch (item.mMemberStatus) {
-                case MemberStatus.APPROVED:
-                    ImageLoaderHelper.loadImage(context, R.mipmap.comment_bubble_small, iconMemberStatus);
-                    break;
-                case MemberStatus.OUTSTANDING:
-                    ImageLoaderHelper.loadImage(context, R.mipmap.member_waiting, iconMemberStatus);
-                    break;
-                case MemberStatus.APPROVE_DECLINE_BY_ME:
-                    ImageLoaderHelper.loadImage(context, R.mipmap.member_waiting, iconMemberStatus);
-                    break;
-                case MemberStatus.NOT_CONTACTED:
-                    ImageLoaderHelper.loadImage(context, R.mipmap.comment_bubble_small, iconMemberStatus);
-                    break;
-            }
+            MemberBinderDelegate.bind(memberImage.getContext(), item, name, profession, locations, memberImage, iconMemberStatus);
         }
 
         @Override

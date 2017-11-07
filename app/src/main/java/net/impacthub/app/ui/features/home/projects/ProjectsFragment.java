@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -97,11 +98,12 @@ public class ProjectsFragment extends BaseChildFragment<ProjectsUiPresenter> imp
 
         AppPagerAdapter adapter = new AppPagerAdapter(getContext(), TITLES);
 //
-        mLisAdapter1 = new ProjectsLisAdapter(getLayoutInflater(getArguments()));
+        LayoutInflater layoutInflater = getIHLayoutInflater();
+        mLisAdapter1 = new ProjectsLisAdapter(layoutInflater);
         mLisAdapter1.setItemClickListener(this);
-        mLisAdapter2 = new ProjectsLisAdapter(getLayoutInflater(getArguments()));
+        mLisAdapter2 = new ProjectsLisAdapter(layoutInflater);
         mLisAdapter2.setItemClickListener(this);
-        mLisAdapter3 = new ProjectsLisAdapter(getLayoutInflater(getArguments()));
+        mLisAdapter3 = new ProjectsLisAdapter(layoutInflater);
         mLisAdapter3.setItemClickListener(this);
         adapter.addVieBinder(mViewBinder1 = new ProjectsViewBinder(mLisAdapter1));
         adapter.addVieBinder(mViewBinder2 = new ProjectsViewBinder(mLisAdapter2));
