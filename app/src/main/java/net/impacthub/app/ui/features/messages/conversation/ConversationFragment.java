@@ -95,7 +95,7 @@ public class ConversationFragment extends BaseChildFragment<ConversationUiPresen
         mConversationID = arguments.getString(EXTRA_CONVERSATION_ID);
 
         mMessageList.setHasFixedSize(true);
-        mAdapter = new ConversationListAdapter(getLayoutInflater(getArguments()));
+        mAdapter = new ConversationListAdapter(getIHLayoutInflater());
         mMessageList.setAdapter(mAdapter);
 
         getPresenter().getMessageConversations(mConversationID);

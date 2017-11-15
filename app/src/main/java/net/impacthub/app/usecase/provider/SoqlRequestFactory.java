@@ -40,7 +40,7 @@ public class SoqlRequestFactory {
     private static final String  GROUP_PROJECT = "id, name, CountOfMembers__c, ImageURL__c, Group_Descr__c, Impact_Hub_Cities__c, ChatterGroupId__c, Directory_Style__c,Sector__c, CreatedById, Related_Impact_Goal__c, Organisation__r.id, Organisation__r.Number_of_Employees__c, Organisation__r.Impact_Hub_Cities__c, Organisation__r.name,ChatterGroupType__c";
 
     private static final String PROFILE = "SELECT " + CONTACT + " FROM Contact WHERE User__c = '%s'";
-    private static final String ALL_MEMBERS_PROFILE = "SELECT " + CONTACT + " FROM Contact where User__c != null and User__r.isactive = true OFFSET %d";
+    private static final String ALL_MEMBERS_PROFILE = "SELECT " + CONTACT + " FROM Contact where User__c != null and User__r.isactive = true and Portal_Profile_Complete__c = true OFFSET %d";
     private static final String CONTACT_MEMBERS_PROFILE = "SELECT " + CONTACT + " FROM Contact where id IN (%s)";
 
 //    private static final String memberListQuery =
