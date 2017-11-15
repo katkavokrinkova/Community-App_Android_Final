@@ -19,12 +19,12 @@ package net.impacthub.app.model.features.members;
 
 public class MembersResponse {
 
-    private String done;
+    private Boolean done;
     private MembersRecords[] records;
     private String totalSize;
 
 
-    public String getDone() {
+    public Boolean getDone() {
         return done;
     }
 

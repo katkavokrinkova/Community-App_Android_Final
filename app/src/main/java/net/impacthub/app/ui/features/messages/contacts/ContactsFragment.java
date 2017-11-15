@@ -90,7 +90,7 @@ public class ContactsFragment extends BaseChildFragment<ContactsUiPresenter> imp
 
         AppPagerAdapter adapter = new AppPagerAdapter(getContext(), TITLES);
 
-        LayoutInflater layoutInflater = getLayoutInflater(getArguments());
+        LayoutInflater layoutInflater = getIHLayoutInflater();
         mListAdapter1 = new ActiveContactsListAdapter(layoutInflater);
         mListAdapter1.setItemClickListener(new OnListItemClickListener<ContactVO>() {
             @Override

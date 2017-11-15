@@ -14,9 +14,11 @@ import java.util.Map;
 
 public interface MembersUiContract extends ErrorHandlerUiContract {
 
-    void onLoadMembers(List<MemberVO> memberDTOs);
+    void onLoadMembers(List<MemberVO> memberDTOs, boolean done);
 
     void onShowTick(Map<String, List<String>> filters);
 
     void onHideTick();
+
+    void onLoadingStateChanged(boolean loading);
 }

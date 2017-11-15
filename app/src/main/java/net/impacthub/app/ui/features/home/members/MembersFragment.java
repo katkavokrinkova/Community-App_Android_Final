@@ -21,6 +21,7 @@ import net.impacthub.app.model.vo.members.MemberVO;
 import net.impacthub.app.presenter.features.members.MembersPresenter;
 import net.impacthub.app.presenter.features.members.MembersUiContract;
 import net.impacthub.app.ui.base.BaseChildFragment;
+import net.impacthub.app.ui.common.EndlessRecyclerOnScrollListener;
 import net.impacthub.app.ui.common.LinearItemsMarginDecorator;
 import net.impacthub.app.ui.common.UIRefreshManager;
 import net.impacthub.app.ui.features.filters.FilterActivity;
@@ -55,6 +56,7 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
     private Parcelable mState;
 
     private FilterData mFilterData;
+
 
     public static MembersFragment newInstance() {
 
@@ -102,12 +104,14 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
         mAdapter.setItemClickListener(this);
         mMembersList.setLayoutManager(new LinearLayoutManager(activity));
         mMembersList.setAdapter(mAdapter);
+
+        mMembersList.addOnScrollListener(mOnScrollListener);
         //getPresenter().loadMembers();
 
         if (mState != null) {
             mMembersList.getLayoutManager().onRestoreInstanceState(mState);
         } else {
-            getPresenter().loadMembers();
+            getPresenter().loadMembers(0);
         }
 
         mSearchView.setSearchActionListener(new UISearchView.OnSearchActionListener() {
@@ -133,7 +137,7 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
             mFilterData = (FilterData) data.getSerializableExtra(EXTRA_FILTER_DATA);
             getPresenter().handleFilters(mFilterData);
         } else if(requestCode == 1122 && resultCode == Activity.RESULT_OK) {
-            getPresenter().loadMembers();
+            getPresenter().loadMembers(0);
         }
     }
 
@@ -181,8 +185,9 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
     }
 
     @Override
-    public void onLoadMembers(List<MemberVO> memberDTOs) {
-        mAdapter.setItems(memberDTOs);
+    public void onLoadMembers(List<MemberVO> memberDTOs, boolean done) {
+        mOnScrollListener.canLoadMore(done);
+        mAdapter.appendItems(memberDTOs);
     }
 
     @Override
@@ -199,7 +204,7 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
 
     @Override
     public void onRefresh() {
-        getPresenter().loadMembers();
+        getPresenter().loadMembers(0);
     }
 
     @Override
@@ -213,4 +218,16 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
         ViewUtils.gone(mFilterTick);
         mAdapter.resetFilters();
     }
+
+    @Override
+    public void onLoadingStateChanged(boolean loading) {
+        mOnScrollListener.setLoading(loading);
+    }
+
+    private final EndlessRecyclerOnScrollListener mOnScrollListener = new EndlessRecyclerOnScrollListener() {
+        @Override
+        public void onLoadMore(int offset) {
+            getPresenter().loadMembers(offset);
+        }
+    };
 }

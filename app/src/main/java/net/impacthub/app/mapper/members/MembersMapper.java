@@ -28,6 +28,7 @@ import net.impacthub.app.model.pojo.ListItemType;
 import net.impacthub.app.model.pojo.SimpleItem;
 import net.impacthub.app.model.vo.conversations.RecipientVO;
 import net.impacthub.app.model.vo.groups.GroupVO;
+import net.impacthub.app.model.vo.members.AllMembersVO;
 import net.impacthub.app.model.vo.members.MemberStatus;
 import net.impacthub.app.model.vo.members.MemberVO;
 import net.impacthub.app.model.vo.members.SkillsVO;
@@ -288,5 +289,10 @@ public class MembersMapper {
                 }
             }
         }
+    }
+
+    public AllMembersVO mapAllMembers(MembersResponse membersResponse, ContactsResponse contactsResponse, String subject) {
+        List<MemberVO> memberVOList = mapMembersList(mapMembers(membersResponse), contactsResponse, subject);
+        return new AllMembersVO(memberVOList, membersResponse.getDone());
     }
 }
