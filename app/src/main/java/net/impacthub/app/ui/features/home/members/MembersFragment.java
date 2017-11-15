@@ -53,10 +53,9 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
     @BindView(R.id.filter_tick) protected ImageView mFilterTick;
 
     private MembersListAdapter mAdapter;
+    private int mOffset;
     private Parcelable mState;
-
     private FilterData mFilterData;
-
 
     public static MembersFragment newInstance() {
 
@@ -111,7 +110,7 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
         if (mState != null) {
             mMembersList.getLayoutManager().onRestoreInstanceState(mState);
         } else {
-            getPresenter().loadMembers(0);
+            getPresenter().loadMembers(mOffset = 0);
         }
 
         mSearchView.setSearchActionListener(new UISearchView.OnSearchActionListener() {
@@ -137,7 +136,7 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
             mFilterData = (FilterData) data.getSerializableExtra(EXTRA_FILTER_DATA);
             getPresenter().handleFilters(mFilterData);
         } else if(requestCode == 1122 && resultCode == Activity.RESULT_OK) {
-            getPresenter().loadMembers(0);
+            getPresenter().loadMembers(mOffset = 0);
         }
     }
 
@@ -186,8 +185,10 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
 
     @Override
     public void onLoadMembers(List<MemberVO> memberDTOs, boolean done) {
-        mOnScrollListener.canLoadMore(done);
+        mOffset += memberDTOs.size();
         mAdapter.appendItems(memberDTOs);
+        mOnScrollListener.canLoadMore(done);
+        mAdapter.filterSearch(mSearchView.getSearchText());
     }
 
     @Override
@@ -204,7 +205,7 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
 
     @Override
     public void onRefresh() {
-        getPresenter().loadMembers(0);
+        getPresenter().loadMembers(mOffset = 0);
     }
 
     @Override
@@ -226,8 +227,8 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
 
     private final EndlessRecyclerOnScrollListener mOnScrollListener = new EndlessRecyclerOnScrollListener() {
         @Override
-        public void onLoadMore(int offset) {
-            getPresenter().loadMembers(offset);
+        public void onLoadMore() {
+            getPresenter().loadMembers(mOffset);
         }
     };
 }

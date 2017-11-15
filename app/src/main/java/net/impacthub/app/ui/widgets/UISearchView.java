@@ -104,7 +104,7 @@ public class UISearchView extends FrameLayout {
                 if(searchPressed) {
                     KeyboardUtils.hideNativeKeyboard(getContext(), mSearchField);
                     if (mSearchActionListener != null) {
-                        mSearchActionListener.onSearch(mSearchField.getText().toString());
+                        mSearchActionListener.onSearch(getSearchText());
                     }
                 }
                 return searchPressed;
@@ -117,6 +117,10 @@ public class UISearchView extends FrameLayout {
                 KeyboardUtils.hideNativeKeyboard(getContext(), mSearchField);
             }
         });
+    }
+
+    public String getSearchText() {
+        return mSearchField.getText().toString();
     }
     public void setSearchActionListener(OnSearchActionListener searchActionListener) {
         mSearchActionListener = searchActionListener;

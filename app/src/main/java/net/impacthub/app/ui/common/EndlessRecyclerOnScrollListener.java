@@ -40,7 +40,7 @@ public abstract class EndlessRecyclerOnScrollListener extends RecyclerView.OnScr
         int totalItemCount = mLinearLayoutManager.getItemCount();
         int lastVisibleItem = mLinearLayoutManager.findLastVisibleItemPosition();
         if (mCanLoadMore && !mLoading && totalItemCount <= (lastVisibleItem + VISIBLE_ITEM_THRESHOLD)) {
-            onLoadMore(totalItemCount);
+            onLoadMore();
             mLoading = true;
         }
     }
@@ -49,9 +49,9 @@ public abstract class EndlessRecyclerOnScrollListener extends RecyclerView.OnScr
         mLoading = loading;
     }
 
-    public abstract void onLoadMore(int offset);
-
     public void canLoadMore(boolean done) {
         mCanLoadMore = !done;
     }
+
+    public abstract void onLoadMore();
 }
