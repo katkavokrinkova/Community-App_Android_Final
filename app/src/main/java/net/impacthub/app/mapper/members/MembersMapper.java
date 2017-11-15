@@ -11,6 +11,8 @@
 
 package net.impacthub.app.mapper.members;
 
+import android.support.annotation.NonNull;
+
 import net.impacthub.app.model.features.contacts.ContactRecords;
 import net.impacthub.app.model.features.contacts.ContactsResponse;
 import net.impacthub.app.model.features.members.Account;
@@ -268,7 +270,8 @@ public class MembersMapper {
         return memberVO;
     }
 
-    private List<MemberVO> mapMembersRecords(MembersRecords[] records) {
+    @NonNull
+    public List<MemberVO> mapMembersRecords(MembersRecords[] records) {
         List<MemberVO> memberDTOs = new LinkedList<>();
         if (records != null) {
             for (MembersRecords member : records) {
@@ -289,6 +292,19 @@ public class MembersMapper {
                 }
             }
         }
+    }
+
+    @NonNull
+    public List<ListItemType> mapMembersRecordsAsListType(List<MemberVO> memberVOS) {
+        List<ListItemType> searchListItems = new LinkedList<>();
+        if (memberVOS != null) {
+            for (MemberVO memberVO : memberVOS) {
+                if (memberVO != null) {
+                    searchListItems.add(new SimpleItem<>(memberVO, 0));
+                }
+            }
+        }
+        return searchListItems;
     }
 
     public AllMembersVO mapAllMembers(MembersResponse membersResponse, ContactsResponse contactsResponse, String subject) {

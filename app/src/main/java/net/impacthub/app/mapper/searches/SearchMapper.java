@@ -33,7 +33,6 @@ public class SearchMapper {
     public List<ListItemType> map(SearchResponse searchResponse) {
         List<ListItemType> searchListItems = new LinkedList<>();
         if (searchResponse != null) {
-            new MembersMapper().mapMembersRecordsAsListType(searchListItems, searchResponse.getMembers());
             new GroupsMapper().mapGroupsRecordsAsListType(searchListItems, searchResponse.getGroups());
             new ProjectMapper().mapProjectsRecordsAsListType(searchListItems, searchResponse.getProjects());
             new CompaniesMapper().mapCompanyRecordsAsListType(searchListItems, searchResponse.getCompanies());
