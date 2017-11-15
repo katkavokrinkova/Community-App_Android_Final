@@ -14,6 +14,7 @@ package net.impacthub.app.ui.features.home.groups;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -47,7 +48,9 @@ public class GroupDetailFragment extends BaseChildFragment {
     private static final String EXTRA_GROUP_NAME = "net.impacthub.members.ui.features.home.groups.EXTRA_GROUP_NAME";
     private static final String EXTRA_GROUP_DESCRIPTION = "net.impacthub.members.ui.features.home.groups.EXTRA_GROUP_DESCRIPTION";
     private static final String EXTRA_GROUP_IMAGE_URL = "net.impacthub.members.ui.features.home.groups.EXTRA_GROUP_IMAGE_URL";
+    private static final String EXTRA_GROUP_CHATTER_RELATED_ID = "net.impacthub.members.ui.features.home.groups.EXTRA_GROUP_CHATTER_RELATED_ID";
 
+    @BindView(R.id.app_bar_layout) protected AppBarLayout mAppBarLayout;
     @BindView(R.id.image_detail) protected ImageView mImageDetail;
     @BindView(R.id.text_title) protected TextView mTitle;
     @BindView(R.id.text_sub_title) protected TextView mSubTitle;
@@ -64,6 +67,7 @@ public class GroupDetailFragment extends BaseChildFragment {
         args.putString(EXTRA_GROUP_NAME, groupDTO.mName);
         args.putString(EXTRA_GROUP_DESCRIPTION, groupDTO.mGroupDescription);
         args.putString(EXTRA_GROUP_IMAGE_URL, groupDTO.mImageURL);
+        args.putString(EXTRA_GROUP_CHATTER_RELATED_ID, groupDTO.mRelatedId);
         GroupDetailFragment fragment = new GroupDetailFragment();
         fragment.setArguments(args);
         return fragment;
@@ -83,6 +87,7 @@ public class GroupDetailFragment extends BaseChildFragment {
         String groupName = arguments.getString(EXTRA_GROUP_NAME);
         String groupDescription = arguments.getString(EXTRA_GROUP_DESCRIPTION);
         String groupImageURL = arguments.getString(EXTRA_GROUP_IMAGE_URL);
+        String groupRelatedId = arguments.getString(EXTRA_GROUP_CHATTER_RELATED_ID);
         setUpToolbar(groupName);
 
         if (mToolbar != null) {
@@ -108,23 +113,29 @@ public class GroupDetailFragment extends BaseChildFragment {
         Context context = getContext();
         ImageLoaderHelper.loadImage(context, buildUrl(groupImageURL), mImageDetail);
 
-        mFeedViewBinder = new ChatterFeedViewBinder(mChatterFeedId, new ChatterFeedViewBinder.OnChatterFeedActionListener() {
+        mFeedViewBinder = new ChatterFeedViewBinder(mChatterFeedId, groupRelatedId, new ChatterFeedViewBinder.OnChatterFeedActionListener() {
             @Override
             public void onShowProgressBar(boolean showProgressBar) {
                 GroupDetailFragment.this.onShowProgressBar(showProgressBar);
             }
 
             @Override
-            public void openComments(ChatterVO model, OnCommentAddedCallback callback, int position) {
+            public void openComments(ChatterVO model, OnCommentAddedCallback callback, int position, int commentScrollPosition) {
                 ChatterCommentFragment commentFragment = ChatterCommentFragment.newInstance(model);
                 commentFragment.setCommentCallback(callback);
                 commentFragment.setCommentRefreshPosition(position);
+                commentFragment.setScrollPosition(commentScrollPosition);
                 addChildFragment(commentFragment, "FRAG_CHATTER_COMMENTS");
             }
 
             @Override
             public void onLoadMember(MemberVO memberVO) {
                 addChildFragment(MemberDetailFragment.newInstance(memberVO), "FRAG_MEMBER_DETAIL");
+            }
+
+            @Override
+            public void onCollapseAppBar() {
+                mAppBarLayout.setExpanded(false);
             }
         });
         mChatterFeedContainer.addView(mFeedViewBinder.getView(context, -1));

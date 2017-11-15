@@ -35,6 +35,7 @@ public class ProjectVO implements Searchable {
     public String mChatterGroupId;
     public String mSector;
     public String mCity;
+    public String mRelatedId;
 
     @Override
     public boolean isSearchable(String query) {

@@ -14,7 +14,9 @@ package net.impacthub.app.presenter.features.groups;
 
 import net.impacthub.app.model.features.push.PushBody;
 import net.impacthub.app.model.pojo.ChatterWrapper;
+import net.impacthub.app.model.vo.chatter.ChatComment;
 import net.impacthub.app.model.vo.chatter.ChatterVO;
+import net.impacthub.app.model.vo.chatter.CommentVO;
 import net.impacthub.app.model.vo.members.MemberVO;
 import net.impacthub.app.model.vo.notifications.NotificationType;
 import net.impacthub.app.presenter.base.UiPresenter;
@@ -42,12 +44,31 @@ public class ChatterFeedPresenter extends UiPresenter<ChatterFeedUiContract> {
         super(uiContract);
     }
 
-    public void loadChatterFeed(String feedId) {
+    public void loadChatterFeed(String feedId, String chatterRelatedId) {
         getUi().onShowProgressBar(true);
-        subscribeWith(new ChatterFeedUseCase(feedId).getUseCase(), new DisposableSingleObserver<List<ChatterVO>>() {
+        subscribeWith(new ChatterFeedUseCase(feedId).getUseCase(), new DisposableSingleObserverAdapter<String, List<ChatterVO>>(chatterRelatedId) {
+
             @Override
-            public void onSuccess(@NonNull List<ChatterVO> chatterVOList) {
-                getUi().onLoadChatterFeed(chatterVOList);
+            protected void onSuccess(List<ChatterVO> chatterVOS, String subject) {
+                getUi().onLoadChatterFeed(chatterVOS);
+
+                for (int i = 0, size = chatterVOS.size(); i < size; i++) {
+                    ChatterVO chatterVO = chatterVOS.get(i);
+                    if (chatterVO.mCommentId.equals(subject)) {
+                        getUi().onScrollToComment(i);
+                    } else {
+                        CommentVO comments = chatterVO.mComments;
+                        if (comments != null) {
+                            List<ChatComment> chatComments = comments.getComments();
+                            for (int j = 0, count = chatComments.size(); j < count; j++) {
+                                ChatComment chatComment = chatComments.get(j);
+                                if (chatComment.mChatCommentId.equals(subject)) {
+                                    getUi().onScrollToCommentAndOpenCommentReplies(chatterVO, i, j);
+                                }
+                            }
+                        }
+                    }
+                }
                 getUi().onShowProgressBar(false);
             }
 

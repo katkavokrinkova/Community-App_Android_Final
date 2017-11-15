@@ -13,6 +13,7 @@ package net.impacthub.app.ui.features.home.projects;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
@@ -63,7 +64,9 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
     private static final String EXTRA_PROJECT_IMAGE_URL = "net.impacthub.members.ui.features.home.projects.EXTRA_PROJECT_IMAGE_URL";
     private static final String EXTRA_PROJECT_NAME = "net.impacthub.members.ui.features.home.projects.EXTRA_PROJECT_NAME";
     private static final String EXTRA_PROJECT_ORGANIZATION_NAME = "net.impacthub.members.ui.features.home.projects.EXTRA_PROJECT_ORGANIZATION_NAME";
+    private static final String EXTRA_PROJECT_CHATTER_RELATED_ID = "net.impacthub.members.ui.features.home.projects.EXTRA_PROJECT_CHATTER_RELATED_ID";
 
+    @BindView(R.id.app_bar_layout) protected AppBarLayout mAppBarLayout;
     @BindView(R.id.image_detail) protected ImageView mImageDetail;
     @BindView(R.id.text_title) protected TextView mTitle;
     @BindView(R.id.text_sub_title) protected TextView mSubTitle;
@@ -84,6 +87,7 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
         args.putString(EXTRA_PROJECT_NAME, projectDTO.mName);
         args.putString(EXTRA_PROJECT_ORGANIZATION_NAME, projectDTO.mOrganizationName);
         args.putString(EXTRA_PROJECT_IMAGE_URL, projectDTO.mImageURL);
+        args.putString(EXTRA_PROJECT_CHATTER_RELATED_ID, projectDTO.mRelatedId);
 
         ProjectDetailFragment fragment = new ProjectDetailFragment();
         fragment.setArguments(args);
@@ -110,6 +114,7 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
         String projectName = arguments.getString(EXTRA_PROJECT_NAME);
         String organizationName = arguments.getString(EXTRA_PROJECT_ORGANIZATION_NAME);
         String projectImageURL = arguments.getString(EXTRA_PROJECT_IMAGE_URL);
+        String projectRelatedId = arguments.getString(EXTRA_PROJECT_CHATTER_RELATED_ID);
 
         setUpToolbar(projectName);
         if (mToolbar != null) {
@@ -136,23 +141,29 @@ public class ProjectDetailFragment extends BaseChildFragment<ProjectDetailUiPres
 
         AppPagerAdapter adapter = new AppPagerAdapter(getContext(), TITLES);
 
-        mChatterFeedViewBinder = new ChatterFeedViewBinder(mChatterFeedId, new ChatterFeedViewBinder.OnChatterFeedActionListener() {
+        mChatterFeedViewBinder = new ChatterFeedViewBinder(mChatterFeedId, projectRelatedId, new ChatterFeedViewBinder.OnChatterFeedActionListener() {
             @Override
             public void onShowProgressBar(boolean showProgressBar) {
                 ProjectDetailFragment.this.onShowProgressBar(showProgressBar);
             }
 
             @Override
-            public void openComments(ChatterVO model, OnCommentAddedCallback callback, int position) {
+            public void openComments(ChatterVO model, OnCommentAddedCallback callback, int position, int commentScrollPosition) {
                 ChatterCommentFragment commentFragment = ChatterCommentFragment.newInstance(model);
                 commentFragment.setCommentCallback(callback);
                 commentFragment.setCommentRefreshPosition(position);
+                commentFragment.setScrollPosition(commentScrollPosition);
                 addChildFragment(commentFragment, "FRAG_CHATTER_COMMENTS");
             }
 
             @Override
             public void onLoadMember(MemberVO memberVO) {
                 addChildFragment(MemberDetailFragment.newInstance(memberVO), "FRAG_MEMBER_DETAIL");
+            }
+
+            @Override
+            public void onCollapseAppBar() {
+                mAppBarLayout.setExpanded(false);
             }
         });
 

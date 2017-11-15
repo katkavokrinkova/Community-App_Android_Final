@@ -69,7 +69,7 @@ public class NotificationFragment extends BaseChildFragment<NotificationsPresent
                 switch (model.mNotificationType) {
                     case TYPE_PRIVATE_MESSAGE:
                         ConversationVO conversationVO = new ConversationVO();
-                        conversationVO.mConversationId = model.mConversationId;
+                        conversationVO.mConversationId = model.mRelatedId;
                         conversationVO.mRecipientUserId = model.mRecipientUserId;
                         conversationVO.mDisplayName = model.mDisplayName;
                         conversationVO.mImageURL = model.mProfilePicUrl;
@@ -83,7 +83,7 @@ public class NotificationFragment extends BaseChildFragment<NotificationsPresent
                     case TYPE_LIKE_COMMENT:
                     case TYPE_LIKE_POST:
                     case TYPE_POST_MENTION:
-                        getPresenter().getGroupOrProjectBy(model.mChatterGroupId);
+                        getPresenter().getGroupOrProjectBy(model.mChatterGroupId, model.mRelatedId);
                         break;
                     default:
                         showToast("Can't Open notification!");
