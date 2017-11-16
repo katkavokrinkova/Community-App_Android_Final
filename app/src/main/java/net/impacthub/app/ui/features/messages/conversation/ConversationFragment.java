@@ -25,12 +25,15 @@ import net.impacthub.app.model.features.push.PushBody;
 import net.impacthub.app.model.vo.conversations.ConversationVO;
 import net.impacthub.app.model.vo.conversations.RecipientVO;
 import net.impacthub.app.model.vo.notifications.NotificationType;
+import net.impacthub.app.model.vo.notifications.ReceivedNotification;
 import net.impacthub.app.presenter.features.messages.ConversationUiContract;
 import net.impacthub.app.presenter.features.messages.ConversationUiPresenter;
 import net.impacthub.app.ui.base.BaseChildFragment;
 import net.impacthub.app.ui.common.ImageLoaderHelper;
+import net.impacthub.app.ui.common.PushNotificationObservable;
 import net.impacthub.app.ui.widgets.drawables.RoundedDrawable;
 import net.impacthub.app.utilities.DrawableUtils;
+import net.impacthub.app.utilities.TextUtils;
 
 import java.util.List;
 
@@ -43,7 +46,7 @@ import butterknife.OnClick;
  * @date 8/18/2017.
  */
 
-public class ConversationFragment extends BaseChildFragment<ConversationUiPresenter> implements ConversationUiContract {
+public class ConversationFragment extends BaseChildFragment<ConversationUiPresenter> implements ConversationUiContract, PushNotificationObservable.PushNotificationObserver {
 
     private static final String EXTRA_CONVERSATION_ID = "net.impacthub.members.ui.features.conversation.messages.EXTRA_CONVERSATION_ID";
     private static final String EXTRA_CONVERSATION_DISPLAY_NAME = "net.impacthub.members.ui.features.conversation.messages.EXTRA_CONVERSATION_DISPLAY_NAME";
@@ -98,7 +101,19 @@ public class ConversationFragment extends BaseChildFragment<ConversationUiPresen
         mAdapter = new ConversationListAdapter(getIHLayoutInflater());
         mMessageList.setAdapter(mAdapter);
 
-        getPresenter().getMessageConversations(mConversationID);
+        getPresenter().getMessageConversations(mConversationID, true);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        PushNotificationObservable.getInstance().setNotificationObserver(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        PushNotificationObservable.getInstance().setNotificationObserver(null);
     }
 
     private void sendMessage(String message) {
@@ -152,5 +167,14 @@ public class ConversationFragment extends BaseChildFragment<ConversationUiPresen
     @Override
     public void onEnableSendButton() {
         mSendButton.setEnabled(true);
+    }
+
+    @Override
+    public boolean onConsumePushNotification(ReceivedNotification notification) {
+        boolean isSameConversation = TextUtils.equals(mConversationID, notification.getNotificationPayloadVO().getConversationId());
+        if(isSameConversation) {
+            getPresenter().getMessageConversations(mConversationID, false);
+        }
+        return isSameConversation;
     }
 }

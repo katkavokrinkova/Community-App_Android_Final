@@ -10,8 +10,9 @@ import net.impacthub.app.R;
 import net.impacthub.app.model.callback.OnListItemClickListener;
 import net.impacthub.app.model.vo.conversations.ConversationVO;
 import net.impacthub.app.model.vo.messages.MessageVO;
-import net.impacthub.app.presenter.features.conversations.MessagesUiPresenter;
+import net.impacthub.app.model.vo.notifications.ReceivedNotification;
 import net.impacthub.app.presenter.features.conversations.MessagesUiContract;
+import net.impacthub.app.presenter.features.conversations.MessagesUiPresenter;
 import net.impacthub.app.ui.base.BaseChildFragment;
 import net.impacthub.app.ui.features.messages.contacts.ContactsFragment;
 import net.impacthub.app.ui.features.messages.conversation.ConversationFragment;
@@ -71,7 +72,7 @@ public class MessagesFragment extends BaseChildFragment<MessagesUiPresenter> imp
             });
         }
         if (mAdapter == null) {
-            mAdapter = new MessagesListAdapter(getLayoutInflater(getArguments()));
+            mAdapter = new MessagesListAdapter(getIHLayoutInflater());
             mAdapter.setItemClickListener(this);
         }
         mConversationList.setHasFixedSize(true);

@@ -119,11 +119,13 @@ public class SearchFragment extends BaseChildFragment<SearchUiPresenter> impleme
     @Override
     public void onTabReselected() {
         super.onTabReselected();
-        new ConfirmationDialog(getActivity(), new ConfirmationDialog.OnConfirmActionListener() {
-            @Override
-            public void onConfirmAction(boolean confirmed) {
-                if(confirmed) mAdapter.clearItems();
-            }
-        }).showConfirmationDialog();
+        if(mAdapter.getItemCount() > 0) {
+            new ConfirmationDialog(getActivity(), new ConfirmationDialog.OnConfirmActionListener() {
+                @Override
+                public void onConfirmAction(boolean confirmed) {
+                    if(confirmed) mAdapter.clearItems();
+                }
+            }).showConfirmationDialog();
+        }
     }
 }

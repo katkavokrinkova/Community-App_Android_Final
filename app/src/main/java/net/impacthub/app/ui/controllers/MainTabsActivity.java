@@ -33,6 +33,7 @@ import java.util.List;
 public class MainTabsActivity extends BaseActivity {
 
     private static final String TAG = MainTabsActivity.class.getSimpleName();
+    public static final String EXTRA_PUSH_NOTIFICATION_MESSAGE = "net.impacthub.app.ui.controllers.EXTRA_PUSH_NOTIFICATION_MESSAGE";
 
     private final static int sIcons[] = {
         R.mipmap.tab_bar_home,
@@ -51,8 +52,19 @@ public class MainTabsActivity extends BaseActivity {
     }
 
     @Override
+    protected void onNewIntent(android.content.Intent intent) {
+        super.onNewIntent(intent);
+        String extra = intent.getStringExtra(EXTRA_PUSH_NOTIFICATION_MESSAGE);
+        showToast(extra);
+    }
+
+    @Override
     protected void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        String extra = getIntent().getStringExtra(EXTRA_PUSH_NOTIFICATION_MESSAGE);
+        showToast(extra);
+
         mPager = (ExtendedViewPager) findViewById(R.id.pager);
         mTabLayout = (TabLayout) findViewById(R.id.navbar);
 

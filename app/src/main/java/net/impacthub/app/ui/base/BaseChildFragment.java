@@ -65,8 +65,8 @@ public abstract class BaseChildFragment<P extends UiPresenter<? extends UiContra
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if(isResumed() && isVisibleToUser) {
-            onFragmentVisibilityChanged(true);
+        if(isResumed()) {
+            onFragmentVisibilityChanged(isVisibleToUser);
         }
     }
 
