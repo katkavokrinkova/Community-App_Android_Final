@@ -126,4 +126,10 @@ public class NotificationFragment extends BaseChildFragment<NotificationsPresent
     public void onDecrementNotificationCount() {
         ShortcutBadgerHelper.decreaseBadgeCount(getContext());
     }
+
+    @Override
+    public void onTabReselected() {
+        super.onTabReselected();
+        mNotificationsList.scrollToPosition(0);
+    }
 }

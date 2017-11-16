@@ -16,6 +16,7 @@ import net.impacthub.app.model.vo.projects.ProjectVO;
 import net.impacthub.app.presenter.features.search.SearchUiContract;
 import net.impacthub.app.presenter.features.search.SearchUiPresenter;
 import net.impacthub.app.ui.base.BaseChildFragment;
+import net.impacthub.app.ui.common.ConfirmationDialog;
 import net.impacthub.app.ui.common.LinearItemsMarginDecorator;
 import net.impacthub.app.ui.features.home.companies.CompanyDetailFragment;
 import net.impacthub.app.ui.features.home.events.EventDetailFragment;
@@ -113,5 +114,16 @@ public class SearchFragment extends BaseChildFragment<SearchUiPresenter> impleme
                 addChildFragment(EventDetailFragment.newInstance((EventVO) model.getModel()), "FRAG_EVENT_DETAIL");
                 break;
         }
+    }
+
+    @Override
+    public void onTabReselected() {
+        super.onTabReselected();
+        new ConfirmationDialog(getActivity(), new ConfirmationDialog.OnConfirmActionListener() {
+            @Override
+            public void onConfirmAction(boolean confirmed) {
+                if(confirmed) mAdapter.clearItems();
+            }
+        }).showConfirmationDialog();
     }
 }

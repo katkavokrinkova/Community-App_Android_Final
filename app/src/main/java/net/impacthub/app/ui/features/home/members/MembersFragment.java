@@ -116,6 +116,9 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
         mSearchView.setSearchActionListener(new UISearchView.OnSearchActionListener() {
             @Override
             public void onSearch(String searchValue) {
+//                if (!mAdapter.validateDTOByKeyword(searchValue)) {
+                    getPresenter().searchMemberWith(searchValue);
+//                }
             }
 
             @Override
@@ -192,6 +195,11 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
     }
 
     @Override
+    public void onLoadSearchedMembers(List<MemberVO> memberDTOs) {
+        mAdapter.appendItemsAsFiltered(memberDTOs, mSearchView.getSearchText());
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         UIRefreshManager.getInstance().addRefreshable(UIRefreshManager.REFRESH_ID_MEMBERS_LIST, this);
@@ -223,6 +231,11 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
     @Override
     public void onLoadingStateChanged(boolean loading) {
         mOnScrollListener.setLoading(loading);
+    }
+
+    @Override
+    public List<MemberVO> getMembers() {
+        return mAdapter.getFilteredItems();
     }
 
     private final EndlessRecyclerOnScrollListener mOnScrollListener = new EndlessRecyclerOnScrollListener() {

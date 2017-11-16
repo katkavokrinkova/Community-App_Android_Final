@@ -13,6 +13,7 @@ import android.view.View;
 import com.salesforce.androidsdk.accounts.UserAccount;
 
 import net.impacthub.app.R;
+import net.impacthub.app.model.callback.OnReSelectListener;
 import net.impacthub.app.presenter.base.UiContract;
 import net.impacthub.app.presenter.base.UiPresenter;
 import net.impacthub.app.ui.common.UserAccountDelegate;
@@ -24,7 +25,7 @@ import net.impacthub.app.utilities.KeyboardUtils;
  * @date 8/1/2017.
  */
 
-public abstract class BaseChildFragment<P extends UiPresenter<? extends UiContract>> extends BaseFragment<P> {
+public abstract class BaseChildFragment<P extends UiPresenter<? extends UiContract>> extends BaseFragment<P> implements OnReSelectListener {
 
     private FragmentManager mChildFragmentManager;
     private boolean mIsFirstLaunch = true;
@@ -114,5 +115,11 @@ public abstract class BaseChildFragment<P extends UiPresenter<? extends UiContra
             return true;
         }
         return false;
+    }
+
+    @Override
+    @CallSuper
+    public void onTabReselected() {
+        //showToast("Tab reselected....");
     }
 }

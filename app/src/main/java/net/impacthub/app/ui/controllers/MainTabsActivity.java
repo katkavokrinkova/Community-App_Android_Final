@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import net.impacthub.app.R;
 import net.impacthub.app.model.callback.OnBackListener;
+import net.impacthub.app.model.callback.OnReSelectListener;
 import net.impacthub.app.ui.base.BaseActivity;
 import net.impacthub.app.ui.controllers.home.HomeControllerFragment;
 import net.impacthub.app.ui.controllers.messages.MessagesControllerFragment;
@@ -94,6 +95,9 @@ public class MainTabsActivity extends BaseActivity {
                     if (entryCount > 1) {
                         manager.beginTransaction().show(manager.getFragments().get(0)).commit();
                     }
+                } else {
+                    OnReSelectListener activeFragment = (OnReSelectListener) manager.getFragments().get(0);
+                    activeFragment.onTabReselected();
                 }
             }
         });
@@ -135,7 +139,16 @@ public class MainTabsActivity extends BaseActivity {
         int position = mTabLayout.getSelectedTabPosition();
         OnBackListener onBackListener = (OnBackListener) getSupportFragmentManager().getFragments().get(position);
         if (!onBackListener.onBack()) {
-            super.onBackPressed();
+            if(position == 0) {
+                super.onBackPressed();
+            } else {
+                TabLayout.Tab tabAt = mTabLayout.getTabAt(0);
+                if (tabAt != null) {
+                    tabAt.select();
+                } else {
+                    super.onBackPressed();
+                }
+            }
         }
     }
 }

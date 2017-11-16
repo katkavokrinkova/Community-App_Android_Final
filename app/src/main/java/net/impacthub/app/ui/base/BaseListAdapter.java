@@ -66,6 +66,12 @@ public abstract class BaseListAdapter<VH extends RecyclerView.ViewHolder, DTO ex
         notifyItemRangeInserted(size, mAllItems.size());
     }
 
+    public void appendItemsAsFiltered(List<DTO> items, String searchText) {
+        mAllItems.addAll(items);
+        applyFilters(mFilters);
+        filterSearch(searchText);
+    }
+
     public void appendItems(int position, List<DTO> items) {
         int size = mAllItems.size();
         mAllItems.addAll(position, items);
@@ -74,7 +80,6 @@ public abstract class BaseListAdapter<VH extends RecyclerView.ViewHolder, DTO ex
     }
 
     public void appendItem(int position, DTO item) {
-        int size = mAllItems.size();
         mAllItems.add(position, item);
         mFilteredItems.add(position, item);
         notifyItemInserted(position);
@@ -101,6 +106,10 @@ public abstract class BaseListAdapter<VH extends RecyclerView.ViewHolder, DTO ex
         return mFilteredItems.get(index);
     }
 
+    public List<DTO> getFilteredItems() {
+        return mFilteredItems;
+    }
+
     public void filterSearch(String filterQuery) {
         mLastFilterQuery = filterQuery;
         mFilteredItems.clear();
@@ -119,7 +128,20 @@ public abstract class BaseListAdapter<VH extends RecyclerView.ViewHolder, DTO ex
         notifyDataSetChanged();
     }
 
+    public boolean validateDTOByKeyword(String keyword) {
+        boolean modelExist = false;
+        for (DTO filteredItem : mFilteredItems) {
+            if(modelExist = filteredItem.isSearchable(keyword)) {
+                break;
+            }
+        }
+        return modelExist;
+    }
+
     public void applyFilters(Map<String, List<String>> filters) {
+        if (filters == null) {
+            return;
+        }
         mFilters = filters;
         mHasFilters = true;
         mFilteredItems.clear();

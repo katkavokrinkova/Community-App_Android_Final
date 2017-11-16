@@ -60,4 +60,20 @@ public class MemberVO implements Searchable {
         List<String> sectorsFilters = filters.get(FilterData.KEY_FILTER_SECTOR);
         return TextUtils.contains(mLocation, hubFilters) | TextUtils.contains(mSector, sectorsFilters);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+
+        MemberVO memberVO = (MemberVO) obj;
+        if (TextUtils.equals(this.mUserId, memberVO.mUserId)) {
+            return true;
+        }
+        return false;
+    }
 }

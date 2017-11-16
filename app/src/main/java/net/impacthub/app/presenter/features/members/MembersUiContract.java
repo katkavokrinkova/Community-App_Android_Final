@@ -16,9 +16,13 @@ public interface MembersUiContract extends ErrorHandlerUiContract {
 
     void onLoadMembers(List<MemberVO> memberDTOs, boolean done);
 
+    void onLoadSearchedMembers(List<MemberVO> memberDTOs);
+
     void onShowTick(Map<String, List<String>> filters);
 
     void onHideTick();
 
     void onLoadingStateChanged(boolean loading);
+
+    List<MemberVO> getMembers();
 }

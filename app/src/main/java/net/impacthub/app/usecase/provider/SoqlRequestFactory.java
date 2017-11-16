@@ -141,6 +141,7 @@ public class SoqlRequestFactory {
     public RestRequest createContactMemberListRequest(String contactIds) throws UnsupportedEncodingException {
         return mRestRequestFactory.getForQuery(String.format(Locale.UK, CONTACT_MEMBERS_PROFILE, contactIds));
     }
+
 //    public RestRequest createFilterCriteriaRequest() throws UnsupportedEncodingException {
 //        return mRestRequestFactory.getForQuery(filterCriteriaQuery);
 //    }
@@ -291,6 +292,11 @@ public class SoqlRequestFactory {
     public RestRequest createGlobalSearchRequest(JSONObject jsonObject) throws UnsupportedEncodingException {
         return new RestRequest(RestRequest.RestMethod.POST,
                 "/services/apexrest/callGlobalSearch/", jsonObject);
+    }
+
+    public RestRequest createSearchMemberByKeywordRequest(JSONObject jsonObject) throws UnsupportedEncodingException {
+        return new RestRequest(RestRequest.RestMethod.POST,
+                "/services/apexrest/callMemberSearch/", jsonObject);
     }
 
 //    public RestRequest createConversationsRequest_Old(String communityId) {

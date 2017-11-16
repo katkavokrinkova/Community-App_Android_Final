@@ -20,6 +20,7 @@ import net.impacthub.app.model.features.members.Affiliation;
 import net.impacthub.app.model.features.members.Affiliations;
 import net.impacthub.app.model.features.members.HubRecords;
 import net.impacthub.app.model.features.members.Hubs__r;
+import net.impacthub.app.model.features.members.MemberSearchResponse;
 import net.impacthub.app.model.features.members.MembersResponse;
 import net.impacthub.app.model.features.members.Organisation;
 import net.impacthub.app.model.features.members.MembersRecords;
@@ -310,5 +311,13 @@ public class MembersMapper {
     public AllMembersVO mapAllMembers(MembersResponse membersResponse, ContactsResponse contactsResponse, String subject) {
         List<MemberVO> memberVOList = mapMembersList(mapMembers(membersResponse), contactsResponse, subject);
         return new AllMembersVO(memberVOList, membersResponse.getDone());
+    }
+
+    public AllMembersVO mapAllMembers(MemberSearchResponse searchResponse, ContactsResponse contactsResponse, String subject) {
+        List<MemberVO> memberVOList = new LinkedList<>();
+        if (searchResponse != null) {
+            memberVOList.addAll(mapMembersList(mapMembersRecords(searchResponse.getMembers()), contactsResponse, subject));
+        }
+        return new AllMembersVO(memberVOList, true);
     }
 }
