@@ -93,6 +93,7 @@
                                     android:layout_marginEnd="@dimen/connect_button_gap"
                                     android:background="@null"
                                     android:contentDescription="@string/twitter"
+                                    android:visibility="gone"
                                     android:src="@mipmap/twitter" />
 
                                 <ImageButton
@@ -101,6 +102,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="@dimen/connect_button_gap"
                                     android:background="@null"
+                                    android:visibility="gone"
                                     android:contentDescription="@string/facebook"
                                     android:src="@mipmap/facebook" />
 
@@ -109,6 +111,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="@dimen/connect_button_gap"
+                                    android:visibility="gone"
                                     android:background="@null"
                                     android:contentDescription="@string/linkedin"
                                     android:src="@mipmap/linkedin" />
@@ -117,6 +120,7 @@
                                     android:id="@+id/button_instagram"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:visibility="gone"
                                     android:background="@null"
                                     android:contentDescription="@string/instagram"
                                     android:src="@mipmap/instagram" />

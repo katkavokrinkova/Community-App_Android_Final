@@ -11,20 +11,30 @@
 
 package net.impacthub.app.model.vo.notifications;
 
+import java.io.Serializable;
+
 /**
  * @author Filippo Ash
  * @version 1.0
  * @date 11/16/2017.
  */
 
-public class ReceivedNotification {
+public class ReceivedNotification implements Serializable {
 
-    private final NotificationPayloadVO mNotificationPayloadVO;
+    public static final int PAYLOAD_TYPE_PRIVATE_MESSAGE = 0;
+    public static final int PAYLOAD_TYPE_SEND_APPROVE_REQUEST = 1;
+    public static final int PAYLOAD_TYPE_COMMENT = 2;
+    public static final int PAYLOAD_TYPE_LIKE_POST = 4;
+    public static final int PAYLOAD_TYPE_LIKE_COMMENT = 0x01;
+
+    private final int mPayloadType;
+
+    private BaseNotificationPayload mNotificationPayloadVO;
     private String mNotificationTitle;
     private String mNotificationMessage;
 
-    public ReceivedNotification(NotificationPayloadVO payloadVO) {
-        mNotificationPayloadVO = payloadVO;
+    public ReceivedNotification(int payloadType) {
+        mPayloadType = payloadType;
     }
 
     public void setNotificationTitle(String notificationTitle) {
@@ -43,7 +53,15 @@ public class ReceivedNotification {
         return mNotificationTitle;
     }
 
-    public NotificationPayloadVO getNotificationPayloadVO() {
-        return mNotificationPayloadVO;
+    public int getPayloadType() {
+        return mPayloadType;
+    }
+
+    public void setNotificationPayloadVO(BaseNotificationPayload payloadVO) {
+        mNotificationPayloadVO = payloadVO;
+    }
+
+    public <NP extends BaseNotificationPayload> NP getNotificationPayloadVO() {
+        return (NP) mNotificationPayloadVO;
     }
 }

@@ -55,12 +55,10 @@ public abstract class BaseControllerFragment extends Fragment implements OnBackL
         super.setUserVisibleHint(isVisibleToUser);
         if(isResumed()) {
             FragmentManager manager = getChildFragmentManager();
-            if (manager != null) {
-                List<Fragment> fragments = manager.getFragments();
-                if (fragments != null) {
-                    for (Fragment fragment : fragments) {
-                        fragment.setUserVisibleHint(isVisibleToUser);
-                    }
+            List<Fragment> fragments = manager.getFragments();
+            if (fragments != null) {
+                for (Fragment fragment : fragments) {
+                    fragment.setUserVisibleHint(isVisibleToUser);
                 }
             }
         }

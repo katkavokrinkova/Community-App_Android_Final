@@ -15,7 +15,10 @@ import com.salesforce.androidsdk.push.PushNotificationInterface;
 
 import net.impacthub.app.R;
 import net.impacthub.app.application.salesforce.SalesforceApplication;
-import net.impacthub.app.model.vo.notifications.NotificationPayloadVO;
+import net.impacthub.app.model.vo.notifications.CommentNotificationPayload;
+import net.impacthub.app.model.vo.notifications.DMContactNotificationPayload;
+import net.impacthub.app.model.vo.notifications.LikePostNotificationPayload;
+import net.impacthub.app.model.vo.notifications.MessageNotificationPayload;
 import net.impacthub.app.model.vo.notifications.ReceivedNotification;
 import net.impacthub.app.ui.common.PushNotificationObservable;
 import net.impacthub.app.ui.controllers.MainTabsActivity;
@@ -39,8 +42,31 @@ public class ImpactHubApplication extends SalesforceApplication<SplashActivity> 
                 Log.d("PUSH--MESSAGE", message.toString());
                 final Context context = getApplicationContext();
 
-                NotificationPayloadVO payloadVO = new Gson().fromJson(message.getString("payload"), NotificationPayloadVO.class);
-                ReceivedNotification receivedNotification = new ReceivedNotification(payloadVO);
+                int payloadType = Integer.valueOf(message.getString("payloadType"));
+
+                ReceivedNotification receivedNotification = new ReceivedNotification(payloadType);
+
+                switch (payloadType) {
+                    case ReceivedNotification.PAYLOAD_TYPE_SEND_APPROVE_REQUEST:
+                        DMContactNotificationPayload dmPayload = new Gson().fromJson(message.getString("payload"), DMContactNotificationPayload.class);
+                        receivedNotification.setNotificationPayloadVO(dmPayload);
+                        break;
+                    case ReceivedNotification.PAYLOAD_TYPE_COMMENT:
+                        CommentNotificationPayload commentPayload = new Gson().fromJson(message.getString("payload"), CommentNotificationPayload.class);
+                        receivedNotification.setNotificationPayloadVO(commentPayload);
+                        break;
+                    case ReceivedNotification.PAYLOAD_TYPE_PRIVATE_MESSAGE:
+                        MessageNotificationPayload messagePyload = new Gson().fromJson(message.getString("payload"), MessageNotificationPayload.class);
+                        receivedNotification.setNotificationPayloadVO(messagePyload);
+                        break;
+                    case ReceivedNotification.PAYLOAD_TYPE_LIKE_POST:
+                        LikePostNotificationPayload likePostPayload = new Gson().fromJson(message.getString("payload"), LikePostNotificationPayload.class);
+                        receivedNotification.setNotificationPayloadVO(likePostPayload);
+                        break;
+                    default:
+                        //do nothing for now
+                }
+
                 receivedNotification.setNotificationTitle(message.getString("contentTitle"));
                 receivedNotification.setNotificationMessage(message.getString("contentText"));
 
@@ -71,7 +97,8 @@ public class ImpactHubApplication extends SalesforceApplication<SplashActivity> 
 
         Intent notificationIntent = new Intent(context, MainTabsActivity.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        notificationIntent.putExtra(MainTabsActivity.EXTRA_PUSH_NOTIFICATION_MESSAGE, notificationMessage);
+        notificationIntent.putExtra(MainTabsActivity.EXTRA_PUSH_NOTIFICATION_FROM_NOTIFICATION, true);
+        notificationIntent.putExtra(MainTabsActivity.EXTRA_PUSH_NOTIFICATION_MODEL, notification);
         PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         builder.setContentIntent(contentIntent);
 

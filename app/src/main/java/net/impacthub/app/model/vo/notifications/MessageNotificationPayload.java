@@ -14,14 +14,13 @@ package net.impacthub.app.model.vo.notifications;
 /**
  * @author Filippo Ash
  * @version 1.0
- * @date 11/16/2017.
+ * @date 11/17/2017.
  */
 
-public class NotificationPayloadVO {
+public class MessageNotificationPayload extends BaseNotificationPayload {
 
     private String conversationId;
     private String profilePicUrl;
-    private String type;
 
     public String getConversationId() {
         return conversationId;
@@ -29,14 +28,5 @@ public class NotificationPayloadVO {
 
     public String getProfilePicUrl() {
         return profilePicUrl;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    @Override
-    public String toString() {
-        return "NotificationPayloadVO [conversationId = " + conversationId + ", profilePicUrl = " + profilePicUrl + ", type = " + type + "]";
     }
 }

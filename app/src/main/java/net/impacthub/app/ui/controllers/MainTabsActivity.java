@@ -1,5 +1,6 @@
 package net.impacthub.app.ui.controllers;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -10,12 +11,20 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import net.impacthub.app.R;
 import net.impacthub.app.model.callback.OnBackListener;
 import net.impacthub.app.model.callback.OnReSelectListener;
+import net.impacthub.app.model.vo.conversations.ConversationVO;
+import net.impacthub.app.model.vo.notifications.DMContactNotificationPayload;
+import net.impacthub.app.model.vo.notifications.MessageNotificationPayload;
+import net.impacthub.app.model.vo.notifications.ReceivedNotification;
 import net.impacthub.app.ui.base.BaseActivity;
+import net.impacthub.app.ui.base.BaseChildFragment;
 import net.impacthub.app.ui.controllers.home.HomeControllerFragment;
 import net.impacthub.app.ui.controllers.messages.MessagesControllerFragment;
 import net.impacthub.app.ui.controllers.notification.NotificationControllerFragment;
 import net.impacthub.app.ui.controllers.profile.ProfileControllerFragment;
 import net.impacthub.app.ui.controllers.search.SearchControllerFragment;
+import net.impacthub.app.ui.features.home.members.MemberDetailFragment;
+import net.impacthub.app.ui.features.messages.conversation.ConversationFragment;
+import net.impacthub.app.ui.features.notification.NotificationFragment;
 import net.impacthub.app.ui.widgets.ExtendedViewPager;
 import net.impacthub.app.utilities.ColorUtils;
 import net.impacthub.app.utilities.DrawableUtils;
@@ -33,14 +42,15 @@ import java.util.List;
 public class MainTabsActivity extends BaseActivity {
 
     private static final String TAG = MainTabsActivity.class.getSimpleName();
-    public static final String EXTRA_PUSH_NOTIFICATION_MESSAGE = "net.impacthub.app.ui.controllers.EXTRA_PUSH_NOTIFICATION_MESSAGE";
+    public static final String EXTRA_PUSH_NOTIFICATION_FROM_NOTIFICATION = "net.impacthub.app.ui.controllers.EXTRA_PUSH_NOTIFICATION_FROM_NOTIFICATION";
+    public static final String EXTRA_PUSH_NOTIFICATION_MODEL = "net.impacthub.app.ui.controllers.EXTRA_PUSH_NOTIFICATION_MODEL";
 
     private final static int sIcons[] = {
-        R.mipmap.tab_bar_home,
-        R.mipmap.tab_bar_search,
-        R.mipmap.tab_bar_notifications,
-        R.mipmap.tab_bar_messages,
-        R.mipmap.tab_bar_profile,
+            R.mipmap.tab_bar_home,
+            R.mipmap.tab_bar_search,
+            R.mipmap.tab_bar_notifications,
+            R.mipmap.tab_bar_messages,
+            R.mipmap.tab_bar_profile,
     };
 
     private ExtendedViewPager mPager;
@@ -54,16 +64,12 @@ public class MainTabsActivity extends BaseActivity {
     @Override
     protected void onNewIntent(android.content.Intent intent) {
         super.onNewIntent(intent);
-        String extra = intent.getStringExtra(EXTRA_PUSH_NOTIFICATION_MESSAGE);
-        showToast(extra);
+        handlePushNotification(intent);
     }
 
     @Override
     protected void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        String extra = getIntent().getStringExtra(EXTRA_PUSH_NOTIFICATION_MESSAGE);
-        showToast(extra);
 
         mPager = (ExtendedViewPager) findViewById(R.id.pager);
         mTabLayout = (TabLayout) findViewById(R.id.navbar);
@@ -121,6 +127,38 @@ public class MainTabsActivity extends BaseActivity {
                 tabAt.setIcon(DrawableUtils.tintDrawableWithState(this, sIcons[i], stateList));
             }
         }
+
+        Intent intent = getIntent();
+        if (intent.getBooleanExtra(EXTRA_PUSH_NOTIFICATION_FROM_NOTIFICATION, false)) {
+            handlePushNotification(intent);
+        }
+    }
+
+    private void handlePushNotification(Intent intent) {
+        int tabPosition = mTabLayout.getSelectedTabPosition();
+        Fragment fragment = getSupportFragmentManager().getFragments().get(tabPosition);
+        if (fragment != null) {
+            FragmentManager manager = fragment.getChildFragmentManager();
+            BaseChildFragment topFragment = (BaseChildFragment) manager.getFragments().get(0);
+            if (topFragment != null) {
+
+                ReceivedNotification extra = (ReceivedNotification) intent.getSerializableExtra(EXTRA_PUSH_NOTIFICATION_MODEL);
+                switch (extra.getPayloadType()) {
+                    case ReceivedNotification.PAYLOAD_TYPE_PRIVATE_MESSAGE:
+                        MessageNotificationPayload mnp = extra.getNotificationPayloadVO();
+                        ConversationVO conversationVO = new ConversationVO();
+                        conversationVO.mConversationId = mnp.getConversationId();
+                        topFragment.addChildFragment(ConversationFragment.newInstance(conversationVO), "FRAG_MESSAGE_THREAD");
+                        break;
+                    case ReceivedNotification.PAYLOAD_TYPE_SEND_APPROVE_REQUEST:
+                        DMContactNotificationPayload dmcp = extra.getNotificationPayloadVO();
+                        topFragment.addChildFragment(MemberDetailFragment.newInstance(dmcp.getRelatedId()), "FRAG_MEMBER_DETAIL");
+                        break;
+                    default:
+                        topFragment.addChildFragment(NotificationFragment.newInstance(), "FRAG_NOTIFICATION_DETAIL");
+                }
+            }
+        }
     }
 
     private class MainTabsPagerAdapter extends FragmentStatePagerAdapter {
@@ -151,7 +189,7 @@ public class MainTabsActivity extends BaseActivity {
         int position = mTabLayout.getSelectedTabPosition();
         OnBackListener onBackListener = (OnBackListener) getSupportFragmentManager().getFragments().get(position);
         if (!onBackListener.onBack()) {
-            if(position == 0) {
+            if (position == 0) {
                 super.onBackPressed();
             } else {
                 TabLayout.Tab tabAt = mTabLayout.getTabAt(0);

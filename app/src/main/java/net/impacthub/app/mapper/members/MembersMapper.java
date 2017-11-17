@@ -316,7 +316,7 @@ public class MembersMapper {
     public AllMembersVO mapAllMembers(MemberSearchResponse searchResponse, ContactsResponse contactsResponse, String subject) {
         List<MemberVO> memberVOList = new LinkedList<>();
         if (searchResponse != null) {
-            memberVOList.addAll(mapMembersList(mapMembersRecords(searchResponse.getMembers()), contactsResponse, subject));
+            memberVOList.addAll(mapMembersList(mapMembersRecords(searchResponse.getRecords()), contactsResponse, subject));
         }
         return new AllMembersVO(memberVOList, true);
     }

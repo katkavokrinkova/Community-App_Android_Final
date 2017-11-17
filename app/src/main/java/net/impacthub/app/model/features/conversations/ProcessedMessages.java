@@ -20,12 +20,14 @@ public class ProcessedMessages {
     private final List<MessageItem> messages;
     private final List<RecipientVO> recipients;
     private final String inReplyTo;
+    private final String toUserId;
     private final boolean fromSentMessage;
 
     private ProcessedMessages(Builder builder) {
         messages = builder.messages;
         recipients = builder.recipients;
         inReplyTo = builder.inReplyTo;
+        toUserId = builder.toUserId;
         fromSentMessage = builder.fromSentMessage;
     }
 
@@ -41,6 +43,10 @@ public class ProcessedMessages {
         return inReplyTo;
     }
 
+    public String getToUserId() {
+        return toUserId;
+    }
+
     public boolean isFromSentMessage() {
         return fromSentMessage;
     }
@@ -49,6 +55,7 @@ public class ProcessedMessages {
         private List<MessageItem> messages;
         private List<RecipientVO> recipients;
         private String inReplyTo;
+        private String toUserId;
         private boolean fromSentMessage;
 
         public Builder() {}
@@ -65,6 +72,11 @@ public class ProcessedMessages {
 
         public Builder inReplyTo(String inReplyTo) {
             this.inReplyTo = inReplyTo;
+            return this;
+        }
+
+        public Builder toUserId(String toUserId) {
+            this.toUserId = toUserId;
             return this;
         }
 

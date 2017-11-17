@@ -20,18 +20,29 @@ package net.impacthub.app.model.features.members;
 public class MemberSearchResponse {
 
     private String searchTerm;
-    private MembersRecords[] Members;
+    private Boolean done;
+    private MembersRecords[] records;
+    private String totalSize;
+
+
+    public Boolean getDone() {
+        return done;
+    }
+
+    public MembersRecords[] getRecords() {
+        return records;
+    }
+
+    public String getTotalSize() {
+        return totalSize;
+    }
 
     public String getSearchTerm() {
         return searchTerm;
     }
 
-    public MembersRecords[] getMembers() {
-        return Members;
-    }
-
     @Override
     public String toString() {
-        return "MemberSearchResponse [searchTerm = " + searchTerm + ", Members = " + Members + "]";
+        return "MemberSearchResponse [searchTerm = " + searchTerm + ", Members = " + records + "]";
     }
 }

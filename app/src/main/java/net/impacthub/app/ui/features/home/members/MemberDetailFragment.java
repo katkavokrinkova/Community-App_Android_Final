@@ -66,6 +66,7 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
 
     public static final String TITLES[] = {"ABOUT", "PROJECTS", "GROUPS"};
 
+    public static final String EXTRA_MEMBER_NEEDS_LOADING = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_NEEDS_LOADING";
     public static final String EXTRA_MEMBER_USER_ID = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_USER_ID";
     public static final String EXTRA_MEMBER_CONTACT_ID = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_CONTACT_ID";
     public static final String EXTRA_MEMBER_DM_ID = "net.impacthub.members.ui.features.home.members.EXTRA_MEMBER_DM_ID";
@@ -97,6 +98,7 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
 
     @BindView(R.id.pager) protected ViewPager mPager;
 
+    private boolean mLoadMember;
     private String mUserIDValue;
     private String mDM_ID;
     private String mContactIDValue;
@@ -142,6 +144,15 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
         return fragment;
     }
 
+    public static MemberDetailFragment newInstance(String memberId) {
+        Bundle args = new Bundle();
+        args.putString(EXTRA_MEMBER_USER_ID, memberId);
+        args.putBoolean(EXTRA_MEMBER_NEEDS_LOADING, true);
+        MemberDetailFragment fragment = new MemberDetailFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     protected MemberDetailUiPresenter onCreatePresenter() {
         return new MemberDetailUiPresenter(this);
@@ -167,20 +178,23 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
         Bundle arguments = getArguments();
 
         mUserIDValue = arguments.getString(EXTRA_MEMBER_USER_ID);
-        mContactIDValue = arguments.getString(EXTRA_MEMBER_CONTACT_ID);
-        mDM_ID = arguments.getString(EXTRA_MEMBER_DM_ID);
-        mMemberStatus = arguments.getInt(EXTRA_MEMBER_STATUS);
-        mFullNameValue = arguments.getString(EXTRA_MEMBER_FULL_NAME);
-        mLocationValue = arguments.getString(EXTRA_MEMBER_LOCATION);
-        mProfessionValue = arguments.getString(EXTRA_MEMBER_PROFESSION);
-        mStatusUpdateValue = arguments.getString(EXTRA_MEMBER_STATUS_UPDATE);
-        mAboutMeValue = arguments.getString(EXTRA_MEMBER_ABOUT_ME);
-        mTwitterLinkValue = arguments.getString(EXTRA_MEMBER_TWITTER);
-        mFacebookLinkValue = arguments.getString(EXTRA_MEMBER_FACEBOOK);
-        mLinkedinLinkValue = arguments.getString(EXTRA_MEMBER_LINKEDIN);
-        mInstagramLinkValue = arguments.getString(EXTRA_MEMBER_INSTAGRAM);
-        mImageURLValue = arguments.getString(EXTRA_MEMBER_PROFILE_PICTURE);
-        mCompanyName = arguments.getString(EXTRA_MEMBER_COMPANY_NAME);
+        mLoadMember = arguments.getBoolean(EXTRA_MEMBER_NEEDS_LOADING, false);
+        if(!mLoadMember) {
+            mContactIDValue = arguments.getString(EXTRA_MEMBER_CONTACT_ID);
+            mDM_ID = arguments.getString(EXTRA_MEMBER_DM_ID);
+            mMemberStatus = arguments.getInt(EXTRA_MEMBER_STATUS);
+            mFullNameValue = arguments.getString(EXTRA_MEMBER_FULL_NAME);
+            mLocationValue = arguments.getString(EXTRA_MEMBER_LOCATION);
+            mProfessionValue = arguments.getString(EXTRA_MEMBER_PROFESSION);
+            mStatusUpdateValue = arguments.getString(EXTRA_MEMBER_STATUS_UPDATE);
+            mAboutMeValue = arguments.getString(EXTRA_MEMBER_ABOUT_ME);
+            mTwitterLinkValue = arguments.getString(EXTRA_MEMBER_TWITTER);
+            mFacebookLinkValue = arguments.getString(EXTRA_MEMBER_FACEBOOK);
+            mLinkedinLinkValue = arguments.getString(EXTRA_MEMBER_LINKEDIN);
+            mInstagramLinkValue = arguments.getString(EXTRA_MEMBER_INSTAGRAM);
+            mImageURLValue = arguments.getString(EXTRA_MEMBER_PROFILE_PICTURE);
+            mCompanyName = arguments.getString(EXTRA_MEMBER_COMPANY_NAME);
+        }
     }
 
     @Override
@@ -220,6 +234,14 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
 
         mDetailsTab.setupWithViewPager(mPager);
 
+        if(mLoadMember) {
+            getPresenter().getMemberBy(mUserIDValue);
+        } else {
+            bindMemberInfo();
+        }
+    }
+
+    private void bindMemberInfo() {
         setUpToolbar(mFullNameValue);
         mLocation.setText(mLocationValue);
         mProfession.setText(String.format("%s at %s", mProfessionValue, mCompanyName));
@@ -374,6 +396,25 @@ public class MemberDetailFragment extends BaseChildFragment<MemberDetailUiPresen
         mMemberStatus = MemberStatus.DECLINED;
         mMemberStatusContainer.removeAllViews();
         reLoadMembersList();
+    }
+
+    @Override
+    public void onLoadMember(MemberVO member) {
+        mContactIDValue = member.mContactId;
+        mDM_ID = member.mDM_ID;
+        mMemberStatus = member.mMemberStatus;
+        mFullNameValue = member.mFullName;
+        mLocationValue = member.mLocation;
+        mProfessionValue = member.mProfession;
+        mStatusUpdateValue = member.mStatusUpdate;
+        mAboutMeValue = member.mAboutMe;
+        mTwitterLinkValue = member.mLinkTwitter;
+        mFacebookLinkValue = member.mLinkFacebook;
+        mLinkedinLinkValue = member.mLinkLinkedin;
+        mInstagramLinkValue =  member.mLinkInstagram;
+        mImageURLValue = member.mProfilePicURL;
+        mCompanyName = member.mCompanyName;
+        bindMemberInfo();
     }
 
     @Override
