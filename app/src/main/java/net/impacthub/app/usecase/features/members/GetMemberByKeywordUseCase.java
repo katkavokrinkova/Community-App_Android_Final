@@ -15,8 +15,8 @@ import com.google.gson.Gson;
 
 import net.impacthub.app.mapper.members.MembersMapper;
 import net.impacthub.app.model.features.contacts.ContactsResponse;
-import net.impacthub.app.model.features.members.MemberSearchResponse;
-import net.impacthub.app.model.features.search.SearchBody;
+import net.impacthub.app.model.features.members.MembersResponse;
+import net.impacthub.app.model.features.members.MembersSearchBody;
 import net.impacthub.app.model.vo.members.AllMembersVO;
 import net.impacthub.app.model.vo.members.MemberVO;
 import net.impacthub.app.presenter.rx.AbstractBigFunction;
@@ -38,12 +38,14 @@ import io.reactivex.functions.Function;
  * @date 11/16/2017.
  */
 
-public class GetMemberByKeywordUseCase extends BaseUseCaseGenerator<Single<AllMembersVO>, MemberSearchResponse> {
+public class GetMemberByKeywordUseCase extends BaseUseCaseGenerator<Single<AllMembersVO>, MembersResponse> {
 
     private final String mSearchValue;
+    private final int mOffset;
 
-    public GetMemberByKeywordUseCase(String searchValue) {
+    public GetMemberByKeywordUseCase(String searchValue, int offset) {
         mSearchValue = searchValue;
+        mOffset = offset;
     }
 
     @Override
@@ -56,9 +58,9 @@ public class GetMemberByKeywordUseCase extends BaseUseCaseGenerator<Single<AllMe
                         return Single.zip(
                                 Single.fromCallable(new MemberSearchCallable()),
                                 new DMGetContactsUseCase(contactId).getUseCase(),
-                                new AbstractBigFunction<String, MemberSearchResponse, ContactsResponse, AllMembersVO>(contactId) {
+                                new AbstractBigFunction<String, MembersResponse, ContactsResponse, AllMembersVO>(contactId) {
                                     @Override
-                                    protected AllMembersVO apply(MemberSearchResponse searchResponse, ContactsResponse contactsResponse, String subject) {
+                                    protected AllMembersVO apply(MembersResponse searchResponse, ContactsResponse contactsResponse, String subject) {
                                         return new MembersMapper().mapAllMembers(searchResponse, contactsResponse, subject);
                                     }
                                 }).toObservable();
@@ -66,13 +68,13 @@ public class GetMemberByKeywordUseCase extends BaseUseCaseGenerator<Single<AllMe
                 }));
     }
 
-    private class MemberSearchCallable implements Callable<MemberSearchResponse> {
+    private class MemberSearchCallable implements Callable<MembersResponse> {
 
         @Override
-        public MemberSearchResponse call() throws Exception {
-            SearchBody searchBody = new SearchBody(mSearchValue);
+        public MembersResponse call() throws Exception {
+            MembersSearchBody searchBody = new MembersSearchBody(mSearchValue, mOffset);
             JSONObject jo = new JSONObject(new Gson().toJson(searchBody));
-            return getApiCall().getResponse(getSoqlRequestFactory().createSearchMemberByKeywordRequest(jo), MemberSearchResponse.class);
+            return getApiCall().getResponse(getSoqlRequestFactory().createSearchMemberByKeywordRequest(jo), MembersResponse.class);
         }
     }
 }

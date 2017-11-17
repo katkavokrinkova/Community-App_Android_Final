@@ -117,7 +117,7 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
             @Override
             public void onSearch(String searchValue) {
 //                if (!mAdapter.validateDTOByKeyword(searchValue)) {
-                    getPresenter().searchMemberWith(searchValue);
+                    getPresenter().searchMemberWith(searchValue, 0);
 //                }
             }
 

@@ -69,12 +69,12 @@ public class MembersPresenter extends UiPresenter<MembersUiContract> {
         }
     }
 
-    public void searchMemberWith(String searchValue) {
+    public void searchMemberWith(String searchValue, int offset) {
 
         getUi().onLoadingStateChanged(true);
         getUi().onShowProgressBar(true);
 
-        Single<AllMembersVO> single = new GetMemberByKeywordUseCase(searchValue).getUseCase()
+        Single<AllMembersVO> single = new GetMemberByKeywordUseCase(searchValue, offset).getUseCase()
                 .map(new Function<AllMembersVO, AllMembersVO>() {
                     @Override
                     public AllMembersVO apply(AllMembersVO allMembersVO) throws Exception {
