@@ -136,26 +136,34 @@ public class MainTabsActivity extends BaseActivity {
 
     private void handlePushNotification(Intent intent) {
         int tabPosition = mTabLayout.getSelectedTabPosition();
-        Fragment fragment = getSupportFragmentManager().getFragments().get(tabPosition);
-        if (fragment != null) {
-            FragmentManager manager = fragment.getChildFragmentManager();
-            BaseChildFragment topFragment = (BaseChildFragment) manager.getFragments().get(0);
-            if (topFragment != null) {
+        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+        if (fragments != null) {
+            Fragment fragment;
+            if (fragments.size() > tabPosition) {
+                fragment = fragments.get(tabPosition);
+            } else {
+                fragment = fragments.get(0);
+            }
+            if (fragment != null) {
+                FragmentManager manager = fragment.getChildFragmentManager();
+                BaseChildFragment topFragment = (BaseChildFragment) manager.getFragments().get(0);
+                if (topFragment != null) {
 
-                ReceivedNotification extra = (ReceivedNotification) intent.getSerializableExtra(EXTRA_PUSH_NOTIFICATION_MODEL);
-                switch (extra.getPayloadType()) {
-                    case ReceivedNotification.PAYLOAD_TYPE_PRIVATE_MESSAGE:
-                        MessageNotificationPayload mnp = extra.getNotificationPayloadVO();
-                        ConversationVO conversationVO = new ConversationVO();
-                        conversationVO.mConversationId = mnp.getConversationId();
-                        topFragment.addChildFragment(ConversationFragment.newInstance(conversationVO), "FRAG_MESSAGE_THREAD");
-                        break;
-                    case ReceivedNotification.PAYLOAD_TYPE_SEND_APPROVE_REQUEST:
-                        DMContactNotificationPayload dmcp = extra.getNotificationPayloadVO();
-                        topFragment.addChildFragment(MemberDetailFragment.newInstance(dmcp.getRelatedId()), "FRAG_MEMBER_DETAIL");
-                        break;
-                    default:
-                        topFragment.addChildFragment(NotificationFragment.newInstance(), "FRAG_NOTIFICATION_DETAIL");
+                    ReceivedNotification extra = (ReceivedNotification) intent.getSerializableExtra(EXTRA_PUSH_NOTIFICATION_MODEL);
+                    switch (extra.getPayloadType()) {
+                        case ReceivedNotification.PAYLOAD_TYPE_PRIVATE_MESSAGE:
+                            MessageNotificationPayload mnp = extra.getNotificationPayloadVO();
+                            ConversationVO conversationVO = new ConversationVO();
+                            conversationVO.mConversationId = mnp.getConversationId();
+                            topFragment.addChildFragment(ConversationFragment.newInstance(conversationVO), "FRAG_MESSAGE_THREAD");
+                            break;
+                        case ReceivedNotification.PAYLOAD_TYPE_SEND_APPROVE_REQUEST:
+                            DMContactNotificationPayload dmcp = extra.getNotificationPayloadVO();
+                            topFragment.addChildFragment(MemberDetailFragment.newInstance(dmcp.getRelatedId()), "FRAG_MEMBER_DETAIL");
+                            break;
+                        default:
+                            topFragment.addChildFragment(NotificationFragment.newInstance(), "FRAG_NOTIFICATION_DETAIL");
+                    }
                 }
             }
         }

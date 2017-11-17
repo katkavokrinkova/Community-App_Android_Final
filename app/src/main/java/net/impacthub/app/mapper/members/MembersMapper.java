@@ -314,10 +314,12 @@ public class MembersMapper {
     }
 
     public AllMembersVO mapAllMembers(MemberSearchResponse searchResponse, ContactsResponse contactsResponse, String subject) {
+        boolean done = true;
         List<MemberVO> memberVOList = new LinkedList<>();
         if (searchResponse != null) {
             memberVOList.addAll(mapMembersList(mapMembersRecords(searchResponse.getRecords()), contactsResponse, subject));
+            done = searchResponse.getDone();
         }
-        return new AllMembersVO(memberVOList, true);
+        return new AllMembersVO(memberVOList, done);
     }
 }

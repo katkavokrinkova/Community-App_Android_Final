@@ -86,13 +86,18 @@ public class MembersPresenter extends UiPresenter<MembersUiContract> {
                                 newMembers.add(memberVO);
                             }
                         }
-                        return new AllMembersVO(newMembers, true);
+                        return new AllMembersVO(newMembers, allMembersVO.isDone());
                     }
                 });
         subscribeWith(single, new DisposableSingleObserver<AllMembersVO>() {
             @Override
             public void onSuccess(AllMembersVO allMembersVO) {
-                getUi().onLoadSearchedMembers(allMembersVO.getMemberVOS());
+                List<MemberVO> memberVOS = allMembersVO.getMemberVOS();
+                if (memberVOS.isEmpty()) {
+                    getUi().onError(new Throwable("Can't find member having the search term."));
+                } else {
+                    getUi().onLoadSearchedMembers(memberVOS);
+                }
                 getUi().onShowProgressBar(false);
                 getUi().onLoadingStateChanged(false);
             }
