@@ -94,7 +94,7 @@ public class MembersPresenter extends UiPresenter<MembersUiContract> {
             public void onSuccess(AllMembersVO allMembersVO) {
                 List<MemberVO> memberVOS = allMembersVO.getMemberVOS();
                 if (memberVOS.isEmpty()) {
-                    getUi().onError(new Throwable("Can't find member having the search term."));
+                    getUi().onError(new Throwable("Not found what you’re looking for? Try broader terms…"));
                 } else {
                     getUi().onLoadSearchedMembers(memberVOS);
                 }

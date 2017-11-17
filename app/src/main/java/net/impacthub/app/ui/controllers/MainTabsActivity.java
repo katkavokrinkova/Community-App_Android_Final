@@ -3,6 +3,8 @@ package net.impacthub.app.ui.controllers;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -42,6 +44,7 @@ import java.util.List;
 public class MainTabsActivity extends BaseActivity {
 
     private static final String TAG = MainTabsActivity.class.getSimpleName();
+
     public static final String EXTRA_PUSH_NOTIFICATION_FROM_NOTIFICATION = "net.impacthub.app.ui.controllers.EXTRA_PUSH_NOTIFICATION_FROM_NOTIFICATION";
     public static final String EXTRA_PUSH_NOTIFICATION_MODEL = "net.impacthub.app.ui.controllers.EXTRA_PUSH_NOTIFICATION_MODEL";
 
@@ -55,6 +58,7 @@ public class MainTabsActivity extends BaseActivity {
 
     private ExtendedViewPager mPager;
     private TabLayout mTabLayout;
+    private boolean mPushNeedshandling;
 
     @Override
     protected int getContentView() {
@@ -127,10 +131,20 @@ public class MainTabsActivity extends BaseActivity {
                 tabAt.setIcon(DrawableUtils.tintDrawableWithState(this, sIcons[i], stateList));
             }
         }
+        handlePushNotification(getIntent());
 
-        Intent intent = getIntent();
-        handlePushNotification(intent);
+        if (mPushNeedshandling) {
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    handlePushNotification(getIntent());
+                }
+            }, 500);
+        }
     }
+
+    private final Handler mHandler = new Handler(Looper.getMainLooper());
+
 
     private void handlePushNotification(Intent intent) {
         if (!intent.getBooleanExtra(EXTRA_PUSH_NOTIFICATION_FROM_NOTIFICATION, false)) {
@@ -142,10 +156,11 @@ public class MainTabsActivity extends BaseActivity {
             Fragment fragment = null;
             if (fragments.size() > tabPosition) {
                 fragment = fragments.get(tabPosition);
-            } else if(fragments.size() > 0) {
+            } else if (fragments.size() > 0) {
                 fragment = fragments.get(0);
             }
             if (fragment != null) {
+                mPushNeedshandling = false;
                 FragmentManager manager = fragment.getChildFragmentManager();
                 BaseChildFragment topFragment = (BaseChildFragment) manager.getFragments().get(0);
                 if (topFragment != null) {
@@ -166,6 +181,8 @@ public class MainTabsActivity extends BaseActivity {
                             topFragment.addChildFragment(NotificationFragment.newInstance(), "FRAG_NOTIFICATION_DETAIL");
                     }
                 }
+            } else {
+                mPushNeedshandling = true;
             }
         }
     }
