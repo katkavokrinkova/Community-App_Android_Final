@@ -129,19 +129,20 @@ public class MainTabsActivity extends BaseActivity {
         }
 
         Intent intent = getIntent();
-        if (intent.getBooleanExtra(EXTRA_PUSH_NOTIFICATION_FROM_NOTIFICATION, false)) {
-            handlePushNotification(intent);
-        }
+        handlePushNotification(intent);
     }
 
     private void handlePushNotification(Intent intent) {
+        if (!intent.getBooleanExtra(EXTRA_PUSH_NOTIFICATION_FROM_NOTIFICATION, false)) {
+            return;
+        }
         int tabPosition = mTabLayout.getSelectedTabPosition();
         List<Fragment> fragments = getSupportFragmentManager().getFragments();
         if (fragments != null) {
-            Fragment fragment;
+            Fragment fragment = null;
             if (fragments.size() > tabPosition) {
                 fragment = fragments.get(tabPosition);
-            } else {
+            } else if(fragments.size() > 0) {
                 fragment = fragments.get(0);
             }
             if (fragment != null) {
