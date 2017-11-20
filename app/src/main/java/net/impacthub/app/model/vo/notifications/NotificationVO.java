@@ -27,7 +27,7 @@ public class NotificationVO implements Searchable {
     public String mMessage;
     public Boolean mIsRead;
     public String mId;
-    public String mConversationId;
+    public String mRelatedId;
     public String mChatterGroupId;
     public String mRecipientUserId;
     public String mDisplayName;

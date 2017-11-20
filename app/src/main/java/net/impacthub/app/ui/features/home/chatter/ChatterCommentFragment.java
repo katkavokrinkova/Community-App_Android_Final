@@ -53,6 +53,7 @@ public class ChatterCommentFragment extends BaseChildFragment<ChatterCommentsUiP
     private ChatterVO mChatterVO;
     private OnCommentAddedCallback mCommentCallback;
     private int mCommentRefreshPosition;
+    private int mScrollPosition;
 
     public static ChatterCommentFragment newInstance(ChatterVO chatterVO) {
         
@@ -102,7 +103,7 @@ public class ChatterCommentFragment extends BaseChildFragment<ChatterCommentsUiP
             }
         });
         mCommentList.setAdapter(mListAdapter);
-        mCommentList.smoothScrollToPosition(comments.size());
+        mCommentList.smoothScrollToPosition(mScrollPosition > 0 ? mScrollPosition : comments.size());
     }
 
     @Override
@@ -129,5 +130,9 @@ public class ChatterCommentFragment extends BaseChildFragment<ChatterCommentsUiP
 
     public void setCommentRefreshPosition(int commentRefreshPosition) {
         mCommentRefreshPosition = commentRefreshPosition;
+    }
+
+    public void setScrollPosition(int scrollPosition) {
+        mScrollPosition = scrollPosition;
     }
 }

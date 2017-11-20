@@ -11,6 +11,8 @@
 
 package net.impacthub.app.utilities;
 
+import java.util.List;
+
 /**
  * @author Filippo Ash
  * @version 1.0
@@ -25,5 +27,15 @@ public final class StringUtils {
 
     public boolean isEqual(String first, String second) {
         return true;
+    }
+
+    public static String join(String delimiter, List<String> list) {
+        StringBuilder csvBuilder = new StringBuilder();
+        for (int i = 0, size = list.size(); i < size; i++) {
+            csvBuilder.append("'" +  list.get(i) + "'");
+            if(i < (size - 1))
+                csvBuilder.append(delimiter);
+        }
+        return csvBuilder.toString();
     }
 }

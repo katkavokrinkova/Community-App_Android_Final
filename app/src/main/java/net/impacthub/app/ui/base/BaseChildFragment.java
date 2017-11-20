@@ -13,6 +13,7 @@ import android.view.View;
 import com.salesforce.androidsdk.accounts.UserAccount;
 
 import net.impacthub.app.R;
+import net.impacthub.app.model.callback.OnReSelectListener;
 import net.impacthub.app.presenter.base.UiContract;
 import net.impacthub.app.presenter.base.UiPresenter;
 import net.impacthub.app.ui.common.UserAccountDelegate;
@@ -24,10 +25,9 @@ import net.impacthub.app.utilities.KeyboardUtils;
  * @date 8/1/2017.
  */
 
-public abstract class BaseChildFragment<P extends UiPresenter<? extends UiContract>> extends BaseFragment<P> {
+public abstract class BaseChildFragment<P extends UiPresenter<? extends UiContract>> extends BaseFragment<P> implements OnReSelectListener {
 
     private FragmentManager mChildFragmentManager;
-    private boolean mIsFirstLaunch = true;
 
     protected final View.OnClickListener mBackListener = new View.OnClickListener() {
         @Override
@@ -53,20 +53,13 @@ public abstract class BaseChildFragment<P extends UiPresenter<? extends UiContra
     @Override
     public void onResume() {
         super.onResume();
-        boolean userVisibleHint = getUserVisibleHint();
-        if(userVisibleHint && !mIsFirstLaunch) {
-            onFragmentVisibilityChanged(true);
-        } else {
-            mIsFirstLaunch = false;
-        }
+        onFragmentVisibilityChanged(getUserVisibleHint());
     }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if(isResumed() && isVisibleToUser) {
-            onFragmentVisibilityChanged(true);
-        }
+        onFragmentVisibilityChanged(isVisibleToUser);
     }
 
     @CallSuper
@@ -93,7 +86,7 @@ public abstract class BaseChildFragment<P extends UiPresenter<? extends UiContra
         }
     }
 
-    protected void addChildFragment(Fragment fragment, String tag) {
+    public void addChildFragment(Fragment fragment, String tag) {
         if (mChildFragmentManager != null) {
             mChildFragmentManager.beginTransaction()
 //                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
@@ -108,11 +101,20 @@ public abstract class BaseChildFragment<P extends UiPresenter<? extends UiContra
 
     protected boolean popChildFragment() {
         KeyboardUtils.hideNativeKeyboard(getActivity(), getView());
-        FragmentManager manager = getParentFragment().getChildFragmentManager();
-        if (manager.getBackStackEntryCount() > 0) {
-            manager.popBackStack();
-            return true;
+        Fragment parentFragment = getParentFragment();
+        if (parentFragment != null) {
+            FragmentManager manager = parentFragment.getChildFragmentManager();
+            if (manager.getBackStackEntryCount() > 0) {
+                manager.popBackStack();
+                return true;
+            }
         }
         return false;
+    }
+
+    @Override
+    @CallSuper
+    public void onTabReselected() {
+        //showToast("Tab reselected....");
     }
 }

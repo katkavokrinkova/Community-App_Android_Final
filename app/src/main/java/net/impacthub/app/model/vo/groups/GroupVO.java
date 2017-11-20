@@ -33,6 +33,7 @@ public class GroupVO implements Searchable {
     public Integer mMemberCount;
     public String mChatterGroupId;
     public String mSector;
+    public String mRelatedId;
 
     @Override
     public boolean isSearchable(String query) {

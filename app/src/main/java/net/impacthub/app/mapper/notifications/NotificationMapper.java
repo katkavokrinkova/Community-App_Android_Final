@@ -73,7 +73,7 @@ public class NotificationMapper {
         notificationDTO.mId = record.getId();
         notificationDTO.mIsRead = record.getIsRead__c();
         notificationDTO.mMessage = record.getMessage__c();
-        notificationDTO.mConversationId = record.getRelatedId__c();
+        notificationDTO.mRelatedId = record.getRelatedId__c();
         notificationDTO.mRecipientUserId = record.getFromUserId__c();
         notificationDTO.mDisplayName = record.getName();
         notificationDTO.mProfilePicUrl = record.getProfilePicURL__c();

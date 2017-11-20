@@ -14,11 +14,12 @@ package net.impacthub.app.model.features.members;
 /**
  * @author Filippo Ash
  * @version 1.0
- * @date 03/08/2017.
+ * @date 11/16/2017.
  */
 
-public class MembersResponse {
+public class MemberSearchResponse {
 
+    private String searchTerm;
     private Boolean done;
     private MembersRecords[] records;
     private String totalSize;
@@ -36,8 +37,12 @@ public class MembersResponse {
         return totalSize;
     }
 
+    public String getSearchTerm() {
+        return searchTerm;
+    }
+
     @Override
     public String toString() {
-        return "MembersResponse [done = " + done + ", records = " + records + ", totalSize = " + totalSize + "]";
+        return "MemberSearchResponse [searchTerm = " + searchTerm + ", Members = " + records + "]";
     }
 }

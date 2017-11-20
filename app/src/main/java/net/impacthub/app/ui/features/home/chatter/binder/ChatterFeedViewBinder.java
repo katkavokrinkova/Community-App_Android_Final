@@ -42,12 +42,14 @@ import java.util.List;
 public class ChatterFeedViewBinder extends ViewBinderAdapter<ChatterFeedPresenter> implements ChatterFeedUiContract, OnCommentAddedCallback {
 
     private final String mChatterGroupId;
+    private final String mChatterRelatedId;
     private final OnChatterFeedActionListener mChatterFeedActionListener;
     private ChatterFeedListAdapter mAdapter;
     private RecyclerView mRecyclerView;
 
-    public ChatterFeedViewBinder(String chatterFeedId, OnChatterFeedActionListener feedActionListener) {
+    public ChatterFeedViewBinder(String chatterFeedId, String chatRelatedId, OnChatterFeedActionListener feedActionListener) {
         mChatterGroupId = chatterFeedId;
+        mChatterRelatedId = chatRelatedId;
         mChatterFeedActionListener = feedActionListener;
     }
 
@@ -72,7 +74,7 @@ public class ChatterFeedViewBinder extends ViewBinderAdapter<ChatterFeedPresente
                         break;
                     case R.id.comment_bar:
                         if (mChatterFeedActionListener != null) {
-                            mChatterFeedActionListener.openComments(model, ChatterFeedViewBinder.this, position);
+                            mChatterFeedActionListener.openComments(model, ChatterFeedViewBinder.this, position, 0);
                         }
                         break;
                     case R.id.like_bar:
@@ -88,7 +90,7 @@ public class ChatterFeedViewBinder extends ViewBinderAdapter<ChatterFeedPresente
         int offset = context.getResources().getDimensionPixelOffset(R.dimen.default_content_normal_gap);
         mRecyclerView.addItemDecoration(new LinearItemsMarginDecorator(offset));
         mRecyclerView.setAdapter(mAdapter);
-        getPresenter().loadChatterFeed(mChatterGroupId);
+        getPresenter().loadChatterFeed(mChatterGroupId, mChatterRelatedId);
         return mRecyclerView;
     }
 
@@ -118,6 +120,25 @@ public class ChatterFeedViewBinder extends ViewBinderAdapter<ChatterFeedPresente
         chatterVO.mIsLikedByMe = false;
         chatterVO.mLikeCount--;
         mAdapter.notifyItemChanged(subject);
+    }
+
+    @Override
+    public void onScrollToComment(int position) {
+        if (mChatterFeedActionListener != null) {
+            mChatterFeedActionListener.onCollapseAppBar();
+        }
+        mRecyclerView.smoothScrollToPosition(position);
+    }
+
+    @Override
+    public void onScrollToCommentAndOpenCommentReplies(ChatterVO chatterVO, int position, int commentPosition) {
+        if (mChatterFeedActionListener != null) {
+            mChatterFeedActionListener.onCollapseAppBar();
+        }
+        mRecyclerView.scrollToPosition(position);
+        if (mChatterFeedActionListener != null) {
+            mChatterFeedActionListener.openComments(chatterVO, ChatterFeedViewBinder.this, position, commentPosition);
+        }
     }
 
     @Override
@@ -153,8 +174,10 @@ public class ChatterFeedViewBinder extends ViewBinderAdapter<ChatterFeedPresente
 
         void onShowProgressBar(boolean showProgressBar);
 
-        void openComments(ChatterVO model, OnCommentAddedCallback callback, int position);
+        void openComments(ChatterVO model, OnCommentAddedCallback callback, int position, int commentScrollPosition);
 
         void onLoadMember(MemberVO memberVO);
+
+        void onCollapseAppBar();
     }
 }

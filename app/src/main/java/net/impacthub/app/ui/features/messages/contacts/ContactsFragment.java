@@ -90,7 +90,7 @@ public class ContactsFragment extends BaseChildFragment<ContactsUiPresenter> imp
 
         AppPagerAdapter adapter = new AppPagerAdapter(getContext(), TITLES);
 
-        LayoutInflater layoutInflater = getLayoutInflater(getArguments());
+        LayoutInflater layoutInflater = getIHLayoutInflater();
         mListAdapter1 = new ActiveContactsListAdapter(layoutInflater);
         mListAdapter1.setItemClickListener(new OnListItemClickListener<ContactVO>() {
             @Override
@@ -99,8 +99,8 @@ public class ContactsFragment extends BaseChildFragment<ContactsUiPresenter> imp
                 switch (viewId) {
                     case R.id.button_message_contact:
                         ConversationVO conversationVO = new ConversationVO();
-                        conversationVO.mDisplayName = memberVO.mFullName;
-                        conversationVO.mImageURL = memberVO.mProfilePicURL;
+//                        conversationVO.mDisplayName = memberVO.mFullName;
+//                        conversationVO.mImageURL = memberVO.mProfilePicURL;
                         conversationVO.mRecipientUserId = memberVO.mUserId;
                         addChildFragment(ConversationFragment.newInstance(conversationVO), "FRAG_MESSAGE_THREAD");
                         break;

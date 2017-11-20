@@ -13,6 +13,7 @@ package net.impacthub.app.presenter.features.members;
 
 import net.impacthub.app.model.pojo.ListItemType;
 import net.impacthub.app.model.vo.groups.GroupVO;
+import net.impacthub.app.model.vo.members.MemberVO;
 import net.impacthub.app.model.vo.projects.ProjectVO;
 import net.impacthub.app.presenter.features.error.ErrorHandlerUiContract;
 
@@ -35,4 +36,6 @@ public interface MemberDetailUiContract extends ErrorHandlerUiContract {
     void onMemberApproved();
 
     void onMemberDeclined();
+
+    void onLoadMember(MemberVO memberVO);
 }

@@ -21,6 +21,7 @@ import net.impacthub.app.model.vo.notifications.NotificationWrapper;
 import net.impacthub.app.model.vo.notifications.ProjectOrGroupWrapper;
 import net.impacthub.app.model.vo.projects.ProjectVO;
 import net.impacthub.app.presenter.base.UiPresenter;
+import net.impacthub.app.presenter.rx.AbstractFunction;
 import net.impacthub.app.usecase.base.UseCaseGenerator;
 import net.impacthub.app.usecase.features.members.GetMemberByUserIdUseCase;
 import net.impacthub.app.usecase.features.notifications.GroupOrProjectUseCase;
@@ -78,24 +79,25 @@ public class NotificationsPresenter extends UiPresenter<NotificationsUiContract>
         });
     }
 
-    public void getGroupOrProjectBy(String chatterGroupId) {
+    public void getGroupOrProjectBy(String chatterGroupId, String relatedId) {
         getUi().onShowProgressBar(true);
         Single<ProjectOrGroupWrapper> single = new GroupOrProjectUseCase(chatterGroupId).getUseCase()
-                .map(new Function<ProjectResponse, ProjectOrGroupWrapper>() {
+                .map(new AbstractFunction<String, ProjectResponse, ProjectOrGroupWrapper>(relatedId) {
                     @Override
-                    public ProjectOrGroupWrapper apply(@NonNull ProjectResponse projectResponse) throws Exception {
-
+                    protected ProjectOrGroupWrapper apply(ProjectResponse response, String subject) throws Exception {
                         ProjectVO projectVO = null;
                         GroupVO groupVO = null;
 
-                        ProjectRecords[] records = projectResponse.getRecords();
+                        ProjectRecords[] records = response.getRecords();
                         if (records != null && records.length > 0) {
                             ProjectRecords record = records[0];
                             String directory_style__c = record.getDirectory_Style__c();
                             if ("Group".equalsIgnoreCase(directory_style__c)) {
                                 groupVO = new GroupsMapper().mapAsGroup(record);
+                                groupVO.mRelatedId = subject;
                             } else if ("Project".equalsIgnoreCase(directory_style__c)) {
                                 projectVO = new ProjectMapper().mapAsProject(record);
+                                projectVO.mRelatedId = subject;
                             }
                         }
 

@@ -41,6 +41,7 @@ public class DetailScreenDelegate {
                         Navigator.startOtherWebActivity(view.getContext(), link);
                     }
                 });
+                ViewUtils.visible(button);
             }
         }
     }

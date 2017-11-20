@@ -11,25 +11,33 @@
 
 package net.impacthub.app.presenter.features.contacts;
 
+import android.util.Pair;
+
 import com.google.gson.Gson;
 
 import net.impacthub.app.mapper.contacts.ContactsMapper;
+import net.impacthub.app.mapper.members.MembersMapper;
+import net.impacthub.app.model.features.contacts.ContactRecords;
 import net.impacthub.app.model.features.contacts.ContactsResponse;
+import net.impacthub.app.model.features.members.MembersResponse;
 import net.impacthub.app.model.vo.contacts.ContactsWrapper;
 import net.impacthub.app.model.vo.contacts.DeclineContactBody;
 import net.impacthub.app.model.vo.contacts.UpdateContactBody;
 import net.impacthub.app.model.vo.members.MemberVO;
 import net.impacthub.app.presenter.base.UiPresenter;
-import net.impacthub.app.presenter.rx.AbstractBigFunction;
+import net.impacthub.app.presenter.rx.AbstractFunction;
 import net.impacthub.app.usecase.features.contacts.DMGetContactsUseCase;
 import net.impacthub.app.usecase.features.contacts.DeleteDMRequest;
 import net.impacthub.app.usecase.features.contacts.UpdateDMRequestStatusUseCase;
-import net.impacthub.app.usecase.features.members.MembersUseCase;
+import net.impacthub.app.usecase.features.members.GetMembersByContactIdsUseCase;
 import net.impacthub.app.usecase.features.profile.ProfileUseCase;
+import net.impacthub.app.utilities.StringUtils;
 
 import org.json.JSONObject;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Set;
 
 import io.reactivex.Single;
 import io.reactivex.SingleSource;
@@ -51,25 +59,42 @@ public class ContactsUiPresenter extends UiPresenter<ContactsUiContract> {
 
     public void getContacts() {
 
-        Single<ContactsWrapper> listSingle = new ProfileUseCase().getUseCase()
+        Single<ContactsWrapper> wrapperSingle = new ProfileUseCase().getUseCase()
                 .flatMap(new Function<MemberVO, SingleSource<ContactsWrapper>>() {
                     @Override
-                    public SingleSource<ContactsWrapper> apply(@NonNull MemberVO memberVO) throws Exception {
+                    public SingleSource<ContactsWrapper> apply(MemberVO memberVO) throws Exception {
                         String contactId = memberVO.mContactId;
-                        return Single.zip(
-                                new DMGetContactsUseCase(contactId).getUseCase(),
-                                new MembersUseCase().getUseCase(),
-                                new AbstractBigFunction<String, ContactsResponse, List<MemberVO>, ContactsWrapper> (contactId) {
+                        return new DMGetContactsUseCase(contactId).getUseCase()
+                                .flatMap(new AbstractFunction<String, ContactsResponse, Single<ContactsWrapper>>(contactId) {
+
                                     @Override
-                                    protected ContactsWrapper apply(ContactsResponse response, List<MemberVO> memberVOs, String subject) {
-                                        return new ContactsMapper().mapContactMembers(response, memberVOs, subject);
+                                    protected Single<ContactsWrapper> apply(ContactsResponse response, String subject) throws Exception {
+                                        Set<String> idSet = new HashSet<>();
+                                        if (response != null) {
+                                            ContactRecords[] records = response.getRecords();
+                                            if (records != null) {
+                                                for (ContactRecords record : records) {
+                                                    String contactFrom__c = record.getContactFrom__c();
+                                                    String contactTo__c = record.getContactTo__c();
+                                                    idSet.add(contactFrom__c);
+                                                    idSet.add(contactTo__c);
+                                                }
+                                            }
+                                        }
+                                        String contactIds = StringUtils.join(",", new LinkedList<>(idSet));
+                                        return new GetMembersByContactIdsUseCase(contactIds).getUseCase()
+                                                .map(new AbstractFunction<Pair<ContactsResponse, String>, MembersResponse, ContactsWrapper>(Pair.create(response, subject)) {
+                                                    @Override
+                                                    protected ContactsWrapper apply(MembersResponse response, Pair<ContactsResponse, String> subject) throws Exception {
+                                                        return new ContactsMapper().mapContactMembers(subject.first, new MembersMapper().mapMembers(response), subject.second);
+                                                    }
+                                                });
                                     }
-                                }
-                        );
+                                });
                     }
                 });
         getUi().onShowProgressBar(true);
-        subscribeWith(listSingle, new DisposableSingleObserver<ContactsWrapper>() {
+        subscribeWith(wrapperSingle, new DisposableSingleObserver<ContactsWrapper>() {
 
             @Override
             public void onSuccess(@NonNull ContactsWrapper contactsWrapper) {
@@ -101,11 +126,12 @@ public class ContactsUiPresenter extends UiPresenter<ContactsUiContract> {
                     getUi().onError(e);
                 }
             });
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
     }
 
     public void disconnectContact(String contactId) {
-        try{
+        try {
             JSONObject jsonObject = new JSONObject(new Gson().toJson(new DeclineContactBody(contactId)));
             subscribeWith(new DeleteDMRequest(jsonObject).getUseCase(), new DisposableSingleObserver<Object>() {
                 @Override
@@ -118,6 +144,7 @@ public class ContactsUiPresenter extends UiPresenter<ContactsUiContract> {
                     getUi().onError(e);
                 }
             });
-        }catch(Exception e){}
+        } catch (Exception e) {
+        }
     }
 }

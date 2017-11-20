@@ -21,6 +21,7 @@ import net.impacthub.app.model.pojo.ListItemType;
 import net.impacthub.app.model.pojo.SimpleItem;
 import net.impacthub.app.model.vo.contacts.UpdateContactBody;
 import net.impacthub.app.model.vo.groups.GroupVO;
+import net.impacthub.app.model.vo.members.MemberVO;
 import net.impacthub.app.model.vo.projects.ProjectVO;
 import net.impacthub.app.presenter.base.UiPresenter;
 import net.impacthub.app.presenter.rx.AbstractFunction;
@@ -28,6 +29,7 @@ import net.impacthub.app.presenter.rx.DisposableSingleObserverAdapter;
 import net.impacthub.app.usecase.base.UseCaseGenerator;
 import net.impacthub.app.usecase.features.contacts.UpdateDMRequestStatusUseCase;
 import net.impacthub.app.usecase.features.members.AboutMemberUseCase;
+import net.impacthub.app.usecase.features.members.GetMemberByUserIdUseCase;
 import net.impacthub.app.usecase.features.members.MemberSkillsUseCase;
 
 import org.json.JSONObject;
@@ -118,5 +120,22 @@ public class MemberDetailUiPresenter extends UiPresenter<MemberDetailUiContract>
             });
         } catch (Exception e) {
         }
+    }
+
+    public void getMemberBy(String id) {
+        getUi().onShowProgressBar(true);
+        subscribeWith(new GetMemberByUserIdUseCase(id).getUseCase(), new DisposableSingleObserver<MemberVO>() {
+            @Override
+            public void onSuccess(@NonNull MemberVO memberVO) {
+                getUi().onLoadMember(memberVO);
+                getUi().onShowProgressBar(false);
+            }
+
+            @Override
+            public void onError(@NonNull Throwable e) {
+                getUi().onError(e);
+                getUi().onShowProgressBar(false);
+            }
+        });
     }
 }

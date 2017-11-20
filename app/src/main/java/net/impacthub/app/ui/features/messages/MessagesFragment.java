@@ -10,8 +10,8 @@ import net.impacthub.app.R;
 import net.impacthub.app.model.callback.OnListItemClickListener;
 import net.impacthub.app.model.vo.conversations.ConversationVO;
 import net.impacthub.app.model.vo.messages.MessageVO;
-import net.impacthub.app.presenter.features.conversations.MessagesUiPresenter;
 import net.impacthub.app.presenter.features.conversations.MessagesUiContract;
+import net.impacthub.app.presenter.features.conversations.MessagesUiPresenter;
 import net.impacthub.app.ui.base.BaseChildFragment;
 import net.impacthub.app.ui.features.messages.contacts.ContactsFragment;
 import net.impacthub.app.ui.features.messages.conversation.ConversationFragment;
@@ -29,8 +29,8 @@ import butterknife.BindView;
 public class MessagesFragment extends BaseChildFragment<MessagesUiPresenter> implements OnListItemClickListener<MessageVO>,MessagesUiContract {
 
     @BindView(R.id.list_items) protected RecyclerView mConversationList;
-
     private MessagesListAdapter mAdapter;
+    private boolean mIsFirstLaunch = true;
 
     public static MessagesFragment newInstance() {
         
@@ -71,7 +71,7 @@ public class MessagesFragment extends BaseChildFragment<MessagesUiPresenter> imp
             });
         }
         if (mAdapter == null) {
-            mAdapter = new MessagesListAdapter(getLayoutInflater(getArguments()));
+            mAdapter = new MessagesListAdapter(getIHLayoutInflater());
             mAdapter.setItemClickListener(this);
         }
         mConversationList.setHasFixedSize(true);
@@ -81,9 +81,10 @@ public class MessagesFragment extends BaseChildFragment<MessagesUiPresenter> imp
     @Override
     protected void onFragmentVisibilityChanged(boolean isVisible) {
         super.onFragmentVisibilityChanged(isVisible);
-        if(isVisible) {
+        if(!mIsFirstLaunch && isVisible) {
             getPresenter().getConversations();
         }
+        mIsFirstLaunch = false;
     }
 
     @Override
@@ -91,8 +92,8 @@ public class MessagesFragment extends BaseChildFragment<MessagesUiPresenter> imp
         ConversationVO conversationVO = new ConversationVO();
         conversationVO.mConversationId = model.mConversationId;
         conversationVO.mRecipientUserId = model.mRecipientUserId;
-        conversationVO.mDisplayName = model.mDisplayName;
-        conversationVO.mImageURL = model.mImageURL;
+//        conversationVO.mDisplayName = model.mDisplayName;
+//        conversationVO.mImageURL = model.mImageURL;
         addChildFragment(ConversationFragment.newInstance(conversationVO), "FRAG_MESSAGE_THREAD");
     }
 

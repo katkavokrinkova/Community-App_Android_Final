@@ -96,4 +96,8 @@ public final class TextUtils {
     public static boolean isEmpty(String value) {
         return value == null || value.isEmpty();
     }
+
+    public static boolean equals(String first, String second) {
+        return (first != null && first.equals(second)) || (second != null && second.equals(first)) || (first == second);
+    }
 }

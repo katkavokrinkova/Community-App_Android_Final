@@ -86,7 +86,7 @@ public class CompaniesFragment extends BaseChildFragment<CompaniesUiPresenter> i
 
         setUpToolbar(R.string.companies);
         mCompanyList.setHasFixedSize(true);
-        mAdapter = new CompaniesListAdapter(getLayoutInflater(getArguments()));
+        mAdapter = new CompaniesListAdapter(getIHLayoutInflater());
         mAdapter.setItemClickListener(this);
         int offset = getResources().getDimensionPixelOffset(R.dimen.default_content_normal_gap);
         mCompanyList.setLayoutManager(new LinearLayoutManager(getActivity()));

@@ -18,6 +18,7 @@ import net.impacthub.app.model.features.conversations.MessageItem;
 import net.impacthub.app.model.features.conversations.Photo;
 import net.impacthub.app.model.features.conversations.ProcessedMessages;
 import net.impacthub.app.model.vo.conversations.RecipientVO;
+import net.impacthub.app.utilities.TextUtils;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -38,8 +39,21 @@ public class ConversationMapper {
         return new ProcessedMessages.Builder()
                 .messages(mapMessages(conversationMessages, userId))
                 .recipients(mapRecipientIds(conversationMessages, userId))
+                .toUserId(getOtherUserId(conversationMessages.getMembers(), userId))
                 .inReplyTo(conversationMessages.getMessages().getMessages().get(0).getId())
                 .build();
+    }
+
+    private String getOtherUserId(List<Member> members, String userId) {
+        String otherUserId = null;
+        for (int i = 0, size = members.size(); i < size; i++) {
+            String id = members.get(i).getId();
+            if(!TextUtils.equals(id, userId)) {
+                otherUserId = id;
+                break;
+            }
+        }
+        return otherUserId;
     }
 
     private List<RecipientVO> mapRecipientIds(ConversationMessages conversationMessages, String userId) {

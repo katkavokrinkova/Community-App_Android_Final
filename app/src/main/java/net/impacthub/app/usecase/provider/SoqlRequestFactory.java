@@ -40,7 +40,8 @@ public class SoqlRequestFactory {
     private static final String  GROUP_PROJECT = "id, name, CountOfMembers__c, ImageURL__c, Group_Descr__c, Impact_Hub_Cities__c, ChatterGroupId__c, Directory_Style__c,Sector__c, CreatedById, Related_Impact_Goal__c, Organisation__r.id, Organisation__r.Number_of_Employees__c, Organisation__r.Impact_Hub_Cities__c, Organisation__r.name,ChatterGroupType__c";
 
     private static final String PROFILE = "SELECT " + CONTACT + " FROM Contact WHERE User__c = '%s'";
-    private static final String ALL_MEMBERS_PROFILE = "SELECT " + CONTACT + " FROM Contact where User__c != null and User__r.isactive = true";
+    private static final String ALL_MEMBERS_PROFILE = "SELECT " + CONTACT + " FROM Contact where User__c != null and User__r.isactive = true and Portal_Profile_Complete__c = true OFFSET %d";
+    private static final String CONTACT_MEMBERS_PROFILE = "SELECT " + CONTACT + " FROM Contact where id IN (%s)";
 
 //    private static final String memberListQuery =
 //            "select id, firstname, lastname, ProfilePic__c, Profession__c, Impact_Hub_Cities__c,"
@@ -134,8 +135,11 @@ public class SoqlRequestFactory {
         return mRestRequestFactory.getForQuery(String.format(PROFILE, userId));
     }
 
-    public RestRequest createMemberListRequest() throws UnsupportedEncodingException {
-        return mRestRequestFactory.getForQuery(ALL_MEMBERS_PROFILE);
+    public RestRequest createMemberListRequest(int offset) throws UnsupportedEncodingException {
+        return mRestRequestFactory.getForQuery(String.format(Locale.UK, ALL_MEMBERS_PROFILE, offset));
+    }
+    public RestRequest createContactMemberListRequest(String contactIds) throws UnsupportedEncodingException {
+        return mRestRequestFactory.getForQuery(String.format(Locale.UK, CONTACT_MEMBERS_PROFILE, contactIds));
     }
 
 //    public RestRequest createFilterCriteriaRequest() throws UnsupportedEncodingException {
@@ -288,6 +292,11 @@ public class SoqlRequestFactory {
     public RestRequest createGlobalSearchRequest(JSONObject jsonObject) throws UnsupportedEncodingException {
         return new RestRequest(RestRequest.RestMethod.POST,
                 "/services/apexrest/callGlobalSearch/", jsonObject);
+    }
+
+    public RestRequest createSearchMemberByKeywordRequest(JSONObject jsonObject) throws UnsupportedEncodingException {
+        return new RestRequest(RestRequest.RestMethod.POST,
+                "/services/apexrest/callMemberSearch/", jsonObject);
     }
 
 //    public RestRequest createConversationsRequest_Old(String communityId) {

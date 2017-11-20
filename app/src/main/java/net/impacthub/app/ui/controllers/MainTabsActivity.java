@@ -1,7 +1,10 @@
 package net.impacthub.app.ui.controllers;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,12 +12,21 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import net.impacthub.app.R;
 import net.impacthub.app.model.callback.OnBackListener;
+import net.impacthub.app.model.callback.OnReSelectListener;
+import net.impacthub.app.model.vo.conversations.ConversationVO;
+import net.impacthub.app.model.vo.notifications.DMContactNotificationPayload;
+import net.impacthub.app.model.vo.notifications.MessageNotificationPayload;
+import net.impacthub.app.model.vo.notifications.ReceivedNotification;
 import net.impacthub.app.ui.base.BaseActivity;
+import net.impacthub.app.ui.base.BaseChildFragment;
 import net.impacthub.app.ui.controllers.home.HomeControllerFragment;
 import net.impacthub.app.ui.controllers.messages.MessagesControllerFragment;
 import net.impacthub.app.ui.controllers.notification.NotificationControllerFragment;
 import net.impacthub.app.ui.controllers.profile.ProfileControllerFragment;
 import net.impacthub.app.ui.controllers.search.SearchControllerFragment;
+import net.impacthub.app.ui.features.home.members.MemberDetailFragment;
+import net.impacthub.app.ui.features.messages.conversation.ConversationFragment;
+import net.impacthub.app.ui.features.notification.NotificationFragment;
 import net.impacthub.app.ui.widgets.ExtendedViewPager;
 import net.impacthub.app.utilities.ColorUtils;
 import net.impacthub.app.utilities.DrawableUtils;
@@ -33,16 +45,20 @@ public class MainTabsActivity extends BaseActivity {
 
     private static final String TAG = MainTabsActivity.class.getSimpleName();
 
+    public static final String EXTRA_PUSH_NOTIFICATION_FROM_NOTIFICATION = "net.impacthub.app.ui.controllers.EXTRA_PUSH_NOTIFICATION_FROM_NOTIFICATION";
+    public static final String EXTRA_PUSH_NOTIFICATION_MODEL = "net.impacthub.app.ui.controllers.EXTRA_PUSH_NOTIFICATION_MODEL";
+
     private final static int sIcons[] = {
-        R.mipmap.tab_bar_home,
-        R.mipmap.tab_bar_search,
-        R.mipmap.tab_bar_notifications,
-        R.mipmap.tab_bar_messages,
-        R.mipmap.tab_bar_profile,
+            R.mipmap.tab_bar_home,
+            R.mipmap.tab_bar_search,
+            R.mipmap.tab_bar_notifications,
+            R.mipmap.tab_bar_messages,
+            R.mipmap.tab_bar_profile,
     };
 
     private ExtendedViewPager mPager;
     private TabLayout mTabLayout;
+    private boolean mPushNeedshandling;
 
     @Override
     protected int getContentView() {
@@ -50,8 +66,15 @@ public class MainTabsActivity extends BaseActivity {
     }
 
     @Override
+    protected void onNewIntent(android.content.Intent intent) {
+        super.onNewIntent(intent);
+        handlePushNotification(intent);
+    }
+
+    @Override
     protected void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
         mPager = (ExtendedViewPager) findViewById(R.id.pager);
         mTabLayout = (TabLayout) findViewById(R.id.navbar);
 
@@ -94,6 +117,9 @@ public class MainTabsActivity extends BaseActivity {
                     if (entryCount > 1) {
                         manager.beginTransaction().show(manager.getFragments().get(0)).commit();
                     }
+                } else {
+                    OnReSelectListener activeFragment = (OnReSelectListener) manager.getFragments().get(0);
+                    activeFragment.onTabReselected();
                 }
             }
         });
@@ -103,6 +129,60 @@ public class MainTabsActivity extends BaseActivity {
             TabLayout.Tab tabAt = mTabLayout.getTabAt(i);
             if (tabAt != null) {
                 tabAt.setIcon(DrawableUtils.tintDrawableWithState(this, sIcons[i], stateList));
+            }
+        }
+        handlePushNotification(getIntent());
+
+        if (mPushNeedshandling) {
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    handlePushNotification(getIntent());
+                }
+            }, 500);
+        }
+    }
+
+    private final Handler mHandler = new Handler(Looper.getMainLooper());
+
+
+    private void handlePushNotification(Intent intent) {
+        if (!intent.getBooleanExtra(EXTRA_PUSH_NOTIFICATION_FROM_NOTIFICATION, false)) {
+            return;
+        }
+        int tabPosition = mTabLayout.getSelectedTabPosition();
+        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+        if (fragments != null) {
+            Fragment fragment = null;
+            if (fragments.size() > tabPosition) {
+                fragment = fragments.get(tabPosition);
+            } else if (fragments.size() > 0) {
+                fragment = fragments.get(0);
+            }
+            if (fragment != null) {
+                mPushNeedshandling = false;
+                FragmentManager manager = fragment.getChildFragmentManager();
+                BaseChildFragment topFragment = (BaseChildFragment) manager.getFragments().get(0);
+                if (topFragment != null) {
+
+                    ReceivedNotification extra = (ReceivedNotification) intent.getSerializableExtra(EXTRA_PUSH_NOTIFICATION_MODEL);
+                    switch (extra.getPayloadType()) {
+                        case ReceivedNotification.PAYLOAD_TYPE_PRIVATE_MESSAGE:
+                            MessageNotificationPayload mnp = extra.getNotificationPayloadVO();
+                            ConversationVO conversationVO = new ConversationVO();
+                            conversationVO.mConversationId = mnp.getConversationId();
+                            topFragment.addChildFragment(ConversationFragment.newInstance(conversationVO), "FRAG_MESSAGE_THREAD");
+                            break;
+                        case ReceivedNotification.PAYLOAD_TYPE_SEND_APPROVE_REQUEST:
+                            DMContactNotificationPayload dmcp = extra.getNotificationPayloadVO();
+                            topFragment.addChildFragment(MemberDetailFragment.newInstance(dmcp.getRelatedId()), "FRAG_MEMBER_DETAIL");
+                            break;
+                        default:
+                            topFragment.addChildFragment(NotificationFragment.newInstance(), "FRAG_NOTIFICATION_DETAIL");
+                    }
+                }
+            } else {
+                mPushNeedshandling = true;
             }
         }
     }
@@ -135,7 +215,16 @@ public class MainTabsActivity extends BaseActivity {
         int position = mTabLayout.getSelectedTabPosition();
         OnBackListener onBackListener = (OnBackListener) getSupportFragmentManager().getFragments().get(position);
         if (!onBackListener.onBack()) {
-            super.onBackPressed();
+            if (position == 0) {
+                super.onBackPressed();
+            } else {
+                TabLayout.Tab tabAt = mTabLayout.getTabAt(0);
+                if (tabAt != null) {
+                    tabAt.select();
+                } else {
+                    super.onBackPressed();
+                }
+            }
         }
     }
 }

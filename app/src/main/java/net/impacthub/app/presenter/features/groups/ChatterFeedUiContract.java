@@ -26,4 +26,8 @@ public interface ChatterFeedUiContract extends ErrorHandlerUiContract {
     void onPostLiked(Integer position);
 
     void onPostUnLiked(Integer subject);
+
+    void onScrollToComment(int position);
+
+    void onScrollToCommentAndOpenCommentReplies(ChatterVO chatterVO, int position, int commentPosition);
 }

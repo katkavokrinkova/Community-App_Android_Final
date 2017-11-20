@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -33,6 +34,7 @@ import butterknife.Unbinder;
 public abstract class BaseActivity<P extends UiPresenter<? extends UiContract>> extends AppCompatActivity {
 
     @Nullable @BindView(R.id.toolbar) protected TypefaceToolbar mToolbar;
+
     private ProgressDialog mProgressDialog;
 
     private P mPresenter;
@@ -71,6 +73,10 @@ public abstract class BaseActivity<P extends UiPresenter<? extends UiContract>> 
 
     protected void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    protected void showLog(String message) {
+        Log.d(getClass().getSimpleName(), message);
     }
 
     protected void setStatusBarColor(@ColorRes int color) {

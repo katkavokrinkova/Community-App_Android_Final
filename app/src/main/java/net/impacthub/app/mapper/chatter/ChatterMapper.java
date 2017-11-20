@@ -13,25 +13,24 @@ package net.impacthub.app.mapper.chatter;
 
 import android.support.annotation.NonNull;
 
+import net.impacthub.app.model.features.chatterfeed.Actor;
+import net.impacthub.app.model.features.chatterfeed.Body;
+import net.impacthub.app.model.features.chatterfeed.Capabilities;
+import net.impacthub.app.model.features.chatterfeed.ChatterFeedResponse;
+import net.impacthub.app.model.features.chatterfeed.ChatterLikes;
 import net.impacthub.app.model.features.chatterfeed.Comment;
-import net.impacthub.app.model.features.chatterfeed.MessageSegment;
+import net.impacthub.app.model.features.chatterfeed.Comments;
+import net.impacthub.app.model.features.chatterfeed.CommentsPage;
+import net.impacthub.app.model.features.chatterfeed.Element;
+import net.impacthub.app.model.features.chatterfeed.LikesPage;
 import net.impacthub.app.model.features.chatterfeed.MyLike;
+import net.impacthub.app.model.features.chatterfeed.Photo;
 import net.impacthub.app.model.features.chatterfeed.comment.CommentResponse;
 import net.impacthub.app.model.features.chatterfeed.comment.User;
 import net.impacthub.app.model.features.groups.chatter.ChatterResponse;
 import net.impacthub.app.model.features.groups.chatter.Groups;
 import net.impacthub.app.model.vo.chatter.ChatComment;
 import net.impacthub.app.model.vo.chatter.ChatterVO;
-import net.impacthub.app.model.features.chatterfeed.Actor;
-import net.impacthub.app.model.features.chatterfeed.Body;
-import net.impacthub.app.model.features.chatterfeed.Capabilities;
-import net.impacthub.app.model.features.chatterfeed.ChatterLikes;
-import net.impacthub.app.model.features.chatterfeed.Comments;
-import net.impacthub.app.model.features.chatterfeed.CommentsPage;
-import net.impacthub.app.model.features.chatterfeed.Element;
-import net.impacthub.app.model.features.chatterfeed.ChatterFeedResponse;
-import net.impacthub.app.model.features.chatterfeed.LikesPage;
-import net.impacthub.app.model.features.chatterfeed.Photo;
 import net.impacthub.app.model.vo.chatter.CommentVO;
 import net.impacthub.app.utilities.DateUtils;
 

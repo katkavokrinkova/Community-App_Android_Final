@@ -9,6 +9,7 @@ import net.impacthub.app.model.callback.OnListItemClickListener;
 import net.impacthub.app.model.vo.conversations.ConversationVO;
 import net.impacthub.app.model.vo.groups.GroupVO;
 import net.impacthub.app.model.vo.members.MemberVO;
+import net.impacthub.app.model.vo.notifications.NotificationType;
 import net.impacthub.app.model.vo.notifications.NotificationVO;
 import net.impacthub.app.model.vo.projects.ProjectVO;
 import net.impacthub.app.presenter.features.notifcations.NotificationsPresenter;
@@ -33,8 +34,8 @@ import butterknife.BindView;
 public class NotificationFragment extends BaseChildFragment<NotificationsPresenter> implements NotificationsUiContract {
 
     @BindView(R.id.list_items) protected RecyclerView mNotificationsList;
-
     private NotificationListAdapter mAdapter;
+    private boolean mIsFirstLaunch = true;
 
     public static NotificationFragment newInstance() {
         
@@ -65,40 +66,47 @@ public class NotificationFragment extends BaseChildFragment<NotificationsPresent
         mAdapter.setItemClickListener(new OnListItemClickListener<NotificationVO>() {
             @Override
             public void onItemClick(int viewId, NotificationVO model, int position) {
-                getPresenter().setNotificationRead(model.mId);
-                switch (model.mNotificationType) {
-                    case TYPE_PRIVATE_MESSAGE:
-                        ConversationVO conversationVO = new ConversationVO();
-                        conversationVO.mConversationId = model.mConversationId;
-                        conversationVO.mRecipientUserId = model.mRecipientUserId;
-                        conversationVO.mDisplayName = model.mDisplayName;
-                        conversationVO.mImageURL = model.mProfilePicUrl;
-                        addChildFragment(ConversationFragment.newInstance(conversationVO), "FRAG_MESSAGE_THREAD");
-                        break;
-                    case TYPE_DM_REQUEST_APPROVED:
-                    case TYPE_DM_REQUEST_SENT:
-                        getPresenter().getMemberBy(model.mRecipientUserId);
-                        break;
-                    case TYPE_COMMENT:
-                    case TYPE_LIKE_COMMENT:
-                    case TYPE_LIKE_POST:
-                    case TYPE_POST_MENTION:
-                        getPresenter().getGroupOrProjectBy(model.mChatterGroupId);
-                        break;
-                    default:
-                        showToast("Can't Open notification!");
-                }
+                handleNotification(model.mNotificationType, model.mId, model.mRelatedId, model.mRecipientUserId, model.mChatterGroupId);
             }
         });
         mNotificationsList.setAdapter(mAdapter);
     }
 
+    public void handleNotification(NotificationType type, String notificationId, String relatedId, String recipientUserId, String chatterGroupId) {
+        if (notificationId != null) {
+            getPresenter().setNotificationRead(notificationId);
+        }
+        switch (type) {
+            case TYPE_PRIVATE_MESSAGE:
+                ConversationVO conversationVO = new ConversationVO();
+                conversationVO.mConversationId = relatedId;
+                conversationVO.mRecipientUserId = recipientUserId;
+//                conversationVO.mDisplayName = displayName;
+//                conversationVO.mImageURL = profilePic;
+                addChildFragment(ConversationFragment.newInstance(conversationVO), "FRAG_MESSAGE_THREAD");
+                break;
+            case TYPE_DM_REQUEST_APPROVED:
+            case TYPE_DM_REQUEST_SENT:
+                getPresenter().getMemberBy(recipientUserId);
+                break;
+            case TYPE_COMMENT:
+            case TYPE_LIKE_COMMENT:
+            case TYPE_LIKE_POST:
+            case TYPE_POST_MENTION:
+                getPresenter().getGroupOrProjectBy(chatterGroupId, relatedId);
+                break;
+            default:
+                showToast("Can't Open notification!");
+        }
+    }
+
     @Override
     protected void onFragmentVisibilityChanged(boolean isVisible) {
         super.onFragmentVisibilityChanged(isVisible);
-        if (isVisible) {
+        if (!mIsFirstLaunch && isVisible) {
             getPresenter().getNotifications();
         }
+        mIsFirstLaunch = false;
     }
 
     @Override
@@ -125,5 +133,11 @@ public class NotificationFragment extends BaseChildFragment<NotificationsPresent
     @Override
     public void onDecrementNotificationCount() {
         ShortcutBadgerHelper.decreaseBadgeCount(getContext());
+    }
+
+    @Override
+    public void onTabReselected() {
+        super.onTabReselected();
+        mNotificationsList.scrollToPosition(0);
     }
 }

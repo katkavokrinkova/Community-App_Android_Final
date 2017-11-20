@@ -24,25 +24,31 @@ import net.impacthub.app.R;
 
 public enum  NotificationType {
 
-    TYPE_COMMENT("Comment", R.mipmap.ic_notification_comment),
-    TYPE_POST_MENTION("PostMention", R.mipmap.ic_notification_mentioned),
-    TYPE_LIKE_POST("LikePost", R.mipmap.ic_notification_like),
-    TYPE_LIKE_COMMENT("LikeComment", R.mipmap.ic_notification_like),
-    TYPE_PRIVATE_MESSAGE("PrivateMessage", R.mipmap.ic_notification_message),
-    TYPE_DM_REQUEST_SENT("DMRequestSent", R.mipmap.ic_notification_contact_request),
-    TYPE_DM_REQUEST_APPROVED("DMRequestApproved", R.mipmap.ic_notification_request_accepted),
-    TYPE_UNKNOWN("Unknown", 0);
+    TYPE_COMMENT("Comment", "comment", R.mipmap.ic_notification_comment),
+    TYPE_POST_MENTION("PostMention", "mention", R.mipmap.ic_notification_mentioned),
+    TYPE_LIKE_POST("LikePost", "likePost", R.mipmap.ic_notification_like),
+    TYPE_LIKE_COMMENT("LikeComment", "likePost", R.mipmap.ic_notification_like),
+    TYPE_PRIVATE_MESSAGE("PrivateMessage", "message", R.mipmap.ic_notification_message),
+    TYPE_DM_REQUEST_SENT("DMRequestSent", "likePost", R.mipmap.ic_notification_contact_request),
+    TYPE_DM_REQUEST_APPROVED("DMRequestApproved", "likePost", R.mipmap.ic_notification_request_accepted),
+    TYPE_UNKNOWN("Unknown", "Unknown", 0);
 
     private final int mIcon;
     private final String mType;
+    private final String mPushType;
 
-    NotificationType(String type, @DrawableRes int resId) {
+    NotificationType(String type, String pushType, @DrawableRes int resId) {
         mType = type;
         mIcon = resId;
+        mPushType = pushType;
     }
 
     public String getType() {
         return mType;
+    }
+
+    public String getPushType() {
+        return mPushType;
     }
 
     public int getIcon() {
@@ -60,4 +66,16 @@ public enum  NotificationType {
         }
         return theType;
     }
+    public static NotificationType fromPushTypeString(String pushType) {
+        NotificationType theType = NotificationType.TYPE_UNKNOWN;
+        NotificationType[] values = values();
+        for (NotificationType value : values) {
+            if (TextUtils.equals(pushType, value.getPushType())) {
+                theType = value;
+                break;
+            }
+        }
+        return theType;
+    }
+
 }

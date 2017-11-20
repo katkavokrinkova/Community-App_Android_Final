@@ -11,6 +11,8 @@
 
 package net.impacthub.app.mapper.members;
 
+import android.support.annotation.NonNull;
+
 import net.impacthub.app.model.features.contacts.ContactRecords;
 import net.impacthub.app.model.features.contacts.ContactsResponse;
 import net.impacthub.app.model.features.members.Account;
@@ -18,6 +20,7 @@ import net.impacthub.app.model.features.members.Affiliation;
 import net.impacthub.app.model.features.members.Affiliations;
 import net.impacthub.app.model.features.members.HubRecords;
 import net.impacthub.app.model.features.members.Hubs__r;
+import net.impacthub.app.model.features.members.MemberSearchResponse;
 import net.impacthub.app.model.features.members.MembersResponse;
 import net.impacthub.app.model.features.members.Organisation;
 import net.impacthub.app.model.features.members.MembersRecords;
@@ -28,6 +31,7 @@ import net.impacthub.app.model.pojo.ListItemType;
 import net.impacthub.app.model.pojo.SimpleItem;
 import net.impacthub.app.model.vo.conversations.RecipientVO;
 import net.impacthub.app.model.vo.groups.GroupVO;
+import net.impacthub.app.model.vo.members.AllMembersVO;
 import net.impacthub.app.model.vo.members.MemberStatus;
 import net.impacthub.app.model.vo.members.MemberVO;
 import net.impacthub.app.model.vo.members.SkillsVO;
@@ -267,7 +271,8 @@ public class MembersMapper {
         return memberVO;
     }
 
-    private List<MemberVO> mapMembersRecords(MembersRecords[] records) {
+    @NonNull
+    public List<MemberVO> mapMembersRecords(MembersRecords[] records) {
         List<MemberVO> memberDTOs = new LinkedList<>();
         if (records != null) {
             for (MembersRecords member : records) {
@@ -288,5 +293,33 @@ public class MembersMapper {
                 }
             }
         }
+    }
+
+    @NonNull
+    public List<ListItemType> mapMembersRecordsAsListType(List<MemberVO> memberVOS) {
+        List<ListItemType> searchListItems = new LinkedList<>();
+        if (memberVOS != null) {
+            for (MemberVO memberVO : memberVOS) {
+                if (memberVO != null) {
+                    searchListItems.add(new SimpleItem<>(memberVO, 0));
+                }
+            }
+        }
+        return searchListItems;
+    }
+
+    public AllMembersVO mapAllMembers(MembersResponse membersResponse, ContactsResponse contactsResponse, String subject) {
+        List<MemberVO> memberVOList = mapMembersList(mapMembers(membersResponse), contactsResponse, subject);
+        return new AllMembersVO(memberVOList, membersResponse.getDone());
+    }
+
+    public AllMembersVO mapAllMembers(MemberSearchResponse searchResponse, ContactsResponse contactsResponse, String subject) {
+        boolean done = true;
+        List<MemberVO> memberVOList = new LinkedList<>();
+        if (searchResponse != null) {
+            memberVOList.addAll(mapMembersList(mapMembersRecords(searchResponse.getRecords()), contactsResponse, subject));
+            done = searchResponse.getDone();
+        }
+        return new AllMembersVO(memberVOList, done);
     }
 }
