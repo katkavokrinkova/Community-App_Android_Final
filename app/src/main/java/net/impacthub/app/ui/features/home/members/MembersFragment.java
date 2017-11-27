@@ -187,7 +187,8 @@ public class MembersFragment extends BaseChildFragment<MembersPresenter> impleme
     }
 
     @Override
-    public void onLoadMembers(List<MemberVO> memberDTOs, boolean done) {
+    public void onLoadMembers(boolean clearList, List<MemberVO> memberDTOs, boolean done) {
+        if(clearList) mAdapter.clearItems();
         mOffset += memberDTOs.size();
         mAdapter.appendItems(memberDTOs);
         mOnScrollListener.canLoadMore(done);

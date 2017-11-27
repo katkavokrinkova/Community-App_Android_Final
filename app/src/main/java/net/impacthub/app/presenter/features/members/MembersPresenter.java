@@ -4,6 +4,7 @@ import net.impacthub.app.model.vo.filters.FilterData;
 import net.impacthub.app.model.vo.members.AllMembersVO;
 import net.impacthub.app.model.vo.members.MemberVO;
 import net.impacthub.app.presenter.base.UiPresenter;
+import net.impacthub.app.presenter.rx.DisposableSingleObserverAdapter;
 import net.impacthub.app.usecase.features.members.GetMemberByKeywordUseCase;
 import net.impacthub.app.usecase.features.members.MembersUseCase;
 
@@ -31,10 +32,11 @@ public class MembersPresenter extends UiPresenter<MembersUiContract> {
         getUi().onLoadingStateChanged(true);
         getUi().onShowProgressBar(true);
 
-        subscribeWith(new MembersUseCase(offset).getUseCase(), new DisposableSingleObserver<AllMembersVO>() {
+        subscribeWith(new MembersUseCase(offset).getUseCase(), new DisposableSingleObserverAdapter<Integer, AllMembersVO>(offset) {
+
             @Override
-            public void onSuccess(AllMembersVO allMembersVO) {
-                getUi().onLoadMembers(allMembersVO.getMemberVOS(), allMembersVO.isDone());
+            protected void onSuccess(AllMembersVO allMembersVO, Integer subject) {
+                getUi().onLoadMembers(0 == subject, allMembersVO.getMemberVOS(), allMembersVO.isDone());
                 getUi().onShowProgressBar(false);
                 getUi().onLoadingStateChanged(false);
             }

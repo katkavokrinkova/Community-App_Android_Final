@@ -14,7 +14,7 @@ import java.util.Map;
 
 public interface MembersUiContract extends ErrorHandlerUiContract {
 
-    void onLoadMembers(List<MemberVO> memberDTOs, boolean done);
+    void onLoadMembers(boolean clearList, List<MemberVO> memberDTOs, boolean done);
 
     void onLoadSearchedMembers(List<MemberVO> memberDTOs);
 
