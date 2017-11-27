@@ -23,6 +23,7 @@
         android:layout_marginEnd="@dimen/message_side_margin"
         android:layout_marginStart="@dimen/message_side_margin"
         android:layout_marginTop="@dimen/message_top_margin"
+        android:textColorLink="@color/colorBlack"
         android:autoLink="all"
         android:background="@drawable/message_start_bubble_from_me"
         android:padding="@dimen/message_text_padding"
