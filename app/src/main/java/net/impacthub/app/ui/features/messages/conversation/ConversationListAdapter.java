@@ -86,8 +86,7 @@ public class ConversationListAdapter extends BaseListAdapter<RecyclerView.ViewHo
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        int resId = LAYOUTS_RES[viewType];
-        return new MessageTextViewHolder(getLayoutInflater().inflate(resId, parent, false));
+        return new MessageTextViewHolder(getLayoutInflater().inflate(LAYOUTS_RES[viewType], parent, false));
     }
 
     @Override

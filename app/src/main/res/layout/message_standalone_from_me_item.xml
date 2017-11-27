@@ -1,45 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
     <net.impacthub.app.ui.widgets.CircleImageView
-            android:id="@+id/sender_image"
-            android:src="@drawable/ic_fp_40px"
-            android:layout_width="@dimen/message_thumbnail"
-            android:layout_height="@dimen/message_thumbnail"
-            android:layout_marginEnd="@dimen/message_side_margin"
-            android:layout_marginTop="@dimen/message_top_margin"
-            android:layout_alignParentEnd="true"
-            android:contentDescription="@string/sender_name"/>
+        android:id="@+id/sender_image"
+        android:layout_width="@dimen/message_thumbnail"
+        android:layout_height="@dimen/message_thumbnail"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/message_side_margin"
+        android:layout_marginTop="@dimen/message_top_margin"
+        android:contentDescription="@string/sender_name"
+        android:src="@drawable/ic_fp_40px" />
 
     <TextView
-            android:id="@+id/message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/message_side_margin"
-            android:layout_marginEnd="@dimen/message_side_margin"
-            android:layout_marginTop="@dimen/message_top_margin"
-            android:layout_alignParentEnd="true"
-            android:padding="@dimen/message_text_padding"
-            android:layout_below="@id/sender_image"
-            android:background="@drawable/message_start_bubble_from_me"
-            android:textSize="@dimen/message_text_size"
-            tools:text="Need enough text in here to wrap a line so will be typing aimlessly for several seconds until I achieve that purpose"/>
+        android:id="@+id/message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/sender_image"
+        android:layout_marginEnd="@dimen/message_side_margin"
+        android:layout_marginStart="@dimen/message_side_margin"
+        android:layout_marginTop="@dimen/message_top_margin"
+        android:autoLink="all"
+        android:background="@drawable/message_start_bubble_from_me"
+        android:padding="@dimen/message_text_padding"
+        android:textSize="@dimen/message_text_size"
+        tools:text="Need enough text in here to wrap a line so will be typing aimlessly for several seconds until I achieve that purpose" />
 
     <TextView
-            android:id="@+id/date_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/message_side_margin"
-            android:layout_below="@id/message"
-            android:layout_marginTop="@dimen/message_top_margin"
-            android:layout_alignParentEnd="true"
-            android:textSize="@dimen/message_date_size"
+        android:id="@+id/date_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/message"
         android:layout_marginBottom="@dimen/message_bottom_margin"
-            android:textStyle="bold"
-            tools:text="5:40pm"/>
+        android:layout_marginEnd="@dimen/message_side_margin"
+        android:layout_marginTop="@dimen/message_top_margin"
+        android:textSize="@dimen/message_date_size"
+        android:textStyle="bold"
+        tools:text="5:40pm" />
 
 </RelativeLayout>
