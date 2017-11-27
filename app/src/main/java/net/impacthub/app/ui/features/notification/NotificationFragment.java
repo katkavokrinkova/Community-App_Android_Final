@@ -6,6 +6,7 @@ import android.view.View;
 
 import net.impacthub.app.R;
 import net.impacthub.app.model.callback.OnListItemClickListener;
+import net.impacthub.app.model.vo.contacts.ContactVO;
 import net.impacthub.app.model.vo.conversations.ConversationVO;
 import net.impacthub.app.model.vo.groups.GroupVO;
 import net.impacthub.app.model.vo.members.MemberVO;
@@ -19,6 +20,7 @@ import net.impacthub.app.ui.delegate.ShortcutBadgerHelper;
 import net.impacthub.app.ui.features.home.groups.GroupDetailFragment;
 import net.impacthub.app.ui.features.home.members.MemberDetailFragment;
 import net.impacthub.app.ui.features.home.projects.ProjectDetailFragment;
+import net.impacthub.app.ui.features.messages.contacts.ViewMoreContactFragment;
 import net.impacthub.app.ui.features.messages.conversation.ConversationFragment;
 
 import java.util.List;
@@ -86,8 +88,10 @@ public class NotificationFragment extends BaseChildFragment<NotificationsPresent
                 addChildFragment(ConversationFragment.newInstance(conversationVO), "FRAG_MESSAGE_THREAD");
                 break;
             case TYPE_DM_REQUEST_APPROVED:
-            case TYPE_DM_REQUEST_SENT:
                 getPresenter().getMemberBy(recipientUserId);
+                break;
+            case TYPE_DM_REQUEST_SENT:
+                getPresenter().getContactMemberBy(recipientUserId);
                 break;
             case TYPE_COMMENT:
             case TYPE_LIKE_COMMENT:
@@ -133,6 +137,11 @@ public class NotificationFragment extends BaseChildFragment<NotificationsPresent
     @Override
     public void onDecrementNotificationCount() {
         ShortcutBadgerHelper.decreaseBadgeCount(getContext());
+    }
+
+    @Override
+    public void onLoadContact(ContactVO contactVO) {
+        addChildFragment(ViewMoreContactFragment.newInstance(contactVO), "FRAG_VIEW_MORE_CONTACT");
     }
 
     @Override

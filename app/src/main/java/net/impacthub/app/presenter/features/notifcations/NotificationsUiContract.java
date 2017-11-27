@@ -11,6 +11,7 @@
 
 package net.impacthub.app.presenter.features.notifcations;
 
+import net.impacthub.app.model.vo.contacts.ContactVO;
 import net.impacthub.app.model.vo.groups.GroupVO;
 import net.impacthub.app.model.vo.members.MemberVO;
 import net.impacthub.app.model.vo.notifications.NotificationVO;
@@ -36,4 +37,6 @@ public interface NotificationsUiContract extends ErrorHandlerUiContract {
     void onLoadProject(ProjectVO projectVO);
 
     void onDecrementNotificationCount();
+
+    void onLoadContact(ContactVO contactVO);
 }

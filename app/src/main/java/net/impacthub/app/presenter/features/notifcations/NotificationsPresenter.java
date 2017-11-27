@@ -15,7 +15,9 @@ import net.impacthub.app.mapper.groups.GroupsMapper;
 import net.impacthub.app.mapper.projects.ProjectMapper;
 import net.impacthub.app.model.features.projects.ProjectRecords;
 import net.impacthub.app.model.features.projects.ProjectResponse;
+import net.impacthub.app.model.vo.contacts.ContactVO;
 import net.impacthub.app.model.vo.groups.GroupVO;
+import net.impacthub.app.model.vo.members.MemberStatus;
 import net.impacthub.app.model.vo.members.MemberVO;
 import net.impacthub.app.model.vo.notifications.NotificationWrapper;
 import net.impacthub.app.model.vo.notifications.ProjectOrGroupWrapper;
@@ -23,6 +25,7 @@ import net.impacthub.app.model.vo.projects.ProjectVO;
 import net.impacthub.app.presenter.base.UiPresenter;
 import net.impacthub.app.presenter.rx.AbstractFunction;
 import net.impacthub.app.usecase.base.UseCaseGenerator;
+import net.impacthub.app.usecase.features.contacts.GetContactByUserIdUseCase;
 import net.impacthub.app.usecase.features.members.GetMemberByUserIdUseCase;
 import net.impacthub.app.usecase.features.notifications.GroupOrProjectUseCase;
 import net.impacthub.app.usecase.features.notifications.MarkNotificationReadUseCase;
@@ -137,6 +140,29 @@ public class NotificationsPresenter extends UiPresenter<NotificationsUiContract>
             @Override
             public void onError(Throwable e) {
                 getUi().onError(e);
+            }
+        });
+    }
+
+    public void getContactMemberBy(String recipientUserId) {
+        subscribeWith(new GetContactByUserIdUseCase(recipientUserId).getUseCase(), new DisposableSingleObserver<ContactVO>() {
+            @Override
+            public void onSuccess(ContactVO contactVO) {
+                MemberVO memberVO = contactVO.mMember;
+                if(memberVO == null) {
+                    getUi().onError(new Throwable("Can't load notification."));
+                } else if (MemberStatus.OUTSTANDING == memberVO.mMemberStatus) {
+                    getUi().onLoadContact(contactVO);
+                } else {
+                    getUi().onLoadMember(memberVO);
+                }
+                getUi().onShowProgressBar(false);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                getUi().onError(e);
+                getUi().onShowProgressBar(false);
             }
         });
     }
