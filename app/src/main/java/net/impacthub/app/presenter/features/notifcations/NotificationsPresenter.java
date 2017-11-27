@@ -145,6 +145,7 @@ public class NotificationsPresenter extends UiPresenter<NotificationsUiContract>
     }
 
     public void getContactMemberBy(String recipientUserId) {
+        getUi().onShowProgressBar(true);
         subscribeWith(new GetContactByUserIdUseCase(recipientUserId).getUseCase(), new DisposableSingleObserver<ContactVO>() {
             @Override
             public void onSuccess(ContactVO contactVO) {
