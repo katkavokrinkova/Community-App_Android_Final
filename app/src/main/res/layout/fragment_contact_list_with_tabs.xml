@@ -18,7 +18,11 @@
 
     <include layout="@layout/layout_tabs" />
 
-    <include layout="@layout/layout_search_bar_with_filter" />
+    <net.impacthub.app.ui.widgets.UISearchView
+        android:id="@+id/search_from_list"
+        android:layout_width="match_parent"
+        android:background="@color/colorWhite"
+        android:layout_height="wrap_content" />
 
     <include layout="@layout/layout_pager_with_shadow" />
 

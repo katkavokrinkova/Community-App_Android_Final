@@ -13,10 +13,18 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import net.impacthub.app.R;
 import net.impacthub.app.model.callback.OnBackListener;
 import net.impacthub.app.model.callback.OnReSelectListener;
+import net.impacthub.app.model.vo.contacts.ContactVO;
 import net.impacthub.app.model.vo.conversations.ConversationVO;
+import net.impacthub.app.model.vo.groups.GroupVO;
+import net.impacthub.app.model.vo.members.MemberVO;
+import net.impacthub.app.model.vo.notifications.CommentNotificationPayload;
 import net.impacthub.app.model.vo.notifications.DMContactNotificationPayload;
+import net.impacthub.app.model.vo.notifications.LikePostNotificationPayload;
 import net.impacthub.app.model.vo.notifications.MessageNotificationPayload;
 import net.impacthub.app.model.vo.notifications.ReceivedNotification;
+import net.impacthub.app.model.vo.projects.ProjectVO;
+import net.impacthub.app.presenter.features.home.MainTabsUiContract;
+import net.impacthub.app.presenter.features.home.MainTabsUiPresenter;
 import net.impacthub.app.ui.base.BaseActivity;
 import net.impacthub.app.ui.base.BaseChildFragment;
 import net.impacthub.app.ui.controllers.home.HomeControllerFragment;
@@ -24,7 +32,10 @@ import net.impacthub.app.ui.controllers.messages.MessagesControllerFragment;
 import net.impacthub.app.ui.controllers.notification.NotificationControllerFragment;
 import net.impacthub.app.ui.controllers.profile.ProfileControllerFragment;
 import net.impacthub.app.ui.controllers.search.SearchControllerFragment;
+import net.impacthub.app.ui.features.home.groups.GroupDetailFragment;
 import net.impacthub.app.ui.features.home.members.MemberDetailFragment;
+import net.impacthub.app.ui.features.home.projects.ProjectDetailFragment;
+import net.impacthub.app.ui.features.messages.contacts.ViewMoreContactFragment;
 import net.impacthub.app.ui.features.messages.conversation.ConversationFragment;
 import net.impacthub.app.ui.features.notification.NotificationFragment;
 import net.impacthub.app.ui.widgets.ExtendedViewPager;
@@ -41,7 +52,7 @@ import java.util.List;
  * @date 8/1/2017.
  */
 
-public class MainTabsActivity extends BaseActivity {
+public class MainTabsActivity extends BaseActivity<MainTabsUiPresenter> implements MainTabsUiContract {
 
     private static final String TAG = MainTabsActivity.class.getSimpleName();
 
@@ -59,6 +70,11 @@ public class MainTabsActivity extends BaseActivity {
     private ExtendedViewPager mPager;
     private TabLayout mTabLayout;
     private boolean mPushNeedshandling;
+
+    @Override
+    protected MainTabsUiPresenter onCreatePresenter() {
+        return new MainTabsUiPresenter(this);
+    }
 
     @Override
     protected int getContentView() {
@@ -175,7 +191,16 @@ public class MainTabsActivity extends BaseActivity {
                             break;
                         case ReceivedNotification.PAYLOAD_TYPE_SEND_APPROVE_REQUEST:
                             DMContactNotificationPayload dmcp = extra.getNotificationPayloadVO();
-                            topFragment.addChildFragment(MemberDetailFragment.newInstance(dmcp.getRelatedId()), "FRAG_MEMBER_DETAIL");
+                            getPresenter().getContactMemberBy(dmcp.getRelatedId());
+                            break;
+                        case ReceivedNotification.PAYLOAD_TYPE_LIKE_POST:
+                            LikePostNotificationPayload  lpnp = extra.getNotificationPayloadVO();
+                            getPresenter().getGroupOrProjectBy(lpnp.getRelatedGroup(), lpnp.getPostId());
+                            break;
+                        case ReceivedNotification.PAYLOAD_TYPE_LIKE_COMMENT:
+                        case ReceivedNotification.PAYLOAD_TYPE_COMMENT:
+                            CommentNotificationPayload cnp = extra.getNotificationPayloadVO();
+                            getPresenter().getGroupOrProjectBy(cnp.getRelatedGroup(), cnp.getId());
                             break;
                         default:
                             topFragment.addChildFragment(NotificationFragment.newInstance(), "FRAG_NOTIFICATION_DETAIL");
@@ -183,6 +208,62 @@ public class MainTabsActivity extends BaseActivity {
                 }
             } else {
                 mPushNeedshandling = true;
+            }
+        }
+    }
+
+    @Override
+    public void onLoadProject(ProjectVO projectVO) {
+        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+        if (fragments != null) {
+            Fragment fragment = fragments.get(mTabLayout.getSelectedTabPosition());
+
+            FragmentManager manager = fragment.getChildFragmentManager();
+            BaseChildFragment topFragment = (BaseChildFragment) manager.getFragments().get(0);
+            if (topFragment != null) {
+                topFragment.addChildFragment(ProjectDetailFragment.newInstance(projectVO), "FRAG_PROJECT_DETAIL");
+            }
+        }
+    }
+
+    @Override
+    public void onLoadGroup(GroupVO groupVO) {
+        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+        if (fragments != null) {
+            Fragment fragment = fragments.get(mTabLayout.getSelectedTabPosition());
+
+            FragmentManager manager = fragment.getChildFragmentManager();
+            BaseChildFragment topFragment = (BaseChildFragment) manager.getFragments().get(0);
+            if (topFragment != null) {
+                topFragment.addChildFragment(GroupDetailFragment.newInstance(groupVO), "FRAG_GROUP_DETAIL");
+            }
+        }
+    }
+
+    @Override
+    public void onLoadContact(ContactVO contactVO) {
+        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+        if (fragments != null) {
+            Fragment fragment = fragments.get(mTabLayout.getSelectedTabPosition());
+
+            FragmentManager manager = fragment.getChildFragmentManager();
+            BaseChildFragment topFragment = (BaseChildFragment) manager.getFragments().get(0);
+            if (topFragment != null) {
+                topFragment.addChildFragment(ViewMoreContactFragment.newInstance(contactVO), "FRAG_VIEW_MORE_CONTACT");
+            }
+        }
+    }
+
+    @Override
+    public void onLoadMember(MemberVO memberVO) {
+        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+        if (fragments != null) {
+            Fragment fragment = fragments.get(mTabLayout.getSelectedTabPosition());
+
+            FragmentManager manager = fragment.getChildFragmentManager();
+            BaseChildFragment topFragment = (BaseChildFragment) manager.getFragments().get(0);
+            if (topFragment != null) {
+                topFragment.addChildFragment(MemberDetailFragment.newInstance(memberVO), "FRAG_MEMBER_DETAIL");
             }
         }
     }

@@ -25,7 +25,7 @@ public class ReceivedNotification implements Serializable {
     public static final int PAYLOAD_TYPE_SEND_APPROVE_REQUEST = 1;
     public static final int PAYLOAD_TYPE_COMMENT = 2;
     public static final int PAYLOAD_TYPE_LIKE_POST = 4;
-    public static final int PAYLOAD_TYPE_LIKE_COMMENT = 0x01;
+    public static final int PAYLOAD_TYPE_LIKE_COMMENT = 0x05;
 
     private final int mPayloadType;
 

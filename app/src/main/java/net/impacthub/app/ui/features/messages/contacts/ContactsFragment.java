@@ -79,7 +79,7 @@ public class ContactsFragment extends BaseChildFragment<ContactsUiPresenter> imp
 
     @Override
     protected int getContentView() {
-        return R.layout.fragment_searchable_list_with_tabs;
+        return R.layout.fragment_contact_list_with_tabs;
     }
 
     @Override
