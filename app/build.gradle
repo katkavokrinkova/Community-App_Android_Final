@@ -6,7 +6,7 @@ android {
     defaultConfig {
         applicationId "net.impacthub.app"
         minSdkVersion 19
-        targetSdkVersion 27
+        targetSdkVersion 25 // If you update to 26+, you should implement notification categories
         versionCode 6
         versionName "1.0.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
