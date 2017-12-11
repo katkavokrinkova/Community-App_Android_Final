@@ -37,14 +37,17 @@ android {
         }
     }
 
+    flavorDimensions "backend"
     productFlavors {
         sandbox {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             applicationId 'sandbox.net.impacthub.app'
+            dimension 'backend'
         }
         production {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             applicationId 'net.impacthub.app'
+            dimension 'backend'
         }
     }
 }
